@@ -19,11 +19,9 @@ public class MyBatisConfig {
 
     @Bean
     public SqlSessionFactory sqlSessionFactory() throws Exception {
-        System.out.println("\033[31m" + "这是红色的文字" + "\033[0m");
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
         factoryBean.setDataSource(dataSource); // 设置数据源
         factoryBean.setTypeAliasesPackage("com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels");
-        System.out.println("\033[31m" + "这是红色的文字" + "\033[0m");
         factoryBean.setMapperLocations(
                 new PathMatchingResourcePatternResolver().getResources("classpath*:com/JiCode/ProductDev/**/*.xml"));
         return factoryBean.getObject();

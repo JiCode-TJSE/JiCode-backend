@@ -1,10 +1,7 @@
 package com.JiCode.ProductDev;
 
-import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Organization;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Schedule;
-import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.OrganizationMapper;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ScheduleMapper;
-import lombok.ToString;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -16,22 +13,21 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-
 @SpringBootTest
 class ProductDevApplicationTests {
 
-    // 单元测试
+	// 单元测试
 	@Test
 	void TestSelectAll() throws IOException {
 		// 加载mybatis的核心配置文件，获取sessionfactory
-		String resource = "mybatis-config.xml" ;
+		String resource = "mybatis-config.xml";
 		InputStream inputStream = Resources.getResourceAsStream(resource);
 		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 
 		// 获取session对象，用这个对象来执行sql语句
 		SqlSession sqlSession = sqlSessionFactory.openSession();
 
-		//获取mapper的代理对象
+		// 获取mapper的代理对象
 		ScheduleMapper scheduleMapper = sqlSession.getMapper(ScheduleMapper.class);
 		List<Schedule> schedule = scheduleMapper.selectAll();
 		System.out.println(schedule);
@@ -39,6 +35,5 @@ class ProductDevApplicationTests {
 		// 释放资源
 		sqlSession.close();
 	}
-
 
 }

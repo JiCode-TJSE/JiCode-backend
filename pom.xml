@@ -61,6 +61,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+	
 	<modules>
 		<module>ProductDev</module>
 	</modules>

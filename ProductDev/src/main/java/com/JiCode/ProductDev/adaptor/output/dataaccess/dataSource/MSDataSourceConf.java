@@ -1,4 +1,4 @@
-package com.JiCode.ProductDev.adaptor.output.dataaccess.dataSouce;
+package com.JiCode.ProductDev.adaptor.output.dataaccess.dataSource;
 
 /**
  * 在这段代码中，dataSource 方法负责创建并返回一个 DataSource 对象。这个方法首先创建一个 MSDataSource 对象，然后配置它的主库和从库，最后返回这个配置好的 DataSource 对象。这个过程就是工厂模式的体现。
@@ -10,6 +10,7 @@ import java.util.Properties;
 
 import javax.sql.DataSource;
 
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,6 +18,7 @@ import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 
 @Configuration
+@EnableConfigurationProperties(MSDataSourceProperties.class) // 指定要加载的配置类
 public class MSDataSourceConf {
     @Bean
     public DataSource dataSource(MSDataSourceProperties properties) {

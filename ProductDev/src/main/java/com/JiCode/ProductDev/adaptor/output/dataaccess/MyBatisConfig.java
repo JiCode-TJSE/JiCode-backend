@@ -1,15 +1,18 @@
-// import org.apache.ibatis.session.SqlSessionFactory;
-// import org.mybatis.spring.SqlSessionFactoryBean;
-// import org.mybatis.spring.annotation.MapperScan;
-// import org.springframework.beans.factory.annotation.Autowired;
-// import org.springframework.context.annotation.Bean;
-// import org.springframework.context.annotation.Configuration;
-// import
-// org.springframework.core.io.support.PathMatchingResourcePatternResolver;
+package com.JiCode.ProductDev.adaptor.output.dataaccess;
+
+import javax.sql.DataSource;
+
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionFactoryBean;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 // @Configuration
-// @MapperScan(basePackages = "com.JiCode.ProductDev") // 指定 MyBatis Mapper
-// 接口的包路径
+// @MapperScan(basePackages = "com.JiCode.ProductDev") // 指定 MyBatis
+// Mapper接口的包路径
 // public class MyBatisConfig {
 
 // @Autowired
@@ -22,11 +25,6 @@
 // factoryBean.setMapperLocations(
 // new
 // PathMatchingResourcePatternResolver().getResources("classpath*:com/JiCode/ProductDev/**/*.xml"));
-// // 指定
-// // MyBatis
-// // Mapper
-// // XML
-// // 文件的位置
 // return factoryBean.getObject();
 // }
 // }

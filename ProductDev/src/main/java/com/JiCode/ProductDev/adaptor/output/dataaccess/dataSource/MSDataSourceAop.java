@@ -1,4 +1,4 @@
-package com.JiCode.ProductDev.adaptor.output.dataaccess.dataSouce;
+package com.JiCode.ProductDev.adaptor.output.dataaccess.dataSource;
 
 /**
  * 采用切面编程 AOP ，使用了代理模式，在对标记进行操作实行了代理

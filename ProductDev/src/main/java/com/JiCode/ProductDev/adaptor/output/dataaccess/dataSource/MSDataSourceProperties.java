@@ -1,4 +1,4 @@
-package com.JiCode.ProductDev.adaptor.output.dataaccess.dataSouce;
+package com.JiCode.ProductDev.adaptor.output.dataaccess.dataSource;
 
 import java.util.HashMap;
 import java.util.Map;

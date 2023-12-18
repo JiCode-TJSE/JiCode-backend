@@ -1,4 +1,4 @@
-package com.JiCode.ProductDev.adaptor.output.dataaccess.dataSouce;
+package com.JiCode.ProductDev.adaptor.output.dataaccess.dataSource;
 
 // 注意里面都是全局的方法，是全局标志
 public class MSDataSourceMarker {

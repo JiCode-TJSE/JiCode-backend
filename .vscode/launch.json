@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ProductDevApplication<ProductDev>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.JiCode.ProductDev.ProductDevApplication",
+            "projectName": "ProductDev",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

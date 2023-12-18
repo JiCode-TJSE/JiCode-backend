@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.OrganizationMapper">
+    <insert id="add">
+        insert into organization(domain_name, head_count)
+    </insert>
+    <!-- 查询   -->
+    <select id="selectAll" resultType="Organization">
+        select * from organization
+    </select>
+    <select id="selectById" resultType="Organization">
+        select* from organization where organization_id = #{id};
+    </select>
+    <!--  动态sql查询，针对用户查询时不会输入所有属性的情况  -->
+    <select id="selectByCondition" resultType="Organization">
+        select *
+        from organization
+        <where>
+            <if test="domain_name != null and domain_name != ''">
+                and domain_name like #{domain_name}
+            </if>
+            <if test ="head_count != null">
+                and head_count > #{head_count}
+            </if>
+        </where>
+
+
+    </select>
+</mapper>

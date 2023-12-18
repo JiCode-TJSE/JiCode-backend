@@ -11,4 +11,7 @@ import java.util.List;
 public interface ScheduleMapper {
     @Select("select * from schedule")
     List<Schedule> selectAll();
+
+
+    Schedule selectById(String id);
 }

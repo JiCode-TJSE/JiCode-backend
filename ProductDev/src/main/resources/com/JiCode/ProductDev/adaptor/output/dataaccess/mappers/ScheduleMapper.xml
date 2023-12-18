@@ -6,4 +6,11 @@
 
 <mapper namespace="com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ScheduleMapper">
 
+    <select id="selectById" resultType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Schedule">
+        select *
+        from schedule
+        <where>
+            and id = #{id}
+        </where>>
+    </select>
 </mapper>

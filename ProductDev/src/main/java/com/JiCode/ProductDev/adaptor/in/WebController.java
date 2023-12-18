@@ -1,5 +1,8 @@
 package com.JiCode.ProductDev.adaptor.in;
 
+import com.JiCode.ProductDev.application.ScheduleApplication;
+import com.JiCode.ProductDev.application.dto.SelectScheduleByIdDto;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -12,6 +15,8 @@ import com.JiCode.ProductDev.adaptor.in.vo.ScheduleVo;
 public class WebController {
 
     // 这边注入一下application
+    @Autowired
+    ScheduleApplication scheduleApplication;
 
     @GetMapping("/hello")
     public String hello() {
@@ -22,5 +27,11 @@ public class WebController {
     public ScheduleVo getTestSchedule(@RequestParam("id") String id) {
         // 使用 id 参数来获取和返回 Schedule
         return new ScheduleVo();
+    }
+
+    @GetMapping("/selectById")
+    public SelectScheduleByIdDto selectScheduleById(@RequestParam("id") String id){
+        SelectScheduleByIdDto selectScheduleByIdDto = scheduleApplication.selectById(id);
+        return selectScheduleByIdDto;
     }
 }

@@ -14,7 +14,6 @@ import com.JiCode.ProductDev.adaptor.in.vo.ScheduleVo;
 @RequestMapping("/ProductDev")
 public class WebController {
 
-    // 这边注入一下application
     @Autowired
     ScheduleApplication scheduleApplication;
 

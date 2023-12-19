@@ -3,12 +3,8 @@ package com.JiCode.ProductDev.adaptor.output.dataaccess.mappers;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Schedule;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ScheduleExample;
 import java.util.List;
-
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
 
-@Mapper
 public interface ScheduleMapper {
     long countByExample(ScheduleExample example);
 

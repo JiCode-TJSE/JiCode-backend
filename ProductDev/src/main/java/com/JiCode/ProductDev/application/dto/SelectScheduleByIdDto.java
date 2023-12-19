@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class SelectScheduleByIdDto {
     String id;
-    int estimated_workhour;
-    int actual_workhour;
-    int remain_workhour;
+    int estimatedWorkhour;
+    int actualWorkhour;
+    int remainWorkhour;
     float progress;
 
     public String getId() {
@@ -22,28 +22,28 @@ public class SelectScheduleByIdDto {
         this.id = id;
     }
 
-    public int getEstimated_workhour() {
-        return estimated_workhour;
+    public int getEstimatedWorkhour() {
+        return estimatedWorkhour;
     }
 
-    public void setEstimated_workhour(int estimated_workhour) {
-        this.estimated_workhour = estimated_workhour;
+    public void setEstimatedWorkhour(int estimatedWorkhour) {
+        this.estimatedWorkhour = estimatedWorkhour;
     }
 
-    public int getActual_workhour() {
-        return actual_workhour;
+    public int getActualWorkhour() {
+        return actualWorkhour;
     }
 
-    public void setActual_workhour(int actual_workhour) {
-        this.actual_workhour = actual_workhour;
+    public void setActualWorkhour(int actualWorkhour) {
+        this.actualWorkhour = actualWorkhour;
     }
 
-    public int getRemain_workhour() {
-        return remain_workhour;
+    public int getRemainWorkhour() {
+        return remainWorkhour;
     }
 
-    public void setRemain_workhour(int remain_workhour) {
-        this.remain_workhour = remain_workhour;
+    public void setRemainWorkhour(int remainWorkhour) {
+        this.remainWorkhour = remainWorkhour;
     }
 
     public float getProgress() {

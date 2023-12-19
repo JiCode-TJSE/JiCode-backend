@@ -12,9 +12,50 @@ public class ScheduleAggregation {
     ScheduleRepository scheduleRepository;
 
     public String id;
-    public Integer estimated_workhour;
-    public Integer actual_workhour;
-    public Integer remain_workhour;
+    public Integer estimatedWorkhour;
+    public Integer actualWorkhour;
+    public Integer remainWorkhour;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public Integer getEstimatedWorkhour() {
+        return estimatedWorkhour;
+    }
+
+    public void setEstimatedWorkhour(Integer estimatedWorkhour) {
+        this.estimatedWorkhour = estimatedWorkhour;
+    }
+
+    public Integer getActualWorkhour() {
+        return actualWorkhour;
+    }
+
+    public void setActualWorkhour(Integer actualWorkhour) {
+        this.actualWorkhour = actualWorkhour;
+    }
+
+    public Integer getRemainWorkhour() {
+        return remainWorkhour;
+    }
+
+    public void setRemainWorkhour(Integer remainWorkhour) {
+        this.remainWorkhour = remainWorkhour;
+    }
+
+    public float getProgress() {
+        return progress;
+    }
+
+    public void setProgress(float progress) {
+        this.progress = progress;
+    }
+
     public float progress;
 
     public ScheduleAggregation() {
@@ -23,6 +64,7 @@ public class ScheduleAggregation {
     static public ScheduleAggregation ScheduleCreator(Schedule schedule){
         ScheduleAggregation scheduleAggregation = new ScheduleAggregation();
         BeanUtils.copyProperties(schedule, scheduleAggregation);
+        System.out.println("aggregate:"+scheduleAggregation.id);
         return scheduleAggregation;
     }
 

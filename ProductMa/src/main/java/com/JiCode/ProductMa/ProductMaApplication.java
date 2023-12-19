@@ -1,0 +1,13 @@
+package com.JiCode.ProductMa;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class ProductMaApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(ProductMaApplication.class, args);
+	}
+
+}

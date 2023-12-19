@@ -1,5 +1,6 @@
 package com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels;
 
+
 public class Schedule {
     private String id;
 

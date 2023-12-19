@@ -1,16 +1,211 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-
-
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ScheduleMapper">
-
-    <select id="selectById" resultType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Schedule">
-        select *
-        from schedule
-        <where>
-            and id = #{id}
-        </where>>
-    </select>
+  <resultMap id="BaseResultMap" type="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Schedule">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="estimated_workhour" jdbcType="INTEGER" property="estimatedWorkhour" />
+    <result column="actual_workhour" jdbcType="INTEGER" property="actualWorkhour" />
+    <result column="remain_workhour" jdbcType="INTEGER" property="remainWorkhour" />
+    <result column="progress" jdbcType="REAL" property="progress" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, estimated_workhour, actual_workhour, remain_workhour, progress
+  </sql>
+  <select id="selectByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ScheduleExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from schedule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from schedule
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from schedule
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ScheduleExample">
+    delete from schedule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Schedule">
+    insert into schedule (id, estimated_workhour, actual_workhour, 
+      remain_workhour, progress)
+    values (#{id,jdbcType=VARCHAR}, #{estimatedWorkhour,jdbcType=INTEGER}, #{actualWorkhour,jdbcType=INTEGER}, 
+      #{remainWorkhour,jdbcType=INTEGER}, #{progress,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Schedule">
+    insert into schedule
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="estimatedWorkhour != null">
+        estimated_workhour,
+      </if>
+      <if test="actualWorkhour != null">
+        actual_workhour,
+      </if>
+      <if test="remainWorkhour != null">
+        remain_workhour,
+      </if>
+      <if test="progress != null">
+        progress,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="estimatedWorkhour != null">
+        #{estimatedWorkhour,jdbcType=INTEGER},
+      </if>
+      <if test="actualWorkhour != null">
+        #{actualWorkhour,jdbcType=INTEGER},
+      </if>
+      <if test="remainWorkhour != null">
+        #{remainWorkhour,jdbcType=INTEGER},
+      </if>
+      <if test="progress != null">
+        #{progress,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ScheduleExample" resultType="java.lang.Long">
+    select count(*) from schedule
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update schedule
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.estimatedWorkhour != null">
+        estimated_workhour = #{record.estimatedWorkhour,jdbcType=INTEGER},
+      </if>
+      <if test="record.actualWorkhour != null">
+        actual_workhour = #{record.actualWorkhour,jdbcType=INTEGER},
+      </if>
+      <if test="record.remainWorkhour != null">
+        remain_workhour = #{record.remainWorkhour,jdbcType=INTEGER},
+      </if>
+      <if test="record.progress != null">
+        progress = #{record.progress,jdbcType=REAL},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update schedule
+    set id = #{record.id,jdbcType=VARCHAR},
+      estimated_workhour = #{record.estimatedWorkhour,jdbcType=INTEGER},
+      actual_workhour = #{record.actualWorkhour,jdbcType=INTEGER},
+      remain_workhour = #{record.remainWorkhour,jdbcType=INTEGER},
+      progress = #{record.progress,jdbcType=REAL}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Schedule">
+    update schedule
+    <set>
+      <if test="estimatedWorkhour != null">
+        estimated_workhour = #{estimatedWorkhour,jdbcType=INTEGER},
+      </if>
+      <if test="actualWorkhour != null">
+        actual_workhour = #{actualWorkhour,jdbcType=INTEGER},
+      </if>
+      <if test="remainWorkhour != null">
+        remain_workhour = #{remainWorkhour,jdbcType=INTEGER},
+      </if>
+      <if test="progress != null">
+        progress = #{progress,jdbcType=REAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Schedule">
+    update schedule
+    set estimated_workhour = #{estimatedWorkhour,jdbcType=INTEGER},
+      actual_workhour = #{actualWorkhour,jdbcType=INTEGER},
+      remain_workhour = #{remainWorkhour,jdbcType=INTEGER},
+      progress = #{progress,jdbcType=REAL}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
 </mapper>

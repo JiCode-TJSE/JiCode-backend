@@ -1,54 +1,54 @@
 package com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels;
 
-import lombok.Data;
 
-@Data
 public class Schedule {
     private String id;
+
+    private Integer estimatedWorkhour;
+
+    private Integer actualWorkhour;
+
+    private Integer remainWorkhour;
+
+    private Float progress;
 
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
-        this.id = id;
+        this.id = id == null ? null : id.trim();
     }
 
-    public Integer getEstimated_workhour() {
-        return estimated_workhour;
+    public Integer getEstimatedWorkhour() {
+        return estimatedWorkhour;
     }
 
-    public void setEstimated_workhour(Integer estimated_workhour) {
-        this.estimated_workhour = estimated_workhour;
+    public void setEstimatedWorkhour(Integer estimatedWorkhour) {
+        this.estimatedWorkhour = estimatedWorkhour;
     }
 
-    public Integer getActual_workhour() {
-        return actual_workhour;
+    public Integer getActualWorkhour() {
+        return actualWorkhour;
     }
 
-    public void setActual_workhour(Integer actual_workhour) {
-        this.actual_workhour = actual_workhour;
+    public void setActualWorkhour(Integer actualWorkhour) {
+        this.actualWorkhour = actualWorkhour;
     }
 
-    public Integer getRemain_workhour() {
-        return remain_workhour;
+    public Integer getRemainWorkhour() {
+        return remainWorkhour;
     }
 
-    public void setRemain_workhour(Integer remain_workhour) {
-        this.remain_workhour = remain_workhour;
+    public void setRemainWorkhour(Integer remainWorkhour) {
+        this.remainWorkhour = remainWorkhour;
     }
 
-    public float getProgress() {
+    public Float getProgress() {
         return progress;
     }
 
-    public void setProgress(float progress) {
+    public void setProgress(Float progress) {
         this.progress = progress;
     }
-
-    private Integer estimated_workhour;
-    private Integer actual_workhour;
-    private Integer remain_workhour;
-    private float progress;
-
 }

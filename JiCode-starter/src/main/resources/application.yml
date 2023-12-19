@@ -1,0 +1,25 @@
+server:
+  port: 8081
+app:
+  datasource:
+    master: # 唯一主库
+      jdbcUrl: jdbc:mysql://121.41.227.227:3306/jicode?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&allowPublicKeyRetrieval=TRUE&sslMode=REQUIRED
+      username: jicode_user
+      password: JiCode2024!
+
+    slave: # 多个从库
+      slave1:
+        jdbcUrl: jdbc:mysql://121.41.227.227:3307/jicode?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&allowPublicKeyRetrieval=TRUE&sslMode=REQUIRED
+        username: jicode_user
+        password: JiCode2024!
+      
+      slave2:
+        jdbcUrl: jdbc:mysql://121.41.227.227:3308/jicode?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&allowPublicKeyRetrieval=TRUE&sslMode=REQUIRED
+        username: jicode_user
+        password: JiCode2024!
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://121.41.227.227:3306/jicode?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&allowPublicKeyRetrieval=TRUE&sslMode=REQUIRED
+    username: jicode_user
+    password: JiCode2024!

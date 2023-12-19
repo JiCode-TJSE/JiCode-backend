@@ -1,2 +1,2 @@
- com.JiCode.JiCodestarter.config.dataaccess.MSDataSourceConf
- com.JiCode.JiCodestarter.config.dataaccess.MyBatisConf
+com.JiCode.JiCodestarter.config.dataaccess.MSDataSourceConf
+com.JiCode.JiCodestarter.config.dataaccess.MyBatisConf

@@ -22,7 +22,7 @@ public class ScheduleAggregation {
     public ScheduleAggregation() {
     }
 
-    static public ScheduleAggregation ScheduleCreator(Schedule schedule){
+    static public ScheduleAggregation createSchdule(Schedule schedule){
         ScheduleAggregation scheduleAggregation = new ScheduleAggregation();
         BeanUtils.copyProperties(schedule, scheduleAggregation);
         System.out.println(scheduleAggregation);

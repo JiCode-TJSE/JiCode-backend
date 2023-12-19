@@ -15,6 +15,6 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
     public ScheduleAggregation selectById(String id){
         Schedule schedule = scheduleMapper.selectByPrimaryKey(id);
         System.out.println(schedule.getEstimatedWorkhour());
-        return ScheduleAggregation.ScheduleCreator(schedule);
+        return ScheduleAggregation.createSchdule(schedule);
     }
 }

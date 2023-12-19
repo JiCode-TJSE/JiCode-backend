@@ -17,6 +17,10 @@ app:
         jdbcUrl: jdbc:mysql://121.41.227.227:3308/jicode?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&allowPublicKeyRetrieval=TRUE&sslMode=REQUIRED
         username: jicode_user
         password: JiCode2024!
+  mybatis:
+    basePackage: com.JiCode.ProductDev.adaptor.output.dataaccess.mappers
+    typeAliasesPackage: com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels
+    mapperLocations: classpath*:com/JiCode/ProductDev/**/*.xml
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver

@@ -27,6 +27,7 @@ class ProductDevApplicationTests {
 		String resource = "mybatis-config.xml";
 		InputStream inputStream = Resources.getResourceAsStream(resource);
 		SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+		System.out.println(sqlSessionFactory==null);
 
 		// 获取session对象，用这个对象来执行sql语句
 		SqlSession sqlSession = sqlSessionFactory.openSession();

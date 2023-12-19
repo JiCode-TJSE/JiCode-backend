@@ -20,6 +20,9 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<spring-boot.version>3.2.0</spring-boot.version>
 	</properties>
+	<modules>
+		<module>JiCode-starter</module>
+	</modules>
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

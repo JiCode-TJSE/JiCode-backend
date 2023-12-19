@@ -40,10 +40,10 @@ public class MSDataSourceAop {
                     .getAnnotation(Transactional.class);
 
             if (transactional != null && transactional.readOnly()) {
-                log.info("标记为从库");
+                log.info("Slave");
                 MSDataSourceMarker.slave(); // 只读，从库
             } else {
-                log.info("标记为主库");
+                log.info("Master");
                 MSDataSourceMarker.master(); // 可写，主库
             }
 

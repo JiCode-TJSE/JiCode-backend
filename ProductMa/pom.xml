@@ -18,5 +18,40 @@
 			<artifactId>JiCode-starter</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<!-- JDBC模块 -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jdbc</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.9.20.1</version>
+		</dependency>
+<!--		<dependency>-->
+<!--			<groupId>com.JiCode</groupId>-->
+<!--			<artifactId>JiCode-starter</artifactId>-->
+<!--			<version>0.0.1-SNAPSHOT</version>-->
+<!--		</dependency>-->
 	</dependencies>
+
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>

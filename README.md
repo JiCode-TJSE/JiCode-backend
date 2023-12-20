@@ -7,7 +7,7 @@
 
 ## 1. 配置方法
 
-* 将 release 里最新版的压缩包下载，然后解压到 `C:\Users\<username>\.m2\repository\com\jicode` 目录下（可能需要新建 jicode 目录）
+* 将 release 里最新版的压缩包下载，然后解压到 Maven 仓库 `C:\Users\<username>\.m2\repository\com` （默认目录位置）下
 * 在工程中使用以下语句导入该包
 
 ```pom.xml

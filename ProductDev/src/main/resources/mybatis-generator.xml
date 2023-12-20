@@ -22,18 +22,18 @@
         </javaTypeResolver>
         <!-- 实体类生成的位置 -->
         <javaModelGenerator targetPackage="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels"
-                            targetProject="src/main/java">
+                            targetProject="ProductDev/src/main/java/">
             <property name="enableSubPackages" value="false"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!-- *Mapper.xml 文件的位置 -->
         <sqlMapGenerator targetPackage="com.JiCode.ProductDev.adaptor.output.dataaccess.mappers"
-                         targetProject="src/main/resources">
+                         targetProject="ProductDev/src/main/java/">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
         <!-- Mapper接口文件的位置 -->
         <javaClientGenerator targetPackage="com.JiCode.ProductDev.adaptor.output.dataaccess.mappers"
-                             targetProject="src/main/java/"
+                             targetProject="ProductDev/src/main/java/"
                              type="XMLMAPPER">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>

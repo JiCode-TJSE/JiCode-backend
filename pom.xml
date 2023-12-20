@@ -21,6 +21,7 @@
 		<spring-boot.version>3.2.0</spring-boot.version>
 	</properties>
 
+	<!-- 这里添加当前分支的名字	-->
 	<modules>
 		<module>ProductDev</module>
 	</modules>

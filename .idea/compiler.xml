@@ -9,9 +9,13 @@
         <module name="ProductDev" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="Account" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Account" options="-parameters" />
       <module name="ProductDev" options="-parameters" />
       <module name="main" options="-parameters" />
     </option>

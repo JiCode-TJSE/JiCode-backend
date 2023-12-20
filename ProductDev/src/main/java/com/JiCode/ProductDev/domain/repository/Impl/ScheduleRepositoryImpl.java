@@ -1,7 +1,5 @@
 package com.JiCode.ProductDev.domain.repository.Impl;
 
-import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Schedule;
-import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ScheduleMapper;
 import com.JiCode.ProductDev.domain.model.ScheduleAggregation;
 import com.JiCode.ProductDev.domain.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;

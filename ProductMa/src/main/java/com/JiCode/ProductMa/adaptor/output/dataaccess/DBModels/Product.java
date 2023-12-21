@@ -7,9 +7,11 @@ public class Product {
 
     private String detail;
 
-    private String visibility;
+    private Boolean visibility;
 
     private String mark;
+
+    private String teamId;
 
     public String getId() {
         return id;
@@ -35,12 +37,12 @@ public class Product {
         this.detail = detail == null ? null : detail.trim();
     }
 
-    public String getVisibility() {
+    public Boolean getVisibility() {
         return visibility;
     }
 
-    public void setVisibility(String visibility) {
-        this.visibility = visibility == null ? null : visibility.trim();
+    public void setVisibility(Boolean visibility) {
+        this.visibility = visibility;
     }
 
     public String getMark() {
@@ -49,5 +51,13 @@ public class Product {
 
     public void setMark(String mark) {
         this.mark = mark == null ? null : mark.trim();
+    }
+
+    public String getTeamId() {
+        return teamId;
+    }
+
+    public void setTeamId(String teamId) {
+        this.teamId = teamId == null ? null : teamId.trim();
     }
 }

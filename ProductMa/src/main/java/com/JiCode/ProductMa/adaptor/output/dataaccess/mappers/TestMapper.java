@@ -3,6 +3,8 @@ package com.JiCode.ProductMa.adaptor.output.dataaccess.mappers;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Test;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.TestExample;
 import java.util.List;
+
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 public interface TestMapper {

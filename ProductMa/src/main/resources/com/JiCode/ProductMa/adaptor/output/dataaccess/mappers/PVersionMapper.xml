@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.ProductMapper">
-  <resultMap id="BaseResultMap" type="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Product">
+<mapper namespace="com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.PVersionMapper">
+  <resultMap id="BaseResultMap" type="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.PVersion">
     <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="title" jdbcType="VARCHAR" property="title" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="detail" jdbcType="VARCHAR" property="detail" />
-    <result column="visibility" jdbcType="BIT" property="visibility" />
-    <result column="mark" jdbcType="VARCHAR" property="mark" />
-    <result column="team_id" jdbcType="VARCHAR" property="teamId" />
+    <result column="requirement_id" jdbcType="VARCHAR" property="requirementId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, title, detail, visibility, mark, team_id
+    id, name, create_time, detail, requirement_id
   </sql>
-  <select id="selectByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.ProductExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.PVersionExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from product
+    from p_version
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,96 +86,85 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from product
+    from p_version
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from product
+    delete from p_version
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.ProductExample">
-    delete from product
+  <delete id="deleteByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.PVersionExample">
+    delete from p_version
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Product">
-    insert into product (id, title, detail, 
-      visibility, mark, team_id
-      )
-    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, 
-      #{visibility,jdbcType=BIT}, #{mark,jdbcType=VARCHAR}, #{teamId,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.PVersion">
+    insert into p_version (id, name, create_time, 
+      detail, requirement_id)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{detail,jdbcType=VARCHAR}, #{requirementId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Product">
-    insert into product
+  <insert id="insertSelective" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.PVersion">
+    insert into p_version
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="title != null">
-        title,
+      <if test="name != null">
+        name,
+      </if>
+      <if test="createTime != null">
+        create_time,
       </if>
       <if test="detail != null">
         detail,
       </if>
-      <if test="visibility != null">
-        visibility,
-      </if>
-      <if test="mark != null">
-        mark,
-      </if>
-      <if test="teamId != null">
-        team_id,
+      <if test="requirementId != null">
+        requirement_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="title != null">
-        #{title,jdbcType=VARCHAR},
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="detail != null">
         #{detail,jdbcType=VARCHAR},
       </if>
-      <if test="visibility != null">
-        #{visibility,jdbcType=BIT},
-      </if>
-      <if test="mark != null">
-        #{mark,jdbcType=VARCHAR},
-      </if>
-      <if test="teamId != null">
-        #{teamId,jdbcType=VARCHAR},
+      <if test="requirementId != null">
+        #{requirementId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.ProductExample" resultType="java.lang.Long">
-    select count(*) from product
+  <select id="countByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.PVersionExample" resultType="java.lang.Long">
+    select count(*) from p_version
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update product
+    update p_version
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=VARCHAR},
       </if>
-      <if test="record.title != null">
-        title = #{record.title,jdbcType=VARCHAR},
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null">
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.detail != null">
         detail = #{record.detail,jdbcType=VARCHAR},
       </if>
-      <if test="record.visibility != null">
-        visibility = #{record.visibility,jdbcType=BIT},
-      </if>
-      <if test="record.mark != null">
-        mark = #{record.mark,jdbcType=VARCHAR},
-      </if>
-      <if test="record.teamId != null">
-        team_id = #{record.teamId,jdbcType=VARCHAR},
+      <if test="record.requirementId != null">
+        requirement_id = #{record.requirementId,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -184,45 +172,40 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update product
+    update p_version
     set id = #{record.id,jdbcType=VARCHAR},
-      title = #{record.title,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
       detail = #{record.detail,jdbcType=VARCHAR},
-      visibility = #{record.visibility,jdbcType=BIT},
-      mark = #{record.mark,jdbcType=VARCHAR},
-      team_id = #{record.teamId,jdbcType=VARCHAR}
+      requirement_id = #{record.requirementId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Product">
-    update product
+  <update id="updateByPrimaryKeySelective" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.PVersion">
+    update p_version
     <set>
-      <if test="title != null">
-        title = #{title,jdbcType=VARCHAR},
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="detail != null">
         detail = #{detail,jdbcType=VARCHAR},
       </if>
-      <if test="visibility != null">
-        visibility = #{visibility,jdbcType=BIT},
-      </if>
-      <if test="mark != null">
-        mark = #{mark,jdbcType=VARCHAR},
-      </if>
-      <if test="teamId != null">
-        team_id = #{teamId,jdbcType=VARCHAR},
+      <if test="requirementId != null">
+        requirement_id = #{requirementId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Product">
-    update product
-    set title = #{title,jdbcType=VARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.PVersion">
+    update p_version
+    set name = #{name,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
       detail = #{detail,jdbcType=VARCHAR},
-      visibility = #{visibility,jdbcType=BIT},
-      mark = #{mark,jdbcType=VARCHAR},
-      team_id = #{teamId,jdbcType=VARCHAR}
+      requirement_id = #{requirementId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

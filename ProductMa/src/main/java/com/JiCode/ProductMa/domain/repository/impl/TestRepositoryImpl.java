@@ -16,5 +16,4 @@ public class TestRepositoryImpl implements TestRepository {
         Test test = testMapper.selectByPrimaryKey(id);
         return TestAggregation.createTest(test.getId(), test.getName());
     }
-
 }

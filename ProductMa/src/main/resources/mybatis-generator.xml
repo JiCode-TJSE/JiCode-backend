@@ -22,18 +22,18 @@
         </javaTypeResolver>
         <!-- 实体类生成的位置 -->
         <javaModelGenerator targetPackage="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels"
-                            targetProject="ProductMa/src/main/java">
+                            targetProject="src/main/java">
             <property name="enableSubPackages" value="false"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!-- *Mapper.xml 文件的位置 -->
         <sqlMapGenerator targetPackage="com.JiCode.ProductMa.adaptor.output.dataaccess.mappers"
-                         targetProject="ProductMa/src/main/resources">
+                         targetProject="src/main/resources">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
         <!-- Mapper接口文件的位置 -->
         <javaClientGenerator targetPackage="com.JiCode.ProductMa.adaptor.output.dataaccess.mappers"
-                             targetProject="productMa/src/main/java/"
+                             targetProject="src/main/java/"
                              type="XMLMAPPER">
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
@@ -51,6 +51,50 @@
         <!--  生成test表      -->
         <table tableName="test"
                domainObjectName="Test"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+<!--        requirement    -->
+        <table tableName="requirement"
+               domainObjectName="Requirement"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--    client表    -->
+        <table tableName="client"
+               domainObjectName="Client"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--   p_version表     -->
+        <table tableName="p_version"
+               domainObjectName="PVersion"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--   product_member表     -->
+        <table tableName="product_member"
+               domainObjectName="ProductMember"
                enableInsert="true"
                enableDeleteByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"

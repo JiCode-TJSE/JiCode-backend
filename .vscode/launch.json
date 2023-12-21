@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-ProductMaApplication<ProductMa>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.JiCode.ProductMa.ProductMaApplication",
+            "projectName": "ProductMa",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

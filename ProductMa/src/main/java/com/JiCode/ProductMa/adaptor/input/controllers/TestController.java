@@ -11,14 +11,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/ProductDev")
+@RequestMapping("/ProductMa")
 public class TestController {
 
     @Autowired
     TestApplicationImpl testApplicationImpl;
 
     @GetMapping("/selectById")
-    public SelectTestByIdDto selectTestById(@RequestParam("id") String id){
+    public SelectTestByIdDto selectTestById(@RequestParam("id") String id) {
         SelectTestByIdDto selectTestByIdDto = testApplicationImpl.selectTestById(id);
         return selectTestByIdDto;
     }

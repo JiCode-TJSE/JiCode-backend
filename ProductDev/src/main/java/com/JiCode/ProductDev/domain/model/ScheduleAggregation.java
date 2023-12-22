@@ -13,11 +13,11 @@ public class ScheduleAggregation {
     @Autowired
     ScheduleRepository scheduleRepository;
 
-    public String id;
-    public Integer estimatedWorkhour;
-    public Integer actualWorkhour;
-    public Integer remainWorkhour;
-    public float progress;
+    private String id;
+    private Integer estimatedWorkhour;
+    private Integer actualWorkhour;
+    private Integer remainWorkhour;
+    private float progress;
 
     // 工厂模式
     static public ScheduleAggregation createSchedule(String id, int estimatedWorkhour, int actualWorkhour,int remainWorkhour, float progress){

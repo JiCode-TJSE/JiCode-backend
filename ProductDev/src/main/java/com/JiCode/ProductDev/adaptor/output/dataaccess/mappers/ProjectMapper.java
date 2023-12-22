@@ -3,6 +3,8 @@ package com.JiCode.ProductDev.adaptor.output.dataaccess.mappers;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ProjectExample;
 import java.util.List;
+
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
 
 
@@ -18,6 +20,7 @@ public interface ProjectMapper {
     int insertSelective(Project record);
 
     List<Project> selectByExample(ProjectExample example);
+    Page<Project> selectByPaging(ProjectExample example);
 
     Project selectByPrimaryKey(String id);
 

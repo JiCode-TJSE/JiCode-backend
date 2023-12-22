@@ -27,6 +27,13 @@
 	</modules>
 
 	<dependencies>
+		<!--PageHelper依赖-->
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper-spring-boot-starter</artifactId>
+			<version>1.4.3</version>
+		</dependency>
+
 		<!-- mysql 依赖 -->
 		<dependency>
 			<groupId>mysql</groupId>

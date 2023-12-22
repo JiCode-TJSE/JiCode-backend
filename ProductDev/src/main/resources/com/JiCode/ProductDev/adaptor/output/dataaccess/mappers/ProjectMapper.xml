@@ -157,7 +157,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
+    <select id="selectByPaging" resultType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project">
+      select *
+      from project
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
     update project
     <set>
       <if test="record.id != null">

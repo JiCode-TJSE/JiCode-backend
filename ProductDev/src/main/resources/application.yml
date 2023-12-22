@@ -1,5 +1,11 @@
 server:
   port: 8081
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
 app:
   datasource:
     master: # 唯一主库

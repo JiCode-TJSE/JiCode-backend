@@ -9,6 +9,7 @@ import com.JiCode.ProductDev.domain.repository.Impl.ProjectRepositoryImpl;
 import com.JiCode.ProductDev.domain.repository.Impl.ScheduleRepositoryImpl;
 import com.JiCode.ProductDev.domain.repository.ProjectRepository;
 import com.JiCode.ProductDev.domain.repository.ScheduleRepository;
+import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -42,17 +43,36 @@ public class ProductDevApplicationTests {
     @Autowired
     ScheduleRepositoryImpl scheduleRepositoryImpl;
 
+    public void testSelectById(){
+        ProjectAggregation projectAggregation = projectRepositoryImpl.selectById("1");
+        Project project = new Project();
+        BeanUtils.copyProperties(projectAggregation, project);
+        System.out.println(project);
+    }
+
+
     @Test
-    public void test(){
+    public void testSelectPage(){
 //        ScheduleAggregation scheduleAggregation = scheduleRepositoryImpl.selectById("1");
 //        Schedule schedule = new Schedule();
 //        BeanUtils.copyProperties(scheduleAggregation, schedule);
 //        System.out.println(schedule);
 
-        ProjectAggregation projectAggregation = projectRepositoryImpl.selectById("1");
-        Project project = new Project();
-        BeanUtils.copyProperties(projectAggregation, project);
-        System.out.println(project);
+
+
+        PageInfo<ProjectAggregation> pageInfo = projectRepositoryImpl.selectAll(1, 10);
+
+        System.out.println("Page number: " + pageInfo.getPageNum());
+        System.out.println("Page size: " + pageInfo.getPageSize());
+        System.out.println("Total pages: " + pageInfo.getPages());
+        System.out.println("Total elements: " + pageInfo.getTotal());
+
+        List<ProjectAggregation> projectAggregations = pageInfo.getList();
+        for (ProjectAggregation projectAggregation : projectAggregations) {
+            // print the content of projectAggregation
+            // you need to implement the toString method in ProjectAggregation class
+            System.out.println(projectAggregation);
+        }
 
     }
 

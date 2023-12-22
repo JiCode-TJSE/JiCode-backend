@@ -1,5 +1,6 @@
 package com.JiCode.ProductDev.domain.model;
 
+import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project;
 import com.JiCode.ProductDev.domain.repository.ProjectRepository;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -25,6 +25,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
@@ -74,6 +75,34 @@ public class ProductDevApplicationTests {
             System.out.println(projectAggregation);
         }
 
+    }
+
+    @Test
+    public void testInsert(){
+        String id = "6";
+        String status ="pending";
+        Float progress = 0.5F;
+        Date startTime = new Date(2023, 12, 23);
+        Date endTime = new Date(2023, 12, 23);
+        String managerId = "1";
+        System.out.println(projectRepositoryImpl.insert(id, status, progress, startTime, endTime, managerId));
+    }
+
+    @Test
+    public void testUpdateById(){
+        String id = "6";
+        String status ="done";
+        Float progress = 0.5F;
+        Date startTime = new Date(2023, 12, 23);
+        Date endTime = new Date(2023, 12, 23);
+        String managerId = "1";
+        System.out.println(projectRepositoryImpl.updateById(id, status, progress, startTime, endTime, managerId));
+    }
+
+    @Test
+    public void testDeleteById(){
+        String id = "6";
+        System.out.println(projectRepositoryImpl.deleteById(id));
     }
 
 }

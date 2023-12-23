@@ -48,7 +48,9 @@
                enableCountByExample="true"
                enableDeleteByExample="true"
                enableSelectByExample="true"
-               enableUpdateByExample="true"/>
+               enableUpdateByExample="true">
+        </table>
+
     </context>
 </generatorConfiguration>
 

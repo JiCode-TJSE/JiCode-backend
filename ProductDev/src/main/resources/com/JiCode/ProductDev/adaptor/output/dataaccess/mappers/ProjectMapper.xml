@@ -100,7 +100,10 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project">
+  <insert id="insert"
+          useGeneratedKeys="true"
+          keyProperty="id"
+          parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project">
     insert into project (id, status, progress, 
       start_time, end_time, manager_id
       )
@@ -158,8 +161,7 @@
     </if>
   </select>
   <select id="selectByPaging" resultType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project">
-    select *
-    from project
+    select * from project
   </select>
   <update id="updateByExampleSelective" parameterType="map">
     update project

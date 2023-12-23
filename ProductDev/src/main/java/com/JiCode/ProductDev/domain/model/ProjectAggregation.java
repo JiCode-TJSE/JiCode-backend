@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 
 @Service
 @Data
@@ -27,6 +28,12 @@ public class ProjectAggregation {
     private Date endTime;
 
     private String managerId;
+
+    private List<String> member;
+
+    public List<String> getMember() {
+        return member;
+    }
 
     public String getId() {
         return id;
@@ -53,7 +60,7 @@ public class ProjectAggregation {
     }
 
     // 工厂模式
-    static public ProjectAggregation createProject(String id, String status, float progress, Date startTime, Date endTime, String managerId){
+    static public ProjectAggregation createProject(String id, String status, float progress, Date startTime, Date endTime, String managerId, List<String>members){
         ProjectAggregation projectAggregation = new ProjectAggregation();
         projectAggregation.id = id;
         projectAggregation.status = status;
@@ -61,6 +68,7 @@ public class ProjectAggregation {
         projectAggregation.startTime = startTime;
         projectAggregation.endTime = endTime;
         projectAggregation.managerId = managerId;
+        projectAggregation.member = members;
         System.out.println(projectAggregation);
         return projectAggregation;
     }

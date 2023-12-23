@@ -9,12 +9,14 @@ import com.JiCode.ProductDev.domain.repository.BacklogItemRepository;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Repository
 public class BacklogItemRepositoryImpl implements BacklogItemRepository {
@@ -26,7 +28,7 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
         return BacklogItemAggregation.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId());
     }
 
-    public PageInfo<BacklogItemAggregation> selectAll(int pageNum, int pageSize){
+    public PageInfo<BacklogItemAggregation> getPage(int pageNum, int pageSize){
         try{
             PageHelper.startPage(pageNum, pageSize);
             Page<Backlogitem> backlogitems = backlogitemMapper.selectByPaging(null);
@@ -40,6 +42,40 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
         } catch (Exception e){
             System.out.println(e);
             return null;
+        }
+    }
+    public int insert(BacklogItemAggregation backlogItemAggregation){
+        try {
+            Backlogitem backlogitem = new Backlogitem();
+            BeanUtils.copyProperties(backlogItemAggregation, backlogitem);
+            if(backlogitem.getId()==null)
+                backlogitem.setId(UUID.randomUUID().toString());
+            System.out.println(backlogitem);
+            return backlogitemMapper.insert(backlogitem);
+
+        }catch (Exception e){
+            System.out.println(e);
+            return 0;
+        }
+    }
+
+    public int updateById(BacklogItemAggregation backlogItemAggregation){
+        try{
+            Backlogitem backlogitem = new Backlogitem();
+            BeanUtils.copyProperties(backlogItemAggregation, backlogitem);
+            return backlogitemMapper.updateByPrimaryKey(backlogitem);
+        }catch (Exception e){
+            System.out.println(e);
+            return 0;
+        }
+    }
+
+    public int deleteById(String id){
+        try{
+            return backlogitemMapper.deleteByPrimaryKey(id);
+        }catch (Exception e){
+            System.out.println(e);
+            return 0;
         }
     }
 }

@@ -1,7 +1,10 @@
 package com.JiCode.ProductDev.domain.repository.Impl;
 
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project;
+import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ProjectMemberExample;
+import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ProjectMemberKey;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ProjectMapper;
+import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ProjectMemberMapper;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
 import com.JiCode.ProductDev.domain.repository.ProjectRepository;
 import com.github.pagehelper.Page;
@@ -14,31 +17,74 @@ import org.springframework.stereotype.Repository;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Repository
 public class ProjectRepositoryImpl implements ProjectRepository {
     @Autowired
     ProjectMapper projectMapper;
+    @Autowired
+    ProjectMemberMapper projectMemberMapper;
+
+    public int saveAggregate(ProjectAggregation projectAggregation){
+        try{
+            // 对实体集进行操作
+            Project project = new Project();
+            BeanUtils.copyProperties(projectAggregation, project);
+            int result = projectMapper.updateByPrimaryKey(project);
+
+            // 对联系集进行操作
+            // 首先删除联系集中project对应的所有记录
+            ProjectMemberKey key = new ProjectMemberKey();
+            key.setProjectId(project.getId());
+            projectMemberMapper.deleteByPrimaryKey(key);
+
+            // 再添加当前所有的成员进入
+            List<String> memberIds = projectAggregation.getMember();
+            ProjectMemberKey projectMember = new ProjectMemberKey();
+            for(String memberId:memberIds){
+                projectMember.setProjectId(project.getId());
+                projectMember.setMemberId(memberId);
+                projectMemberMapper.insert(projectMember);
+            }
+
+            return result;
+        }catch (Exception e){
+            System.out.println(e);
+            return 0;
+        }
+    }
     public ProjectAggregation selectById(String id) {
        try{
            Project project = projectMapper.selectByPrimaryKey(id);
-           System.out.println(project.getId());
-           return ProjectAggregation.createProject(project.getId(), project.getStatus(),project.getProgress(),project.getStartTime(),project.getEndTime(),project.getManagerId());
+           ProjectMemberExample example = new ProjectMemberExample();
+           example.createCriteria().andProjectIdEqualTo(id);
+           List<ProjectMemberKey> projectMemberKeys = projectMemberMapper.selectByExample(example);
+           List<String> memberIds = projectMemberKeys.stream().map(ProjectMemberKey::getMemberId).collect(Collectors.toList());
+           ProjectAggregation projectAggregation = ProjectAggregation.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(),memberIds); // use builder to create ProjectAggregation
+           return projectAggregation;
        }catch (Exception e) {
            System.out.println(e);
            return null;
        }
     }
 
-    public PageInfo<ProjectAggregation> selectAll(int pageNum, int pageSize) {
+    public PageInfo<ProjectAggregation> getPage(int pageNum, int pageSize) {
         try{
             PageHelper.startPage(pageNum, pageSize);
             Page<Project> projects = projectMapper.selectByPaging(null);
             System.out.println(projects);
             List<ProjectAggregation> projectAggregations = new ArrayList<>();
             for (Project project : projects) {
-                ProjectAggregation projectAggregation = ProjectAggregation.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId()); // use builder to create ProjectAggregation
+                // 获取成员列表
+                ProjectMemberExample example = new ProjectMemberExample();
+                example.createCriteria().andProjectIdEqualTo(project.getId());
+                List<ProjectMemberKey> projectMemberKeys = projectMemberMapper.selectByExample(example);
+                List<String> memberIds = projectMemberKeys.stream().map(ProjectMemberKey::getMemberId).collect(Collectors.toList());
+
+                // 工厂模式建立聚合
+                ProjectAggregation projectAggregation = ProjectAggregation.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(), memberIds);
                 projectAggregations.add(projectAggregation);
             }
             return new PageInfo<>(projectAggregations);
@@ -52,6 +98,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         try {
             Project project = new Project();
             BeanUtils.copyProperties(projectAggregation, project);
+            project.setId(UUID.randomUUID().toString());
             return projectMapper.insert(project);
         }catch (Exception e){
             System.out.println(e);
@@ -61,18 +108,16 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
     public int updateById(ProjectAggregation projectAggregation){
         try{
-            Project project = new Project();
-            BeanUtils.copyProperties(projectAggregation, project);
-            return projectMapper.updateByPrimaryKey(project);
+            return saveAggregate(projectAggregation);
         }catch (Exception e) {
             System.out.println(e);
             return 0;
         }
     }
 
-    public int deleteById(ProjectAggregation projectAggregation){
+    public int deleteById(String id){
         try{
-            return projectMapper.deleteByPrimaryKey(projectAggregation.getId());
+            return projectMapper.deleteByPrimaryKey(id);
         }catch (Exception e){
             System.out.println(e);
             return 0;

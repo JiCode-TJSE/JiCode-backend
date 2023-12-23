@@ -4,8 +4,6 @@ import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Backlogitem;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.BacklogitemExample;
 import java.util.List;
 
-import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project;
-import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ProjectExample;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
 
@@ -21,7 +19,6 @@ public interface BacklogitemMapper {
     int insertSelective(Backlogitem record);
 
     List<Backlogitem> selectByExample(BacklogitemExample example);
-    Page<Backlogitem> selectByPaging(ProjectExample example);
 
     Backlogitem selectByPrimaryKey(String id);
 
@@ -33,4 +30,5 @@ public interface BacklogitemMapper {
 
     int updateByPrimaryKey(Backlogitem record);
 
+    Page<Backlogitem> selectByPaging(BacklogitemExample example);
 }

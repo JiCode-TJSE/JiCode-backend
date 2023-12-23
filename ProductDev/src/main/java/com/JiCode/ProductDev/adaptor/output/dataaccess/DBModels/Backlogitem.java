@@ -17,11 +17,11 @@ public class Backlogitem {
 
     private String description;
 
-    private String projectId;
-
     private String managerId;
 
     private String scheduleId;
+
+    private String projectId;
 
     public String getId() {
         return id;
@@ -79,14 +79,6 @@ public class Backlogitem {
         this.description = description == null ? null : description.trim();
     }
 
-    public String getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(String projectId) {
-        this.projectId = projectId == null ? null : projectId.trim();
-    }
-
     public String getManagerId() {
         return managerId;
     }
@@ -101,5 +93,13 @@ public class Backlogitem {
 
     public void setScheduleId(String scheduleId) {
         this.scheduleId = scheduleId == null ? null : scheduleId.trim();
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId == null ? null : projectId.trim();
     }
 }

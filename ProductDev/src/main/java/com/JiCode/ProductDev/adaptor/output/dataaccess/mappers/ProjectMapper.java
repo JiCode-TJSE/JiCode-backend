@@ -19,7 +19,6 @@ public interface ProjectMapper {
     int insertSelective(Project record);
 
     List<Project> selectByExample(ProjectExample example);
-    Page<Project> selectByPaging(ProjectExample example);
 
     Project selectByPrimaryKey(String id);
 
@@ -30,4 +29,6 @@ public interface ProjectMapper {
     int updateByPrimaryKeySelective(Project record);
 
     int updateByPrimaryKey(Project record);
+
+    Page<Project> selectByPaging(ProjectExample example);
 }

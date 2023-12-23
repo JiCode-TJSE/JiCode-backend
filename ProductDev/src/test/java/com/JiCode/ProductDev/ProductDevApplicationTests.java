@@ -27,6 +27,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
@@ -45,8 +46,9 @@ public class ProductDevApplicationTests {
     @Autowired
     BacklogItemRepositoryImpl backlogItemRepositoryImpl;
 
+    @Test
     public void testSelectById(){
-        ProjectAggregation projectAggregation = projectRepositoryImpl.selectById("1");
+        ProjectAggregation projectAggregation = projectRepositoryImpl.selectById("6");
         Project project = new Project();
         BeanUtils.copyProperties(projectAggregation, project);
         System.out.println(project);
@@ -55,14 +57,9 @@ public class ProductDevApplicationTests {
 
     @Test
     public void testSelectPage(){
-//        ScheduleAggregation scheduleAggregation = scheduleRepositoryImpl.selectById("1");
-//        Schedule schedule = new Schedule();
-//        BeanUtils.copyProperties(scheduleAggregation, schedule);
-//        System.out.println(schedule);
 
 
-
-        PageInfo<BacklogItemAggregation> pageInfo = backlogItemRepositoryImpl.selectAll(1, 10);
+        PageInfo<BacklogItemAggregation> pageInfo = backlogItemRepositoryImpl.getPage(1, 10);
 
         System.out.println("Page number: " + pageInfo.getPageNum());
         System.out.println("Page size: " + pageInfo.getPageSize());
@@ -80,13 +77,13 @@ public class ProductDevApplicationTests {
 
     @Test
     public void testInsert(){
-        String id = "6";
         String status ="pending";
         Float progress = 0.5F;
         Date startTime = new Date(2023, 12, 23);
         Date endTime = new Date(2023, 12, 23);
         String managerId = "1";
-        ProjectAggregation projectAggregation = ProjectAggregation.createProject(id, status, progress, startTime, endTime, managerId);
+        List<String> members =  Arrays.asList("1", "2", "4");
+        ProjectAggregation projectAggregation = ProjectAggregation.createProject(null, status, progress, startTime, endTime, managerId, members);
         System.out.println(projectRepositoryImpl.insert(projectAggregation));
     }
 
@@ -98,15 +95,15 @@ public class ProductDevApplicationTests {
         Date startTime = new Date(2023, 12, 23);
         Date endTime = new Date(2023, 12, 23);
         String managerId = "1";
-        ProjectAggregation projectAggregation = ProjectAggregation.createProject(id, status, progress, startTime, endTime, managerId);
+        List<String> members =  Arrays.asList("1", "2", "3");
+        ProjectAggregation projectAggregation = ProjectAggregation.createProject(id, status, progress, startTime, endTime, managerId, members);
         System.out.println(projectRepositoryImpl.updateById(projectAggregation));
     }
 
     @Test
     public void testDeleteById(){
         String id = "6";
-        ProjectAggregation projectAggregation = ProjectAggregation.createProject(id, null, 0, null, null, null);
-        System.out.println(projectRepositoryImpl.deleteById(projectAggregation));
+        System.out.println(projectRepositoryImpl.deleteById(id));
     }
 
     @Test
@@ -115,6 +112,43 @@ public class ProductDevApplicationTests {
         System.out.println(backlogItemRepositoryImpl.selectById(id));
     }
 
+    @Test
+    public void testInsertBacklogItem(){
+        String id = null;
+        String priority = "highest";
+        Date startTime = new Date(2023, 12, 23);
+        Date endTime = new Date(2023, 12, 23);
+        String source = "inner schedule";
+        String type = "safety";
+        String description = "test";
+        String projectId = "1";
+        String managerId = "1";
+        String scheduleId = "1";
+        BacklogItemAggregation backlogItemAggregation = BacklogItemAggregation.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId);
+        System.out.println(backlogItemRepositoryImpl.insert(backlogItemAggregation));
+    }
+
+    @Test
+    public void testUpdateBacklogItem(){
+        String id = "3";
+        String priority = "lowest";
+        Date startTime = new Date(2023, 12, 23);
+        Date endTime = new Date(2023, 12, 23);
+        String source = "inner schedule";
+        String type = "safety";
+        String description = "test";
+        String projectId = "1";
+        String managerId = "1";
+        String scheduleId = "1";
+        BacklogItemAggregation backlogItemAggregation = BacklogItemAggregation.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId);
+        System.out.println(backlogItemRepositoryImpl.updateById(backlogItemAggregation));
+    }
+
+    @Test
+    public void testDeleteBacklogItem(){
+        String id = "3";
+        System.out.println(backlogItemRepositoryImpl.deleteById(id));
+    }
 
 
 }

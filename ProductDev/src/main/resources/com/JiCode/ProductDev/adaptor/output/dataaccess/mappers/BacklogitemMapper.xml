@@ -9,9 +9,9 @@
     <result column="source" jdbcType="VARCHAR" property="source" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="description" jdbcType="VARCHAR" property="description" />
-    <result column="project_id" jdbcType="VARCHAR" property="projectId" />
     <result column="manager_id" jdbcType="VARCHAR" property="managerId" />
     <result column="schedule_id" jdbcType="VARCHAR" property="scheduleId" />
+    <result column="project_id" jdbcType="VARCHAR" property="projectId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,8 +72,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, priority, start_time, end_time, source, type, description, project_id, manager_id, 
-    schedule_id
+    id, priority, start_time, end_time, source, type, description, manager_id, schedule_id, 
+    project_id
   </sql>
   <select id="selectByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.BacklogitemExample" resultMap="BaseResultMap">
     select
@@ -108,12 +108,12 @@
   <insert id="insert" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Backlogitem">
     insert into backlogitem (id, priority, start_time, 
       end_time, source, type, 
-      description, project_id, manager_id, 
-      schedule_id)
+      description, manager_id, schedule_id, 
+      project_id)
     values (#{id,jdbcType=VARCHAR}, #{priority,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{source,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
-      #{description,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{managerId,jdbcType=VARCHAR}, 
-      #{scheduleId,jdbcType=VARCHAR})
+      #{description,jdbcType=VARCHAR}, #{managerId,jdbcType=VARCHAR}, #{scheduleId,jdbcType=VARCHAR}, 
+      #{projectId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Backlogitem">
     insert into backlogitem
@@ -139,14 +139,14 @@
       <if test="description != null">
         description,
       </if>
-      <if test="projectId != null">
-        project_id,
-      </if>
       <if test="managerId != null">
         manager_id,
       </if>
       <if test="scheduleId != null">
         schedule_id,
+      </if>
+      <if test="projectId != null">
+        project_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -171,14 +171,14 @@
       <if test="description != null">
         #{description,jdbcType=VARCHAR},
       </if>
-      <if test="projectId != null">
-        #{projectId,jdbcType=VARCHAR},
-      </if>
       <if test="managerId != null">
         #{managerId,jdbcType=VARCHAR},
       </if>
       <if test="scheduleId != null">
         #{scheduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -188,10 +188,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-    <select id="selectByPaging" resultType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Backlogitem">
-      select * from backlogitem
-    </select>
-    <update id="updateByExampleSelective" parameterType="map">
+  <select id="selectByPaging"
+          resultType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Backlogitem">
+    select * from backlogitem
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
     update backlogitem
     <set>
       <if test="record.id != null">
@@ -215,14 +216,14 @@
       <if test="record.description != null">
         description = #{record.description,jdbcType=VARCHAR},
       </if>
-      <if test="record.projectId != null">
-        project_id = #{record.projectId,jdbcType=VARCHAR},
-      </if>
       <if test="record.managerId != null">
         manager_id = #{record.managerId,jdbcType=VARCHAR},
       </if>
       <if test="record.scheduleId != null">
         schedule_id = #{record.scheduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectId != null">
+        project_id = #{record.projectId,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -238,9 +239,9 @@
       source = #{record.source,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
-      project_id = #{record.projectId,jdbcType=VARCHAR},
       manager_id = #{record.managerId,jdbcType=VARCHAR},
-      schedule_id = #{record.scheduleId,jdbcType=VARCHAR}
+      schedule_id = #{record.scheduleId,jdbcType=VARCHAR},
+      project_id = #{record.projectId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -266,14 +267,14 @@
       <if test="description != null">
         description = #{description,jdbcType=VARCHAR},
       </if>
-      <if test="projectId != null">
-        project_id = #{projectId,jdbcType=VARCHAR},
-      </if>
       <if test="managerId != null">
         manager_id = #{managerId,jdbcType=VARCHAR},
       </if>
       <if test="scheduleId != null">
         schedule_id = #{scheduleId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -286,9 +287,9 @@
       source = #{source,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
-      project_id = #{projectId,jdbcType=VARCHAR},
       manager_id = #{managerId,jdbcType=VARCHAR},
-      schedule_id = #{scheduleId,jdbcType=VARCHAR}
+      schedule_id = #{scheduleId,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

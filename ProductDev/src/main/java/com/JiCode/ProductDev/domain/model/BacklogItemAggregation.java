@@ -4,6 +4,7 @@ package com.JiCode.ProductDev.domain.model;
 import com.JiCode.ProductDev.domain.repository.BacklogItemRepository;
 import com.JiCode.ProductDev.domain.repository.ProjectRepository;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,46 @@ public class BacklogItemAggregation {
 
     private String scheduleId;
 
+    public String getId() {
+        return id;
+    }
+
+    public String getPriority() {
+        return priority;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public String getManagerId() {
+        return managerId;
+    }
+
+    public String getScheduleId() {
+        return scheduleId;
+    }
+
     static public BacklogItemAggregation createBacklogItem(String id, String priority, Date startTime, Date endTime, String source, String type, String description, String projectId, String managerId, String scheduleId){
         BacklogItemAggregation backlogItemAggregation = new BacklogItemAggregation();
         backlogItemAggregation.id = id;
@@ -52,5 +93,6 @@ public class BacklogItemAggregation {
         System.out.println(backlogItemAggregation);
         return backlogItemAggregation;
     }
+
 
 }

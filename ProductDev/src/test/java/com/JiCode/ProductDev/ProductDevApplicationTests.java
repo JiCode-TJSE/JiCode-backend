@@ -3,8 +3,10 @@ package com.JiCode.ProductDev;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Schedule;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ScheduleMapper;
+import com.JiCode.ProductDev.domain.model.BacklogItemAggregation;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
 import com.JiCode.ProductDev.domain.model.ScheduleAggregation;
+import com.JiCode.ProductDev.domain.repository.Impl.BacklogItemRepositoryImpl;
 import com.JiCode.ProductDev.domain.repository.Impl.ProjectRepositoryImpl;
 import com.JiCode.ProductDev.domain.repository.Impl.ScheduleRepositoryImpl;
 import com.JiCode.ProductDev.domain.repository.ProjectRepository;
@@ -34,15 +36,14 @@ import java.util.Scanner;
 @SpringBootTest(classes = ProductDevApplication.class)
 @WebAppConfiguration
 public class ProductDevApplicationTests {
-
-//	@Autowired
-//	ScheduleMapper scheduleMapper;
-
     @Autowired
     ProjectRepositoryImpl projectRepositoryImpl;
 
     @Autowired
     ScheduleRepositoryImpl scheduleRepositoryImpl;
+
+    @Autowired
+    BacklogItemRepositoryImpl backlogItemRepositoryImpl;
 
     public void testSelectById(){
         ProjectAggregation projectAggregation = projectRepositoryImpl.selectById("1");
@@ -61,18 +62,18 @@ public class ProductDevApplicationTests {
 
 
 
-        PageInfo<ProjectAggregation> pageInfo = projectRepositoryImpl.selectAll(1, 10);
+        PageInfo<BacklogItemAggregation> pageInfo = backlogItemRepositoryImpl.selectAll(1, 10);
 
         System.out.println("Page number: " + pageInfo.getPageNum());
         System.out.println("Page size: " + pageInfo.getPageSize());
         System.out.println("Total pages: " + pageInfo.getPages());
         System.out.println("Total elements: " + pageInfo.getTotal());
 
-        List<ProjectAggregation> projectAggregations = pageInfo.getList();
-        for (ProjectAggregation projectAggregation : projectAggregations) {
+        List<BacklogItemAggregation> backlogItemAggregations = pageInfo.getList();
+        for (BacklogItemAggregation backlogItemAggregation : backlogItemAggregations) {
             // print the content of projectAggregation
             // you need to implement the toString method in ProjectAggregation class
-            System.out.println(projectAggregation);
+            System.out.println(backlogItemAggregation);
         }
 
     }
@@ -85,7 +86,8 @@ public class ProductDevApplicationTests {
         Date startTime = new Date(2023, 12, 23);
         Date endTime = new Date(2023, 12, 23);
         String managerId = "1";
-        System.out.println(projectRepositoryImpl.insert(id, status, progress, startTime, endTime, managerId));
+        ProjectAggregation projectAggregation = ProjectAggregation.createProject(id, status, progress, startTime, endTime, managerId);
+        System.out.println(projectRepositoryImpl.insert(projectAggregation));
     }
 
     @Test
@@ -96,13 +98,23 @@ public class ProductDevApplicationTests {
         Date startTime = new Date(2023, 12, 23);
         Date endTime = new Date(2023, 12, 23);
         String managerId = "1";
-        System.out.println(projectRepositoryImpl.updateById(id, status, progress, startTime, endTime, managerId));
+        ProjectAggregation projectAggregation = ProjectAggregation.createProject(id, status, progress, startTime, endTime, managerId);
+        System.out.println(projectRepositoryImpl.updateById(projectAggregation));
     }
 
     @Test
     public void testDeleteById(){
         String id = "6";
-        System.out.println(projectRepositoryImpl.deleteById(id));
+        ProjectAggregation projectAggregation = ProjectAggregation.createProject(id, null, 0, null, null, null);
+        System.out.println(projectRepositoryImpl.deleteById(projectAggregation));
     }
+
+    @Test
+    public void testSelectBacklogItemById(){
+        String id = "2";
+        System.out.println(backlogItemRepositoryImpl.selectById(id));
+    }
+
+
 
 }

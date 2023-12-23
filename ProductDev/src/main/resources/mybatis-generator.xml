@@ -39,18 +39,8 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
         <!-- 相关表的配置 -->
-        <table tableName="schedule"
-               domainObjectName="Schedule"
-               enableInsert="true"
-               enableDeleteByPrimaryKey="true"
-               enableUpdateByPrimaryKey="true"
-               enableSelectByPrimaryKey="true"
-               enableCountByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               enableUpdateByExample="true"/>
-        <table tableName="project"
-               domainObjectName="Project"
+        <table tableName="backlogitem"
+               domainObjectName="Backlogitem"
                enableInsert="true"
                enableDeleteByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"

@@ -18,7 +18,7 @@ public class ProjectAggregation {
 
     private String id;
 
-    private String status;
+    String status;
 
     private Float progress;
 
@@ -27,6 +27,30 @@ public class ProjectAggregation {
     private Date endTime;
 
     private String managerId;
+
+    public String getId() {
+        return id;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public Float getProgress() {
+        return progress;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public String getManagerId() {
+        return managerId;
+    }
 
     // 工厂模式
     static public ProjectAggregation createProject(String id, String status, float progress, Date startTime, Date endTime, String managerId){

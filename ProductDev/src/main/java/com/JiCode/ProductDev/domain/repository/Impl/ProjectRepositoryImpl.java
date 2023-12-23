@@ -7,6 +7,7 @@ import com.JiCode.ProductDev.domain.repository.ProjectRepository;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -47,15 +48,10 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         }
     }
 
-    public int insert(String id, String status, Float progress, Date startTime, Date endTime, String managerId){
+    public int insert(ProjectAggregation projectAggregation){
         try {
             Project project = new Project();
-            project.setId(id);
-            project.setStatus(status);
-            project.setProgress(progress);
-            project.setStartTime(startTime);
-            project.setEndTime(endTime);
-            project.setManagerId(managerId);
+            BeanUtils.copyProperties(projectAggregation, project);
             return projectMapper.insert(project);
         }catch (Exception e){
             System.out.println(e);
@@ -63,25 +59,10 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         }
     }
 
-    public int updateById(String id){
-        try {
-            Project project = projectMapper.selectByPrimaryKey(id);
-            return projectMapper.updateByPrimaryKey(project);
-        }catch (Exception e){
-            System.out.println(e);
-            return 0;
-        }
-    }
-
-    public int updateById(String id, String status, Float progress, Date startTime, Date endTime, String managerId){
+    public int updateById(ProjectAggregation projectAggregation){
         try{
             Project project = new Project();
-            project.setId(id);
-            project.setStatus(status);
-            project.setProgress(progress);
-            project.setStartTime(startTime);
-            project.setEndTime(endTime);
-            project.setManagerId(managerId);
+            BeanUtils.copyProperties(projectAggregation, project);
             return projectMapper.updateByPrimaryKey(project);
         }catch (Exception e) {
             System.out.println(e);
@@ -89,9 +70,9 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         }
     }
 
-    public int deleteById(String id){
+    public int deleteById(ProjectAggregation projectAggregation){
         try{
-            return projectMapper.deleteByPrimaryKey(id);
+            return projectMapper.deleteByPrimaryKey(projectAggregation.getId());
         }catch (Exception e){
             System.out.println(e);
             return 0;

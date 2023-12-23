@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ProjectMapper">
-  <resultMap id="BaseResultMap" type="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project">
+<mapper namespace="com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.BacklogitemMapper">
+  <resultMap id="BaseResultMap" type="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Backlogitem">
     <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="status" jdbcType="VARCHAR" property="status" />
-    <result column="progress" jdbcType="REAL" property="progress" />
+    <result column="priority" jdbcType="VARCHAR" property="priority" />
     <result column="start_time" jdbcType="TIMESTAMP" property="startTime" />
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
+    <result column="source" jdbcType="VARCHAR" property="source" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
+    <result column="description" jdbcType="VARCHAR" property="description" />
+    <result column="project_id" jdbcType="VARCHAR" property="projectId" />
     <result column="manager_id" jdbcType="VARCHAR" property="managerId" />
+    <result column="schedule_id" jdbcType="VARCHAR" property="scheduleId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -68,15 +72,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, status, progress, start_time, end_time, manager_id
+    id, priority, start_time, end_time, source, type, description, project_id, manager_id, 
+    schedule_id
   </sql>
-  <select id="selectByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ProjectExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.BacklogitemExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from project
+    from backlogitem
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,38 +92,37 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from project
+    from backlogitem
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from project
+    delete from backlogitem
     where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ProjectExample">
-    delete from project
+  <delete id="deleteByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.BacklogitemExample">
+    delete from backlogitem
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project">
-    insert into project (id, status, progress, 
-      start_time, end_time, manager_id
-      )
-    values (#{id,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{progress,jdbcType=REAL}, 
-      #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{managerId,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Backlogitem">
+    insert into backlogitem (id, priority, start_time, 
+      end_time, source, type, 
+      description, project_id, manager_id, 
+      schedule_id)
+    values (#{id,jdbcType=VARCHAR}, #{priority,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{source,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{managerId,jdbcType=VARCHAR}, 
+      #{scheduleId,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project">
-    insert into project
+  <insert id="insertSelective" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Backlogitem">
+    insert into backlogitem
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="status != null">
-        status,
-      </if>
-      <if test="progress != null">
-        progress,
+      <if test="priority != null">
+        priority,
       </if>
       <if test="startTime != null">
         start_time,
@@ -126,19 +130,31 @@
       <if test="endTime != null">
         end_time,
       </if>
+      <if test="source != null">
+        source,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+      <if test="projectId != null">
+        project_id,
+      </if>
       <if test="managerId != null">
         manager_id,
+      </if>
+      <if test="scheduleId != null">
+        schedule_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="status != null">
-        #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="progress != null">
-        #{progress,jdbcType=REAL},
+      <if test="priority != null">
+        #{priority,jdbcType=VARCHAR},
       </if>
       <if test="startTime != null">
         #{startTime,jdbcType=TIMESTAMP},
@@ -146,32 +162,43 @@
       <if test="endTime != null">
         #{endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="source != null">
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        #{projectId,jdbcType=VARCHAR},
+      </if>
       <if test="managerId != null">
         #{managerId,jdbcType=VARCHAR},
       </if>
+      <if test="scheduleId != null">
+        #{scheduleId,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ProjectExample" resultType="java.lang.Long">
-    select count(*) from project
+  <select id="countByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.BacklogitemExample" resultType="java.lang.Long">
+    select count(*) from backlogitem
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select id="selectByPaging" resultType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project">
-    select *
-    from project
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update project
+    <select id="selectByPaging" resultType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Backlogitem">
+      select * from backlogitem
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+    update backlogitem
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=VARCHAR},
       </if>
-      <if test="record.status != null">
-        status = #{record.status,jdbcType=VARCHAR},
-      </if>
-      <if test="record.progress != null">
-        progress = #{record.progress,jdbcType=REAL},
+      <if test="record.priority != null">
+        priority = #{record.priority,jdbcType=VARCHAR},
       </if>
       <if test="record.startTime != null">
         start_time = #{record.startTime,jdbcType=TIMESTAMP},
@@ -179,8 +206,23 @@
       <if test="record.endTime != null">
         end_time = #{record.endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.source != null">
+        source = #{record.source,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null">
+        type = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null">
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectId != null">
+        project_id = #{record.projectId,jdbcType=VARCHAR},
+      </if>
       <if test="record.managerId != null">
         manager_id = #{record.managerId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scheduleId != null">
+        schedule_id = #{record.scheduleId,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -188,25 +230,26 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update project
+    update backlogitem
     set id = #{record.id,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=VARCHAR},
-      progress = #{record.progress,jdbcType=REAL},
+      priority = #{record.priority,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
-      manager_id = #{record.managerId,jdbcType=VARCHAR}
+      source = #{record.source,jdbcType=VARCHAR},
+      type = #{record.type,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      project_id = #{record.projectId,jdbcType=VARCHAR},
+      manager_id = #{record.managerId,jdbcType=VARCHAR},
+      schedule_id = #{record.scheduleId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project">
-    update project
+  <update id="updateByPrimaryKeySelective" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Backlogitem">
+    update backlogitem
     <set>
-      <if test="status != null">
-        status = #{status,jdbcType=VARCHAR},
-      </if>
-      <if test="progress != null">
-        progress = #{progress,jdbcType=REAL},
+      <if test="priority != null">
+        priority = #{priority,jdbcType=VARCHAR},
       </if>
       <if test="startTime != null">
         start_time = #{startTime,jdbcType=TIMESTAMP},
@@ -214,19 +257,38 @@
       <if test="endTime != null">
         end_time = #{endTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="source != null">
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null">
+        project_id = #{projectId,jdbcType=VARCHAR},
+      </if>
       <if test="managerId != null">
         manager_id = #{managerId,jdbcType=VARCHAR},
+      </if>
+      <if test="scheduleId != null">
+        schedule_id = #{scheduleId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project">
-    update project
-    set status = #{status,jdbcType=VARCHAR},
-      progress = #{progress,jdbcType=REAL},
+  <update id="updateByPrimaryKey" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Backlogitem">
+    update backlogitem
+    set priority = #{priority,jdbcType=VARCHAR},
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
-      manager_id = #{managerId,jdbcType=VARCHAR}
+      source = #{source,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      project_id = #{projectId,jdbcType=VARCHAR},
+      manager_id = #{managerId,jdbcType=VARCHAR},
+      schedule_id = #{scheduleId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

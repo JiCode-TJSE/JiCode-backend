@@ -9,7 +9,7 @@ import java.util.List;
 public interface ProjectRepository {
     public ProjectAggregation selectById(String id);
     public PageInfo<ProjectAggregation> selectAll(int pageNum, int pageSize);
-    public int insert(String id, String status, Float progress, Date startTime, Date endTime, String managerId);
-    public int updateById(String id, String status, Float progress, Date startTime, Date endTime, String managerId);
-    public int deleteById(String id);
+    public int insert(ProjectAggregation projectAggregation);
+    public int updateById(ProjectAggregation projectAggregation);
+    public int deleteById(ProjectAggregation projectAggregation);
 }

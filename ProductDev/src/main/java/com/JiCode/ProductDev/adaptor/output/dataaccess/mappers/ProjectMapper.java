@@ -7,7 +7,6 @@ import java.util.List;
 import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
 
-
 public interface ProjectMapper {
     long countByExample(ProjectExample example);
 

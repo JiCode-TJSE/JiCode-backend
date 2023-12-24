@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
     <context id="context" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
         <commentGenerator>
             <property name="suppressAllComments" value="true"/>
             <property name="suppressDate" value="true"/>
@@ -22,13 +23,13 @@
         </javaTypeResolver>
         <!-- 实体类生成的位置 -->
         <javaModelGenerator targetPackage="com.JiCode.Account.adaptor.output.dataaccess.DBModels"
-                            targetProject="src/main/java">
+                            targetProject="src/main/java/">
             <property name="enableSubPackages" value="false"/>
             <property name="trimStrings" value="true"/>
         </javaModelGenerator>
         <!-- *Mapper.xml 文件的位置 -->
         <sqlMapGenerator targetPackage="com.JiCode.Account.adaptor.output.dataaccess.mappers"
-                         targetProject="src/main/resources">
+                         targetProject="src/main/resources/">
             <property name="enableSubPackages" value="false"/>
         </sqlMapGenerator>
         <!-- Mapper接口文件的位置 -->

@@ -19,12 +19,11 @@ public class TestApplicationImpl implements TestApplication {
     TestRepositoryImpl testRepositoryImpl;
 
     @Transactional(readOnly = true)
-    public SelectTestByIdDto selectTestById(String id){
+    public SelectTestByIdDto selectTestById(String id) {
         TestAggregation ta = testRepositoryImpl.selectById(id);
         SelectTestByIdDto selectTestByIdDto = new SelectTestByIdDto();
         BeanUtils.copyProperties(ta, selectTestByIdDto);
         return selectTestByIdDto;
     }
-
 
 }

@@ -38,6 +38,7 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
         <!-- 相关表的配置 -->
+        <!--  生成product表      -->
         <table tableName="product"
                domainObjectName="Product"
                enableInsert="true"
@@ -59,7 +60,7 @@
                enableDeleteByExample="true"
                enableSelectByExample="true"
                enableUpdateByExample="true"/>
-<!--        requirement    -->
+        <!--  requirement    -->
         <table tableName="requirement"
                domainObjectName="Requirement"
                enableInsert="true"
@@ -70,7 +71,7 @@
                enableDeleteByExample="true"
                enableSelectByExample="true"
                enableUpdateByExample="true"/>
-        <!--    client表    -->
+        <!--  client表    -->
         <table tableName="client"
                domainObjectName="Client"
                enableInsert="true"
@@ -106,6 +107,17 @@
         <!--   requirement_backlogitem表     -->
         <table tableName="requirement_backlogitem"
                domainObjectName="RequirementBacklogitem"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--   requirement_version表     -->
+        <table tableName="requirement_version"
+               domainObjectName="RequirementVersion"
                enableInsert="true"
                enableDeleteByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"

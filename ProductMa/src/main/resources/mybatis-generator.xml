@@ -81,17 +81,6 @@
                enableDeleteByExample="true"
                enableSelectByExample="true"
                enableUpdateByExample="true"/>
-        <!--   p_version表     -->
-        <table tableName="requirement_version"
-               domainObjectName="RequirementVersion"
-               enableInsert="true"
-               enableDeleteByPrimaryKey="true"
-               enableUpdateByPrimaryKey="true"
-               enableSelectByPrimaryKey="true"
-               enableCountByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               enableUpdateByExample="true"/>
         <!--   product_member表     -->
         <table tableName="product_member"
                domainObjectName="ProductMember"

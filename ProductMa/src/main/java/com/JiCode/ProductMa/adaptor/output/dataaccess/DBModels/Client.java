@@ -11,8 +11,6 @@ public class Client {
 
     private String detail;
 
-    private String supervisorId;
-
     private String size;
 
     private String productId;
@@ -55,14 +53,6 @@ public class Client {
 
     public void setDetail(String detail) {
         this.detail = detail == null ? null : detail.trim();
-    }
-
-    public String getSupervisorId() {
-        return supervisorId;
-    }
-
-    public void setSupervisorId(String supervisorId) {
-        this.supervisorId = supervisorId == null ? null : supervisorId.trim();
     }
 
     public String getSize() {

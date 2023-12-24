@@ -7,7 +7,6 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="type" jdbcType="VARCHAR" property="type" />
     <result column="detail" jdbcType="VARCHAR" property="detail" />
-    <result column="supervisor_id" jdbcType="VARCHAR" property="supervisorId" />
     <result column="size" jdbcType="VARCHAR" property="size" />
     <result column="product_id" jdbcType="VARCHAR" property="productId" />
   </resultMap>
@@ -70,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, rank, name, type, detail, supervisor_id, size, product_id
+    id, rank, name, type, detail, size, product_id
   </sql>
   <select id="selectByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.ClientExample" resultMap="BaseResultMap">
     select
@@ -104,11 +103,11 @@
   </delete>
   <insert id="insert" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Client">
     insert into client (id, rank, name, 
-      type, detail, supervisor_id, 
-      size, product_id)
+      type, detail, size, 
+      product_id)
     values (#{id,jdbcType=VARCHAR}, #{rank,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{supervisorId,jdbcType=VARCHAR}, 
-      #{size,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR})
+      #{type,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR}, 
+      #{productId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Client">
     insert into client
@@ -127,9 +126,6 @@
       </if>
       <if test="detail != null">
         detail,
-      </if>
-      <if test="supervisorId != null">
-        supervisor_id,
       </if>
       <if test="size != null">
         size,
@@ -153,9 +149,6 @@
       </if>
       <if test="detail != null">
         #{detail,jdbcType=VARCHAR},
-      </if>
-      <if test="supervisorId != null">
-        #{supervisorId,jdbcType=VARCHAR},
       </if>
       <if test="size != null">
         #{size,jdbcType=VARCHAR},
@@ -189,9 +182,6 @@
       <if test="record.detail != null">
         detail = #{record.detail,jdbcType=VARCHAR},
       </if>
-      <if test="record.supervisorId != null">
-        supervisor_id = #{record.supervisorId,jdbcType=VARCHAR},
-      </if>
       <if test="record.size != null">
         size = #{record.size,jdbcType=VARCHAR},
       </if>
@@ -210,7 +200,6 @@
       name = #{record.name,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=VARCHAR},
       detail = #{record.detail,jdbcType=VARCHAR},
-      supervisor_id = #{record.supervisorId,jdbcType=VARCHAR},
       size = #{record.size,jdbcType=VARCHAR},
       product_id = #{record.productId,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -232,9 +221,6 @@
       <if test="detail != null">
         detail = #{detail,jdbcType=VARCHAR},
       </if>
-      <if test="supervisorId != null">
-        supervisor_id = #{supervisorId,jdbcType=VARCHAR},
-      </if>
       <if test="size != null">
         size = #{size,jdbcType=VARCHAR},
       </if>
@@ -250,7 +236,6 @@
       name = #{name,jdbcType=VARCHAR},
       type = #{type,jdbcType=VARCHAR},
       detail = #{detail,jdbcType=VARCHAR},
-      supervisor_id = #{supervisorId,jdbcType=VARCHAR},
       size = #{size,jdbcType=VARCHAR},
       product_id = #{productId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}

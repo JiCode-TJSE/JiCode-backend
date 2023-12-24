@@ -3,6 +3,8 @@ package com.JiCode.ProductMa.adaptor.output.dataaccess.mappers;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Client;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.ClientExample;
 import java.util.List;
+
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
 
 public interface ClientMapper {
@@ -27,4 +29,6 @@ public interface ClientMapper {
     int updateByPrimaryKeySelective(Client record);
 
     int updateByPrimaryKey(Client record);
+
+    Page<Client> selectByPaging(ClientExample example);
 }

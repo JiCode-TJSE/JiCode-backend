@@ -32,28 +32,19 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * 对backlogitem聚合和仓储的测试
+ * @author Laurent Wu
+ * @date 2023/12/24
+ */
 @Service
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ProductDevApplication.class)
 @WebAppConfiguration
-public class ProductDevApplicationTests {
-    @Autowired
-    ProjectRepositoryImpl projectRepositoryImpl;
-
-    @Autowired
-    ScheduleRepositoryImpl scheduleRepositoryImpl;
+public class BacklogitemTests{
 
     @Autowired
     BacklogItemRepositoryImpl backlogItemRepositoryImpl;
-
-    @Test
-    public void testSelectById(){
-        ProjectAggregation projectAggregation = projectRepositoryImpl.selectById("6");
-        Project project = new Project();
-        BeanUtils.copyProperties(projectAggregation, project);
-        System.out.println(project);
-    }
-
 
     @Test
     public void testSelectPage(){
@@ -73,37 +64,6 @@ public class ProductDevApplicationTests {
             System.out.println(backlogItemAggregation);
         }
 
-    }
-
-    @Test
-    public void testInsert(){
-        String status ="pending";
-        Float progress = 0.5F;
-        Date startTime = new Date(2023, 12, 23);
-        Date endTime = new Date(2023, 12, 23);
-        String managerId = "1";
-        List<String> members =  Arrays.asList("1", "2", "4");
-        ProjectAggregation projectAggregation = ProjectAggregation.createProject(null, status, progress, startTime, endTime, managerId, members);
-        System.out.println(projectRepositoryImpl.insert(projectAggregation));
-    }
-
-    @Test
-    public void testUpdateById(){
-        String id = "6";
-        String status ="done";
-        Float progress = 0.5F;
-        Date startTime = new Date(2023, 12, 23);
-        Date endTime = new Date(2023, 12, 23);
-        String managerId = "1";
-        List<String> members =  Arrays.asList("1", "2", "3");
-        ProjectAggregation projectAggregation = ProjectAggregation.createProject(id, status, progress, startTime, endTime, managerId, members);
-        System.out.println(projectRepositoryImpl.updateById(projectAggregation));
-    }
-
-    @Test
-    public void testDeleteById(){
-        String id = "6";
-        System.out.println(projectRepositoryImpl.deleteById(id));
     }
 
     @Test
@@ -141,7 +101,8 @@ public class ProductDevApplicationTests {
         String projectId = "1";
         String managerId = "1";
         String scheduleId = "1";
-        List<String> memberIds = Arrays.asList("4", "5", "6");
+        // List<String> memberIds = Arrays.asList("4", "5", "6");
+        List<String> memberIds = Arrays.asList("1", "2", "3");
         BacklogItemAggregation backlogItemAggregation = BacklogItemAggregation.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds);
         System.out.println(backlogItemRepositoryImpl.updateById(backlogItemAggregation));
     }

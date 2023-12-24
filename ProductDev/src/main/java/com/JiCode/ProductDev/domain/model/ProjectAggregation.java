@@ -10,6 +10,11 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 聚合类
+ * @author Laurent Wu
+ * @date 2023/12/24
+ */
 @Service
 @Data
 @NoArgsConstructor
@@ -59,7 +64,17 @@ public class ProjectAggregation {
         return managerId;
     }
 
-    // 工厂模式
+    /**
+     * 工厂模式，新建聚合
+     * @param id
+     * @param status
+     * @param progress
+     * @param startTime
+     * @param endTime
+     * @param managerId
+     * @param members
+     * @return {@link ProjectAggregation}
+     */// 工厂模式
     static public ProjectAggregation createProject(String id, String status, float progress, Date startTime, Date endTime, String managerId, List<String>members){
         ProjectAggregation projectAggregation = new ProjectAggregation();
         projectAggregation.id = id;

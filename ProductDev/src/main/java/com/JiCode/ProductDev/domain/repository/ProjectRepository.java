@@ -7,9 +7,12 @@ import com.github.pagehelper.PageInfo;
 import java.util.Date;
 import java.util.List;
 
+/**
+ * 仓储类，用于对数据库进行操作
+ * @author Laurent Wu
+ * @date 2023/12/24
+ */
 public interface ProjectRepository {
-    //public copy(ProjectAggregation projectAggregation, Project project);
-    public int saveAggregate(ProjectAggregation projectAggregation);
     public ProjectAggregation selectById(String id);
     public PageInfo<ProjectAggregation> getPage(int pageNum, int pageSize);
     public int insert(ProjectAggregation projectAggregation);

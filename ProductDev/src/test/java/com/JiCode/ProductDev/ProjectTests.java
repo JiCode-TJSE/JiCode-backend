@@ -32,19 +32,18 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * 对project聚合和仓储的相关测试
+ * @author Laurent Wu
+ * @date 2023/12/24
+ */
 @Service
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ProductDevApplication.class)
 @WebAppConfiguration
-public class ProductDevApplicationTests {
+public class ProjectTests {
     @Autowired
     ProjectRepositoryImpl projectRepositoryImpl;
-
-    @Autowired
-    ScheduleRepositoryImpl scheduleRepositoryImpl;
-
-    @Autowired
-    BacklogItemRepositoryImpl backlogItemRepositoryImpl;
 
     @Test
     public void testSelectById(){
@@ -52,27 +51,6 @@ public class ProductDevApplicationTests {
         Project project = new Project();
         BeanUtils.copyProperties(projectAggregation, project);
         System.out.println(project);
-    }
-
-
-    @Test
-    public void testSelectPage(){
-
-
-        PageInfo<BacklogItemAggregation> pageInfo = backlogItemRepositoryImpl.getPage(1, 10);
-
-        System.out.println("Page number: " + pageInfo.getPageNum());
-        System.out.println("Page size: " + pageInfo.getPageSize());
-        System.out.println("Total pages: " + pageInfo.getPages());
-        System.out.println("Total elements: " + pageInfo.getTotal());
-
-        List<BacklogItemAggregation> backlogItemAggregations = pageInfo.getList();
-        for (BacklogItemAggregation backlogItemAggregation : backlogItemAggregations) {
-            // print the content of projectAggregation
-            // you need to implement the toString method in ProjectAggregation class
-            System.out.println(backlogItemAggregation);
-        }
-
     }
 
     @Test
@@ -88,8 +66,8 @@ public class ProductDevApplicationTests {
     }
 
     @Test
-    public void testUpdateById(){
-        String id = "6";
+    public void testUpdateProjectById(){
+        String id = "1";
         String status ="done";
         Float progress = 0.5F;
         Date startTime = new Date(2023, 12, 23);
@@ -105,52 +83,5 @@ public class ProductDevApplicationTests {
         String id = "6";
         System.out.println(projectRepositoryImpl.deleteById(id));
     }
-
-    @Test
-    public void testSelectBacklogItemById(){
-        String id = "1";
-        System.out.println(backlogItemRepositoryImpl.selectById(id));
-    }
-
-    @Test
-    public void testInsertBacklogItem(){
-        String id = "5";
-        String priority = "highest";
-        Date startTime = new Date(2023, 12, 23);
-        Date endTime = new Date(2023, 12, 23);
-        String source = "inner schedule";
-        String type = "safety";
-        String description = "test";
-        String projectId = "1";
-        String managerId = "1";
-        String scheduleId = "1";
-        List<String> memberIds = Arrays.asList("1", "2", "3");
-        BacklogItemAggregation backlogItemAggregation = BacklogItemAggregation.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds);
-        System.out.println(backlogItemRepositoryImpl.insert(backlogItemAggregation));
-    }
-
-    @Test
-    public void testUpdateBacklogItem(){
-        String id = "1";
-        String priority = "common";
-        Date startTime = new Date(2023, 12, 23);
-        Date endTime = new Date(2023, 12, 23);
-        String source = "inner schedule";
-        String type = "safety";
-        String description = "test";
-        String projectId = "1";
-        String managerId = "1";
-        String scheduleId = "1";
-        List<String> memberIds = Arrays.asList("4", "5", "6");
-        BacklogItemAggregation backlogItemAggregation = BacklogItemAggregation.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds);
-        System.out.println(backlogItemRepositoryImpl.updateById(backlogItemAggregation));
-    }
-
-    @Test
-    public void testDeleteBacklogItem(){
-        String id = "1";
-        System.out.println(backlogItemRepositoryImpl.deleteById(id));
-    }
-
 
 }

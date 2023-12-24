@@ -1,8 +1,8 @@
 package com.JiCode.ProductDev.domain.repository.Impl;
 
-import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Backlogitem;
-import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project;
+import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.*;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.BacklogitemMapper;
+import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.BacklogitemMemberMapper;
 import com.JiCode.ProductDev.domain.model.BacklogItemAggregation;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
 import com.JiCode.ProductDev.domain.repository.BacklogItemRepository;
@@ -17,25 +17,97 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Repository
 public class BacklogItemRepositoryImpl implements BacklogItemRepository {
     @Autowired
     BacklogitemMapper backlogitemMapper;
+    @Autowired
+    BacklogitemMemberMapper backlogitemMemberMapper;;
+
+    /**
+     * 将实体类及其他信息转换成聚合返回给上层，用于查
+     * @param backlogitem 实体类
+     * @param memberIds 项目成员id列表
+     * @return {@link ProjectAggregation}
+     */
+    private BacklogItemAggregation entityToAggregate(Backlogitem backlogitem, List<String> memberIds){
+        BacklogItemAggregation backlogItemAggregation = BacklogItemAggregation.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(),memberIds);
+        return backlogItemAggregation;
+    }
+
+    /**
+     * 将聚合中的信息保存到数据库当中，用于增删改
+     * @param backlogItemAggregation 项目聚合
+     * @return int
+     */
+    private int saveAggregate(BacklogItemAggregation backlogItemAggregation){
+        try{
+            // 对实体集进行操作
+            Backlogitem backlogitem = new Backlogitem();
+            BeanUtils.copyProperties(backlogItemAggregation, backlogitem);
+            int result = backlogitemMapper.updateByPrimaryKey(backlogitem);
+
+            // 对联系集进行操作
+            // 首先删除联系集中project对应的所有记录
+            BacklogitemMemberExample example = new BacklogitemMemberExample();
+            example.createCriteria().andBacklogitemIdEqualTo(backlogitem.getId());
+            int rows = backlogitemMemberMapper.deleteByExample(example);
+            System.out.println("Deleted rows: " + rows);
+
+
+            // 再添加当前所有的成员到联系集当中
+            List<String> memberIds = backlogItemAggregation.getMembers();
+            BacklogitemMemberKey backlogitemMember = new BacklogitemMemberKey();
+            for(String memberId:memberIds){
+                backlogitemMember.setBacklogitemId(backlogitem.getId());
+                backlogitemMember.setAccountId(memberId);
+                backlogitemMemberMapper.insert(backlogitemMember);
+            }
+            return result;
+        }catch (Exception e){
+            System.out.println(e);
+            return 0;
+        }
+    }
 
     public BacklogItemAggregation selectById(String id){
-        Backlogitem backlogitem = backlogitemMapper.selectByPrimaryKey(id);
-        return BacklogItemAggregation.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId());
+        try{
+            // 查询实体集中的信息
+            Backlogitem backlogitem = backlogitemMapper.selectByPrimaryKey(id);
+
+            // 查询联系集中的信息
+            BacklogitemMemberExample example = new BacklogitemMemberExample();
+            example.createCriteria().andBacklogitemIdEqualTo(id);
+            List<BacklogitemMemberKey> backlogitemMemberKeys = backlogitemMemberMapper.selectByExample(example);
+            List<String> memberIds = backlogitemMemberKeys.stream().map(BacklogitemMemberKey::getAccountId).collect(Collectors.toList());
+
+            // 将实体集和联系集中的信息转换成聚合返回给上层
+            BacklogItemAggregation backlogItemAggregation = entityToAggregate(backlogitem, memberIds);
+            return backlogItemAggregation;
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
     }
 
     public PageInfo<BacklogItemAggregation> getPage(int pageNum, int pageSize){
         try{
+            // 分页查询
             PageHelper.startPage(pageNum, pageSize);
             Page<Backlogitem> backlogitems = backlogitemMapper.selectByPaging(null);
-            System.out.println(backlogitems);
+            // System.out.println(backlogitems);
             List<BacklogItemAggregation> backlogItemAggregations = new ArrayList<>();
             for (Backlogitem backlogitem : backlogitems) {
-                BacklogItemAggregation backlogItemAggregation = BacklogItemAggregation.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId()); // use builder to create ProjectAggregation
+                // 获取成员列表
+                BacklogitemMemberExample example = new BacklogitemMemberExample();
+                example.createCriteria().andBacklogitemIdEqualTo(backlogitem.getId());
+                List<BacklogitemMemberKey> backlogitemMemberKeys = backlogitemMemberMapper.selectByExample(example);
+                List<String> memberIds = backlogitemMemberKeys.stream().map(BacklogitemMemberKey::getAccountId).collect(Collectors.toList());
+
+                // 工厂模式创建ProjectAggregation
+                BacklogItemAggregation backlogItemAggregation = BacklogItemAggregation.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(), memberIds); // use builder to create ProjectAggregation
                 backlogItemAggregations.add(backlogItemAggregation);
             }
             return new PageInfo<>(backlogItemAggregations);
@@ -44,14 +116,19 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
             return null;
         }
     }
+
     public int insert(BacklogItemAggregation backlogItemAggregation){
         try {
             Backlogitem backlogitem = new Backlogitem();
             BeanUtils.copyProperties(backlogItemAggregation, backlogitem);
+
+            // 使用UUID生成ID
             if(backlogitem.getId()==null)
                 backlogitem.setId(UUID.randomUUID().toString());
             System.out.println(backlogitem);
-            return backlogitemMapper.insert(backlogitem);
+            int result = backlogitemMapper.insert(backlogitem);
+            saveAggregate(backlogItemAggregation);
+            return result;
 
         }catch (Exception e){
             System.out.println(e);
@@ -61,9 +138,7 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
 
     public int updateById(BacklogItemAggregation backlogItemAggregation){
         try{
-            Backlogitem backlogitem = new Backlogitem();
-            BeanUtils.copyProperties(backlogItemAggregation, backlogitem);
-            return backlogitemMapper.updateByPrimaryKey(backlogitem);
+            return saveAggregate(backlogItemAggregation);
         }catch (Exception e){
             System.out.println(e);
             return 0;

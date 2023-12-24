@@ -20,6 +20,12 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+
+/**
+ * @author Laurent Wu
+ * @date 2023/12/23
+ * @description repository的实现类
+ */
 @Repository
 public class ProjectRepositoryImpl implements ProjectRepository {
     @Autowired
@@ -27,7 +33,24 @@ public class ProjectRepositoryImpl implements ProjectRepository {
     @Autowired
     ProjectMemberMapper projectMemberMapper;
 
-    public int saveAggregate(ProjectAggregation projectAggregation){
+
+    /**
+     * 将实体类及其他信息转换成聚合
+     * @param project 实体类
+     * @param memberIds 项目成员id列表
+     * @return {@link ProjectAggregation}
+     */
+    private ProjectAggregation entityToAggregate(Project project, List<String> memberIds){
+        ProjectAggregation projectAggregation = ProjectAggregation.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(),memberIds);
+        return projectAggregation;
+    }
+
+    /**
+     * 将聚合中的信息保存到数据库当中
+     * @param projectAggregation 项目聚合
+     * @return int
+     */
+    private int saveAggregate(ProjectAggregation projectAggregation){
         try{
             // 对实体集进行操作
             Project project = new Project();
@@ -36,9 +59,12 @@ public class ProjectRepositoryImpl implements ProjectRepository {
 
             // 对联系集进行操作
             // 首先删除联系集中project对应的所有记录
-            ProjectMemberKey key = new ProjectMemberKey();
-            key.setProjectId(project.getId());
-            projectMemberMapper.deleteByPrimaryKey(key);
+            // 创建一个新的ProjectMemberExample对象
+            ProjectMemberExample example = new ProjectMemberExample();
+            ProjectMemberExample.Criteria criteria = example.createCriteria();
+            criteria.andProjectIdEqualTo(project.getId());
+            int rows = projectMemberMapper.deleteByExample(example);
+            System.out.println("Deleted rows: " + rows);
 
             // 再添加当前所有的成员进入
             List<String> memberIds = projectAggregation.getMember();
@@ -62,7 +88,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
            example.createCriteria().andProjectIdEqualTo(id);
            List<ProjectMemberKey> projectMemberKeys = projectMemberMapper.selectByExample(example);
            List<String> memberIds = projectMemberKeys.stream().map(ProjectMemberKey::getMemberId).collect(Collectors.toList());
-           ProjectAggregation projectAggregation = ProjectAggregation.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(),memberIds); // use builder to create ProjectAggregation
+           ProjectAggregation projectAggregation = entityToAggregate(project, memberIds);
            return projectAggregation;
        }catch (Exception e) {
            System.out.println(e);

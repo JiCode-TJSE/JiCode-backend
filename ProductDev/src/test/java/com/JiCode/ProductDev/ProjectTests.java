@@ -43,11 +43,25 @@ import java.util.Scanner;
 @WebAppConfiguration
 public class ProjectTests {
     @Autowired
-    ProjectRepositoryImpl projectRepositoryImpl;
+    ProjectAggregation projectAggregation;
+
+    @Autowired
+    ProjectRepository projectRepository;
+    //这些都是对的是吧
+    //确实
+    //你这个依赖注入
+    //注入的不是repository啊，应该注入不带impl的
+    //之前wjy跟我说直接impl来着，我试下
+    // 可以的
+    // 那repository接口实现的没问题，看下注入成不成功
+    // 这个依赖注入都有点问题，不是static的问题
+    // 11
+    // 行吧我再看看
+    // 那个static按我写的那样就可以了，这个依赖注入改一下就好了
 
     @Test
     public void testSelectById(){
-        ProjectAggregation projectAggregation = projectRepositoryImpl.selectById("6");
+        ProjectAggregation projectAggregation = projectRepository.selectById("6");
         Project project = new Project();
         BeanUtils.copyProperties(projectAggregation, project);
         System.out.println(project);
@@ -62,7 +76,7 @@ public class ProjectTests {
         String managerId = "1";
         List<String> members =  Arrays.asList("1", "2", "4");
         ProjectAggregation projectAggregation = ProjectAggregation.createProject(null, status, progress, startTime, endTime, managerId, members);
-        System.out.println(projectRepositoryImpl.insert(projectAggregation));
+        System.out.println(projectRepository.insert(projectAggregation));
     }
 
     @Test
@@ -75,13 +89,13 @@ public class ProjectTests {
         String managerId = "1";
         List<String> members =  Arrays.asList("1", "2", "3");
         ProjectAggregation projectAggregation = ProjectAggregation.createProject(id, status, progress, startTime, endTime, managerId, members);
-        System.out.println(projectRepositoryImpl.updateById(projectAggregation));
+        System.out.println(projectRepository.updateById(projectAggregation));
     }
 
     @Test
     public void testDeleteById(){
         String id = "6";
-        System.out.println(projectRepositoryImpl.deleteById(id));
+        System.out.println(projectRepository.deleteById(id));
     }
 
 }

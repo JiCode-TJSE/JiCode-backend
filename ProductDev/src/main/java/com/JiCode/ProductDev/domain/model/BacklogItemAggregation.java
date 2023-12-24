@@ -14,19 +14,18 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 
-@Service
+/**
+ * @author Laurent Wu
+ * @date 2023/12/24
+ */
 @Data
 @NoArgsConstructor
+@Service
 public class BacklogItemAggregation {
     @Autowired
     BacklogItemRepository backlogItemRepository;
-
-    // 静态字段不能通过Spring的依赖注入，因为spring的依赖注入是基于实例的，而静态字段是基于类的
-    // 这里使用一个非静态的setter方法，在这个方法中将bean赋值给静态字段
-    @Autowired
-    public void setScheduleRepositoryImpl(ScheduleRepositoryImpl scheduleRepositoryImpl) {
-        BacklogItemAggregation.scheduleRepositoryImpl = scheduleRepositoryImpl;
-    }
+//    @Autowired
+//    ScheduleRepository scheduleRepository;
 
     // backlogitem 的属性
     private String id;
@@ -52,9 +51,9 @@ public class BacklogItemAggregation {
     // backlogitem_member 联系集当中的属性，在这里体现为一个列表
     private List<String> memberIds;
 
-    private static ScheduleAggregation scheduleAggregation;
+    private ScheduleAggregation scheduleAggregation;
 
-    private static ScheduleRepositoryImpl scheduleRepositoryImpl;
+    //private static ScheduleRepositoryImpl scheduleRepositoryImpl;
 
     public List<String> getMembers() {
         return memberIds;
@@ -99,7 +98,6 @@ public class BacklogItemAggregation {
     public String getScheduleId() {
         return scheduleId;
     }
-
     // 工厂模式
     static public BacklogItemAggregation createBacklogItem(String id, String priority, Date startTime, Date endTime, String source, String type, String description, String projectId, String managerId, String scheduleId, List<String> memberIds){
         BacklogItemAggregation backlogItemAggregation = new BacklogItemAggregation();
@@ -116,8 +114,8 @@ public class BacklogItemAggregation {
         backlogItemAggregation.memberIds = memberIds;
 
         // 这里把scheduleAggregation select出来并且加入到聚合当中
-        // 注意依赖注入的方式
-        scheduleAggregation = scheduleRepositoryImpl.selectById(scheduleId);
+        ScheduleRepository scheduleRepository = new ScheduleRepositoryImpl();
+        backlogItemAggregation.scheduleAggregation = scheduleRepository.selectById(scheduleId);
 
         System.out.println(backlogItemAggregation);
         return backlogItemAggregation;

@@ -6,6 +6,7 @@ import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ScheduleMapper;
 import com.JiCode.ProductDev.domain.model.BacklogItemAggregation;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
 import com.JiCode.ProductDev.domain.model.ScheduleAggregation;
+import com.JiCode.ProductDev.domain.repository.BacklogItemRepository;
 import com.JiCode.ProductDev.domain.repository.Impl.BacklogItemRepositoryImpl;
 import com.JiCode.ProductDev.domain.repository.Impl.ProjectRepositoryImpl;
 import com.JiCode.ProductDev.domain.repository.Impl.ScheduleRepositoryImpl;
@@ -44,13 +45,12 @@ import java.util.Scanner;
 public class BacklogitemTests{
 
     @Autowired
-    BacklogItemRepositoryImpl backlogItemRepositoryImpl;
+    BacklogItemRepository backlogItemRepository;
+
 
     @Test
     public void testSelectPage(){
-
-
-        PageInfo<BacklogItemAggregation> pageInfo = backlogItemRepositoryImpl.getPage(1, 10);
+        PageInfo<BacklogItemAggregation> pageInfo = backlogItemRepository.getPage(1, 10);
 
         System.out.println("Page number: " + pageInfo.getPageNum());
         System.out.println("Page size: " + pageInfo.getPageSize());
@@ -69,7 +69,7 @@ public class BacklogitemTests{
     @Test
     public void testSelectBacklogItemById(){
         String id = "1";
-        System.out.println(backlogItemRepositoryImpl.selectById(id));
+        System.out.println(backlogItemRepository.selectById(id));
     }
 
     @Test
@@ -86,7 +86,7 @@ public class BacklogitemTests{
         String scheduleId = "1";
         List<String> memberIds = Arrays.asList("1", "2", "3");
         BacklogItemAggregation backlogItemAggregation = BacklogItemAggregation.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds);
-        System.out.println(backlogItemRepositoryImpl.insert(backlogItemAggregation));
+        System.out.println(backlogItemRepository.insert(backlogItemAggregation));
     }
 
     @Test
@@ -104,13 +104,13 @@ public class BacklogitemTests{
         // List<String> memberIds = Arrays.asList("4", "5", "6");
         List<String> memberIds = Arrays.asList("1", "2", "3");
         BacklogItemAggregation backlogItemAggregation = BacklogItemAggregation.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds);
-        System.out.println(backlogItemRepositoryImpl.updateById(backlogItemAggregation));
+        System.out.println(backlogItemRepository.updateById(backlogItemAggregation));
     }
 
     @Test
     public void testDeleteBacklogItem(){
         String id = "1";
-        System.out.println(backlogItemRepositoryImpl.deleteById(id));
+        System.out.println(backlogItemRepository.deleteById(id));
     }
 
 

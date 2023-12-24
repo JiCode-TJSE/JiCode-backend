@@ -17,7 +17,7 @@ public class Requirement {
 
     private String value;
 
-    private String projectId;
+    private String productId;
 
     private String supervisorId;
 
@@ -87,12 +87,12 @@ public class Requirement {
         this.value = value == null ? null : value.trim();
     }
 
-    public String getProjectId() {
-        return projectId;
+    public String getProductId() {
+        return productId;
     }
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId == null ? null : projectId.trim();
+    public void setProductId(String productId) {
+        this.productId = productId == null ? null : productId.trim();
     }
 
     public String getSupervisorId() {

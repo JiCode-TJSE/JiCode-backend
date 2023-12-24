@@ -13,9 +13,9 @@ public class Client {
 
     private String supervisorId;
 
-    private String projectId;
-
     private String size;
+
+    private String productId;
 
     public String getId() {
         return id;
@@ -65,19 +65,19 @@ public class Client {
         this.supervisorId = supervisorId == null ? null : supervisorId.trim();
     }
 
-    public String getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(String projectId) {
-        this.projectId = projectId == null ? null : projectId.trim();
-    }
-
     public String getSize() {
         return size;
     }
 
     public void setSize(String size) {
         this.size = size == null ? null : size.trim();
+    }
+
+    public String getProductId() {
+        return productId;
+    }
+
+    public void setProductId(String productId) {
+        this.productId = productId == null ? null : productId.trim();
     }
 }

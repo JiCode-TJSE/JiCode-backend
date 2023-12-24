@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProductMaController {
 
     @Autowired
-    ProductMaApplicationImpl testApplicationImpl;
+    ProductMaApplicationImpl productApplicationImpl;
 
     @GetMapping("/get")
     public ProductSimpleInfoArrDTO getAllProductsByUserID(@RequestHeader("userID") String userID) {
-        return testApplicationImpl.getAllProductsByUserID(userID);
+        return productApplicationImpl.getAllProductsByUserID(userID);
     }
 }

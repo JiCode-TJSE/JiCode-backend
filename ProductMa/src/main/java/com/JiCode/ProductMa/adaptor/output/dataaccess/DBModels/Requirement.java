@@ -21,8 +21,6 @@ public class Requirement {
 
     private String supervisorId;
 
-    private String clientId;
-
     public String getId() {
         return id;
     }
@@ -101,13 +99,5 @@ public class Requirement {
 
     public void setSupervisorId(String supervisorId) {
         this.supervisorId = supervisorId == null ? null : supervisorId.trim();
-    }
-
-    public String getClientId() {
-        return clientId;
-    }
-
-    public void setClientId(String clientId) {
-        this.clientId = clientId == null ? null : clientId.trim();
     }
 }

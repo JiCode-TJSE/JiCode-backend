@@ -114,5 +114,16 @@
                enableDeleteByExample="true"
                enableSelectByExample="true"
                enableUpdateByExample="true"/>
+        <!--   requirement_backlogitem表     -->
+        <table tableName="requirement_backlogitem"
+               domainObjectName="RequirementBacklogitem"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
     </context>
 </generatorConfiguration>

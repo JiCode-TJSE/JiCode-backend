@@ -7,13 +7,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.JiCode.ProductMa.domain.model.RequirementAggregation;
-import com.JiCode.ProductMa.domain.repository.impl.RequirementRepositoryImpl;
+import com.JiCode.ProductMa.domain.repository.RequirementRepository;
 
 @SpringBootTest
 public class RequirementArrTests {
 
     @Autowired
-    private RequirementRepositoryImpl requirementRepository;
+    private RequirementRepository requirementRepository;
 
     @Test
     public void testSelectById() throws Exception {

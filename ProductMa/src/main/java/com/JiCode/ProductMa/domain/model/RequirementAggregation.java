@@ -31,7 +31,7 @@ public class RequirementAggregation {
 
     private String[] backlogItemIDArr;
 
-    private String[] versionIDArr;
+    private VersionAggregation[] versionArr;
 
     // 附件（暂不用）
     private String attachment;
@@ -51,7 +51,7 @@ public class RequirementAggregation {
             String valueType,
             String[] clientIDArr,
             String[] backlogItemIDArr,
-            String[] versionIDArr,
+            VersionAggregation[] versionArr,
             String attachment) {
         RequirementAggregation agg = new RequirementAggregation();
         agg.id = id;
@@ -65,7 +65,7 @@ public class RequirementAggregation {
         agg.valueType = valueType;
         agg.clientIDArr = clientIDArr;
         agg.backlogItemIDArr = backlogItemIDArr;
-        agg.versionIDArr = versionIDArr;
+        agg.versionArr = versionArr;
         agg.attachment = attachment;
         return agg;
     }

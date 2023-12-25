@@ -4,8 +4,8 @@ import com.JiCode.ProductMa.application.ProductMaApplication;
 import com.JiCode.ProductMa.application.dto.ProductSimpleInfoArrDTO;
 import com.JiCode.ProductMa.domain.model.RequirementAggregation;
 import com.JiCode.ProductMa.domain.model.VersionAggregation;
-import com.JiCode.ProductMa.domain.repository.impl.VersionRepositoryimpl;
-import com.JiCode.ProductMa.domain.repository.impl.RequirementRepositoryImpl;
+import com.JiCode.ProductMa.domain.repository.VersionRepository;
+import com.JiCode.ProductMa.domain.repository.RequirementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,16 +15,10 @@ public class ProductMaApplicationImpl
         implements ProductMaApplication {
 
     @Autowired
-    VersionAggregation versionAggregation;
+    VersionRepository versionRepository;
 
     @Autowired
-    RequirementAggregation requirementAggregation;
-
-    @Autowired
-    VersionRepositoryimpl versionRepositoryimpl;
-
-    @Autowired
-    RequirementRepositoryImpl requirementRepositoryImpl;
+    RequirementRepository requirementRepository;
 
     @Transactional(readOnly = true)
     public ProductSimpleInfoArrDTO getAllProductsByUserID(String userID) {

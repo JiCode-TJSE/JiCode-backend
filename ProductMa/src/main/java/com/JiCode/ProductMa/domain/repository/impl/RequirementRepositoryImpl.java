@@ -178,10 +178,20 @@ public class RequirementRepositoryImpl implements RequirementRepository {
 
     public void update(RequirementAggregation requirementAggregation)
             throws UpdateRequirementFailedException, InsertClientFailedException, InsertBacklogItemFailedException {
-        updateRequirement(requirementAggregation);
-        updateClients(requirementAggregation);
-        updateBacklogItems(requirementAggregation);
-        updateVersions(requirementAggregation);
+        // 对脏标记进行处理，优化 update 语句
+        if (requirementAggregation.isRequirementDirty()) {
+            updateRequirement(requirementAggregation);
+        }
+        if (requirementAggregation.isClientDirty()) {
+            updateClients(requirementAggregation);
+        }
+        if (requirementAggregation.isBacklogItemDirty()) {
+            updateBacklogItems(requirementAggregation);
+        }
+        if (requirementAggregation.isVersionDirty()) {
+            updateVersions(requirementAggregation);
+        }
+        requirementAggregation.cleanDirty();
     }
 
     private void updateRequirement(RequirementAggregation requirementAggregation)

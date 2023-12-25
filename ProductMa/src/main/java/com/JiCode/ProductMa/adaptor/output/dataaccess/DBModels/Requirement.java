@@ -5,6 +5,8 @@ public class Requirement {
 
     private String belongProductId;
 
+    private String inVersion;
+
     public String getId() {
         return id;
     }
@@ -19,5 +21,13 @@ public class Requirement {
 
     public void setBelongProductId(String belongProductId) {
         this.belongProductId = belongProductId == null ? null : belongProductId.trim();
+    }
+
+    public String getInVersion() {
+        return inVersion;
+    }
+
+    public void setInVersion(String inVersion) {
+        this.inVersion = inVersion == null ? null : inVersion.trim();
     }
 }

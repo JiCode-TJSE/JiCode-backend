@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement">
     <id column="id" jdbcType="VARCHAR" property="id" />
     <result column="belong_product_id" jdbcType="VARCHAR" property="belongProductId" />
+    <result column="in_version" jdbcType="VARCHAR" property="inVersion" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, belong_product_id
+    id, belong_product_id, in_version
   </sql>
   <select id="selectByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementExample" resultMap="BaseResultMap">
     select
@@ -97,8 +98,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement">
-    insert into requirement (id, belong_product_id)
-    values (#{id,jdbcType=VARCHAR}, #{belongProductId,jdbcType=VARCHAR})
+    insert into requirement (id, belong_product_id, in_version
+      )
+    values (#{id,jdbcType=VARCHAR}, #{belongProductId,jdbcType=VARCHAR}, #{inVersion,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement">
     insert into requirement
@@ -109,6 +112,9 @@
       <if test="belongProductId != null">
         belong_product_id,
       </if>
+      <if test="inVersion != null">
+        in_version,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -116,6 +122,9 @@
       </if>
       <if test="belongProductId != null">
         #{belongProductId,jdbcType=VARCHAR},
+      </if>
+      <if test="inVersion != null">
+        #{inVersion,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -134,6 +143,9 @@
       <if test="record.belongProductId != null">
         belong_product_id = #{record.belongProductId,jdbcType=VARCHAR},
       </if>
+      <if test="record.inVersion != null">
+        in_version = #{record.inVersion,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -142,7 +154,8 @@
   <update id="updateByExample" parameterType="map">
     update requirement
     set id = #{record.id,jdbcType=VARCHAR},
-      belong_product_id = #{record.belongProductId,jdbcType=VARCHAR}
+      belong_product_id = #{record.belongProductId,jdbcType=VARCHAR},
+      in_version = #{record.inVersion,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -153,12 +166,16 @@
       <if test="belongProductId != null">
         belong_product_id = #{belongProductId,jdbcType=VARCHAR},
       </if>
+      <if test="inVersion != null">
+        in_version = #{inVersion,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement">
     update requirement
-    set belong_product_id = #{belongProductId,jdbcType=VARCHAR}
+    set belong_product_id = #{belongProductId,jdbcType=VARCHAR},
+      in_version = #{inVersion,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

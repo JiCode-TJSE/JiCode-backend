@@ -243,6 +243,76 @@ public class RequirementExample {
             addCriterion("belong_product_id not between", value1, value2, "belongProductId");
             return (Criteria) this;
         }
+
+        public Criteria andInVersionIsNull() {
+            addCriterion("in_version is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInVersionIsNotNull() {
+            addCriterion("in_version is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInVersionEqualTo(String value) {
+            addCriterion("in_version =", value, "inVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andInVersionNotEqualTo(String value) {
+            addCriterion("in_version <>", value, "inVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andInVersionGreaterThan(String value) {
+            addCriterion("in_version >", value, "inVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andInVersionGreaterThanOrEqualTo(String value) {
+            addCriterion("in_version >=", value, "inVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andInVersionLessThan(String value) {
+            addCriterion("in_version <", value, "inVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andInVersionLessThanOrEqualTo(String value) {
+            addCriterion("in_version <=", value, "inVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andInVersionLike(String value) {
+            addCriterion("in_version like", value, "inVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andInVersionNotLike(String value) {
+            addCriterion("in_version not like", value, "inVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andInVersionIn(List<String> values) {
+            addCriterion("in_version in", values, "inVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andInVersionNotIn(List<String> values) {
+            addCriterion("in_version not in", values, "inVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andInVersionBetween(String value1, String value2) {
+            addCriterion("in_version between", value1, value2, "inVersion");
+            return (Criteria) this;
+        }
+
+        public Criteria andInVersionNotBetween(String value1, String value2) {
+            addCriterion("in_version not between", value1, value2, "inVersion");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

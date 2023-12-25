@@ -24,7 +24,7 @@ public class RequirementAggregation {
     // 类型
     private String typeType;
 
-    // 价值
+    // 价值（弃用）
     private String valueType;
 
     private String[] clientIDArr;
@@ -35,6 +35,40 @@ public class RequirementAggregation {
 
     // 附件（暂不用）
     private String attachment;
+
+    /**
+     * 脏标记
+     */
+    private boolean RequirementDirty;
+    private boolean ClientDirty;
+    private boolean BacklogItemDirty;
+    private boolean VersionDirty;
+
+    /**
+     * @Description 清除所有脏标记
+     */
+    public void cleanDirty() {
+        this.RequirementDirty = false;
+        this.ClientDirty = false;
+        this.BacklogItemDirty = false;
+        this.VersionDirty = false;
+    }
+
+    public boolean isRequirementDirty() {
+        return RequirementDirty;
+    }
+
+    public boolean isClientDirty() {
+        return ClientDirty;
+    }
+
+    public boolean isBacklogItemDirty() {
+        return BacklogItemDirty;
+    }
+
+    public boolean isVersionDirty() {
+        return VersionDirty;
+    }
 
     private RequirementAggregation() {
     }

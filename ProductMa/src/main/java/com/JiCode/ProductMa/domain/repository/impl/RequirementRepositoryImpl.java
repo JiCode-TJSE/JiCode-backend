@@ -13,6 +13,7 @@ import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementMapper;
 import com.JiCode.ProductMa.domain.model.RequirementAggregation;
 import com.JiCode.ProductMa.domain.model.VersionAggregation;
 import com.JiCode.ProductMa.domain.repository.RequirementRepository;
+import com.JiCode.ProductMa.exception.requirement.repository.*;
 
 import java.util.List;
 
@@ -30,7 +31,9 @@ public class RequirementRepositoryImpl implements RequirementRepository {
     @Autowired
     com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementVersionMapper requirementVersionMapper;
 
-    public RequirementAggregation selectById(String id) throws Exception {
+    public RequirementAggregation selectById(String id)
+            throws RequirementNotFoundException, ClientNotFoundException, BacklogItemNotFoundException,
+            VersionNotFoundException {
         Requirement requirement = selectRequirement(id);
         String[] clientIdArr = selectClientIds(requirement);
         String[] backlogItemIdArr = selectBacklogItemIds(requirement);
@@ -52,43 +55,43 @@ public class RequirementRepositoryImpl implements RequirementRepository {
                 "");
     }
 
-    private Requirement selectRequirement(String id) throws Exception {
+    private Requirement selectRequirement(String id) throws RequirementNotFoundException {
         Requirement requirement = this.requirementMapper.selectByPrimaryKey(id);
         if (requirement == null) {
-            throw new Exception("Requirement not found.");
+            throw new RequirementNotFoundException("Requirement not found.");
         }
         return requirement;
     }
 
-    private String[] selectClientIds(Requirement requirement) throws Exception {
+    private String[] selectClientIds(Requirement requirement) throws ClientNotFoundException {
         RequirementClientExample example = new RequirementClientExample();
         RequirementClientExample.Criteria criteria = example.createCriteria();
         criteria.andRequirementIdEqualTo(requirement.getId());
         List<RequirementClientKey> keys = this.requirementClientMapper.selectByExample(example);
         if (keys == null || keys.isEmpty()) {
-            throw new Exception("Client not found.");
+            throw new ClientNotFoundException("Client not found.");
         }
         return keys.stream().map(RequirementClientKey::getClientId).toArray(String[]::new);
     }
 
-    private String[] selectBacklogItemIds(Requirement requirement) throws Exception {
+    private String[] selectBacklogItemIds(Requirement requirement) throws BacklogItemNotFoundException {
         RequirementBacklogitemExample example = new RequirementBacklogitemExample();
         RequirementBacklogitemExample.Criteria criteria = example.createCriteria();
         criteria.andRequirementIdEqualTo(requirement.getId());
         List<RequirementBacklogitemKey> keys = this.requirementBacklogitemMapper.selectByExample(example);
         if (keys == null || keys.isEmpty()) {
-            throw new Exception("Backlogitem not found.");
+            throw new BacklogItemNotFoundException("Backlogitem not found.");
         }
         return keys.stream().map(RequirementBacklogitemKey::getBacklogitemId).toArray(String[]::new);
     }
 
-    private VersionAggregation[] selectVersions(Requirement requirement) throws Exception {
+    private VersionAggregation[] selectVersions(Requirement requirement) throws VersionNotFoundException {
         RequirementVersionExample example = new RequirementVersionExample();
         RequirementVersionExample.Criteria criteria = example.createCriteria();
         criteria.andRequirementIdEqualTo(requirement.getId());
         List<RequirementVersion> versions = this.requirementVersionMapper.selectByExample(example);
         if (versions == null || versions.isEmpty()) {
-            throw new Exception("Version not found.");
+            throw new VersionNotFoundException("Version not found.");
         }
         return versions.stream().map(version -> VersionAggregation.createVersionByAll(
                 version.getId(),
@@ -97,14 +100,17 @@ public class RequirementRepositoryImpl implements RequirementRepository {
                 version.getCreateTime())).toArray(VersionAggregation[]::new);
     }
 
-    public void insert(RequirementAggregation requirementAggregation) throws Exception {
+    public void insert(RequirementAggregation requirementAggregation)
+            throws InsertRequirementFailedException, InsertClientFailedException, InsertBacklogItemFailedException,
+            InsertVersionFailedException {
         Requirement requirement = insertRequirement(requirementAggregation);
         insertClients(requirementAggregation, requirement);
         insertBacklogItems(requirementAggregation, requirement);
         insertVersions(requirementAggregation, requirement);
     }
 
-    private Requirement insertRequirement(RequirementAggregation requirementAggregation) throws Exception {
+    private Requirement insertRequirement(RequirementAggregation requirementAggregation)
+            throws InsertRequirementFailedException {
         Requirement requirement = new Requirement();
         requirement.setId(requirementAggregation.getId());
         requirement.setTitle(requirementAggregation.getTitle());
@@ -117,39 +123,39 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         requirement.setValue(requirementAggregation.getValueType());
         int requirementResult = this.requirementMapper.insert(requirement);
         if (requirementResult <= 0) {
-            throw new Exception("Insert requirement failed.");
+            throw new InsertRequirementFailedException("Insert requirement failed.");
         }
         return requirement;
     }
 
     private void insertClients(RequirementAggregation requirementAggregation, Requirement requirement)
-            throws Exception {
+            throws InsertClientFailedException {
         for (String clientId : requirementAggregation.getClientIDArr()) {
             RequirementClientKey requirementClientKey = new RequirementClientKey();
             requirementClientKey.setRequirementId(requirement.getId());
             requirementClientKey.setClientId(clientId);
             int clientResult = this.requirementClientMapper.insert(requirementClientKey);
             if (clientResult <= 0) {
-                throw new Exception("Insert client failed.");
+                throw new InsertClientFailedException("Insert client failed.");
             }
         }
     }
 
     private void insertBacklogItems(RequirementAggregation requirementAggregation, Requirement requirement)
-            throws Exception {
+            throws InsertBacklogItemFailedException {
         for (String backlogItemId : requirementAggregation.getBacklogItemIDArr()) {
             RequirementBacklogitemKey requirementBacklogitemKey = new RequirementBacklogitemKey();
             requirementBacklogitemKey.setRequirementId(requirement.getId());
             requirementBacklogitemKey.setBacklogitemId(backlogItemId);
             int backlogItemResult = this.requirementBacklogitemMapper.insert(requirementBacklogitemKey);
             if (backlogItemResult <= 0) {
-                throw new Exception("Insert backlogitem failed.");
+                throw new InsertBacklogItemFailedException("Insert backlogitem failed.");
             }
         }
     }
 
     private void insertVersions(RequirementAggregation requirementAggregation, Requirement requirement)
-            throws Exception {
+            throws InsertVersionFailedException {
         for (VersionAggregation version : requirementAggregation.getVersionArr()) {
             RequirementVersion requirementVersion = new RequirementVersion();
             String versionId = version.getId();
@@ -157,27 +163,29 @@ public class RequirementRepositoryImpl implements RequirementRepository {
             requirementVersion.setRequirementId(requirement.getId());
             int versionResult = this.requirementVersionMapper.insert(requirementVersion);
             if (versionResult <= 0) {
-                throw new Exception("Insert version failed.");
+                throw new InsertVersionFailedException("Insert version failed.");
             }
         }
     }
 
-    public void delete(String requirementID) throws Exception {
+    public void delete(String requirementID) throws DeleteRequirementFailedException {
         // 因为数据库里设置了级联删除，所以这里的实现比较容易
         int result = requirementMapper.deleteByPrimaryKey(requirementID);
         if (result <= 0) {
-            throw new Exception("Delete requirement failed.");
+            throw new DeleteRequirementFailedException("Delete requirement failed.");
         }
     }
 
-    public void update(RequirementAggregation requirementAggregation) throws Exception {
+    public void update(RequirementAggregation requirementAggregation)
+            throws UpdateRequirementFailedException, InsertClientFailedException, InsertBacklogItemFailedException {
         updateRequirement(requirementAggregation);
         updateClients(requirementAggregation);
         updateBacklogItems(requirementAggregation);
         updateVersions(requirementAggregation);
     }
 
-    private void updateRequirement(RequirementAggregation requirementAggregation) throws Exception {
+    private void updateRequirement(RequirementAggregation requirementAggregation)
+            throws UpdateRequirementFailedException {
         Requirement requirement = new Requirement();
         requirement.setId(requirementAggregation.getId());
         requirement.setTitle(requirementAggregation.getTitle());
@@ -190,11 +198,11 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         requirement.setValue(requirementAggregation.getValueType());
         int requirementResult = this.requirementMapper.updateByPrimaryKey(requirement);
         if (requirementResult <= 0) {
-            throw new Exception("Update requirement failed.");
+            throw new UpdateRequirementFailedException("Update requirement failed.");
         }
     }
 
-    private void updateClients(RequirementAggregation requirementAggregation) throws Exception {
+    private void updateClients(RequirementAggregation requirementAggregation) throws InsertClientFailedException {
         RequirementClientExample example = new RequirementClientExample();
         RequirementClientExample.Criteria criteria = example.createCriteria();
         criteria.andRequirementIdEqualTo(requirementAggregation.getId());
@@ -206,12 +214,13 @@ public class RequirementRepositoryImpl implements RequirementRepository {
             key.setClientId(clientId);
             int clientResult = this.requirementClientMapper.insert(key);
             if (clientResult <= 0) {
-                throw new Exception("Insert client failed.");
+                throw new InsertClientFailedException("Insert client failed.");
             }
         }
     }
 
-    private void updateBacklogItems(RequirementAggregation requirementAggregation) throws Exception {
+    private void updateBacklogItems(RequirementAggregation requirementAggregation)
+            throws InsertBacklogItemFailedException {
         RequirementBacklogitemExample example = new RequirementBacklogitemExample();
         RequirementBacklogitemExample.Criteria criteria = example.createCriteria();
         criteria.andRequirementIdEqualTo(requirementAggregation.getId());
@@ -223,19 +232,19 @@ public class RequirementRepositoryImpl implements RequirementRepository {
             key.setBacklogitemId(backlogItemId);
             int backlogItemResult = this.requirementBacklogitemMapper.insert(key);
             if (backlogItemResult <= 0) {
-                throw new Exception("Insert backlogitem failed.");
+                throw new InsertBacklogItemFailedException("Insert backlogitem failed.");
             }
         }
     }
 
-    private void updateVersions(RequirementAggregation requirementAggregation) throws Exception {
+    private void updateVersions(RequirementAggregation requirementAggregation) throws UpdateRequirementFailedException {
         for (VersionAggregation version : requirementAggregation.getVersionArr()) {
             RequirementVersion requirementVersion = new RequirementVersion();
             requirementVersion.setId(version.getId());
             requirementVersion.setRequirementId(requirementAggregation.getId());
             int versionResult = this.requirementVersionMapper.updateByPrimaryKey(requirementVersion);
             if (versionResult <= 0) {
-                throw new Exception("Update version failed.");
+                throw new UpdateRequirementFailedException("Update requirement failed.");
             }
         }
     }

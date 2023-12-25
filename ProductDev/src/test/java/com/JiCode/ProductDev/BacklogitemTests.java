@@ -3,6 +3,7 @@ package com.JiCode.ProductDev;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Schedule;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ScheduleMapper;
+import com.JiCode.ProductDev.application.ScheduleApplication;
 import com.JiCode.ProductDev.domain.model.BacklogItemAggregation;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
 import com.JiCode.ProductDev.domain.model.ScheduleAggregation;
@@ -22,6 +23,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -38,7 +40,7 @@ import java.util.Scanner;
  * @author Laurent Wu
  * @date 2023/12/24
  */
-@Service
+//@Service
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ProductDevApplication.class)
 @WebAppConfiguration
@@ -47,6 +49,11 @@ public class BacklogitemTests{
     @Autowired
     BacklogItemRepository backlogItemRepository;
 
+    @Test
+    public void test(){
+        BacklogItemAggregation backlogItemAggregation = backlogItemRepository.selectById("1");
+        System.out.println(backlogItemAggregation);
+    }
 
     @Test
     public void testSelectPage(){
@@ -74,7 +81,7 @@ public class BacklogitemTests{
 
     @Test
     public void testInsertBacklogItem(){
-        String id = "5";
+        String id = "";
         String priority = "highest";
         Date startTime = new Date(2023, 12, 23);
         Date endTime = new Date(2023, 12, 23);

@@ -9,6 +9,9 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
@@ -20,12 +23,12 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
-@Service
+@Component
 public class BacklogItemAggregation {
     @Autowired
     BacklogItemRepository backlogItemRepository;
-//    @Autowired
-//    ScheduleRepository scheduleRepository;
+    @Autowired
+    ScheduleRepository scheduleRepository;
 
     // backlogitem 的属性
     private String id;
@@ -53,7 +56,6 @@ public class BacklogItemAggregation {
 
     private ScheduleAggregation scheduleAggregation;
 
-    //private static ScheduleRepositoryImpl scheduleRepositoryImpl;
 
     public List<String> getMembers() {
         return memberIds;
@@ -99,6 +101,7 @@ public class BacklogItemAggregation {
         return scheduleId;
     }
     // 工厂模式
+
     static public BacklogItemAggregation createBacklogItem(String id, String priority, Date startTime, Date endTime, String source, String type, String description, String projectId, String managerId, String scheduleId, List<String> memberIds){
         BacklogItemAggregation backlogItemAggregation = new BacklogItemAggregation();
         backlogItemAggregation.id = id;
@@ -114,10 +117,14 @@ public class BacklogItemAggregation {
         backlogItemAggregation.memberIds = memberIds;
 
         // 这里把scheduleAggregation select出来并且加入到聚合当中
-        ScheduleRepository scheduleRepository = new ScheduleRepositoryImpl();
-        backlogItemAggregation.scheduleAggregation = scheduleRepository.selectById(scheduleId);
-
-        System.out.println(backlogItemAggregation);
+        System.out.println("scheduleRepository: " + backlogItemAggregation.scheduleRepository);
+        if(backlogItemAggregation.scheduleRepository == null){
+            backlogItemAggregation.scheduleAggregation = null;
+        }
+        else{
+            backlogItemAggregation.scheduleAggregation = backlogItemAggregation.scheduleRepository.selectById(scheduleId);
+        }
+        backlogItemAggregation.scheduleAggregation = backlogItemAggregation.scheduleRepository.selectById(scheduleId);
         return backlogItemAggregation;
     }
 

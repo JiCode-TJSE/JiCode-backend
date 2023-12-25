@@ -47,24 +47,11 @@ public class ProjectTests {
 
     @Autowired
     ProjectRepository projectRepository;
-    //这些都是对的是吧
-    //确实
-    //你这个依赖注入
-    //注入的不是repository啊，应该注入不带impl的
-    //之前wjy跟我说直接impl来着，我试下
-    // 可以的
-    // 那repository接口实现的没问题，看下注入成不成功
-    // 这个依赖注入都有点问题，不是static的问题
-    // 11
-    // 行吧我再看看
-    // 那个static按我写的那样就可以了，这个依赖注入改一下就好了
 
     @Test
     public void testSelectById(){
         ProjectAggregation projectAggregation = projectRepository.selectById("6");
-        Project project = new Project();
-        BeanUtils.copyProperties(projectAggregation, project);
-        System.out.println(project);
+        System.out.println(projectAggregation);
     }
 
     @Test

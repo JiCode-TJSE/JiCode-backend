@@ -20,12 +20,12 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Repository
+@Service("BacklogItemRepository")
 public class BacklogItemRepositoryImpl implements BacklogItemRepository {
     @Autowired
     BacklogitemMapper backlogitemMapper;
     @Autowired
-    BacklogitemMemberMapper backlogitemMemberMapper;;
+    BacklogitemMemberMapper backlogitemMemberMapper;
 
     /**
      * 将实体类及其他信息转换成聚合返回给上层，用于查

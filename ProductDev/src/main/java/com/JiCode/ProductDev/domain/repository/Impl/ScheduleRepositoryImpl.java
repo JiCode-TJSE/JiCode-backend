@@ -6,8 +6,9 @@ import com.JiCode.ProductDev.domain.model.ScheduleAggregation;
 import com.JiCode.ProductDev.domain.repository.ScheduleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
-@Repository
+@Service("ScheduleRepository")
 public class ScheduleRepositoryImpl implements ScheduleRepository {
     @Autowired
     ScheduleMapper scheduleMapper;

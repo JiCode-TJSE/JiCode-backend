@@ -71,9 +71,6 @@
   <sql id="Base_Column_List">
     id, rank, name, type, detail, size, product_id
   </sql>
-  <select id="selectByPaging" resultType="com.JiCode.ProductMA.adaptor.output.dataaccess.DBModels.Client">
-          select * from client
-  </select>
   <select id="selectByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.ClientExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
@@ -243,4 +240,8 @@
       product_id = #{productId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
+<!--  分页查询   -->
+  <select id="selectByPaging" resultType="com.JiCode.ProductMA.adaptor.output.dataaccess.DBModels.Client">
+    select * from client
+  </select>
 </mapper>

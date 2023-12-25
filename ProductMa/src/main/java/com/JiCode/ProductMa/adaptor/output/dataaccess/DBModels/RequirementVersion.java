@@ -11,7 +11,7 @@ public class RequirementVersion {
 
     private String detail;
 
-    private String requirementId;
+    private String belongRequirementId;
 
     public String getId() {
         return id;
@@ -45,11 +45,11 @@ public class RequirementVersion {
         this.detail = detail == null ? null : detail.trim();
     }
 
-    public String getRequirementId() {
-        return requirementId;
+    public String getBelongRequirementId() {
+        return belongRequirementId;
     }
 
-    public void setRequirementId(String requirementId) {
-        this.requirementId = requirementId == null ? null : requirementId.trim();
+    public void setBelongRequirementId(String belongRequirementId) {
+        this.belongRequirementId = belongRequirementId == null ? null : belongRequirementId.trim();
     }
 }

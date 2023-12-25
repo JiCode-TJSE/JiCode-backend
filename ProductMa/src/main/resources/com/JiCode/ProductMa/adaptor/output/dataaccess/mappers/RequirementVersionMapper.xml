@@ -6,7 +6,7 @@
     <result column="name" jdbcType="VARCHAR" property="name" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="detail" jdbcType="VARCHAR" property="detail" />
-    <result column="requirement_id" jdbcType="VARCHAR" property="requirementId" />
+    <result column="belong_requirement_id" jdbcType="VARCHAR" property="belongRequirementId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -67,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, create_time, detail, requirement_id
+    id, name, create_time, detail, belong_requirement_id
   </sql>
   <select id="selectByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementVersionExample" resultMap="BaseResultMap">
     select
@@ -101,9 +101,9 @@
   </delete>
   <insert id="insert" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementVersion">
     insert into requirement_version (id, name, create_time, 
-      detail, requirement_id)
+      detail, belong_requirement_id)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{detail,jdbcType=VARCHAR}, #{requirementId,jdbcType=VARCHAR})
+      #{detail,jdbcType=VARCHAR}, #{belongRequirementId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementVersion">
     insert into requirement_version
@@ -120,8 +120,8 @@
       <if test="detail != null">
         detail,
       </if>
-      <if test="requirementId != null">
-        requirement_id,
+      <if test="belongRequirementId != null">
+        belong_requirement_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -137,8 +137,8 @@
       <if test="detail != null">
         #{detail,jdbcType=VARCHAR},
       </if>
-      <if test="requirementId != null">
-        #{requirementId,jdbcType=VARCHAR},
+      <if test="belongRequirementId != null">
+        #{belongRequirementId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -163,8 +163,8 @@
       <if test="record.detail != null">
         detail = #{record.detail,jdbcType=VARCHAR},
       </if>
-      <if test="record.requirementId != null">
-        requirement_id = #{record.requirementId,jdbcType=VARCHAR},
+      <if test="record.belongRequirementId != null">
+        belong_requirement_id = #{record.belongRequirementId,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -177,7 +177,7 @@
       name = #{record.name,jdbcType=VARCHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       detail = #{record.detail,jdbcType=VARCHAR},
-      requirement_id = #{record.requirementId,jdbcType=VARCHAR}
+      belong_requirement_id = #{record.belongRequirementId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -194,8 +194,8 @@
       <if test="detail != null">
         detail = #{detail,jdbcType=VARCHAR},
       </if>
-      <if test="requirementId != null">
-        requirement_id = #{requirementId,jdbcType=VARCHAR},
+      <if test="belongRequirementId != null">
+        belong_requirement_id = #{belongRequirementId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
@@ -205,7 +205,7 @@
     set name = #{name,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       detail = #{detail,jdbcType=VARCHAR},
-      requirement_id = #{requirementId,jdbcType=VARCHAR}
+      belong_requirement_id = #{belongRequirementId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

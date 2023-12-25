@@ -3,23 +3,23 @@ package com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels;
 public class Requirement {
     private String id;
 
-    private String title;
+    private String name;
 
     private String detail;
 
     private String attachment;
 
-    private String module;
+    private String moduleEnum;
 
-    private String source;
+    private String sourceEnum;
 
-    private String type;
+    private String typeEnum;
 
-    private String value;
-
-    private String productId;
+    private String belongProductId;
 
     private String supervisorId;
+
+    private String inVersionId;
 
     public String getId() {
         return id;
@@ -29,12 +29,12 @@ public class Requirement {
         this.id = id == null ? null : id.trim();
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return name;
     }
 
-    public void setTitle(String title) {
-        this.title = title == null ? null : title.trim();
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
     }
 
     public String getDetail() {
@@ -53,44 +53,36 @@ public class Requirement {
         this.attachment = attachment == null ? null : attachment.trim();
     }
 
-    public String getModule() {
-        return module;
+    public String getModuleEnum() {
+        return moduleEnum;
     }
 
-    public void setModule(String module) {
-        this.module = module == null ? null : module.trim();
+    public void setModuleEnum(String moduleEnum) {
+        this.moduleEnum = moduleEnum == null ? null : moduleEnum.trim();
     }
 
-    public String getSource() {
-        return source;
+    public String getSourceEnum() {
+        return sourceEnum;
     }
 
-    public void setSource(String source) {
-        this.source = source == null ? null : source.trim();
+    public void setSourceEnum(String sourceEnum) {
+        this.sourceEnum = sourceEnum == null ? null : sourceEnum.trim();
     }
 
-    public String getType() {
-        return type;
+    public String getTypeEnum() {
+        return typeEnum;
     }
 
-    public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+    public void setTypeEnum(String typeEnum) {
+        this.typeEnum = typeEnum == null ? null : typeEnum.trim();
     }
 
-    public String getValue() {
-        return value;
+    public String getBelongProductId() {
+        return belongProductId;
     }
 
-    public void setValue(String value) {
-        this.value = value == null ? null : value.trim();
-    }
-
-    public String getProductId() {
-        return productId;
-    }
-
-    public void setProductId(String productId) {
-        this.productId = productId == null ? null : productId.trim();
+    public void setBelongProductId(String belongProductId) {
+        this.belongProductId = belongProductId == null ? null : belongProductId.trim();
     }
 
     public String getSupervisorId() {
@@ -99,5 +91,13 @@ public class Requirement {
 
     public void setSupervisorId(String supervisorId) {
         this.supervisorId = supervisorId == null ? null : supervisorId.trim();
+    }
+
+    public String getInVersionId() {
+        return inVersionId;
+    }
+
+    public void setInVersionId(String inVersionId) {
+        this.inVersionId = inVersionId == null ? null : inVersionId.trim();
     }
 }

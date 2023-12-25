@@ -30,7 +30,5 @@ public interface ClientMapper {
 
     int updateByPrimaryKey(Client record);
 
-    //分页查询
     Page<Client> selectByPaging(ClientExample example);
-
 }

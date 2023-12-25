@@ -1,16 +1,16 @@
 package com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels;
 
 public class RequirementBacklogitemKey {
-    private String requirementId;
+    private String requirementContentId;
 
     private String backlogitemId;
 
-    public String getRequirementId() {
-        return requirementId;
+    public String getRequirementContentId() {
+        return requirementContentId;
     }
 
-    public void setRequirementId(String requirementId) {
-        this.requirementId = requirementId == null ? null : requirementId.trim();
+    public void setRequirementContentId(String requirementContentId) {
+        this.requirementContentId = requirementContentId == null ? null : requirementContentId.trim();
     }
 
     public String getBacklogitemId() {

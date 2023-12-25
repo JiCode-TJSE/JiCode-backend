@@ -3,15 +3,7 @@
 <mapper namespace="com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementMapper">
   <resultMap id="BaseResultMap" type="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement">
     <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="name" jdbcType="VARCHAR" property="name" />
-    <result column="detail" jdbcType="VARCHAR" property="detail" />
-    <result column="attachment" jdbcType="VARCHAR" property="attachment" />
-    <result column="module_enum" jdbcType="VARCHAR" property="moduleEnum" />
-    <result column="source_enum" jdbcType="VARCHAR" property="sourceEnum" />
-    <result column="type_enum" jdbcType="VARCHAR" property="typeEnum" />
     <result column="belong_product_id" jdbcType="VARCHAR" property="belongProductId" />
-    <result column="supervisor_id" jdbcType="VARCHAR" property="supervisorId" />
-    <result column="in_version_id" jdbcType="VARCHAR" property="inVersionId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -72,8 +64,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, name, detail, attachment, module_enum, source_enum, type_enum, belong_product_id, 
-    supervisor_id, in_version_id
+    id, belong_product_id
   </sql>
   <select id="selectByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementExample" resultMap="BaseResultMap">
     select
@@ -106,14 +97,8 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement">
-    insert into requirement (id, name, detail, 
-      attachment, module_enum, source_enum, 
-      type_enum, belong_product_id, supervisor_id, 
-      in_version_id)
-    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, 
-      #{attachment,jdbcType=VARCHAR}, #{moduleEnum,jdbcType=VARCHAR}, #{sourceEnum,jdbcType=VARCHAR}, 
-      #{typeEnum,jdbcType=VARCHAR}, #{belongProductId,jdbcType=VARCHAR}, #{supervisorId,jdbcType=VARCHAR}, 
-      #{inVersionId,jdbcType=VARCHAR})
+    insert into requirement (id, belong_product_id)
+    values (#{id,jdbcType=VARCHAR}, #{belongProductId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement">
     insert into requirement
@@ -121,64 +106,16 @@
       <if test="id != null">
         id,
       </if>
-      <if test="name != null">
-        name,
-      </if>
-      <if test="detail != null">
-        detail,
-      </if>
-      <if test="attachment != null">
-        attachment,
-      </if>
-      <if test="moduleEnum != null">
-        module_enum,
-      </if>
-      <if test="sourceEnum != null">
-        source_enum,
-      </if>
-      <if test="typeEnum != null">
-        type_enum,
-      </if>
       <if test="belongProductId != null">
         belong_product_id,
-      </if>
-      <if test="supervisorId != null">
-        supervisor_id,
-      </if>
-      <if test="inVersionId != null">
-        in_version_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="name != null">
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="detail != null">
-        #{detail,jdbcType=VARCHAR},
-      </if>
-      <if test="attachment != null">
-        #{attachment,jdbcType=VARCHAR},
-      </if>
-      <if test="moduleEnum != null">
-        #{moduleEnum,jdbcType=VARCHAR},
-      </if>
-      <if test="sourceEnum != null">
-        #{sourceEnum,jdbcType=VARCHAR},
-      </if>
-      <if test="typeEnum != null">
-        #{typeEnum,jdbcType=VARCHAR},
-      </if>
       <if test="belongProductId != null">
         #{belongProductId,jdbcType=VARCHAR},
-      </if>
-      <if test="supervisorId != null">
-        #{supervisorId,jdbcType=VARCHAR},
-      </if>
-      <if test="inVersionId != null">
-        #{inVersionId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -194,32 +131,8 @@
       <if test="record.id != null">
         id = #{record.id,jdbcType=VARCHAR},
       </if>
-      <if test="record.name != null">
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.detail != null">
-        detail = #{record.detail,jdbcType=VARCHAR},
-      </if>
-      <if test="record.attachment != null">
-        attachment = #{record.attachment,jdbcType=VARCHAR},
-      </if>
-      <if test="record.moduleEnum != null">
-        module_enum = #{record.moduleEnum,jdbcType=VARCHAR},
-      </if>
-      <if test="record.sourceEnum != null">
-        source_enum = #{record.sourceEnum,jdbcType=VARCHAR},
-      </if>
-      <if test="record.typeEnum != null">
-        type_enum = #{record.typeEnum,jdbcType=VARCHAR},
-      </if>
       <if test="record.belongProductId != null">
         belong_product_id = #{record.belongProductId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.supervisorId != null">
-        supervisor_id = #{record.supervisorId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.inVersionId != null">
-        in_version_id = #{record.inVersionId,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -229,15 +142,7 @@
   <update id="updateByExample" parameterType="map">
     update requirement
     set id = #{record.id,jdbcType=VARCHAR},
-      name = #{record.name,jdbcType=VARCHAR},
-      detail = #{record.detail,jdbcType=VARCHAR},
-      attachment = #{record.attachment,jdbcType=VARCHAR},
-      module_enum = #{record.moduleEnum,jdbcType=VARCHAR},
-      source_enum = #{record.sourceEnum,jdbcType=VARCHAR},
-      type_enum = #{record.typeEnum,jdbcType=VARCHAR},
-      belong_product_id = #{record.belongProductId,jdbcType=VARCHAR},
-      supervisor_id = #{record.supervisorId,jdbcType=VARCHAR},
-      in_version_id = #{record.inVersionId,jdbcType=VARCHAR}
+      belong_product_id = #{record.belongProductId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -245,47 +150,15 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement">
     update requirement
     <set>
-      <if test="name != null">
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="detail != null">
-        detail = #{detail,jdbcType=VARCHAR},
-      </if>
-      <if test="attachment != null">
-        attachment = #{attachment,jdbcType=VARCHAR},
-      </if>
-      <if test="moduleEnum != null">
-        module_enum = #{moduleEnum,jdbcType=VARCHAR},
-      </if>
-      <if test="sourceEnum != null">
-        source_enum = #{sourceEnum,jdbcType=VARCHAR},
-      </if>
-      <if test="typeEnum != null">
-        type_enum = #{typeEnum,jdbcType=VARCHAR},
-      </if>
       <if test="belongProductId != null">
         belong_product_id = #{belongProductId,jdbcType=VARCHAR},
-      </if>
-      <if test="supervisorId != null">
-        supervisor_id = #{supervisorId,jdbcType=VARCHAR},
-      </if>
-      <if test="inVersionId != null">
-        in_version_id = #{inVersionId,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement">
     update requirement
-    set name = #{name,jdbcType=VARCHAR},
-      detail = #{detail,jdbcType=VARCHAR},
-      attachment = #{attachment,jdbcType=VARCHAR},
-      module_enum = #{moduleEnum,jdbcType=VARCHAR},
-      source_enum = #{sourceEnum,jdbcType=VARCHAR},
-      type_enum = #{typeEnum,jdbcType=VARCHAR},
-      belong_product_id = #{belongProductId,jdbcType=VARCHAR},
-      supervisor_id = #{supervisorId,jdbcType=VARCHAR},
-      in_version_id = #{inVersionId,jdbcType=VARCHAR}
+    set belong_product_id = #{belongProductId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

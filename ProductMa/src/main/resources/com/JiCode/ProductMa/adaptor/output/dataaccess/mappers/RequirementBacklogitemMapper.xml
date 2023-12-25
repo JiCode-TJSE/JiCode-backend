@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementBacklogitemMapper">
   <resultMap id="BaseResultMap" type="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementBacklogitemKey">
-    <id column="requirement_id" jdbcType="VARCHAR" property="requirementId" />
+    <id column="requirement_content_id" jdbcType="VARCHAR" property="requirementContentId" />
     <id column="backlogitem_id" jdbcType="VARCHAR" property="backlogitemId" />
   </resultMap>
   <sql id="Example_Where_Clause">
@@ -64,7 +64,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    requirement_id, backlogitem_id
+    requirement_content_id, backlogitem_id
   </sql>
   <select id="selectByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementBacklogitemExample" resultMap="BaseResultMap">
     select
@@ -82,7 +82,7 @@
   </select>
   <delete id="deleteByPrimaryKey" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementBacklogitemKey">
     delete from requirement_backlogitem
-    where requirement_id = #{requirementId,jdbcType=VARCHAR}
+    where requirement_content_id = #{requirementContentId,jdbcType=VARCHAR}
       and backlogitem_id = #{backlogitemId,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementBacklogitemExample">
@@ -92,22 +92,24 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementBacklogitemKey">
-    insert into requirement_backlogitem (requirement_id, backlogitem_id)
-    values (#{requirementId,jdbcType=VARCHAR}, #{backlogitemId,jdbcType=VARCHAR})
+    insert into requirement_backlogitem (requirement_content_id, backlogitem_id
+      )
+    values (#{requirementContentId,jdbcType=VARCHAR}, #{backlogitemId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementBacklogitemKey">
     insert into requirement_backlogitem
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="requirementId != null">
-        requirement_id,
+      <if test="requirementContentId != null">
+        requirement_content_id,
       </if>
       <if test="backlogitemId != null">
         backlogitem_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="requirementId != null">
-        #{requirementId,jdbcType=VARCHAR},
+      <if test="requirementContentId != null">
+        #{requirementContentId,jdbcType=VARCHAR},
       </if>
       <if test="backlogitemId != null">
         #{backlogitemId,jdbcType=VARCHAR},
@@ -123,8 +125,8 @@
   <update id="updateByExampleSelective" parameterType="map">
     update requirement_backlogitem
     <set>
-      <if test="record.requirementId != null">
-        requirement_id = #{record.requirementId,jdbcType=VARCHAR},
+      <if test="record.requirementContentId != null">
+        requirement_content_id = #{record.requirementContentId,jdbcType=VARCHAR},
       </if>
       <if test="record.backlogitemId != null">
         backlogitem_id = #{record.backlogitemId,jdbcType=VARCHAR},
@@ -136,7 +138,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update requirement_backlogitem
-    set requirement_id = #{record.requirementId,jdbcType=VARCHAR},
+    set requirement_content_id = #{record.requirementContentId,jdbcType=VARCHAR},
       backlogitem_id = #{record.backlogitemId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />

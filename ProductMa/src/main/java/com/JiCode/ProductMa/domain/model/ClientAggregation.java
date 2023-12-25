@@ -1,13 +1,13 @@
 package com.JiCode.ProductMa.domain.model;
 
 import com.JiCode.ProductMa.domain.repository.ClientRepository;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@Data
+@Getter
 @NoArgsConstructor
 public class ClientAggregation {
 

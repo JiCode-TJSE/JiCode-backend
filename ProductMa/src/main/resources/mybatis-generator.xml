@@ -38,9 +38,86 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
         <!-- 相关表的配置 -->
+        <!--  生成client表      -->
+        <table tableName="client"
+               domainObjectName="Client"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
         <!--  生成product表      -->
         <table tableName="product"
                domainObjectName="Product"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--  生成product_member表      -->
+        <table tableName="product_member"
+               domainObjectName="ProductMember"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--  生成requirement_backlogitem表      -->
+        <table tableName="requirement_backlogitem"
+               domainObjectName="RequirementBacklogitem"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--  生成requirement_client表      -->
+        <table tableName="requirement_client"
+               domainObjectName="RequirementClient"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--  生成requirement_content表      -->
+        <table tableName="requirement_content"
+               domainObjectName="RequirementContent"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--  生成requirement表      -->
+        <table tableName="requirement"
+               domainObjectName="Requirement"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--  生成requirement_version表      -->
+        <table tableName="requirement_version"
+               domainObjectName="RequirementVersion"
                enableInsert="true"
                enableDeleteByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"
@@ -60,71 +137,6 @@
                enableDeleteByExample="true"
                enableSelectByExample="true"
                enableUpdateByExample="true"/>
-        <!--  requirement    -->
-        <table tableName="requirement"
-               domainObjectName="Requirement"
-               enableInsert="true"
-               enableDeleteByPrimaryKey="true"
-               enableUpdateByPrimaryKey="true"
-               enableSelectByPrimaryKey="true"
-               enableCountByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               enableUpdateByExample="true"/>
-        <!--  client表    -->
-        <table tableName="client"
-               domainObjectName="Client"
-               enableInsert="true"
-               enableDeleteByPrimaryKey="true"
-               enableUpdateByPrimaryKey="true"
-               enableSelectByPrimaryKey="true"
-               enableCountByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               enableUpdateByExample="true"/>
-        <!--   product_member表     -->
-        <table tableName="product_member"
-               domainObjectName="ProductMember"
-               enableInsert="true"
-               enableDeleteByPrimaryKey="true"
-               enableUpdateByPrimaryKey="true"
-               enableSelectByPrimaryKey="true"
-               enableCountByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               enableUpdateByExample="true"/>
-        <!--   requirement_client表     -->
-        <table tableName="requirement_client"
-               domainObjectName="RequirementClient"
-               enableInsert="true"
-               enableDeleteByPrimaryKey="true"
-               enableUpdateByPrimaryKey="true"
-               enableSelectByPrimaryKey="true"
-               enableCountByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               enableUpdateByExample="true"/>
-        <!--   requirement_backlogitem表     -->
-        <table tableName="requirement_backlogitem"
-               domainObjectName="RequirementBacklogitem"
-               enableInsert="true"
-               enableDeleteByPrimaryKey="true"
-               enableUpdateByPrimaryKey="true"
-               enableSelectByPrimaryKey="true"
-               enableCountByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               enableUpdateByExample="true"/>
-        <!--   requirement_version表     -->
-        <table tableName="requirement_version"
-               domainObjectName="RequirementVersion"
-               enableInsert="true"
-               enableDeleteByPrimaryKey="true"
-               enableUpdateByPrimaryKey="true"
-               enableSelectByPrimaryKey="true"
-               enableCountByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               enableUpdateByExample="true"/>
+
     </context>
 </generatorConfiguration>

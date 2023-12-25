@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.beans.BeanUtils;
 
 @Repository
 public class RequirementRepositoryImpl implements RequirementRepository {
@@ -31,6 +32,9 @@ public class RequirementRepositoryImpl implements RequirementRepository {
     @Autowired
     com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementVersionMapper requirementVersionMapper;
 
+    /**
+     * @Description 根据 RequirementId 查询 RequirementAggregation
+     */
     public RequirementAggregation selectById(String id)
             throws RequirementNotFoundException, ClientNotFoundException, BacklogItemNotFoundException,
             VersionNotFoundException {
@@ -41,14 +45,13 @@ public class RequirementRepositoryImpl implements RequirementRepository {
 
         return RequirementAggregation.createRequirementByAll(
                 requirement.getId(),
-                requirement.getTitle(),
+                requirement.getName(),
                 requirement.getDetail(),
-                requirement.getProductId(),
+                requirement.getBelongProductId(),
                 requirement.getSupervisorId(),
-                requirement.getModule(),
-                requirement.getSource(),
-                requirement.getType(),
-                requirement.getValue(),
+                requirement.getModuleEnum(),
+                requirement.getSourceEnum(),
+                requirement.getTypeEnum(),
                 clientIdArr,
                 backlogItemIdArr,
                 versionArr,
@@ -88,7 +91,7 @@ public class RequirementRepositoryImpl implements RequirementRepository {
     private VersionAggregation[] selectVersions(Requirement requirement) throws VersionNotFoundException {
         RequirementVersionExample example = new RequirementVersionExample();
         RequirementVersionExample.Criteria criteria = example.createCriteria();
-        criteria.andRequirementIdEqualTo(requirement.getId());
+        criteria.andBelongRequirementIdEqualTo(requirement.getId());
         List<RequirementVersion> versions = this.requirementVersionMapper.selectByExample(example);
         if (versions == null || versions.isEmpty()) {
             throw new VersionNotFoundException("Version not found.");
@@ -100,6 +103,9 @@ public class RequirementRepositoryImpl implements RequirementRepository {
                 version.getCreateTime())).toArray(VersionAggregation[]::new);
     }
 
+    /**
+     * @Description 插入 RequirementAggregation
+     */
     public void insert(RequirementAggregation requirementAggregation)
             throws InsertRequirementFailedException, InsertClientFailedException, InsertBacklogItemFailedException,
             InsertVersionFailedException {
@@ -112,15 +118,7 @@ public class RequirementRepositoryImpl implements RequirementRepository {
     private Requirement insertRequirement(RequirementAggregation requirementAggregation)
             throws InsertRequirementFailedException {
         Requirement requirement = new Requirement();
-        requirement.setId(requirementAggregation.getId());
-        requirement.setTitle(requirementAggregation.getTitle());
-        requirement.setDetail(requirementAggregation.getDescription());
-        requirement.setProductId(requirementAggregation.getBelongProductID());
-        requirement.setSupervisorId(requirementAggregation.getSupervisorID());
-        requirement.setModule(requirementAggregation.getModuleType());
-        requirement.setSource(requirementAggregation.getSourceType());
-        requirement.setType(requirementAggregation.getTypeType());
-        requirement.setValue(requirementAggregation.getValueType());
+        BeanUtils.copyProperties(requirementAggregation, requirement);
         int requirementResult = this.requirementMapper.insert(requirement);
         if (requirementResult <= 0) {
             throw new InsertRequirementFailedException("Insert requirement failed.");
@@ -160,7 +158,7 @@ public class RequirementRepositoryImpl implements RequirementRepository {
             RequirementVersion requirementVersion = new RequirementVersion();
             String versionId = version.getId();
             requirementVersion.setId(versionId);
-            requirementVersion.setRequirementId(requirement.getId());
+            requirementVersion.setBelongRequirementId(requirement.getId());
             int versionResult = this.requirementVersionMapper.insert(requirementVersion);
             if (versionResult <= 0) {
                 throw new InsertVersionFailedException("Insert version failed.");
@@ -168,6 +166,9 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         }
     }
 
+    /**
+     * @Description 删除 RequirementAggregation
+     */
     public void delete(String requirementID) throws DeleteRequirementFailedException {
         // 因为数据库里设置了级联删除，所以这里的实现比较容易
         int result = requirementMapper.deleteByPrimaryKey(requirementID);
@@ -176,6 +177,9 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         }
     }
 
+    /**
+     * @Description 更新 RequirementAggregation
+     */
     public void update(RequirementAggregation requirementAggregation)
             throws UpdateRequirementFailedException, InsertClientFailedException, InsertBacklogItemFailedException {
         // 对脏标记进行处理，优化 update 语句
@@ -197,15 +201,7 @@ public class RequirementRepositoryImpl implements RequirementRepository {
     private void updateRequirement(RequirementAggregation requirementAggregation)
             throws UpdateRequirementFailedException {
         Requirement requirement = new Requirement();
-        requirement.setId(requirementAggregation.getId());
-        requirement.setTitle(requirementAggregation.getTitle());
-        requirement.setDetail(requirementAggregation.getDescription());
-        requirement.setProductId(requirementAggregation.getBelongProductID());
-        requirement.setSupervisorId(requirementAggregation.getSupervisorID());
-        requirement.setModule(requirementAggregation.getModuleType());
-        requirement.setSource(requirementAggregation.getSourceType());
-        requirement.setType(requirementAggregation.getTypeType());
-        requirement.setValue(requirementAggregation.getValueType());
+        BeanUtils.copyProperties(requirementAggregation, requirement);
         int requirementResult = this.requirementMapper.updateByPrimaryKey(requirement);
         if (requirementResult <= 0) {
             throw new UpdateRequirementFailedException("Update requirement failed.");
@@ -251,7 +247,7 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         for (VersionAggregation version : requirementAggregation.getVersionArr()) {
             RequirementVersion requirementVersion = new RequirementVersion();
             requirementVersion.setId(version.getId());
-            requirementVersion.setRequirementId(requirementAggregation.getId());
+            requirementVersion.setBelongRequirementId(requirementAggregation.getId());
             int versionResult = this.requirementVersionMapper.updateByPrimaryKey(requirementVersion);
             if (versionResult <= 0) {
                 throw new UpdateRequirementFailedException("Update requirement failed.");

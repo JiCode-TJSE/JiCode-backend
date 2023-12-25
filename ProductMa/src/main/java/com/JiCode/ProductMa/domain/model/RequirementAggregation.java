@@ -16,16 +16,13 @@ public class RequirementAggregation {
     private String supervisorID;
 
     // 所属模块
-    private String moduleType;
+    private String moduleEnum;
 
     // 来源
-    private String sourceType;
+    private String sourceEnum;
 
     // 类型
-    private String typeType;
-
-    // 价值（弃用）
-    private String valueType;
+    private String typeEnum;
 
     private String[] clientIDArr;
 
@@ -79,10 +76,9 @@ public class RequirementAggregation {
             String description,
             String belongProductID,
             String supervisorID,
-            String moduleType,
-            String sourceType,
-            String typeType,
-            String valueType,
+            String moduleEnum,
+            String sourceEnum,
+            String typeEnum,
             String[] clientIDArr,
             String[] backlogItemIDArr,
             VersionAggregation[] versionArr,
@@ -93,10 +89,9 @@ public class RequirementAggregation {
         agg.description = description;
         agg.belongProductID = belongProductID;
         agg.supervisorID = supervisorID;
-        agg.moduleType = moduleType;
-        agg.sourceType = sourceType;
-        agg.typeType = typeType;
-        agg.valueType = valueType;
+        agg.moduleEnum = moduleEnum;
+        agg.sourceEnum = sourceEnum;
+        agg.typeEnum = typeEnum;
         agg.clientIDArr = clientIDArr;
         agg.backlogItemIDArr = backlogItemIDArr;
         agg.versionArr = versionArr;

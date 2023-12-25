@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementContentMapper">
+  <resultMap id="BaseResultMap" type="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContent">
+    <id column="version_content_id" jdbcType="VARCHAR" property="versionContentId" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="detail" jdbcType="VARCHAR" property="detail" />
+    <result column="attachment" jdbcType="VARCHAR" property="attachment" />
+    <result column="module_enum" jdbcType="VARCHAR" property="moduleEnum" />
+    <result column="source_enum" jdbcType="VARCHAR" property="sourceEnum" />
+    <result column="type_enum" jdbcType="VARCHAR" property="typeEnum" />
+    <result column="supervisor_id" jdbcType="VARCHAR" property="supervisorId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    version_content_id, name, detail, attachment, module_enum, source_enum, type_enum, 
+    supervisor_id
+  </sql>
+  <select id="selectByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContentExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from requirement_content
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from requirement_content
+    where version_content_id = #{versionContentId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from requirement_content
+    where version_content_id = #{versionContentId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContentExample">
+    delete from requirement_content
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContent">
+    insert into requirement_content (version_content_id, name, detail, 
+      attachment, module_enum, source_enum, 
+      type_enum, supervisor_id)
+    values (#{versionContentId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, 
+      #{attachment,jdbcType=VARCHAR}, #{moduleEnum,jdbcType=VARCHAR}, #{sourceEnum,jdbcType=VARCHAR}, 
+      #{typeEnum,jdbcType=VARCHAR}, #{supervisorId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContent">
+    insert into requirement_content
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="versionContentId != null">
+        version_content_id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="detail != null">
+        detail,
+      </if>
+      <if test="attachment != null">
+        attachment,
+      </if>
+      <if test="moduleEnum != null">
+        module_enum,
+      </if>
+      <if test="sourceEnum != null">
+        source_enum,
+      </if>
+      <if test="typeEnum != null">
+        type_enum,
+      </if>
+      <if test="supervisorId != null">
+        supervisor_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="versionContentId != null">
+        #{versionContentId,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null">
+        #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleEnum != null">
+        #{moduleEnum,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceEnum != null">
+        #{sourceEnum,jdbcType=VARCHAR},
+      </if>
+      <if test="typeEnum != null">
+        #{typeEnum,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorId != null">
+        #{supervisorId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContentExample" resultType="java.lang.Long">
+    select count(*) from requirement_content
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update requirement_content
+    <set>
+      <if test="record.versionContentId != null">
+        version_content_id = #{record.versionContentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.detail != null">
+        detail = #{record.detail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attachment != null">
+        attachment = #{record.attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="record.moduleEnum != null">
+        module_enum = #{record.moduleEnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourceEnum != null">
+        source_enum = #{record.sourceEnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeEnum != null">
+        type_enum = #{record.typeEnum,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supervisorId != null">
+        supervisor_id = #{record.supervisorId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update requirement_content
+    set version_content_id = #{record.versionContentId,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      detail = #{record.detail,jdbcType=VARCHAR},
+      attachment = #{record.attachment,jdbcType=VARCHAR},
+      module_enum = #{record.moduleEnum,jdbcType=VARCHAR},
+      source_enum = #{record.sourceEnum,jdbcType=VARCHAR},
+      type_enum = #{record.typeEnum,jdbcType=VARCHAR},
+      supervisor_id = #{record.supervisorId,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContent">
+    update requirement_content
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="detail != null">
+        detail = #{detail,jdbcType=VARCHAR},
+      </if>
+      <if test="attachment != null">
+        attachment = #{attachment,jdbcType=VARCHAR},
+      </if>
+      <if test="moduleEnum != null">
+        module_enum = #{moduleEnum,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceEnum != null">
+        source_enum = #{sourceEnum,jdbcType=VARCHAR},
+      </if>
+      <if test="typeEnum != null">
+        type_enum = #{typeEnum,jdbcType=VARCHAR},
+      </if>
+      <if test="supervisorId != null">
+        supervisor_id = #{supervisorId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where version_content_id = #{versionContentId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContent">
+    update requirement_content
+    set name = #{name,jdbcType=VARCHAR},
+      detail = #{detail,jdbcType=VARCHAR},
+      attachment = #{attachment,jdbcType=VARCHAR},
+      module_enum = #{moduleEnum,jdbcType=VARCHAR},
+      source_enum = #{sourceEnum,jdbcType=VARCHAR},
+      type_enum = #{typeEnum,jdbcType=VARCHAR},
+      supervisor_id = #{supervisorId,jdbcType=VARCHAR}
+    where version_content_id = #{versionContentId,jdbcType=VARCHAR}
+  </update>
+</mapper>

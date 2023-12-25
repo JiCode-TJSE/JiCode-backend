@@ -11,8 +11,10 @@ import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementBacklog
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementClientMapper;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementMapper;
 import com.JiCode.ProductMa.domain.model.RequirementAggregation;
+import com.JiCode.ProductMa.domain.model.VersionAggregation;
 import com.JiCode.ProductMa.domain.repository.RequirementRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,10 +78,17 @@ public class RequirementRepositoryImpl implements RequirementRepository {
             throw new Exception("Version not found.");
         }
 
-        // 提取数组 -- version
-        String[] versionIdArr = requirementVersionKeyList.stream()
-                .map(RequirementVersion::getId)
-                .toArray(String[]::new);
+        // 创建聚合数组 -- version
+        List<VersionAggregation> versionList = new ArrayList<>();
+        for (RequirementVersion requirementVersion : requirementVersionKeyList) {
+            VersionAggregation version = VersionAggregation.createVersionByAll(
+                    requirementVersion.getId(),
+                    requirementVersion.getName(),
+                    requirementVersion.getDetail(),
+                    requirementVersion.getCreateTime());
+            versionList.add(version);
+        }
+        VersionAggregation[] versionArr = versionList.toArray(new VersionAggregation[0]);
 
         // 聚合
         return RequirementAggregation.createRequirementByAll(
@@ -94,7 +103,7 @@ public class RequirementRepositoryImpl implements RequirementRepository {
                 requirement.getValue(),
                 clientIdArr,
                 backlogItemIdArr,
-                versionIdArr,
+                versionArr,
                 "");
     }
 
@@ -138,8 +147,9 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         }
 
         // 插入 version
-        for (String versionId : requirementAggregation.getVersionIDArr()) {
+        for (VersionAggregation version : requirementAggregation.getVersionArr()) {
             RequirementVersion requirementVersion = new RequirementVersion();
+            String versionId = version.getId();
             requirementVersion.setId(versionId);
             requirementVersion.setRequirementId(requirement.getId());
             int versionResult = this.requirementVersionMapper.insert(requirementVersion);
@@ -210,8 +220,9 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         }
 
         // 更新 version
-        for (String versionId : requirementAggregation.getVersionIDArr()) {
+        for (VersionAggregation version : requirementAggregation.getVersionArr()) {
             RequirementVersion requirementVersion = new RequirementVersion();
+            String versionId = version.getId();
             requirementVersion.setId(versionId);
             requirementVersion.setRequirementId(requirement.getId());
             int versionResult = this.requirementVersionMapper.updateByPrimaryKey(requirementVersion);

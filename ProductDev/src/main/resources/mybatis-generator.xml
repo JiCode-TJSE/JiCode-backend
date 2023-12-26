@@ -39,8 +39,19 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
         <!-- 相关表的配置 -->
-        <table tableName="backlogitem_member"
-               domainObjectName="BacklogitemMember"
+        <table tableName="sprint"
+               domainObjectName="Sprint"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true">
+        </table>
+        <table tableName="sprint_member"
+               domainObjectName="SprintMember"
                enableInsert="true"
                enableDeleteByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"

@@ -1,11 +1,11 @@
 package com.JiCode.ProductMa.domain.repository.impl;
 
+import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementVersion;
+import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementVersionMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementVersionMapper;
-import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementVersion;
 import com.JiCode.ProductMa.domain.model.VersionAggregation;
 import com.JiCode.ProductMa.domain.repository.VersionRepository;
 import com.JiCode.ProductMa.exception.CreateFailedException;

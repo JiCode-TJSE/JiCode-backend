@@ -1,13 +1,6 @@
 package com.JiCode.ProductMa.domain.repository.impl;
 
-import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement;
-import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementBacklogitemExample;
-import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementBacklogitemKey;
-import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementClientExample;
-import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementClientKey;
-import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementVersion;
-import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContent;
-import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementVersionExample;
+import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.*;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementBacklogitemMapper;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementClientMapper;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementContentMapper;

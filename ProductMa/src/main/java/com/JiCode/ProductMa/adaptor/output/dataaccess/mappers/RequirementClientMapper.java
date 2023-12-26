@@ -4,6 +4,7 @@ import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementClient
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementClientKey;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 public interface RequirementClientMapper {
     long countByExample(RequirementClientExample example);
@@ -15,6 +16,8 @@ public interface RequirementClientMapper {
     int insert(RequirementClientKey record);
 
     int insertSelective(RequirementClientKey record);
+
+    List<RequirementClientKey> selectByExampleWithRowbounds(RequirementClientExample example, RowBounds rowBounds);
 
     List<RequirementClientKey> selectByExample(RequirementClientExample example);
 

@@ -4,6 +4,8 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd" >
 <generatorConfiguration>
     <context id="context" targetRuntime="MyBatis3">
+        <!-- 分页查询配置 -->
+        <plugin type="org.mybatis.generator.plugins.RowBoundsPlugin" />
         <commentGenerator>
             <property name="suppressAllComments" value="true"/>
             <property name="suppressDate" value="true"/>
@@ -38,105 +40,105 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
         <!-- 相关表的配置 -->
-<!--        &lt;!&ndash;  生成client表      &ndash;&gt;-->
-<!--        <table tableName="client"-->
-<!--               domainObjectName="Client"-->
-<!--               enableInsert="true"-->
-<!--               enableDeleteByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableCountByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
-<!--        &lt;!&ndash;  生成product表      &ndash;&gt;-->
-<!--        <table tableName="product"-->
-<!--               domainObjectName="Product"-->
-<!--               enableInsert="true"-->
-<!--               enableDeleteByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableCountByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
-<!--        &lt;!&ndash;  生成product_member表      &ndash;&gt;-->
-<!--        <table tableName="product_member"-->
-<!--               domainObjectName="ProductMember"-->
-<!--               enableInsert="true"-->
-<!--               enableDeleteByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableCountByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
-<!--        &lt;!&ndash;  生成requirement_backlogitem表      &ndash;&gt;-->
-<!--        <table tableName="requirement_backlogitem"-->
-<!--               domainObjectName="RequirementBacklogitem"-->
-<!--               enableInsert="true"-->
-<!--               enableDeleteByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableCountByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
-<!--        &lt;!&ndash;  生成requirement_client表      &ndash;&gt;-->
-<!--        <table tableName="requirement_client"-->
-<!--               domainObjectName="RequirementClient"-->
-<!--               enableInsert="true"-->
-<!--               enableDeleteByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableCountByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
-<!--        &lt;!&ndash;  生成requirement_content表      &ndash;&gt;-->
-<!--        <table tableName="requirement_content"-->
-<!--               domainObjectName="RequirementContent"-->
-<!--               enableInsert="true"-->
-<!--               enableDeleteByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableCountByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
-<!--        &lt;!&ndash;  生成requirement表      &ndash;&gt;-->
-<!--        <table tableName="requirement"-->
-<!--               domainObjectName="Requirement"-->
-<!--               enableInsert="true"-->
-<!--               enableDeleteByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableCountByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
-<!--        &lt;!&ndash;  生成requirement_version表      &ndash;&gt;-->
-<!--        <table tableName="requirement_version"-->
-<!--               domainObjectName="RequirementVersion"-->
-<!--               enableInsert="true"-->
-<!--               enableDeleteByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableCountByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
-<!--        &lt;!&ndash;  生成test表      &ndash;&gt;-->
-<!--        <table tableName="test"-->
-<!--               domainObjectName="Test"-->
-<!--               enableInsert="true"-->
-<!--               enableDeleteByPrimaryKey="true"-->
-<!--               enableUpdateByPrimaryKey="true"-->
-<!--               enableSelectByPrimaryKey="true"-->
-<!--               enableCountByExample="true"-->
-<!--               enableDeleteByExample="true"-->
-<!--               enableSelectByExample="true"-->
-<!--               enableUpdateByExample="true"/>-->
+        <!--  生成client表      -->
+        <table tableName="client"
+               domainObjectName="Client"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--  生成product表      -->
+        <table tableName="product"
+               domainObjectName="Product"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--  生成product_member表      -->
+        <table tableName="product_member"
+               domainObjectName="ProductMember"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--  生成requirement_backlogitem表      -->
+        <table tableName="requirement_backlogitem"
+               domainObjectName="RequirementBacklogitem"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--  生成requirement_client表      -->
+        <table tableName="requirement_client"
+               domainObjectName="RequirementClient"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--  生成requirement_content表      -->
+        <table tableName="requirement_content"
+               domainObjectName="RequirementContent"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--  生成requirement表      -->
+        <table tableName="requirement"
+               domainObjectName="Requirement"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--  生成requirement_version表      -->
+        <table tableName="requirement_version"
+               domainObjectName="RequirementVersion"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
+        <!--  生成test表      -->
+        <table tableName="test"
+               domainObjectName="Test"
+               enableInsert="true"
+               enableDeleteByPrimaryKey="true"
+               enableUpdateByPrimaryKey="true"
+               enableSelectByPrimaryKey="true"
+               enableCountByExample="true"
+               enableDeleteByExample="true"
+               enableSelectByExample="true"
+               enableUpdateByExample="true"/>
         <!--   生成team表     -->
         <table tableName="team"
                domainObjectName="Team"

@@ -4,6 +4,7 @@ import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Product;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.ProductExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 public interface ProductMapper {
     long countByExample(ProductExample example);
@@ -15,6 +16,8 @@ public interface ProductMapper {
     int insert(Product record);
 
     int insertSelective(Product record);
+
+    List<Product> selectByExampleWithRowbounds(ProductExample example, RowBounds rowBounds);
 
     List<Product> selectByExample(ProductExample example);
 

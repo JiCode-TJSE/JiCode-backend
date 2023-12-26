@@ -4,6 +4,7 @@ import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementConten
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContentExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 public interface RequirementContentMapper {
     long countByExample(RequirementContentExample example);
@@ -15,6 +16,8 @@ public interface RequirementContentMapper {
     int insert(RequirementContent record);
 
     int insertSelective(RequirementContent record);
+
+    List<RequirementContent> selectByExampleWithRowbounds(RequirementContentExample example, RowBounds rowBounds);
 
     List<RequirementContent> selectByExample(RequirementContentExample example);
 

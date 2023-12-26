@@ -9,7 +9,6 @@ import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.ProductMemberMappe
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementMapper;
 import com.JiCode.ProductMa.domain.model.ClientAggregation;
 import com.JiCode.ProductMa.domain.model.ProductAggregation;
-import com.JiCode.ProductMa.domain.model.RequirementAggregation;
 import com.JiCode.ProductMa.domain.repository.ClientRepository;
 import com.JiCode.ProductMa.domain.repository.ProductRepository;
 import com.JiCode.ProductMa.domain.repository.RequirementRepository;

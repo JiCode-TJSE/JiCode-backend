@@ -161,4 +161,18 @@
     set team_name = #{teamName,jdbcType=VARCHAR}
     where team_id = #{teamId,jdbcType=VARCHAR}
   </update>
+  <select id="selectByExampleWithRowbounds" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.TeamExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from team
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
 </mapper>

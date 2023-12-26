@@ -240,8 +240,18 @@
       product_id = #{productId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-  <!--  分页查询   -->
-  <select id="selectByPaging" resultType="com.JiCode.ProductMA.adaptor.output.dataaccess.DBModels.Client">
-    select * from client
+  <select id="selectByExampleWithRowbounds" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.ClientExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from client
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
   </select>
 </mapper>

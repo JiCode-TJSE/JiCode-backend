@@ -79,35 +79,6 @@ public class ClientRepositoryImpl implements ClientRepository {
 
 
     /**
-     * 分页获取客户列表
-     * @param pageNum
-     * @param pageSize
-     * @return
-     */
-    @Override
-    public PageInfo<ClientAggregation> getPage(int pageNum, int pageSize) {
-            PageHelper.startPage(pageNum, pageSize);
-            Page<Client> clients = clientMapper.selectByPaging(null);
-            List<ClientAggregation> clientAggregations = new ArrayList<>();
-            for(Client client : clients){
-                //工厂模式建立聚合
-                ClientAggregation clientAggregation = ClientAggregation.createClient(
-                        client.getId(),
-                        client.getRank(),
-                        client.getSize(),
-                        client.getName(),
-                        client.getType(),
-                        client.getDetail(),
-                        client.getProductId()
-                );
-                clientAggregations.add(clientAggregation);
-            }
-            PageInfo<ClientAggregation> result = new PageInfo<>(clientAggregations);
-            return result;
-    }
-
-
-    /**
      * 插入ClientAggregation
      * @param clientAggregation
      * @throws InsertFailedException

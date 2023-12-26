@@ -4,6 +4,7 @@ import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Team;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.TeamExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 public interface TeamMapper {
     long countByExample(TeamExample example);
@@ -15,6 +16,8 @@ public interface TeamMapper {
     int insert(Team record);
 
     int insertSelective(Team record);
+
+    List<Team> selectByExampleWithRowbounds(TeamExample example, RowBounds rowBounds);
 
     List<Team> selectByExample(TeamExample example);
 

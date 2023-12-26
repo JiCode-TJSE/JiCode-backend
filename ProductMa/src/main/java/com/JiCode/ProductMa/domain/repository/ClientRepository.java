@@ -16,8 +16,6 @@ public interface ClientRepository {
     //按productID查找分组
     public List<ClientAggregation> selectByProductId(String productId) throws Exception;
 
-    public PageInfo<ClientAggregation> getPage(int pageNum, int pageSize);
-
     public void insert(ClientAggregation clientAggregation) throws InsertFailedException;
 
     public void update(ClientAggregation clientAggregation) throws UpdateFailedException;

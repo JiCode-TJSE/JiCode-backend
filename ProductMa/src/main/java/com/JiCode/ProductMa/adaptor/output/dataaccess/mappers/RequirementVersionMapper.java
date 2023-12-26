@@ -4,6 +4,7 @@ import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementVersio
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementVersionExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.session.RowBounds;
 
 public interface RequirementVersionMapper {
     long countByExample(RequirementVersionExample example);
@@ -15,6 +16,8 @@ public interface RequirementVersionMapper {
     int insert(RequirementVersion record);
 
     int insertSelective(RequirementVersion record);
+
+    List<RequirementVersion> selectByExampleWithRowbounds(RequirementVersionExample example, RowBounds rowBounds);
 
     List<RequirementVersion> selectByExample(RequirementVersionExample example);
 

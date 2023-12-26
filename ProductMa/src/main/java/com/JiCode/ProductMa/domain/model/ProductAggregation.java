@@ -34,8 +34,8 @@ public class ProductAggregation {
     private List<String> memberList;
 
     //脏标记
-    private boolean requirementDirty;
-    private boolean clientDirty;
+//    private boolean requirementDirty;
+//    private boolean clientDirty;
     private boolean memberDirty;
     private boolean productDirty;
 
@@ -44,19 +44,19 @@ public class ProductAggregation {
      * @Description 清除所有脏标记
      */
     public void cleanDirty() {
-        this.requirementDirty = false;
-        this.clientDirty = false;
+//        this.requirementDirty = false;
+//        this.clientDirty = false;
         this.memberDirty = false;
         this.productDirty = false;
     }
 
-    public boolean isRequirementDirty() {
-        return requirementDirty;
-    }
-
-    public boolean isClientDirty() {
-        return clientDirty;
-    }
+//    public boolean isRequirementDirty() {
+//        return requirementDirty;
+//    }
+//
+//    public boolean isClientDirty() {
+//        return clientDirty;
+//    }
 
     public boolean isMemberDirty() {
         return memberDirty;

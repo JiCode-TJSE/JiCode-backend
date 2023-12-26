@@ -5,10 +5,7 @@ import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.ClientExample;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.ClientMapper;
 import com.JiCode.ProductMa.domain.model.ClientAggregation;
 import com.JiCode.ProductMa.domain.repository.ClientRepository;
-import com.JiCode.ProductMa.exception.client.repository.ClientNotFoundException;
-import com.JiCode.ProductMa.exception.client.repository.DeleteClientFailedException;
-import com.JiCode.ProductMa.exception.client.repository.InsertClientFailedException;
-import com.JiCode.ProductMa.exception.client.repository.UpdateClientFailedException;
+import com.JiCode.ProductMa.exception.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -25,11 +22,18 @@ public class ClientRepositoryImpl implements ClientRepository {
     @Autowired
     ClientMapper clientMapper;
 
+
+    /**
+     * 按ID查找ClientAggregation
+     * @param id
+     * @return
+     * @throws NotFoundException
+     */
     @Override
-    public ClientAggregation selectById(String id) throws ClientNotFoundException {
+    public ClientAggregation selectById(String id) throws NotFoundException {
         Client client = clientMapper.selectByPrimaryKey(id);
         if(client == null){
-            throw new ClientNotFoundException("Select ClientAgg: client not found.");
+            throw new NotFoundException("Select ClientAgg: client not found.");
         }
         return ClientAggregation.createClient(
                 client.getId(),
@@ -41,26 +45,45 @@ public class ClientRepositoryImpl implements ClientRepository {
                 client.getProductId());
     }
 
+
+    //应该返回List<ClientAggregation>还是List<String> ids？？？
+    /**
+     * 按ProductID查找ClientAggregation
+     * @param productId
+     * @return
+     * @throws Exception
+     */
     @Override
-    public List<ClientAggregation> selectByProductId(String productId) throws Exception{
+    public List<ClientAggregation> selectByProductId(String productId) throws SelectFailedException {
         ClientExample example = new ClientExample();
         example.createCriteria().andProductIdEqualTo(productId);
         List<Client> clients = clientMapper.selectByExample(example);
         if(clients == null || clients.isEmpty()){
-            //TODO: 这里需要抛出异常吗？还是直接返回null？
-            throw new Exception("Select ClientAgg by productId: client not found.");
+            throw new SelectFailedException("Select ClientAgg by productId: client not found.");
         }
         else{
             //返回结果：将Client转为ClientAggregation
             List<ClientAggregation> result = new ArrayList<>();
             for(Client client : clients){
-                ClientAggregation clientAggregation = selectById(client.getId());
+                ClientAggregation clientAggregation = null;
+                try {
+                    clientAggregation = selectById(client.getId());
+                } catch (NotFoundException e) {
+                    throw new RuntimeException(e);
+                }
                 result.add(clientAggregation);//插入结果
             }
             return result;
         }
     }
 
+
+    /**
+     * 分页获取客户列表
+     * @param pageNum
+     * @param pageSize
+     * @return
+     */
     @Override
     public PageInfo<ClientAggregation> getPage(int pageNum, int pageSize) {
             PageHelper.startPage(pageNum, pageSize);
@@ -83,35 +106,53 @@ public class ClientRepositoryImpl implements ClientRepository {
             return result;
     }
 
+
+    /**
+     * 插入ClientAggregation
+     * @param clientAggregation
+     * @throws InsertFailedException
+     */
     @Override
-    public void insert(ClientAggregation clientAggregation) throws InsertClientFailedException {
+    public void insert(ClientAggregation clientAggregation) throws InsertFailedException {
         Client client = new Client();
         BeanUtils.copyProperties(clientAggregation, client);
         //生成唯一标识符
         client.setId(UUID.randomUUID().toString());
         int result = clientMapper.insert(client);
         if( result <= 0){
-            throw new InsertClientFailedException("Insert client failed.");
+            throw new InsertFailedException("Insert client failed.");
         }
     }
 
+
+    /**
+     * 更新ClientAggregation
+     * @param clientAggregation
+     * @throws UpdateFailedException
+     */
     @Override
-    public void update(ClientAggregation clientAggregation) throws UpdateClientFailedException {
+    public void update(ClientAggregation clientAggregation) throws UpdateFailedException {
             Client client = new Client();
             BeanUtils.copyProperties(clientAggregation, client);
             //按PK更新数据库中的client
             int result = clientMapper.updateByPrimaryKey(client);
             if (result <= 0){
-                throw new UpdateClientFailedException("Update client failed");
+                throw new UpdateFailedException("Update client failed");
             }
 
     }
 
+
+    /**
+     * 按ID删除ProductAggregation
+     * @param id
+     * @throws DeleteFailedException
+     */
     @Override
-    public void delete(String id) throws DeleteClientFailedException {
+    public void delete(String id) throws DeleteFailedException {
         int result = clientMapper.deleteByPrimaryKey(id);
         if (result <= 0){
-            throw new DeleteClientFailedException("Delete client failed.");
+            throw new DeleteFailedException("Delete client failed.");
         }
     }
 }

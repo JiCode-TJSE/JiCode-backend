@@ -1,6 +1,14 @@
 package com.JiCode.ProductMa.domain.repository.impl;
 
-import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.*;
+import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement;
+import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementBacklogitemExample;
+import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementBacklogitemKey;
+import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementClientExample;
+import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementClientKey;
+import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementVersion;
+import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContent;
+import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementExample;
+import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementVersionExample;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementBacklogitemMapper;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementClientMapper;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementContentMapper;
@@ -20,13 +28,12 @@ import com.JiCode.ProductMa.domain.model.entity.requirement.ClientsEntity;
 import com.JiCode.ProductMa.domain.model.entity.requirement.BacklogItemsEntity;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 
 @Repository
@@ -47,13 +54,12 @@ public class RequirementRepositoryImpl implements RequirementRepository {
      * @Description 根据 RequirementId 查询 RequirementAgg
      */
     @Override
-    public RequirementAggregation selectById(String id) throws SelectFailedException {
+    public RequirementAggregation selectById(String requirementId) throws SelectFailedException {
         try {
-            RequirementEntity requirementEntity = selectRequirement(id);
+            RequirementEntity requirementEntity = selectRequirement(requirementId);
             VersionsEntity versionsEntity = selectVersions(requirementEntity.getRequirementId());
             RequirementContentEntity requirementContentEntity = selectRequirementContent(
-                    requirementEntity.getRequirementContentId(),
-                    versionsEntity.getVersionArr());
+                    requirementEntity.getRequirementContentId());
             ClientsEntity clientsEntity = selectClientIds(requirementEntity.getRequirementContentId());
             BacklogItemsEntity backlogItemsEntity = selectBacklogItemIds(requirementEntity.getRequirementContentId());
 
@@ -64,75 +70,81 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         }
     }
 
-    private RequirementContentEntity selectRequirementContent(String versionId, VersionAggregation[] versionArr)
+    /**
+     * @Description 根据 productId 查询所有 RequirementEntity，分页版
+     */
+    @Override
+    public RequirementEntity[] selectRequirementsByPage(String productId, int pageNo, int pageSize)
             throws SelectFailedException {
-        Optional<VersionAggregation> versionOpt = Arrays.stream(versionArr)
-                .filter(version -> versionId.equals(version.getVersionId()))
-                .findFirst();
-        if (!versionOpt.isPresent()) {
-            throw new SelectFailedException("Version with id " + versionId + " not found in versionArr.");
-        }
-        VersionAggregation version = versionOpt.get();
-        RequirementContent content = this.requirementContentMapper.selectByPrimaryKey(version.getVersionId());
-        if (content == null) {
-            throw new SelectFailedException(
-                    "RequirementContent not found for version id " + version.getVersionId() + ".");
-        }
+        RequirementExample example = new RequirementExample();
+        example.createCriteria().andBelongProductIdEqualTo(productId);
+        RowBounds rowBounds = new RowBounds((pageNo - 1) * pageSize, pageSize);
+        List<Requirement> requirements = requirementMapper.selectByExampleWithRowbounds(example, rowBounds);
+
+        RequirementEntity[] requirementEntities = new RequirementEntity[requirements.size()];
         try {
-            return RequirementContentEntity.create(content);
+            int i = 0;
+            for (Requirement requirement : requirements) {
+                RequirementEntity requirementEntity = RequirementEntity.create(requirement);
+                requirementEntities[i] = requirementEntity;
+                i++;
+            }
         } catch (CreateFailedException e) {
-            throw new SelectFailedException(
-                    "Failed to create RequirementContentEntity for version id " + version.getVersionId() + ".", e);
+            throw new SelectFailedException("Failed to create RequirementEntity for requirement: " + e.getMessage(), e);
         }
+        return requirementEntities;
     }
 
-    private RequirementEntity selectRequirement(String id) throws SelectFailedException {
-        Requirement requirement = this.requirementMapper.selectByPrimaryKey(id);
+    @Override
+    public RequirementEntity selectRequirement(String requirementId) throws SelectFailedException {
+        Requirement requirement = this.requirementMapper.selectByPrimaryKey(requirementId);
         if (requirement == null) {
-            throw new SelectFailedException("Requirement with id " + id + " not found.");
+            throw new SelectFailedException("Requirement with id " + requirementId + " not found.");
         }
         try {
             return RequirementEntity.create(requirement);
         } catch (CreateFailedException e) {
-            throw new SelectFailedException("Failed to create RequirementEntity for requirement with id " + id, e);
+            throw new SelectFailedException(
+                    "Failed to create RequirementEntity for requirement with id " + requirementId, e);
         }
     }
 
-    private ClientsEntity selectClientIds(String versionContentId)
+    private ClientsEntity selectClientIds(String requirementContentId)
             throws SelectFailedException {
         RequirementClientExample example = new RequirementClientExample();
         RequirementClientExample.Criteria criteria = example.createCriteria();
-        criteria.andRequirementContentIdEqualTo(versionContentId);
+        criteria.andRequirementContentIdEqualTo(requirementContentId);
         List<RequirementClientKey> keys = this.requirementClientMapper.selectByExample(example);
         if (keys == null || keys.isEmpty()) {
-            throw new SelectFailedException("Client not found for versionContentId " + versionContentId + ".");
+            throw new SelectFailedException("Client not found for versionContentId " + requirementContentId + ".");
         }
         try {
             return ClientsEntity.create(keys.stream().map(RequirementClientKey::getClientId).toArray(String[]::new));
         } catch (CreateFailedException e) {
             throw new SelectFailedException(
-                    "Failed to create ClientsEntity for versionContentId " + versionContentId + ".", e);
+                    "Failed to create ClientsEntity for versionContentId " + requirementContentId + ".", e);
         }
     }
 
-    private BacklogItemsEntity selectBacklogItemIds(String versionContentId) throws SelectFailedException {
+    private BacklogItemsEntity selectBacklogItemIds(String requirementContentId) throws SelectFailedException {
         RequirementBacklogitemExample example = new RequirementBacklogitemExample();
         RequirementBacklogitemExample.Criteria criteria = example.createCriteria();
-        criteria.andRequirementContentIdEqualTo(versionContentId);
+        criteria.andRequirementContentIdEqualTo(requirementContentId);
         List<RequirementBacklogitemKey> keys = this.requirementBacklogitemMapper.selectByExample(example);
         if (keys == null || keys.isEmpty()) {
-            throw new SelectFailedException("Backlogitem not found for versionContentId " + versionContentId + ".");
+            throw new SelectFailedException("Backlogitem not found for versionContentId " + requirementContentId + ".");
         }
         try {
             return BacklogItemsEntity
                     .create(keys.stream().map(RequirementBacklogitemKey::getBacklogitemId).toArray(String[]::new));
         } catch (CreateFailedException e) {
             throw new SelectFailedException(
-                    "Failed to create BacklogItemsEntity for versionContentId " + versionContentId + ".", e);
+                    "Failed to create BacklogItemsEntity for versionContentId " + requirementContentId + ".", e);
         }
     }
 
-    private VersionsEntity selectVersions(String requirementId) throws SelectFailedException {
+    @Override
+    public VersionsEntity selectVersions(String requirementId) throws SelectFailedException {
         RequirementVersionExample example = new RequirementVersionExample();
         RequirementVersionExample.Criteria criteria = example.createCriteria();
         criteria.andBelongRequirementIdEqualTo(requirementId);
@@ -161,7 +173,7 @@ public class RequirementRepositoryImpl implements RequirementRepository {
      * @Description 根据 versionId 查询 requirementContent
      */
     @Override
-    public RequirementContentEntity selectVersionContent(String versionId) throws SelectFailedException {
+    public RequirementContentEntity selectRequirementContent(String versionId) throws SelectFailedException {
         RequirementContent content = this.requirementContentMapper.selectByPrimaryKey(versionId);
         if (content == null) {
             throw new SelectFailedException("RequirementContent not found for version id " + versionId + ".");

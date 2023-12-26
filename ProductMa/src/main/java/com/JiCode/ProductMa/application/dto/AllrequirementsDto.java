@@ -18,7 +18,8 @@ public class AllrequirementsDto {
     int total;
 
     @Data
-    static private class Record {
+    static public class Record {
+        String requirementId;
         String name;
         String typeEnum;
         String supervisorName;

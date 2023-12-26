@@ -1,5 +1,6 @@
 package com.JiCode.ProductMa.adaptor.input.controllers;
 
+import com.JiCode.ProductMa.adaptor.input.vo.CommonVo;
 import com.JiCode.ProductMa.application.RequirementApplication;
 import com.JiCode.ProductMa.application.dto.AllrequirementsDto;
 import com.JiCode.ProductMa.exception.ServerException;
@@ -18,8 +19,16 @@ public class RequirementController {
     RequirementApplication requirementApplication;
 
     @GetMapping("/requirments")
-    public AllrequirementsDto getAllRequirements(@RequestParam("productId") String productId,
+    public CommonVo<AllrequirementsDto> getAllRequirements(@RequestParam("productId") String productId,
             @RequestParam("pageNo") int pageNo, @RequestParam("pageSize") int pageSize) throws ServerException {
-        return requirementApplication.getAllRequirementsByProductId(productId, pageNo, pageSize);
+        AllrequirementsDto allrequirementsDto = requirementApplication.getAllRequirementsByProductId(productId, pageNo,
+                pageSize);
+
+        CommonVo<AllrequirementsDto> commonVo = new CommonVo<>();
+        commonVo.setMsg("请求成功");
+        commonVo.setOk(true);
+        commonVo.setData(allrequirementsDto);
+
+        return commonVo;
     }
 }

@@ -10,10 +10,13 @@ import com.JiCode.ProductDev.domain.factory.ProjectFactory;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
 import com.JiCode.ProductDev.domain.repository.ProjectRepository;
 
+/**
+ * 工厂类实现
+ * @author Laurent Wu
+ * @date 2023/12/26
+ */
 @Service
 public class ProjectFactoryImpl implements ProjectFactory {
-    @Autowired
-    ProjectRepository projectRepository;
 
     public ProjectAggregation createProject(String id, String status, float progress, Date startTime, Date endTime, String managerId, List<String>members){
         ProjectAggregation projectAggregation = new ProjectAggregation();

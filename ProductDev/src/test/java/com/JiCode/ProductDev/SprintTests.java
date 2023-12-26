@@ -1,7 +1,12 @@
 package com.JiCode.ProductDev;
 
+import com.JiCode.ProductDev.domain.factory.SprintFactory;
 import com.JiCode.ProductDev.domain.model.SprintAggregation;
 import com.JiCode.ProductDev.domain.repository.SprintRepository;
+import com.JiCode.ProductDev.exceptions.sprint.DeleteFailureException;
+import com.JiCode.ProductDev.exceptions.sprint.InsertFailureException;
+import com.JiCode.ProductDev.exceptions.sprint.SetReleaseException;
+import com.JiCode.ProductDev.exceptions.sprint.UpdateFaliureException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +26,9 @@ public class SprintTests {
     @Autowired
     SprintRepository sprintRepository;
 
+    @Autowired
+    SprintFactory sprintFactory;
+
     @Test
     public void testSelectById() {
         SprintAggregation sprintAggregation = sprintRepository.selectById("1");
@@ -33,7 +41,7 @@ public class SprintTests {
     }
 
     @Test
-    public void testInsert(){
+    public void testInsert() throws InsertFailureException {
         String id = "3";
         Date startTime = new Date(2023, 12, 23);
         Date endTime = new Date(2023, 12, 23);
@@ -42,12 +50,12 @@ public class SprintTests {
         String projectId = "1";
         String managerId = "1";
         List<String> members =  Arrays.asList("1");
-        SprintAggregation sprintAggregation = SprintAggregation.createSprint(id, startTime, endTime, goal, type, projectId, managerId, null, members);
+        SprintAggregation sprintAggregation = sprintFactory.createSprint(id, startTime, endTime, goal, type, projectId, managerId, null, members);
         sprintRepository.insert(sprintAggregation);
     }
 
     @Test
-    public void testUpdateById(){
+    public void testUpdateById() throws UpdateFaliureException {
         String id = "1";
         Date startTime = new Date(2023, 12, 23);
         Date endTime = new Date(2023, 12, 23);
@@ -56,12 +64,19 @@ public class SprintTests {
         String projectId = "1";
         String managerId = "1";
         List<String> members =  Arrays.asList("1");
-        SprintAggregation sprintAggregation = SprintAggregation.createSprint(id, startTime, endTime, goal, type, projectId, managerId, null, members);
+        SprintAggregation sprintAggregation = sprintFactory.createSprint(id, startTime, endTime, goal, type, projectId, managerId, null, members);
         sprintRepository.updateById(sprintAggregation);
     }
 
     @Test
-    public void testDeleteById(){
+    public void testDeleteById() throws DeleteFailureException {
         sprintRepository.deleteById("1");
+    }
+
+    @Test
+    public void testSetRelease() throws SetReleaseException {
+        String sprintId = "3";
+        String releaseId = "2";
+        sprintRepository.setRelease(sprintId, releaseId);
     }
 }

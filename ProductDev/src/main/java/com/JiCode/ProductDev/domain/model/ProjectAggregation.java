@@ -15,12 +15,9 @@ import java.util.List;
  * @author Laurent Wu
  * @date 2023/12/24
  */
-@Service
 @Data
 @NoArgsConstructor
 public class ProjectAggregation {
-    @Autowired
-    ProjectRepository projectRepository;
 
     private String id;
 
@@ -64,27 +61,31 @@ public class ProjectAggregation {
         return managerId;
     }
 
-    /**
-     * 工厂模式，新建聚合
-     * @param id
-     * @param status
-     * @param progress
-     * @param startTime
-     * @param endTime
-     * @param managerId
-     * @param members
-     * @return {@link ProjectAggregation}
-     */// 工厂模式
-    static public ProjectAggregation createProject(String id, String status, float progress, Date startTime, Date endTime, String managerId, List<String>members){
-        ProjectAggregation projectAggregation = new ProjectAggregation();
-        projectAggregation.id = id;
-        projectAggregation.status = status;
-        projectAggregation.progress = progress;
-        projectAggregation.startTime = startTime;
-        projectAggregation.endTime = endTime;
-        projectAggregation.managerId = managerId;
-        projectAggregation.member = members;
-        System.out.println(projectAggregation);
-        return projectAggregation;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setProgress(Float progress) {
+        this.progress = progress;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setManagerId(String managerId) {
+        this.managerId = managerId;
+    }
+
+    public void setMember(List<String> member) {
+        this.member = member;
     }
 }

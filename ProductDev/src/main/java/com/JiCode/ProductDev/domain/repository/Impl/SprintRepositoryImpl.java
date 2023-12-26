@@ -3,9 +3,11 @@ package com.JiCode.ProductDev.domain.repository.Impl;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.*;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.SprintMapper;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.SprintMemberMapper;
+import com.JiCode.ProductDev.domain.factory.SprintFactory;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
 import com.JiCode.ProductDev.domain.model.SprintAggregation;
 import com.JiCode.ProductDev.domain.repository.SprintRepository;
+import com.JiCode.ProductDev.exceptions.sprint.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -19,6 +21,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 /**
+ * 仓储实现，注入两个部分： mapper,factory
  * @author Laurent Wu
  * @date 2023/12/26
  */
@@ -30,6 +33,9 @@ public class SprintRepositoryImpl implements SprintRepository {
     @Autowired
     SprintMemberMapper sprintMemberMapper;
 
+    @Autowired
+    SprintFactory SprintFactory;
+
 
     /**
      * @param sprint
@@ -37,7 +43,7 @@ public class SprintRepositoryImpl implements SprintRepository {
      * @return {@link SprintAggregation}
      */
     private SprintAggregation entityToAggregate(Sprint sprint, List<String> memberIds){
-        SprintAggregation sprintAggregation = SprintAggregation.createSprint(sprint.getId(), sprint.getStartTime(),sprint.getEndTime(),sprint.getGoal(),sprint.getType(),sprint.getProjectId(),sprint.getManagerId(),sprint.getReleaseId(),memberIds);
+        SprintAggregation sprintAggregation = SprintFactory.createSprint(sprint.getId(), sprint.getStartTime(),sprint.getEndTime(),sprint.getGoal(),sprint.getType(),sprint.getProjectId(),sprint.getManagerId(),sprint.getReleaseId(),memberIds);
         return sprintAggregation;
     }
 
@@ -102,8 +108,10 @@ public class SprintRepositoryImpl implements SprintRepository {
         try{
             PageHelper.startPage(pageNum, pageSize);
             Page<Sprint> sprints = sprintMapper.selectByPaging(null);
+
             List<SprintAggregation> sprintAggregations = new ArrayList<>();
             for (Sprint sprint : sprints) {
+                System.out.println(sprint.getStartTime());
                 // 获取迭代成员id列表
                 SprintMemberExample example = new SprintMemberExample();
                 example.createCriteria().andSprintIdEqualTo(sprint.getId());
@@ -125,7 +133,7 @@ public class SprintRepositoryImpl implements SprintRepository {
 
     }
 
-    public int insert(SprintAggregation sprintAggregation){
+    public int insert(SprintAggregation sprintAggregation) throws InsertFailureException {
         try {
             Sprint sprint = new Sprint();
             BeanUtils.copyProperties(sprintAggregation, sprint);
@@ -135,25 +143,43 @@ public class SprintRepositoryImpl implements SprintRepository {
             return sprintMapper.insert(sprint);
         }catch (Exception e){
             System.out.println(e);
-            return 0;
+            throw new InsertFailureException(e.getMessage());
         }
     }
 
-    public int updateById(SprintAggregation sprintAggregation){
+    public int updateById(SprintAggregation sprintAggregation) throws UpdateFaliureException {
         try{
             return saveAggregate(sprintAggregation);
         }catch (Exception e){
             System.out.println(e);
-            return 0;
+            throw new UpdateFaliureException(e.getMessage());
         }
     }
 
-    public int deleteById(String id){
+    public int deleteById(String id) throws DeleteFailureException {
         try{
             return sprintMapper.deleteByPrimaryKey(id);
         }catch (Exception e){
-            System.out.println(e);
-            return 0;
+            throw new DeleteFailureException(e.getMessage());
+        }
+    }
+
+    /**
+     * 提供修改release_sprint联系集的方法
+     * @param sprintId
+     * @param releaseId
+     * @return int
+     */
+    public int setRelease(String sprintId, String releaseId) throws SetReleaseException {
+        try{
+            Sprint sprint = sprintMapper.selectByPrimaryKey(sprintId);
+            if(sprint == null)
+                throw new SprintNotFoundException("Can not find such sprint.");
+            sprint.setReleaseId(releaseId);
+            int result = sprintMapper.updateByPrimaryKey(sprint);
+            return result;
+        }catch(Exception e){
+            throw new SetReleaseException(e.getMessage());
         }
     }
 

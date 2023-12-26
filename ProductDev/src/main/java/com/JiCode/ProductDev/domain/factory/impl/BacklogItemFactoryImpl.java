@@ -3,6 +3,7 @@ package com.JiCode.ProductDev.domain.factory.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.JiCode.ProductDev.domain.model.ScheduleAggregation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +12,13 @@ import com.JiCode.ProductDev.domain.model.BacklogItemAggregation;
 import com.JiCode.ProductDev.domain.repository.BacklogItemRepository;
 import com.JiCode.ProductDev.domain.repository.ScheduleRepository;
 
+/**
+ * 工厂类实现
+ * @author Laurent Wu
+ * @date 2023/12/26
+ */
 @Service
 public class BacklogItemFactoryImpl implements BacklogItemFactory {
-    // @Autowired
-    // BacklogItemRepository backlogItemRepository;
     @Autowired
     ScheduleRepository scheduleRepository;
 
@@ -34,13 +38,11 @@ public class BacklogItemFactoryImpl implements BacklogItemFactory {
 
         // 这里把scheduleAggregation select出来并且加入到聚合当中
         System.out.println("scheduleRepository: " + scheduleRepository);
-        if(scheduleRepository == null){
-            backlogItemAggregation.setScheduleAggregation(null);
-        }
-        else{
-            backlogItemAggregation.setScheduleAggregation(scheduleRepository.selectById(scheduleId));
-        }
-        // backlogItemAggregation.setScheduleAggregation(scheduleRepository.selectById(scheduleId));
+
+        ScheduleAggregation scheduleAggregation = scheduleRepository.selectById(scheduleId);
+
+        backlogItemAggregation.setScheduleAggregation(scheduleAggregation);
+
         return backlogItemAggregation;
     }
 }

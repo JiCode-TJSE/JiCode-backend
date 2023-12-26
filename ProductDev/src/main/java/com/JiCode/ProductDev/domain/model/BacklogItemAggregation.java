@@ -27,6 +27,54 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class BacklogItemAggregation {
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setPriority(String priority) {
+        this.priority = priority;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public void setManagerId(String managerId) {
+        this.managerId = managerId;
+    }
+
+    public void setScheduleId(String scheduleId) {
+        this.scheduleId = scheduleId;
+    }
+
+    public void setMemberIds(List<String> memberIds) {
+        this.memberIds = memberIds;
+    }
+
+    public void setScheduleAggregation(ScheduleAggregation scheduleAggregation) {
+        this.scheduleAggregation = scheduleAggregation;
+    }
     // backlogitem 的属性
     private String id;
 

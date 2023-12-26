@@ -13,12 +13,9 @@ import java.util.List;
  * @author Laurent Wu
  * @date 2023/12/26
  */
-@Service
 @Data
 @NoArgsConstructor
 public class SprintAggregation {
-    @Autowired
-    SprintRepository sprintRepository;
     private String id;
 
     private Date startTime;
@@ -37,20 +34,42 @@ public class SprintAggregation {
 
     private List<String> memberIds;
 
-    static public SprintAggregation createSprint(String id, Date startTime, Date endTime, String goal, String type, String projectId, String managerId, String releaseId, List<String> memberIds){
-        SprintAggregation sprintAggregation = new SprintAggregation();
-        sprintAggregation.id = id;
-        sprintAggregation.startTime = startTime;
-        sprintAggregation.endTime = endTime;
-        sprintAggregation.goal = goal;
-        sprintAggregation.type = type;
-        sprintAggregation.projectId = projectId;
-        sprintAggregation.managerId = managerId;
-        sprintAggregation.releaseId = releaseId;
-        sprintAggregation.memberIds = memberIds;
-        System.out.println(sprintAggregation);
-        return sprintAggregation;
+    public void setId(String id) {
+        this.id = id;
     }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public void setGoal(String goal) {
+        this.goal = goal;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    public void setManagerId(String managerId) {
+        this.managerId = managerId;
+    }
+
+    public void setReleaseId(String releaseId) {
+        this.releaseId = releaseId;
+    }
+
+    public void setMemberIds(List<String> memberIds) {
+        this.memberIds = memberIds;
+    }
+
 
     public String getId() {
         return id;

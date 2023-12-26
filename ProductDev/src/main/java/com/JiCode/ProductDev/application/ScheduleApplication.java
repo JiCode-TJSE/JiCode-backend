@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class ScheduleApplication {
-    @Autowired
-    ScheduleAggregation scheduleAggregation;
+//    @Autowired
+//    ScheduleAggregation scheduleAggregation;
 
     @Autowired
     ScheduleRepositoryImpl scheduleRepositoryImpl;

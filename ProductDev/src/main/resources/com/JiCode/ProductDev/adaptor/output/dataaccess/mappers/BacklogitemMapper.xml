@@ -189,7 +189,7 @@
     </if>
   </select>
   <select id="selectByPaging"
-          resultType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Backlogitem">
+          resultMap="BaseResultMap">
     select * from backlogitem
   </select>
   <update id="updateByExampleSelective" parameterType="map">

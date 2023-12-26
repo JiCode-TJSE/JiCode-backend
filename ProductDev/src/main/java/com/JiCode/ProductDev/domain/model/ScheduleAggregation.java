@@ -6,12 +6,10 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-@Service
+
 @Data
 @NoArgsConstructor
 public class ScheduleAggregation {
-    @Autowired
-    ScheduleRepository scheduleRepository;
 
     private String id;
     private Integer estimatedWorkhour;
@@ -19,16 +17,24 @@ public class ScheduleAggregation {
     private Integer remainWorkhour;
     private float progress;
 
-    // 工厂模式
-    static public ScheduleAggregation createSchedule(String id, int estimatedWorkhour, int actualWorkhour,int remainWorkhour, float progress){
-        ScheduleAggregation scheduleAggregation = new ScheduleAggregation();
-        scheduleAggregation.id = id;
-        scheduleAggregation.estimatedWorkhour = estimatedWorkhour;
-        scheduleAggregation.actualWorkhour = actualWorkhour;
-        scheduleAggregation.remainWorkhour = remainWorkhour;
-        scheduleAggregation.progress = progress;
-        System.out.println(scheduleAggregation);
-        return scheduleAggregation;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setEstimatedWorkhour(Integer estimatedWorkhour) {
+        this.estimatedWorkhour = estimatedWorkhour;
+    }
+
+    public void setActualWorkhour(Integer actualWorkhour) {
+        this.actualWorkhour = actualWorkhour;
+    }
+
+    public void setRemainWorkhour(Integer remainWorkhour) {
+        this.remainWorkhour = remainWorkhour;
+    }
+
+    public void setProgress(float progress) {
+        this.progress = progress;
     }
 
 }

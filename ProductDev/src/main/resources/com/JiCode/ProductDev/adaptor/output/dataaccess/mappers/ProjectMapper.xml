@@ -160,7 +160,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select id="selectByPaging" resultType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project">
+  <select id="selectByPaging" resultMap="BaseResultMap">
     select * from project
   </select>
   <update id="updateByExampleSelective" parameterType="map">

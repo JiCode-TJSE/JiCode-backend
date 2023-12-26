@@ -3,6 +3,7 @@ package com.JiCode.ProductDev;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Schedule;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ScheduleMapper;
+import com.JiCode.ProductDev.domain.factory.ProjectFactory;
 import com.JiCode.ProductDev.domain.model.BacklogItemAggregation;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
 import com.JiCode.ProductDev.domain.model.ScheduleAggregation;
@@ -42,16 +43,37 @@ import java.util.Scanner;
 @SpringBootTest(classes = ProductDevApplication.class)
 @WebAppConfiguration
 public class ProjectTests {
-    @Autowired
-    ProjectAggregation projectAggregation;
+//    @Autowired
+//    ProjectAggregation projectAggregation;
 
     @Autowired
     ProjectRepository projectRepository;
+
+    @Autowired
+    ProjectFactory projectFactory;
 
     @Test
     public void testSelectById(){
         ProjectAggregation projectAggregation = projectRepository.selectById("6");
         System.out.println(projectAggregation);
+    }
+
+    @Test
+    public void testGetPage(){
+        PageInfo<ProjectAggregation> pageInfo = projectRepository.getPage(1, 10);
+
+        System.out.println("Page number: " + pageInfo.getPageNum());
+        System.out.println("Page size: " + pageInfo.getPageSize());
+        System.out.println("Total pages: " + pageInfo.getPages());
+        System.out.println("Total elements: " + pageInfo.getTotal());
+
+        List<ProjectAggregation> projectAggregations = pageInfo.getList();
+        for(ProjectAggregation projectAggregation : projectAggregations){
+            // print the content of projectAggregation
+            // you need to implement the toString method in ProjectAggregation class
+            System.out.println(projectAggregation);
+        }
+        System.out.println(projectRepository.getPage(1, 10));
     }
 
     @Test
@@ -62,7 +84,7 @@ public class ProjectTests {
         Date endTime = new Date(2023, 12, 23);
         String managerId = "1";
         List<String> members =  Arrays.asList("1", "2", "4");
-        ProjectAggregation projectAggregation = ProjectAggregation.createProject(null, status, progress, startTime, endTime, managerId, members);
+        ProjectAggregation projectAggregation = projectFactory.createProject(null, status, progress, startTime, endTime, managerId, members);
         System.out.println(projectRepository.insert(projectAggregation));
     }
 
@@ -75,7 +97,7 @@ public class ProjectTests {
         Date endTime = new Date(2023, 12, 23);
         String managerId = "1";
         List<String> members =  Arrays.asList("1", "2", "3");
-        ProjectAggregation projectAggregation = ProjectAggregation.createProject(id, status, progress, startTime, endTime, managerId, members);
+        ProjectAggregation projectAggregation = projectFactory.createProject(id, status, progress, startTime, endTime, managerId, members);
         System.out.println(projectRepository.updateById(projectAggregation));
     }
 

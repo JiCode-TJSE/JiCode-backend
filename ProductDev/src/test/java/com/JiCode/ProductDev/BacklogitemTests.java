@@ -59,7 +59,7 @@ public class BacklogitemTests{
     }
 
     @Test
-    public void testSelectPage(){
+    public void testGetPage(){
         PageInfo<BacklogItemAggregation> pageInfo = backlogItemRepository.getPage(1, 10);
 
         System.out.println("Page number: " + pageInfo.getPageNum());

@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-// @Lazy
+
 @Service
 public class BacklogItemRepositoryImpl implements BacklogItemRepository {
     @Autowired
@@ -102,10 +102,11 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
         try{
             // 分页查询
             PageHelper.startPage(pageNum, pageSize);
-            Page<Backlogitem> backlogitems = backlogitemMapper.selectByPaging(null);
-            // System.out.println(backlogitems);
+            Page<Backlogitem> backlogitems = backlogitemMapper.selectByPaging(new BacklogitemExample());
+            //System.out.println(backlogitems);
             List<BacklogItemAggregation> backlogItemAggregations = new ArrayList<>();
             for (Backlogitem backlogitem : backlogitems) {
+                System.out.println(backlogitem.getScheduleId());
                 // 获取成员列表
                 BacklogitemMemberExample example = new BacklogitemMemberExample();
                 example.createCriteria().andBacklogitemIdEqualTo(backlogitem.getId());

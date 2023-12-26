@@ -1,24 +1,20 @@
 package com.JiCode.ProductMa.domain.repository;
 
 import com.JiCode.ProductMa.domain.model.RequirementAggregation;
-import com.JiCode.ProductMa.domain.model.entity.requirement.VersionContentEntity;
-import com.JiCode.ProductMa.exception.requirement.repository.*;
+import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementContentEntity;
+import com.JiCode.ProductMa.exception.DeleteFailedException;
+import com.JiCode.ProductMa.exception.InsertFailedException;
+import com.JiCode.ProductMa.exception.SelectFailedException;
+import com.JiCode.ProductMa.exception.UpdateFailedException;
 
 public interface RequirementRepository {
-        public void insert(RequirementAggregation requirementAggregation)
-                        throws InsertRequirementFailedException, InsertClientFailedException,
-                        InsertBacklogItemFailedException,
-                        InsertVersionFailedException;
+        public void insert(RequirementAggregation requirementAggregation) throws InsertFailedException;
 
-        public void delete(String id) throws DeleteRequirementFailedException;
+        public void delete(String id) throws DeleteFailedException;
 
-        public void update(RequirementAggregation requirementAggregation)
-                        throws UpdateRequirementFailedException, InsertClientFailedException,
-                        InsertBacklogItemFailedException;
+        public void update(RequirementAggregation requirementAggregation) throws UpdateFailedException;
 
-        public RequirementAggregation selectById(String id)
-                        throws RequirementNotFoundException, ClientNotFoundException, BacklogItemNotFoundException,
-                        VersionNotFoundException;
+        public RequirementAggregation selectById(String id) throws SelectFailedException;
 
-        public VersionContentEntity selectVersionContent(String versionId);
+        public RequirementContentEntity selectVersionContent(String versionId) throws SelectFailedException;
 }

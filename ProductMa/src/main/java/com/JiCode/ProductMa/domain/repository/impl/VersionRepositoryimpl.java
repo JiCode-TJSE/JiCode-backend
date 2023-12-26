@@ -1,5 +1,6 @@
 package com.JiCode.ProductMa.domain.repository.impl;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -7,49 +8,51 @@ import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementVersion
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementVersion;
 import com.JiCode.ProductMa.domain.model.VersionAggregation;
 import com.JiCode.ProductMa.domain.repository.VersionRepository;
+import com.JiCode.ProductMa.exception.CreateFailedException;
+import com.JiCode.ProductMa.exception.DeleteFailedException;
+import com.JiCode.ProductMa.exception.InsertFailedException;
+import com.JiCode.ProductMa.exception.UpdateFailedException;
+import com.JiCode.ProductMa.exception.SelectFailedException;
 
 @Repository
 public class VersionRepositoryimpl implements VersionRepository {
     @Autowired
     private RequirementVersionMapper requirementVersionMapper;
 
-    public void insert(VersionAggregation versionAggregation) throws Exception {
+    public void insert(VersionAggregation versionAggregation) throws InsertFailedException {
         RequirementVersion record = new RequirementVersion();
-        record.setId(versionAggregation.getId());
-        record.setName(versionAggregation.getName());
-        record.setDetail(versionAggregation.getDescription());
-        record.setCreateTime(versionAggregation.getCreateTime());
+        BeanUtils.copyProperties(versionAggregation, record);
         int result = requirementVersionMapper.insert(record);
         if (result <= 0) {
-            throw new Exception("Insert version failed.");
+            throw new InsertFailedException("Failed to insert version with id " + versionAggregation.getId() + ".");
         }
     }
 
-    public void delete(String id) throws Exception {
+    public void delete(String id) throws DeleteFailedException {
         int result = requirementVersionMapper.deleteByPrimaryKey(id);
         if (result <= 0) {
-            throw new Exception("Delete version failed.");
+            throw new DeleteFailedException("Failed to delete version with id " + id + ".");
         }
     }
 
-    public void update(VersionAggregation versionAggregation) throws Exception {
+    public void update(VersionAggregation versionAggregation) throws UpdateFailedException {
         RequirementVersion record = new RequirementVersion();
-        record.setId(versionAggregation.getId());
-        record.setName(versionAggregation.getName());
-        record.setDetail(versionAggregation.getDescription());
-        record.setCreateTime(versionAggregation.getCreateTime());
+        BeanUtils.copyProperties(versionAggregation, record);
         int result = requirementVersionMapper.updateByPrimaryKey(record);
         if (result <= 0) {
-            throw new Exception("Update version failed.");
+            throw new UpdateFailedException("Failed to update version with id " + versionAggregation.getId() + ".");
         }
     }
 
-    public VersionAggregation selectById(String id) throws Exception {
+    public VersionAggregation selectById(String id) throws SelectFailedException {
         RequirementVersion record = requirementVersionMapper.selectByPrimaryKey(id);
         if (record == null) {
-            throw new Exception("Select version failed.");
+            throw new SelectFailedException("Failed to select version with id " + id + ".");
         }
-        return VersionAggregation.createVersionByAll(record.getId(), record.getName(), record.getDetail(),
-                record.getCreateTime());
+        try {
+            return VersionAggregation.createVersionByAll(record);
+        } catch (CreateFailedException e) {
+            throw new SelectFailedException("Failed to create VersionAggregation for version with id " + id + ".", e);
+        }
     }
 }

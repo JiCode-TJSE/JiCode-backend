@@ -20,4 +20,10 @@ public class ProductMaController {
     public ProductSimpleInfoArrDTO getAllProductsByUserID(@RequestHeader("userID") String userID) {
         return productApplication.getAllProductsByUserID(userID);
     }
+
+    @GetMapping("/requirments")
+    public ProductSimpleInfoArrDTO getAllRequirements(@RequestParam("productId") String productId,
+            @RequestParam("pageNo") String pageNo, @RequestParam("pageSize") String pageSize) {
+        return productApplication.getAllRequirements(productId, pageNo, pageSize);
+    }
 }

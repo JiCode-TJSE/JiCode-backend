@@ -24,7 +24,8 @@ public class VersionRepositoryimpl implements VersionRepository {
         BeanUtils.copyProperties(versionAggregation, record);
         int result = requirementVersionMapper.insert(record);
         if (result <= 0) {
-            throw new InsertFailedException("Failed to insert version with id " + versionAggregation.getId() + ".");
+            throw new InsertFailedException(
+                    "Failed to insert version with id " + versionAggregation.getVersionId() + ".");
         }
     }
 
@@ -40,7 +41,8 @@ public class VersionRepositoryimpl implements VersionRepository {
         BeanUtils.copyProperties(versionAggregation, record);
         int result = requirementVersionMapper.updateByPrimaryKey(record);
         if (result <= 0) {
-            throw new UpdateFailedException("Failed to update version with id " + versionAggregation.getId() + ".");
+            throw new UpdateFailedException(
+                    "Failed to update version with id " + versionAggregation.getVersionId() + ".");
         }
     }
 

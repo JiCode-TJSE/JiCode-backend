@@ -1,7 +1,6 @@
 package com.JiCode.ProductMa.domain.model;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Date;
 
 import org.springframework.beans.BeanUtils;
@@ -14,11 +13,11 @@ import lombok.Getter;
 @Getter
 public class VersionAggregation {
 
-    private String id;
+    private String versionId;
 
     private String name;
 
-    private String description;
+    private String detail;
 
     private Date createTime;
 

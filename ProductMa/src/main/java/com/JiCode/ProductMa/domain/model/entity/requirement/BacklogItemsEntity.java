@@ -1,7 +1,6 @@
 package com.JiCode.ProductMa.domain.model.entity.requirement;
 
 import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
 
 import org.springframework.beans.BeanUtils;
 

@@ -30,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -56,12 +57,12 @@ public class RequirementRepositoryImpl implements RequirementRepository {
     public RequirementAggregation selectById(String id) throws SelectFailedException {
         try {
             RequirementEntity requirementEntity = selectRequirement(id);
-            VersionsEntity versionsEntity = selectVersions(requirementEntity.getId());
+            VersionsEntity versionsEntity = selectVersions(requirementEntity.getRequirementId());
             RequirementContentEntity requirementContentEntity = selectRequirementContent(
-                    requirementEntity.getInVersion(),
+                    requirementEntity.getRequirementContentId(),
                     versionsEntity.getVersionArr());
-            ClientsEntity clientsEntity = selectClientIds(requirementEntity.getInVersion());
-            BacklogItemsEntity backlogItemsEntity = selectBacklogItemIds(requirementEntity.getInVersion());
+            ClientsEntity clientsEntity = selectClientIds(requirementEntity.getRequirementContentId());
+            BacklogItemsEntity backlogItemsEntity = selectBacklogItemIds(requirementEntity.getRequirementContentId());
 
             return RequirementAggregation.createRequirementByAll(
                     requirementEntity, versionsEntity, requirementContentEntity, clientsEntity, backlogItemsEntity);
@@ -73,21 +74,22 @@ public class RequirementRepositoryImpl implements RequirementRepository {
     private RequirementContentEntity selectRequirementContent(String versionId, VersionAggregation[] versionArr)
             throws SelectFailedException {
         Optional<VersionAggregation> versionOpt = Arrays.stream(versionArr)
-                .filter(version -> versionId.equals(version.getId()))
+                .filter(version -> versionId.equals(version.getVersionId()))
                 .findFirst();
         if (!versionOpt.isPresent()) {
             throw new SelectFailedException("Version with id " + versionId + " not found in versionArr.");
         }
         VersionAggregation version = versionOpt.get();
-        RequirementContent content = this.requirementContentMapper.selectByPrimaryKey(version.getId());
+        RequirementContent content = this.requirementContentMapper.selectByPrimaryKey(version.getVersionId());
         if (content == null) {
-            throw new SelectFailedException("RequirementContent not found for version id " + version.getId() + ".");
+            throw new SelectFailedException(
+                    "RequirementContent not found for version id " + version.getVersionId() + ".");
         }
         try {
             return RequirementContentEntity.create(content);
         } catch (CreateFailedException e) {
             throw new SelectFailedException(
-                    "Failed to create RequirementContentEntity for version id " + version.getId() + ".", e);
+                    "Failed to create RequirementContentEntity for version id " + version.getVersionId() + ".", e);
         }
     }
 
@@ -186,6 +188,11 @@ public class RequirementRepositoryImpl implements RequirementRepository {
     public void insert(RequirementAggregation requirementAggregation)
             throws InsertFailedException {
         Requirement requirement = insertRequirement(requirementAggregation);
+        // 生成UUID
+        String uuid1 = UUID.randomUUID().toString();
+        String uuid2 = UUID.randomUUID().toString();
+        requirementAggregation.getRequirementEntity().setRequirementContentId(uuid1);
+        requirementAggregation.getRequirementEntity().setId(uuid2);
         // 新建的时候只有一个版本
         insertVersion(requirementAggregation, requirement.getId());
         insertRequirementContent(requirementAggregation);
@@ -193,13 +200,14 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         insertBacklogItems(requirementAggregation);
     }
 
-    private void insertRequirementContent(RequirementAggregation requirementAggregation) {
+    private void insertRequirementContent(RequirementAggregation requirementAggregation) throws InsertFailedException {
         RequirementContent requirementContent = new RequirementContent();
         BeanUtils.copyProperties(requirementAggregation.getRequirementContentEntity(), requirementContent);
-        requirementContent.setVersionContentId(requirementAggregation.getRequirementEntity().getInVersion());
+        requirementContent.setVersionContentId(requirementAggregation.getRequirementEntity().getRequirementContentId());
         int requirementContentResult = this.requirementContentMapper.insert(requirementContent);
         if (requirementContentResult <= 0) {
-            // 抛出异常
+            throw new InsertFailedException("Failed to insert requirement content with versionContentId: "
+                    + requirementContent.getVersionContentId());
         }
     }
 
@@ -210,7 +218,7 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         int requirementResult = this.requirementMapper.insert(requirement);
         if (requirementResult <= 0) {
             throw new InsertFailedException("Failed to insert requirement for RequirementAggregation with id "
-                    + requirementAggregation.getRequirementEntity().getId() + ".");
+                    + requirementAggregation.getRequirementEntity().getRequirementId() + ".");
         }
         return requirement;
     }
@@ -219,13 +227,14 @@ public class RequirementRepositoryImpl implements RequirementRepository {
             throws InsertFailedException {
         for (String clientId : requirementAggregation.getClientsEntity().getClientIDArr()) {
             RequirementClientKey requirementClientKey = new RequirementClientKey();
-            requirementClientKey.setRequirementContentId(requirementAggregation.getRequirementEntity().getInVersion());
+            requirementClientKey
+                    .setRequirementContentId(requirementAggregation.getRequirementEntity().getRequirementContentId());
             requirementClientKey.setClientId(clientId);
             int clientResult = this.requirementClientMapper.insert(requirementClientKey);
             if (clientResult <= 0) {
                 throw new InsertFailedException(
                         "Failed to insert client with id " + clientId + " for RequirementAggregation with inVersionId "
-                                + requirementAggregation.getRequirementEntity().getInVersion() + ".");
+                                + requirementAggregation.getRequirementEntity().getRequirementContentId() + ".");
             }
         }
     }
@@ -235,13 +244,13 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         for (String backlogItemId : requirementAggregation.getBacklogItemsEntity().getBacklogItemIDArr()) {
             RequirementBacklogitemKey requirementBacklogitemKey = new RequirementBacklogitemKey();
             requirementBacklogitemKey
-                    .setRequirementContentId(requirementAggregation.getRequirementEntity().getInVersion());
+                    .setRequirementContentId(requirementAggregation.getRequirementEntity().getRequirementContentId());
             requirementBacklogitemKey.setBacklogitemId(backlogItemId);
             int backlogItemResult = this.requirementBacklogitemMapper.insert(requirementBacklogitemKey);
             if (backlogItemResult <= 0) {
                 throw new InsertFailedException("Failed to insert backlog item with id " + backlogItemId
                         + " for RequirementAggregation with inVersionId "
-                        + requirementAggregation.getRequirementEntity().getInVersion() + ".");
+                        + requirementAggregation.getRequirementEntity().getRequirementContentId() + ".");
             }
         }
     }
@@ -250,12 +259,13 @@ public class RequirementRepositoryImpl implements RequirementRepository {
             throws InsertFailedException {
         VersionAggregation version = requirementAggregation.getVersionsEntity().getVersionArr()[0];
         RequirementVersion requirementVersion = new RequirementVersion();
-        requirementVersion.setId(version.getId());
+        requirementVersion.setId(version.getVersionId());
         requirementVersion.setBelongRequirementId(requirementId);
         int versionResult = this.requirementVersionMapper.insert(requirementVersion);
         if (versionResult <= 0) {
             throw new InsertFailedException("Failed to insert version for RequirementAggregation with id "
-                    + requirementAggregation.getRequirementEntity().getId() + " and requirement id " + requirementId
+                    + requirementAggregation.getRequirementEntity().getRequirementId() + " and requirement id "
+                    + requirementId
                     + ".");
         }
     }
@@ -304,7 +314,7 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         int requirementContentResult = this.requirementContentMapper.updateByPrimaryKey(requirementContent);
         if (requirementContentResult <= 0) {
             throw new UpdateFailedException("Failed to update RequirementContent for RequirementAggregation with id "
-                    + requirementAggregation.getRequirementEntity().getId() + ".");
+                    + requirementAggregation.getRequirementEntity().getRequirementId() + ".");
         }
     }
 
@@ -315,25 +325,26 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         int requirementResult = this.requirementMapper.updateByPrimaryKey(requirement);
         if (requirementResult <= 0) {
             throw new UpdateFailedException("Failed to update requirement for RequirementAggregation with id "
-                    + requirementAggregation.getRequirementEntity().getId() + ".");
+                    + requirementAggregation.getRequirementEntity().getRequirementId() + ".");
         }
     }
 
     private void updateClients(RequirementAggregation requirementAggregation) throws UpdateFailedException {
         RequirementClientExample example = new RequirementClientExample();
         RequirementClientExample.Criteria criteria = example.createCriteria();
-        criteria.andRequirementContentIdEqualTo(requirementAggregation.getRequirementEntity().getInVersion());
+        criteria.andRequirementContentIdEqualTo(
+                requirementAggregation.getRequirementEntity().getRequirementContentId());
         this.requirementClientMapper.deleteByExample(example);
 
         for (String clientId : requirementAggregation.getClientsEntity().getClientIDArr()) {
             RequirementClientKey key = new RequirementClientKey();
-            key.setRequirementContentId(requirementAggregation.getRequirementEntity().getInVersion());
+            key.setRequirementContentId(requirementAggregation.getRequirementEntity().getRequirementContentId());
             key.setClientId(clientId);
             int clientResult = this.requirementClientMapper.insert(key);
             if (clientResult <= 0) {
                 throw new UpdateFailedException(
                         "Failed to update client with id " + clientId + " for RequirementAggregation with inVersion "
-                                + requirementAggregation.getRequirementEntity().getInVersion() + ".");
+                                + requirementAggregation.getRequirementEntity().getRequirementContentId() + ".");
             }
         }
     }
@@ -342,18 +353,19 @@ public class RequirementRepositoryImpl implements RequirementRepository {
             throws UpdateFailedException {
         RequirementBacklogitemExample example = new RequirementBacklogitemExample();
         RequirementBacklogitemExample.Criteria criteria = example.createCriteria();
-        criteria.andRequirementContentIdEqualTo(requirementAggregation.getRequirementEntity().getInVersion());
+        criteria.andRequirementContentIdEqualTo(
+                requirementAggregation.getRequirementEntity().getRequirementContentId());
         this.requirementBacklogitemMapper.deleteByExample(example);
 
         for (String backlogItemId : requirementAggregation.getBacklogItemsEntity().getBacklogItemIDArr()) {
             RequirementBacklogitemKey key = new RequirementBacklogitemKey();
-            key.setRequirementContentId(requirementAggregation.getRequirementEntity().getInVersion());
+            key.setRequirementContentId(requirementAggregation.getRequirementEntity().getRequirementContentId());
             key.setBacklogitemId(backlogItemId);
             int backlogItemResult = this.requirementBacklogitemMapper.insert(key);
             if (backlogItemResult <= 0) {
                 throw new UpdateFailedException("Failed to update backlog item with id " + backlogItemId
                         + " for RequirementAggregation with inVersion "
-                        + requirementAggregation.getRequirementEntity().getInVersion() + ".");
+                        + requirementAggregation.getRequirementEntity().getRequirementContentId() + ".");
             }
         }
     }
@@ -361,13 +373,14 @@ public class RequirementRepositoryImpl implements RequirementRepository {
     private void updateVersions(RequirementAggregation requirementAggregation) throws UpdateFailedException {
         for (VersionAggregation version : requirementAggregation.getVersionsEntity().getVersionArr()) {
             RequirementVersion requirementVersion = new RequirementVersion();
-            requirementVersion.setId(version.getId());
-            requirementVersion.setBelongRequirementId(requirementAggregation.getRequirementEntity().getId());
+            requirementVersion.setId(version.getVersionId());
+            requirementVersion.setBelongRequirementId(requirementAggregation.getRequirementEntity().getRequirementId());
             int versionResult = this.requirementVersionMapper.updateByPrimaryKey(requirementVersion);
             if (versionResult <= 0) {
                 throw new UpdateFailedException(
-                        "Failed to update version with id " + version.getId() + " for RequirementAggregation with id "
-                                + requirementAggregation.getRequirementEntity().getId() + ".");
+                        "Failed to update version with id " + version.getVersionId()
+                                + " for RequirementAggregation with id "
+                                + requirementAggregation.getRequirementEntity().getRequirementId() + ".");
             }
         }
     }

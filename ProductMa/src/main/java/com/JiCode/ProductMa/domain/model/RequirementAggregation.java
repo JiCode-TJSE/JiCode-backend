@@ -61,7 +61,7 @@ public class RequirementAggregation {
         // 检查 versionId 是否在现在的 versionArr 中，这边领域层要维护自己的数据一致性，所以要在这里检查
         boolean versionIdExists = false;
         for (VersionAggregation versionAggregation : versionsEntity.getVersionArr()) {
-            if (versionAggregation.getId().equals(versionId)) {
+            if (versionAggregation.getVersionId().equals(versionId)) {
                 versionIdExists = true;
                 break;
             }
@@ -70,7 +70,7 @@ public class RequirementAggregation {
             if (!versionIdExists) {
                 throw new NotFoundException("VersionId " + versionId + " is not in the current versionArr.");
             }
-            this.requirementEntity.setInVersion(versionId);
+            this.requirementEntity.setRequirementContentId(versionId);
             this.requirementContentEntity.copyProperties(versionContent);
             this.backlogItemsEntity.setBacklogItemIDArr(backlogItemArr);
             this.clientsEntity.setClientIDArr(clientArr);

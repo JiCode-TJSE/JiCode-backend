@@ -11,9 +11,9 @@ import lombok.Getter;
 @Getter
 public class RequirementEntity {
 
-    private String id;
+    private String requirementId;
 
-    private String inVersion;
+    private String requirementContentId;
 
     private String belongProductID;
 
@@ -31,8 +31,13 @@ public class RequirementEntity {
         this.dirty = dirty;
     }
 
-    public void setInVersion(String versionId) {
-        this.inVersion = versionId;
+    public void setRequirementContentId(String requirementContentId) {
+        this.requirementContentId = requirementContentId;
+        this.dirty = true;
+    }
+
+    public void setId(String requirementId) {
+        this.requirementId = requirementId;
         this.dirty = true;
     }
 

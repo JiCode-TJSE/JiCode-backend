@@ -5,6 +5,8 @@ import com.JiCode.ProductDev.domain.repository.BacklogItemRepository;
 import com.JiCode.ProductDev.domain.repository.Impl.ScheduleRepositoryImpl;
 import com.JiCode.ProductDev.domain.repository.ProjectRepository;
 import com.JiCode.ProductDev.domain.repository.ScheduleRepository;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,12 +25,13 @@ import java.util.List;
  */
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Component
 public class BacklogItemAggregation {
-    @Autowired
-    BacklogItemRepository backlogItemRepository;
-    @Autowired
-    ScheduleRepository scheduleRepository;
+    // @Autowired
+    // BacklogItemRepository backlogItemRepository;
+    // @Autowired
+    // ScheduleRepository scheduleRepository;
 
     // backlogitem 的属性
     private String id;
@@ -100,32 +103,38 @@ public class BacklogItemAggregation {
     public String getScheduleId() {
         return scheduleId;
     }
+
+    // @Autowired
+    // BacklogItemAggregation(BacklogItemRepository backlogItemRepository,ScheduleRepository scheduleRepository){
+    //     this.backlogItemRepository = backlogItemRepository;
+    //     this.scheduleRepository    = scheduleRepository;
+    // }
+
     // 工厂模式
+    // static public BacklogItemAggregation createBacklogItem(String id, String priority, Date startTime, Date endTime, String source, String type, String description, String projectId, String managerId, String scheduleId, List<String> memberIds){
+    //     BacklogItemAggregation backlogItemAggregation = new BacklogItemAggregation();
+    //     backlogItemAggregation.id = id;
+    //     backlogItemAggregation.priority = priority;
+    //     backlogItemAggregation.startTime = startTime;
+    //     backlogItemAggregation.endTime = endTime;
+    //     backlogItemAggregation.source = source;
+    //     backlogItemAggregation.type = type;
+    //     backlogItemAggregation.description = description;
+    //     backlogItemAggregation.projectId = projectId;
+    //     backlogItemAggregation.managerId = managerId;
+    //     backlogItemAggregation.scheduleId = scheduleId;
+    //     backlogItemAggregation.memberIds = memberIds;
 
-    static public BacklogItemAggregation createBacklogItem(String id, String priority, Date startTime, Date endTime, String source, String type, String description, String projectId, String managerId, String scheduleId, List<String> memberIds){
-        BacklogItemAggregation backlogItemAggregation = new BacklogItemAggregation();
-        backlogItemAggregation.id = id;
-        backlogItemAggregation.priority = priority;
-        backlogItemAggregation.startTime = startTime;
-        backlogItemAggregation.endTime = endTime;
-        backlogItemAggregation.source = source;
-        backlogItemAggregation.type = type;
-        backlogItemAggregation.description = description;
-        backlogItemAggregation.projectId = projectId;
-        backlogItemAggregation.managerId = managerId;
-        backlogItemAggregation.scheduleId = scheduleId;
-        backlogItemAggregation.memberIds = memberIds;
-
-        // 这里把scheduleAggregation select出来并且加入到聚合当中
-        System.out.println("scheduleRepository: " + backlogItemAggregation.scheduleRepository);
-        if(backlogItemAggregation.scheduleRepository == null){
-            backlogItemAggregation.scheduleAggregation = null;
-        }
-        else{
-            backlogItemAggregation.scheduleAggregation = backlogItemAggregation.scheduleRepository.selectById(scheduleId);
-        }
-        backlogItemAggregation.scheduleAggregation = backlogItemAggregation.scheduleRepository.selectById(scheduleId);
-        return backlogItemAggregation;
-    }
+    //     // 这里把scheduleAggregation select出来并且加入到聚合当中
+    //     System.out.println("scheduleRepository: " + backlogItemAggregation.scheduleRepository);
+    //     if(backlogItemAggregation.scheduleRepository == null){
+    //         backlogItemAggregation.scheduleAggregation = null;
+    //     }
+    //     else{
+    //         backlogItemAggregation.scheduleAggregation = backlogItemAggregation.scheduleRepository.selectById(scheduleId);
+    //     }
+    //     backlogItemAggregation.scheduleAggregation = backlogItemAggregation.scheduleRepository.selectById(scheduleId);
+    //     return backlogItemAggregation;
+    // }
 
 }

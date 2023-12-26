@@ -3,6 +3,7 @@ package com.JiCode.ProductDev.domain.repository.Impl;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.*;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.BacklogitemMapper;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.BacklogitemMemberMapper;
+import com.JiCode.ProductDev.domain.factory.BacklogItemFactory;
 import com.JiCode.ProductDev.domain.model.BacklogItemAggregation;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
 import com.JiCode.ProductDev.domain.repository.BacklogItemRepository;
@@ -11,6 +12,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
@@ -20,8 +22,11 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Service("BacklogItemRepository")
+// @Lazy
+@Service
 public class BacklogItemRepositoryImpl implements BacklogItemRepository {
+    @Autowired
+    BacklogItemFactory backlogItemFactory;
     @Autowired
     BacklogitemMapper backlogitemMapper;
     @Autowired
@@ -34,7 +39,7 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
      * @return {@link ProjectAggregation}
      */
     private BacklogItemAggregation entityToAggregate(Backlogitem backlogitem, List<String> memberIds){
-        BacklogItemAggregation backlogItemAggregation = BacklogItemAggregation.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(),memberIds);
+        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(),memberIds);
         return backlogItemAggregation;
     }
 
@@ -108,7 +113,7 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
                 List<String> memberIds = backlogitemMemberKeys.stream().map(BacklogitemMemberKey::getAccountId).collect(Collectors.toList());
 
                 // 工厂模式创建ProjectAggregation
-                BacklogItemAggregation backlogItemAggregation = BacklogItemAggregation.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(), memberIds); // use builder to create ProjectAggregation
+                BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(), memberIds); // use builder to create ProjectAggregation
                 backlogItemAggregations.add(backlogItemAggregation);
             }
             return new PageInfo<>(backlogItemAggregations);

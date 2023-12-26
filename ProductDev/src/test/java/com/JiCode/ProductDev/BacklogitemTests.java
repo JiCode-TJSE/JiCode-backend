@@ -4,6 +4,7 @@ import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Schedule;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ScheduleMapper;
 import com.JiCode.ProductDev.application.ScheduleApplication;
+import com.JiCode.ProductDev.domain.factory.BacklogItemFactory;
 import com.JiCode.ProductDev.domain.model.BacklogItemAggregation;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
 import com.JiCode.ProductDev.domain.model.ScheduleAggregation;
@@ -45,6 +46,8 @@ import java.util.Scanner;
 @SpringBootTest(classes = ProductDevApplication.class)
 @WebAppConfiguration
 public class BacklogitemTests{
+    @Autowired
+    BacklogItemFactory backlogItemFactory;
 
     @Autowired
     BacklogItemRepository backlogItemRepository;
@@ -92,7 +95,7 @@ public class BacklogitemTests{
         String managerId = "1";
         String scheduleId = "1";
         List<String> memberIds = Arrays.asList("1", "2", "3");
-        BacklogItemAggregation backlogItemAggregation = BacklogItemAggregation.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds);
+        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds);
         System.out.println(backlogItemRepository.insert(backlogItemAggregation));
     }
 
@@ -110,7 +113,7 @@ public class BacklogitemTests{
         String scheduleId = "1";
         // List<String> memberIds = Arrays.asList("4", "5", "6");
         List<String> memberIds = Arrays.asList("1", "2", "3");
-        BacklogItemAggregation backlogItemAggregation = BacklogItemAggregation.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds);
+        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds);
         System.out.println(backlogItemRepository.updateById(backlogItemAggregation));
     }
 

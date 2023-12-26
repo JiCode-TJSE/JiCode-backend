@@ -4,6 +4,7 @@ import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Schedule;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ScheduleMapper;
 import com.JiCode.ProductDev.domain.factory.BacklogItemFactory;
+import com.JiCode.ProductDev.domain.factory.ProjectFactory;
 import com.JiCode.ProductDev.domain.model.BacklogItemAggregation;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
 import com.JiCode.ProductDev.domain.model.ScheduleAggregation;
@@ -38,6 +39,9 @@ import java.util.Scanner;
 @SpringBootTest(classes = ProductDevApplication.class)
 @WebAppConfiguration
 public class ProductDevApplicationTests {
+    @Autowired
+    ProjectFactory projectFactory;
+
     @Autowired
     BacklogItemFactory backlogItemFactory;
 
@@ -87,7 +91,7 @@ public class ProductDevApplicationTests {
         Date endTime = new Date(2023, 12, 23);
         String managerId = "1";
         List<String> members =  Arrays.asList("1", "2", "4");
-        ProjectAggregation projectAggregation = ProjectAggregation.createProject(null, status, progress, startTime, endTime, managerId, members);
+        ProjectAggregation projectAggregation = projectFactory.createProject(null, status, progress, startTime, endTime, managerId, members);
         System.out.println(projectRepositoryImpl.insert(projectAggregation));
     }
 
@@ -100,7 +104,7 @@ public class ProductDevApplicationTests {
         Date endTime = new Date(2023, 12, 23);
         String managerId = "1";
         List<String> members =  Arrays.asList("1", "2", "3");
-        ProjectAggregation projectAggregation = ProjectAggregation.createProject(id, status, progress, startTime, endTime, managerId, members);
+        ProjectAggregation projectAggregation = projectFactory.createProject(id, status, progress, startTime, endTime, managerId, members);
         System.out.println(projectRepositoryImpl.updateById(projectAggregation));
     }
 

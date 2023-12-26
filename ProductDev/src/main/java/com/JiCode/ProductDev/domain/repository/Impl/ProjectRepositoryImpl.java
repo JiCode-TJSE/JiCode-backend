@@ -5,6 +5,7 @@ import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ProjectMemberExa
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ProjectMemberKey;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ProjectMapper;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ProjectMemberMapper;
+import com.JiCode.ProductDev.domain.factory.ProjectFactory;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
 import com.JiCode.ProductDev.domain.repository.ProjectRepository;
 import com.github.pagehelper.Page;
@@ -30,6 +31,8 @@ import java.util.stream.Collectors;
 @Service("ProjectRepository")
 public class ProjectRepositoryImpl implements ProjectRepository {
     @Autowired
+    ProjectFactory projectFactory;
+    @Autowired
     ProjectMapper projectMapper;
     @Autowired
     ProjectMemberMapper projectMemberMapper;
@@ -42,7 +45,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
      * @return {@link ProjectAggregation}
      */
     private ProjectAggregation entityToAggregate(Project project, List<String> memberIds){
-        ProjectAggregation projectAggregation = ProjectAggregation.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(),memberIds);
+        ProjectAggregation projectAggregation = projectFactory.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(),memberIds);
         return projectAggregation;
     }
 
@@ -113,7 +116,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
                 List<String> memberIds = projectMemberKeys.stream().map(ProjectMemberKey::getMemberId).collect(Collectors.toList());
 
                 // 工厂模式建立聚合
-                ProjectAggregation projectAggregation = ProjectAggregation.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(), memberIds);
+                ProjectAggregation projectAggregation = projectFactory.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(), memberIds);
                 projectAggregations.add(projectAggregation);
             }
             return new PageInfo<>(projectAggregations);

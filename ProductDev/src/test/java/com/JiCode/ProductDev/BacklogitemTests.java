@@ -31,10 +31,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * 对backlogitem聚合和仓储的测试
@@ -84,10 +81,16 @@ public class BacklogitemTests{
 
     @Test
     public void testInsertBacklogItem(){
-        String id = "";
+        String id = null;
         String priority = "highest";
-        Date startTime = new Date(2023, 12, 23);
-        Date endTime = new Date(2023, 12, 23);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, 2023);
+        calendar.set(Calendar.MONTH, Calendar.DECEMBER); // 注意，月份是从0开始的，所以11代表12月
+        calendar.set(Calendar.DAY_OF_MONTH, 26);
+
+        Date startTime = calendar.getTime();
+        Date endTime = calendar.getTime();
         String source = "inner schedule";
         String type = "safety";
         String description = "test";
@@ -103,8 +106,14 @@ public class BacklogitemTests{
     public void testUpdateBacklogItem(){
         String id = "1";
         String priority = "common";
-        Date startTime = new Date(2023, 12, 23);
-        Date endTime = new Date(2023, 12, 23);
+        //获取日期
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, 2023);
+        calendar.set(Calendar.MONTH, Calendar.DECEMBER); // 注意，月份是从0开始的，所以11代表12月
+        calendar.set(Calendar.DAY_OF_MONTH, 26);
+        Date startTime = calendar.getTime();
+        Date endTime = calendar.getTime();
+
         String source = "inner schedule";
         String type = "safety";
         String description = "test";

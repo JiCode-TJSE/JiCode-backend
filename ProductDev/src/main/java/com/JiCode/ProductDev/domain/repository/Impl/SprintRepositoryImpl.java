@@ -137,6 +137,7 @@ public class SprintRepositoryImpl implements SprintRepository {
         try {
             Sprint sprint = new Sprint();
             BeanUtils.copyProperties(sprintAggregation, sprint);
+            System.out.println("sprint:"+sprint.getStartTime());
             if(sprint.getId() == null) {
                 sprint.setId(UUID.randomUUID().toString());
             }

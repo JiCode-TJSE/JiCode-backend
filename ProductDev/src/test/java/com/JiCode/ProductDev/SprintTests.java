@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -42,9 +43,17 @@ public class SprintTests {
 
     @Test
     public void testInsert() throws InsertFailureException {
-        String id = "3";
-        Date startTime = new Date(2023, 12, 23);
-        Date endTime = new Date(2023, 12, 23);
+        String id = null;
+
+        // 设定日期
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, 2023);
+        calendar.set(Calendar.MONTH, Calendar.DECEMBER); // 注意，月份是从0开始的，所以11代表12月
+        calendar.set(Calendar.DAY_OF_MONTH, 26);
+
+        // 创建一个Date对象
+        Date startTime = calendar.getTime();
+        Date endTime = calendar.getTime();
         String goal = "yes";
         String type = "plan";
         String projectId = "1";
@@ -57,8 +66,13 @@ public class SprintTests {
     @Test
     public void testUpdateById() throws UpdateFaliureException {
         String id = "1";
-        Date startTime = new Date(2023, 12, 23);
-        Date endTime = new Date(2023, 12, 23);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, 2023);
+        calendar.set(Calendar.MONTH, Calendar.DECEMBER); // 注意，月份是从0开始的，所以11代表12月
+        calendar.set(Calendar.DAY_OF_MONTH, 26);
+        Date startTime = calendar.getTime();
+        Date endTime = calendar.getTime();
         String goal = "no";
         String type = "plan";
         String projectId = "1";

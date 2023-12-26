@@ -28,10 +28,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * 对project聚合和仓储的相关测试
@@ -80,8 +77,12 @@ public class ProjectTests {
     public void testInsert(){
         String status ="pending";
         Float progress = 0.5F;
-        Date startTime = new Date(2023, 12, 23);
-        Date endTime = new Date(2023, 12, 23);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, 2023);
+        calendar.set(Calendar.MONTH, Calendar.DECEMBER); // 注意，月份是从0开始的，所以11代表12月
+        calendar.set(Calendar.DAY_OF_MONTH, 26);
+        Date startTime = calendar.getTime();
+        Date endTime = calendar.getTime();
         String managerId = "1";
         List<String> members =  Arrays.asList("1", "2", "4");
         ProjectAggregation projectAggregation = projectFactory.createProject(null, status, progress, startTime, endTime, managerId, members);
@@ -93,8 +94,12 @@ public class ProjectTests {
         String id = "1";
         String status ="done";
         Float progress = 0.5F;
-        Date startTime = new Date(2023, 12, 23);
-        Date endTime = new Date(2023, 12, 23);
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, 2023);
+        calendar.set(Calendar.MONTH, Calendar.DECEMBER); // 注意，月份是从0开始的，所以11代表12月
+        calendar.set(Calendar.DAY_OF_MONTH, 26);
+        Date startTime = calendar.getTime();
+        Date endTime = calendar.getTime();
         String managerId = "1";
         List<String> members =  Arrays.asList("1", "2", "3");
         ProjectAggregation projectAggregation = projectFactory.createProject(id, status, progress, startTime, endTime, managerId, members);

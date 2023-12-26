@@ -37,7 +37,6 @@ import java.util.Scanner;
  * @author Laurent Wu
  * @date 2023/12/24
  */
-//@Service
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ProductDevApplication.class)
 @WebAppConfiguration

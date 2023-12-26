@@ -10,6 +10,7 @@
     <result column="source_enum" jdbcType="VARCHAR" property="sourceEnum" />
     <result column="type_enum" jdbcType="VARCHAR" property="typeEnum" />
     <result column="supervisor_id" jdbcType="VARCHAR" property="supervisorId" />
+    <result column="mark" jdbcType="VARCHAR" property="mark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -71,7 +72,7 @@
   </sql>
   <sql id="Base_Column_List">
     version_content_id, name, detail, attachment, module_enum, source_enum, type_enum, 
-    supervisor_id
+    supervisor_id, mark
   </sql>
   <select id="selectByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContentExample" resultMap="BaseResultMap">
     select
@@ -106,10 +107,12 @@
   <insert id="insert" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContent">
     insert into requirement_content (version_content_id, name, detail, 
       attachment, module_enum, source_enum, 
-      type_enum, supervisor_id)
+      type_enum, supervisor_id, mark
+      )
     values (#{versionContentId,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, 
       #{attachment,jdbcType=VARCHAR}, #{moduleEnum,jdbcType=VARCHAR}, #{sourceEnum,jdbcType=VARCHAR}, 
-      #{typeEnum,jdbcType=VARCHAR}, #{supervisorId,jdbcType=VARCHAR})
+      #{typeEnum,jdbcType=VARCHAR}, #{supervisorId,jdbcType=VARCHAR}, #{mark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContent">
     insert into requirement_content
@@ -138,6 +141,9 @@
       <if test="supervisorId != null">
         supervisor_id,
       </if>
+      <if test="mark != null">
+        mark,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="versionContentId != null">
@@ -163,6 +169,9 @@
       </if>
       <if test="supervisorId != null">
         #{supervisorId,jdbcType=VARCHAR},
+      </if>
+      <if test="mark != null">
+        #{mark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -199,6 +208,9 @@
       <if test="record.supervisorId != null">
         supervisor_id = #{record.supervisorId,jdbcType=VARCHAR},
       </if>
+      <if test="record.mark != null">
+        mark = #{record.mark,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -213,7 +225,8 @@
       module_enum = #{record.moduleEnum,jdbcType=VARCHAR},
       source_enum = #{record.sourceEnum,jdbcType=VARCHAR},
       type_enum = #{record.typeEnum,jdbcType=VARCHAR},
-      supervisor_id = #{record.supervisorId,jdbcType=VARCHAR}
+      supervisor_id = #{record.supervisorId,jdbcType=VARCHAR},
+      mark = #{record.mark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -242,6 +255,9 @@
       <if test="supervisorId != null">
         supervisor_id = #{supervisorId,jdbcType=VARCHAR},
       </if>
+      <if test="mark != null">
+        mark = #{mark,jdbcType=VARCHAR},
+      </if>
     </set>
     where version_content_id = #{versionContentId,jdbcType=VARCHAR}
   </update>
@@ -253,7 +269,8 @@
       module_enum = #{moduleEnum,jdbcType=VARCHAR},
       source_enum = #{sourceEnum,jdbcType=VARCHAR},
       type_enum = #{typeEnum,jdbcType=VARCHAR},
-      supervisor_id = #{supervisorId,jdbcType=VARCHAR}
+      supervisor_id = #{supervisorId,jdbcType=VARCHAR},
+      mark = #{mark,jdbcType=VARCHAR}
     where version_content_id = #{versionContentId,jdbcType=VARCHAR}
   </update>
 </mapper>

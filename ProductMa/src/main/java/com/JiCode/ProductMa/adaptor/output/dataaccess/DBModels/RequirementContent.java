@@ -17,6 +17,8 @@ public class RequirementContent {
 
     private String supervisorId;
 
+    private String mark;
+
     public String getVersionContentId() {
         return versionContentId;
     }
@@ -79,5 +81,13 @@ public class RequirementContent {
 
     public void setSupervisorId(String supervisorId) {
         this.supervisorId = supervisorId == null ? null : supervisorId.trim();
+    }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark == null ? null : mark.trim();
     }
 }

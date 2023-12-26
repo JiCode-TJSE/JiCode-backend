@@ -240,11 +240,8 @@
       product_id = #{productId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
-
-<!--  分页查询   -->
+  <!--  分页查询   -->
   <select id="selectByPaging" resultType="com.JiCode.ProductMA.adaptor.output.dataaccess.DBModels.Client">
     select * from client
   </select>
-
-
 </mapper>

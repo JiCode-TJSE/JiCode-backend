@@ -1,12 +1,18 @@
 package com.JiCode.ProductMa.domain.repository.impl;
 
-import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.*;
+import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Product;
+import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.ProductMemberExample;
+import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.ProductMemberKey;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.ClientMapper;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.ProductMapper;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.ProductMemberMapper;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementMapper;
+import com.JiCode.ProductMa.domain.model.ClientAggregation;
 import com.JiCode.ProductMa.domain.model.ProductAggregation;
+import com.JiCode.ProductMa.domain.model.RequirementAggregation;
+import com.JiCode.ProductMa.domain.repository.ClientRepository;
 import com.JiCode.ProductMa.domain.repository.ProductRepository;
+import com.JiCode.ProductMa.domain.repository.RequirementRepository;
 import com.JiCode.ProductMa.exception.product.repository.DeleteProductFailedException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +36,20 @@ public class ProductRepositoryImpl implements ProductRepository {
     @Autowired
     RequirementMapper requirementMapper;
 
+    //调用聚合根Client的仓储
+    private final ClientRepository clientRepository;
 
+    //调用聚合根Requirement的仓储
+    private final RequirementRepository requirementRepository;
+
+    public ProductRepositoryImpl(ClientRepository clientRepository, RequirementRepository requirementRepository) {
+        this.clientRepository = clientRepository;
+        this.requirementRepository = requirementRepository;
+    }
+
+    //按ID查询Product
     @Override
-    public ProductAggregation selectById(String id) {
+    public ProductAggregation selectById(String id) throws Exception {
         //product 实体查询
         Product product = selectProduct(id);
         List<String> clientList = selectClientIds(product);
@@ -51,91 +68,137 @@ public class ProductRepositoryImpl implements ProductRepository {
                 requirementList,
                 memberList
         );
-
-
-        //条件查询：client
-            //创建查询条件：查实体集Client
-        ClientExample clientExample = new ClientExample();
-        clientExample.createCriteria().andProductIdEqualTo(id);
-        List<Client> clients = clientMapper.selectByExample(clientExample);
-            //提取数组：client
-        List<String> clientIds= clients.stream()
-                .map(Client::getId)
-                .collect(Collectors.toList());//collect()将Stream元素手机到List
-
-        //条件查询：requirement
-            //创建查询条件：查实体集Requirement
-        RequirementExample requirementExample = new RequirementExample();
-        requirementExample.createCriteria().andBelongProductIdEqualTo(id);
-        List<Requirement> requirements = requirementMapper.selectByExample(requirementExample);
-            //提取数组
-        List<String> requirementIds = requirements.stream()
-                .map(Requirement::getId)
-                .collect(Collectors.toList());
-
-        //条件查询：members
-            //创建查询条件：查联系集ProductMemberKey
-        ProductMemberExample pmExample = new ProductMemberExample();
-        pmExample.createCriteria().andProductIdEqualTo(id);
-        List<ProductMemberKey> pmKeys = productMemberMapper.selectByExample(pmExample);
-            //提取数组
-        List<String> memberIds = pmKeys.stream()
-                .map(ProductMemberKey::getMemberId)
-                .collect(Collectors.toList());
-
-
     }
 
-    private Product selectProduct(String id) throws ProductNotFoundException{
+    private Product selectProduct(String id) throws Exception{
         Product product = productMapper.selectByPrimaryKey(id);
         if( product == null){
-            throw new ProductNoFoundException("Product not found.");
+            throw new Exception("Select ProductAgg: product not found.");
         }
         return product;
     }
 
-    private
+    //调用Client仓储按ProductId查询
+    private List<String> selectClientIds(Product product) throws Exception{
+        List<ClientAggregation> clientAggregations = clientRepository.selectByProductId(product.getId());
+        return clientAggregations.stream().map(ClientAggregation::getId).collect(Collectors.toList());
+    }
 
+    //查product_member联系集
+    private List<String> selectMemberIds(Product product) throws Exception{
+        ProductMemberExample example = new ProductMemberExample();
+        ProductMemberExample.Criteria criteria = example.createCriteria();
+        criteria.andProductIdEqualTo(product.getId());
+        List<ProductMemberKey> keys = productMemberMapper.selectByExample(example);
+        if (keys == null || keys.isEmpty()){
+            throw new Exception("Select ProductAgg:member not found.");
+        }
+
+        //提取数组：clientIds
+        return keys.stream()
+                .map(ProductMemberKey::getMemberId)
+                .collect(Collectors.toList());//collect()将Stream元素手机到List
+    }
+
+    //调用Requirement按ProductId查
+    private List<String> selectRequirementIds(Product product) throws Exception{
+//        // TODO:RequirementRepository增加一个selectByProductId的操作？
+//        List<RequirementAggregation> requirementAggregations = requirementRepository.selectById(product.getId());
+//        return requirementAggregations.stream()
+//                .map(RequirementAggregation::getId)
+//                .collect(Collectors.toList());
+    }
+
+
+    //插入Product
     @Override
-    public void insert(ProductAggregation productAggregation) {
-        try{
-            //插入product
-            Product product = new Product();
-            BeanUtils.copyProperties(productAggregation, product);
-            product.setId(UUID.randomUUID().toString());
+    public void insert(ProductAggregation productAggregation) throws Exception{
+        Product product = insertProduct(productAggregation);
+//        //TODO: 插入product的时候可能还没有clients、requirements、members?
+//        //什么时候insertClients，还是另外调用，还是在domain service里？
+//        insertClients(productAggregation, product);
+//        insertRequirement(productAggregation, product);
+//        insertMembers(productAggregation, product);
+    }
 
-            //插入client
-            for (String clientId : productAggregation.getClientList()){
-                Client client = new Client();
-
+    //插入product_member表
+    private void insertMembers(ProductAggregation productAggregation, Product product) throws Exception {
+        for(String memberId : productAggregation.getMemberList()){
+            ProductMemberKey productMemberKey = new ProductMemberKey();
+            productMemberKey.setProductId(product.getId());
+            productMemberKey.setMemberId(memberId);
+            int memberResult = productMemberMapper.insert(productMemberKey);
+            if(memberResult <= 0){
+                throw new Exception("Insert ProductAggregation: insert member failed.");
             }
-
-            //插入requirement
-
-            //插入members
-
-
-
-            return productMapper.insert(product);
-        }catch (Exception e){
-            System.out.println(e);
-            return 0;
         }
+    }
+
+    //调用RequirementAggregation仓储插入
+    private void insertRequirement(ProductAggregation productAggregation, Product product) {
+        //TODO: 调用RequirementRepository
+    }
+
+    //调用ClientAggregation仓储插入
+    private void insertClients(ProductAggregation productAggregation, Product product) throws Exception{
+        // 获取待插入的clientId列表
+    }
+
+    //插入product表
+    private Product insertProduct(ProductAggregation productAggregation) throws Exception {
+        Product product = new Product();
+        BeanUtils.copyProperties(productAggregation, product);
+        //设置唯一标识符
+        product.setId(UUID.randomUUID().toString());
+        int productResult = productMapper.insert(product);
+        if(productResult <= 0){
+            throw new Exception("Insert ProductAggregation: insert product failed.");
+        }
+        return product;
     }
 
     @Override
-    public void update(ProductAggregation productAggregation) {
-        try{
-            //对实体集操作
-            Product product = new Product();
-            BeanUtils.copyProperties(productAggregation, product);
-            //UUID生成ID
-            product.setId(UUID.randomUUID().toString());
-            return productMapper.insert(product); //插入product表
-            //TODO:需要对聚合涉及的联系集插入数据吗？
+    public void update(ProductAggregation productAggregation) throws Exception{
+        //脏标记处理，未改动的则不update表
+        //脏数据在哪里检测？应用层吗？
+        if (productAggregation.isProductDirty()){
+            updateProduct(productAggregation);
+        }
+        if (productAggregation.isRequirementDirty()){
+            updateRequirement(productAggregation);
+        }
+        if (productAggregation.isClientDirty()){
+            updateClient(productAggregation);
+        }
+        if (productAggregation.isMemberDirty()){
+            updateProductMember(productAggregation);
+        }
+        productAggregation.cleanDirty();
+    }
 
+    private void updateProduct(ProductAggregation productAggregation) throws Exception {
+        Product product = new Product();
+        BeanUtils.copyProperties(productAggregation, product);
+        int productResult = productMapper.updateByPrimaryKey(product);
+        if (productResult <= 0){
+            throw new Exception("Update product failed.");
         }
     }
+
+    private void updateRequirement(ProductAggregation productAggregation) {
+        //TODO: 调用Requirement的接口？
+    }
+
+    private void updateClient(ProductAggregation productAggregation) {
+        //TODO: 调用Client的接口
+    }
+
+    private void updateProductMember(ProductAggregation productAggregation) {
+        //TODO: 先找对应ProductId的ClientId，然后删掉原来的插入新的？
+        ProductMemberExample example = new ProductMemberExample();
+//        example.createCriteria().andProductIdEqualTo()
+    }
+
 
     @Override
     public void delete(String id) throws DeleteProductFailedException {

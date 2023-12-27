@@ -92,7 +92,7 @@ public class RequirementApplicationImpl
                     .createNew(addRequirementReqDto);
             // 根据参数新建一个requirement聚合
             RequirementAggregation requirementAggregation = RequirementAggregation
-                    .createNew(addRequirementReqDto.getProductId(), requirementContentEntity);
+                    .createNew(addRequirementReqDto.getBelongProductId(), requirementContentEntity);
             // 将这个聚合存入数据库
             String requirementId = requirementRepository.insert(requirementAggregation);
             // 返回id给前端

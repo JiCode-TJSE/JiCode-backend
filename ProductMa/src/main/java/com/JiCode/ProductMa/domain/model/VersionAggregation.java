@@ -9,12 +9,12 @@ import com.JiCode.ProductMa.domain.model.entity.requirement.BacklogItemsEntity;
 import com.JiCode.ProductMa.exception.CopyFailedException;
 import com.JiCode.ProductMa.exception.CreateFailedException;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class VersionAggregation {
 
-    private String versionId;
+    private String id;
 
     private String name;
 
@@ -70,7 +70,7 @@ public class VersionAggregation {
         }
 
         VersionAggregation versionAggregation = new VersionAggregation();
-        versionAggregation.versionId = productContentId;
+        versionAggregation.id = productContentId;
         versionAggregation.createTime = new Date(); // 设置createTime为当前时间
 
         // 设置其他属性为默认值

@@ -4,10 +4,11 @@ import lombok.Data;
 
 @Data
 public class AddRequirementReqDto {
-    String productId;
+    String belongProductId;
     String name;
     String detail;
     String moduleEnum;
+    String sourceEnum;
     String typeEnum;
     String supervisorId;
 }

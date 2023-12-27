@@ -6,9 +6,9 @@ import org.springframework.beans.BeanUtils;
 
 import com.JiCode.ProductMa.exception.CreateFailedException;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class RequirementEntity {
 
     private String requirementId;

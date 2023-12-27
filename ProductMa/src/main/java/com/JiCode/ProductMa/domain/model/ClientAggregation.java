@@ -14,7 +14,7 @@ public class ClientAggregation {
     @Autowired
     ClientRepository clientRepository;
 
-    //client表
+    // client表
     private String id;
     private String rank;
     private String size;
@@ -22,7 +22,7 @@ public class ClientAggregation {
     private String type;
     private String detail;
 
-    //product表
+    // product表
     private String productId;
 
     public String getId() {
@@ -54,7 +54,8 @@ public class ClientAggregation {
     }
 
     /**
-     *  工程模式
+     * 工程模式
+     * 
      * @param id
      * @param rank
      * @param size
@@ -71,8 +72,7 @@ public class ClientAggregation {
             String name,
             String type,
             String detail,
-            String productId
-    ){
+            String productId) {
         ClientAggregation clientAggregation = new ClientAggregation();
         clientAggregation.id = id;
         clientAggregation.rank = rank;

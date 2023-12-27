@@ -25,7 +25,7 @@ public class VersionRepositoryimpl implements VersionRepository {
         int result = requirementVersionMapper.insert(record);
         if (result <= 0) {
             throw new InsertFailedException(
-                    "Failed to insert version with id " + versionAggregation.getVersionId() + ".");
+                    "Failed to insert version with id " + versionAggregation.getId() + ".");
         }
     }
 
@@ -42,7 +42,7 @@ public class VersionRepositoryimpl implements VersionRepository {
         int result = requirementVersionMapper.updateByPrimaryKey(record);
         if (result <= 0) {
             throw new UpdateFailedException(
-                    "Failed to update version with id " + versionAggregation.getVersionId() + ".");
+                    "Failed to update version with id " + versionAggregation.getId() + ".");
         }
     }
 

@@ -13,9 +13,9 @@ import java.util.UUID;
 
 import com.JiCode.ProductMa.domain.model.entity.requirement.BacklogItemsEntity;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class RequirementAggregation {
 
     private RequirementEntity requirementEntity;
@@ -64,7 +64,7 @@ public class RequirementAggregation {
         // 检查 versionId 是否在现在的 versionArr 中，这边领域层要维护自己的数据一致性，所以要在这里检查
         boolean versionIdExists = false;
         for (VersionAggregation versionAggregation : versionsEntity.getVersionArr()) {
-            if (versionAggregation.getVersionId().equals(versionId)) {
+            if (versionAggregation.getId().equals(versionId)) {
                 versionIdExists = true;
                 break;
             }

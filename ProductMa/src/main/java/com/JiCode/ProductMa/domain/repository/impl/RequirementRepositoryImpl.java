@@ -192,14 +192,14 @@ public class RequirementRepositoryImpl implements RequirementRepository {
     @Override
     public String insert(RequirementAggregation requirementAggregation)
             throws InsertFailedException {
-        Requirement requirement = insertRequirement(requirementAggregation);
         // 生成UUID
         String requirementContentId = UUID.randomUUID().toString();
         String requirementId = UUID.randomUUID().toString();
         requirementAggregation.getRequirementEntity().setRequirementContentId(requirementContentId);
         requirementAggregation.getRequirementEntity().setId(requirementId);
         // 新建的时候只有一个版本
-        insertVersion(requirementAggregation, requirement.getId());
+        Requirement requirement = insertRequirement(requirementAggregation);
+        insertVersion(requirementAggregation, requirement.getRequirementId());
         insertRequirementContent(requirementAggregation);
         insertClients(requirementAggregation);
         insertBacklogItems(requirementAggregation);
@@ -265,7 +265,7 @@ public class RequirementRepositoryImpl implements RequirementRepository {
             throws InsertFailedException {
         VersionAggregation version = requirementAggregation.getVersionsEntity().getVersionArr()[0];
         RequirementVersion requirementVersion = new RequirementVersion();
-        requirementVersion.setId(version.getVersionId());
+        requirementVersion.setId(version.getId());
         requirementVersion.setBelongRequirementId(requirementId);
         int versionResult = this.requirementVersionMapper.insert(requirementVersion);
         if (versionResult <= 0) {
@@ -379,12 +379,12 @@ public class RequirementRepositoryImpl implements RequirementRepository {
     private void updateVersions(RequirementAggregation requirementAggregation) throws UpdateFailedException {
         for (VersionAggregation version : requirementAggregation.getVersionsEntity().getVersionArr()) {
             RequirementVersion requirementVersion = new RequirementVersion();
-            requirementVersion.setId(version.getVersionId());
+            requirementVersion.setId(version.getId());
             requirementVersion.setBelongRequirementId(requirementAggregation.getRequirementEntity().getRequirementId());
             int versionResult = this.requirementVersionMapper.updateByPrimaryKey(requirementVersion);
             if (versionResult <= 0) {
                 throw new UpdateFailedException(
-                        "Failed to update version with id " + version.getVersionId()
+                        "Failed to update version with id " + version.getId()
                                 + " for RequirementAggregation with id "
                                 + requirementAggregation.getRequirementEntity().getRequirementId() + ".");
             }

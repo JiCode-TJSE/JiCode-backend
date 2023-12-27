@@ -7,9 +7,9 @@ import org.springframework.beans.BeanUtils;
 import com.JiCode.ProductMa.domain.model.VersionAggregation;
 import com.JiCode.ProductMa.exception.CreateFailedException;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class VersionsEntity {
 
     private VersionAggregation[] versionArr;

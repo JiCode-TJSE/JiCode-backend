@@ -7,9 +7,9 @@ import org.springframework.beans.BeansException;
 import com.JiCode.ProductMa.exception.CopyFailedException;
 import com.JiCode.ProductMa.exception.CreateFailedException;
 
-import lombok.Getter;
+import lombok.Data;
 
-@Getter
+@Data
 public class RequirementContentEntity {
 
     private String name;

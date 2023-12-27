@@ -2,6 +2,7 @@ package com.JiCode.ProductMa.domain.model.entity.requirement;
 
 import java.lang.reflect.Field;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 
 import com.JiCode.ProductMa.exception.CopyFailedException;
 import com.JiCode.ProductMa.exception.CreateFailedException;
@@ -15,7 +16,7 @@ public class RequirementContentEntity {
 
     private String detail;
 
-    private String supervisorID;
+    private String supervisorId;
 
     // 所属模块
     private String moduleEnum;
@@ -57,6 +58,14 @@ public class RequirementContentEntity {
             }
         }
         this.dirty = true;
+    }
+
+    public <T> void copyPropertiesTo(T template) throws CopyFailedException {
+        try {
+            BeanUtils.copyProperties(this, template);
+        } catch (BeansException e) {
+            throw new CopyFailedException("Failed to copy properties to template.", e);
+        }
     }
 
     private RequirementContentEntity() {

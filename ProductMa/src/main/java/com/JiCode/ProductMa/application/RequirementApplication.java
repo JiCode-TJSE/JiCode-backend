@@ -4,6 +4,7 @@ import java.util.Map;
 
 import com.JiCode.ProductMa.application.dto.AddRequirementReqDto;
 import com.JiCode.ProductMa.application.dto.AllrequirementsDto;
+import com.JiCode.ProductMa.application.dto.RequirementDetailResDto;
 import com.JiCode.ProductMa.exception.ServerException;
 
 public interface RequirementApplication {
@@ -23,4 +24,9 @@ public interface RequirementApplication {
      * 删除需求
      */
     public void deleteRequirement(String requirementId) throws ServerException;
+
+    /**
+     * 获取需求详情
+     */
+    public RequirementDetailResDto getRequirementDetail(String requirementId) throws ServerException;
 }

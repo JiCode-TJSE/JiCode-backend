@@ -3,13 +3,16 @@ package com.JiCode.ProductMa.application.Impl;
 import com.JiCode.ProductMa.application.RequirementApplication;
 import com.JiCode.ProductMa.application.dto.AddRequirementReqDto;
 import com.JiCode.ProductMa.application.dto.AllrequirementsDto;
+import com.JiCode.ProductMa.application.dto.RequirementDetailResDto;
 import com.JiCode.ProductMa.domain.repository.VersionRepository;
+import com.JiCode.ProductMa.exception.CopyFailedException;
 import com.JiCode.ProductMa.exception.CreateFailedException;
 import com.JiCode.ProductMa.exception.DeleteFailedException;
 import com.JiCode.ProductMa.exception.InsertFailedException;
 import com.JiCode.ProductMa.exception.SelectFailedException;
 import com.JiCode.ProductMa.exception.ServerException;
 import com.JiCode.ProductMa.domain.model.RequirementAggregation;
+import com.JiCode.ProductMa.domain.model.VersionAggregation;
 import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementContentEntity;
 import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementEntity;
 import com.JiCode.ProductMa.domain.repository.RequirementRepository;
@@ -110,6 +113,42 @@ public class RequirementApplicationImpl
             // 根据 requirementId 删除
             requirementRepository.delete(requirementId);
         } catch (DeleteFailedException e) {
+            log.error("Server Error", e);
+            throw new ServerException();
+        }
+    }
+
+    @Transactional(readOnly = true)
+    @Override
+    public RequirementDetailResDto getRequirementDetail(String requirementId) throws ServerException {
+        try {
+            RequirementDetailResDto requirementDetailResDto = new RequirementDetailResDto();
+            RequirementAggregation requirementAggregation = requirementRepository.selectById(requirementId);
+            // 写入需求基础属性
+            RequirementContentEntity requirementContentEntity = requirementAggregation.getRequirementContentEntity();
+            requirementContentEntity.copyPropertiesTo(requirementDetailResDto);
+            // 这边写入版本属性
+            VersionAggregation[] VersionAggs = requirementAggregation.getVersionsEntity().getVersionArr();
+            RequirementDetailResDto.Version[] versions = new RequirementDetailResDto.Version[requirementAggregation
+                    .getVersionsEntity().getVersionArr().length];
+            for (int i = 0; i < versions.length; i++) {
+                versions[i] = new RequirementDetailResDto.Version();
+                VersionAggs[i].copyPropertiesTo(versions[i]);
+            }
+            // TODO 这边包一下然后写一下查外部接口的逻辑
+            String supervisorId = requirementContentEntity.getSupervisorId();
+            RequirementDetailResDto.Supervisor supervisor = new RequirementDetailResDto.Supervisor();
+            String[] backlogItemIDArr = requirementAggregation.getBacklogItemsEntity().getBacklogItemIDArr();
+            RequirementDetailResDto.BacklogItem[] backlogItems = new RequirementDetailResDto.BacklogItem[backlogItemIDArr.length];
+            String[] clientIDArr = requirementAggregation.getClientsEntity().getClientIDArr();
+            RequirementDetailResDto.Client[] clients = new RequirementDetailResDto.Client[clientIDArr.length];
+
+            requirementDetailResDto.setSupervisor(supervisor);
+            requirementDetailResDto.setVersionArr(versions);
+            requirementDetailResDto.setBacklogItemArr(backlogItems);
+            requirementDetailResDto.setClientArr(clients);
+            return requirementDetailResDto;
+        } catch (SelectFailedException | CopyFailedException e) {
             log.error("Server Error", e);
             throw new ServerException();
         }

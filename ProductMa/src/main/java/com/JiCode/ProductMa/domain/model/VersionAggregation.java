@@ -6,6 +6,7 @@ import java.util.Date;
 import org.springframework.beans.BeanUtils;
 
 import com.JiCode.ProductMa.domain.model.entity.requirement.BacklogItemsEntity;
+import com.JiCode.ProductMa.exception.CopyFailedException;
 import com.JiCode.ProductMa.exception.CreateFailedException;
 
 import lombok.Getter;
@@ -36,6 +37,14 @@ public class VersionAggregation {
     }
 
     private VersionAggregation() {
+    }
+
+    public <T> void copyPropertiesTo(T template) throws CopyFailedException {
+        try {
+            BeanUtils.copyProperties(template, this);
+        } catch (Exception e) {
+            throw new CopyFailedException("Failed to copy properties to template.", e);
+        }
     }
 
     public static <T> VersionAggregation createVersionByAll(T template)

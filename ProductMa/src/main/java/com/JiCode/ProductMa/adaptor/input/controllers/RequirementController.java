@@ -4,6 +4,7 @@ import com.JiCode.ProductMa.adaptor.input.vo.CommonVo;
 import com.JiCode.ProductMa.application.RequirementApplication;
 import com.JiCode.ProductMa.application.dto.AddRequirementReqDto;
 import com.JiCode.ProductMa.application.dto.AllrequirementsDto;
+import com.JiCode.ProductMa.application.dto.RequirementDetailResDto;
 import com.JiCode.ProductMa.exception.ServerException;
 
 import java.util.Map;
@@ -44,6 +45,13 @@ public class RequirementController {
             throws ServerException {
         requirementApplication.deleteRequirement(RequirementId);
         return CommonVo.create("请求成功", true);
+    }
+
+    @GetMapping("/requirement")
+    public CommonVo<RequirementDetailResDto> getRequirementDetail(@RequestParam String requirementId)
+            throws ServerException {
+        RequirementDetailResDto requirementDetailResDto = requirementApplication.getRequirementDetail(requirementId);
+        return CommonVo.create("请求成功", true, requirementDetailResDto);
     }
 
 }

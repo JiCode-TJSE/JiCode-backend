@@ -10,7 +10,7 @@ import com.JiCode.ProductMa.exception.SelectFailedException;
 import com.JiCode.ProductMa.exception.UpdateFailedException;
 
 public interface RequirementRepository {
-        public void insert(RequirementAggregation requirementAggregation) throws InsertFailedException;
+        public String insert(RequirementAggregation requirementAggregation) throws InsertFailedException;
 
         public void delete(String id) throws DeleteFailedException;
 

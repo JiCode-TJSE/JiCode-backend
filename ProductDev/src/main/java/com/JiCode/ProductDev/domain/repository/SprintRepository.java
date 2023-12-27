@@ -19,4 +19,6 @@ public interface SprintRepository {
     public int updateById(SprintAggregation sprintAggregation) throws UpdateFaliureException;
     public int deleteById(String id) throws DeleteFailureException;
     public int setRelease(String sprintId, String releaseId) throws SetReleaseException;
+
+    public int associateWithRelease(String sprintId, String releaseId);
 }

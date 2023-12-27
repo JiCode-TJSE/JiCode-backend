@@ -93,4 +93,11 @@ public class SprintTests {
         String releaseId = "2";
         sprintRepository.setRelease(sprintId, releaseId);
     }
+
+    @Test
+    public void testAssociateWithRelease(){
+        String sprintId = "3";
+        String releaseId = "2";
+        sprintRepository.associateWithRelease(sprintId, releaseId);
+    }
 }

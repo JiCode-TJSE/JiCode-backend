@@ -132,5 +132,10 @@ public class BacklogitemTests{
         System.out.println(backlogItemRepository.deleteById(id));
     }
 
-
+    @Test
+    public void testAssociateWithBacklogItem(){
+        String backlogItemId1 = "1";
+        String backlogItemId2 = "2";
+        System.out.println(backlogItemRepository.associateWithBacklogItem(backlogItemId1, backlogItemId2));
+    }
 }

@@ -184,4 +184,17 @@ public class SprintRepositoryImpl implements SprintRepository {
         }
     }
 
+    public int associateWithRelease(String sprintId, String releaseId){
+        try{
+            Sprint sprint = sprintMapper.selectByPrimaryKey(sprintId);
+            if(sprint == null)
+                throw new SprintNotFoundException("Can not find such sprint.");
+            sprint.setReleaseId(releaseId);
+            int result = sprintMapper.updateByPrimaryKey(sprint);
+            return result;
+        }catch(Exception e){
+            System.out.println(e);
+            return 0;
+        }
+    }
 }

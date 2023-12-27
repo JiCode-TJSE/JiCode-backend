@@ -15,4 +15,11 @@ public class CommonVo<T> {
         commonVo.setData(data);
         return commonVo;
     }
+
+    public static CommonVo<Void> create(String msg, boolean ok) {
+        CommonVo<Void> commonVo = new CommonVo<>();
+        commonVo.setMsg(msg);
+        commonVo.setOk(ok);
+        return commonVo;
+    }
 }

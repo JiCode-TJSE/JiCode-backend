@@ -9,6 +9,7 @@ import com.JiCode.ProductMa.exception.ServerException;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,10 +33,17 @@ public class RequirementController {
     }
 
     @PostMapping("/requirement")
-    public CommonVo<Map<String, String>> postMethodName(@RequestBody AddRequirementReqDto addRequirementReqDto)
+    public CommonVo<Map<String, String>> createRequirement(@RequestBody AddRequirementReqDto addRequirementReqDto)
             throws ServerException {
         Map<String, String> data = requirementApplication.createRequirement(addRequirementReqDto);
         return CommonVo.create("请求成功", true, data);
+    }
+
+    @DeleteMapping("/requirement")
+    public CommonVo<Void> deleteRequirement(@RequestParam("RequirementId") String RequirementId)
+            throws ServerException {
+        requirementApplication.deleteRequirement(RequirementId);
+        return CommonVo.create("请求成功", true);
     }
 
 }

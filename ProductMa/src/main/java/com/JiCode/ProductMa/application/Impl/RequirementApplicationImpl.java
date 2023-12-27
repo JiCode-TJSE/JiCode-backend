@@ -5,6 +5,7 @@ import com.JiCode.ProductMa.application.dto.AddRequirementReqDto;
 import com.JiCode.ProductMa.application.dto.AllrequirementsDto;
 import com.JiCode.ProductMa.domain.repository.VersionRepository;
 import com.JiCode.ProductMa.exception.CreateFailedException;
+import com.JiCode.ProductMa.exception.DeleteFailedException;
 import com.JiCode.ProductMa.exception.InsertFailedException;
 import com.JiCode.ProductMa.exception.SelectFailedException;
 import com.JiCode.ProductMa.exception.ServerException;
@@ -97,6 +98,18 @@ public class RequirementApplicationImpl
             // 返回id给前端
             return Map.of("requirementId", requirementId);
         } catch (CreateFailedException | InsertFailedException e) {
+            log.error("Server Error", e);
+            throw new ServerException();
+        }
+    }
+
+    @Transactional
+    @Override
+    public void deleteRequirement(String requirementId) throws ServerException {
+        try {
+            // 根据 requirementId 删除
+            requirementRepository.delete(requirementId);
+        } catch (DeleteFailedException e) {
             log.error("Server Error", e);
             throw new ServerException();
         }

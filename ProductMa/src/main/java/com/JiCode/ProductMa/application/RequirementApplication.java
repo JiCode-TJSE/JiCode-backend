@@ -18,4 +18,9 @@ public interface RequirementApplication {
      * 新增需求
      */
     public Map<String, String> createRequirement(AddRequirementReqDto addRequirementReqDto) throws ServerException;
+
+    /**
+     * 删除需求
+     */
+    public void deleteRequirement(String requirementId) throws ServerException;
 }

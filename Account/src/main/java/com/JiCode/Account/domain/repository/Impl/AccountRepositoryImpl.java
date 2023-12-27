@@ -33,7 +33,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     UserInfoRepository userInfoRepository;
 
     @Override
-    public int insert(AccountAggregation accountAggregation) {
+    public List<Account> insert(AccountAggregation accountAggregation) {
         try {
             // 插入一条account表的数据（现在写的默认组织id是2）
             Account account = new Account();
@@ -44,11 +44,13 @@ public class AccountRepositoryImpl implements AccountRepository {
             // 调用userinfo的仓储插入一条userinfo表的数据
             UserInfoAggregation userInfoAggregation = new UserInfoAggregation(accountID, null, null, null, null);
             userInfoRepository.insertUserInfo(userInfoAggregation);
-
-            return accountMapper.insert(account);
+            accountMapper.insert(account);
+            List<Account> accounts=new ArrayList<>();
+            accounts.add(account);
+            return accounts; // 成功返回账号id（这里看着是个列表，但其实只会返回一个）
         } catch (Exception e) {
             System.out.println(e);
-            return 0;
+            return "";// 失败返回空字符串
         }
     }
 

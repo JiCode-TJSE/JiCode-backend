@@ -4,6 +4,7 @@ import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.*;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.BacklogitemBacklogitemMapper;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.BacklogitemMapper;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.BacklogitemMemberMapper;
+import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.RequirementBacklogitemMapper;
 import com.JiCode.ProductDev.domain.factory.BacklogItemFactory;
 import com.JiCode.ProductDev.domain.model.BacklogItemAggregation;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
@@ -35,6 +36,9 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
 
     @Autowired
     BacklogitemBacklogitemMapper backlogitemBacklogitemMapper;
+
+    @Autowired
+    RequirementBacklogitemMapper requirementBacklogitemMapper;
 
     /**
      * 将实体类及其他信息转换成聚合返回给上层，用于查
@@ -171,6 +175,18 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
             backlogitemBacklogitem.setBacklogitemid1(backlogItemId1);
             backlogitemBacklogitem.setBacklogitemid2(backlogItemId2);
             backlogitemBacklogitemMapper.insert(backlogitemBacklogitem);
+            return 0;
+        }catch (Exception e){
+            System.out.println(e);
+            return 0;
+        }
+    }
+    public int associateWithProductRequirement(String backlogItemId,String productRequirementId){
+        try{
+            RequirementBacklogitemKey key = new RequirementBacklogitemKey();
+            key.setBacklogitemId(backlogItemId);
+            key.setRequirementContentId(productRequirementId);
+            requirementBacklogitemMapper.insert(key);
             return 0;
         }catch (Exception e){
             System.out.println(e);

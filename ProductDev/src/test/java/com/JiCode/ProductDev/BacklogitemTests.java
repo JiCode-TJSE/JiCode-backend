@@ -138,4 +138,11 @@ public class BacklogitemTests{
         String backlogItemId2 = "2";
         System.out.println(backlogItemRepository.associateWithBacklogItem(backlogItemId1, backlogItemId2));
     }
+
+    @Test
+    public void testAssociateWithProductRequirement(){
+        String backlogItemId = "1";
+        String productRequirementId = "1";
+        System.out.println(backlogItemRepository.associateWithProductRequirement(backlogItemId, productRequirementId));
+    }
 }

@@ -12,10 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
  **/
 public class LoginServiceImpl implements LoginService {
 
-//    @Autowired
-//    AccountRepository accountRepository;
+    @Autowired
+    AccountRepository accountRepository;
     @Override
     public int loginByEmail(AccountAggregation accountAggregation) {
 
+        return 1;
     }
 }

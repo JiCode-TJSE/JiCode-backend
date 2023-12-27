@@ -15,4 +15,6 @@ public interface AccountRepository {
     public int insert(AccountAggregation accountAggregation);
     public int updateById(AccountAggregation accountAggregation);
     public int deleteById(String id);
+    // 登录查询
+    public int checkLogin(String email, String password);
 }

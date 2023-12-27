@@ -32,6 +32,15 @@ public class BacklogItemsEntity {
         this.dirty = true;
     }
 
+    public static BacklogItemsEntity createByAll(String[] backlogItemIDArr) throws CreateFailedException {
+        if (backlogItemIDArr == null) {
+            throw new CreateFailedException("backlogItemIDArr cannot be null.");
+        }
+        BacklogItemsEntity backlogItemsEntity = new BacklogItemsEntity();
+        backlogItemsEntity.backlogItemIDArr = backlogItemIDArr;
+        return backlogItemsEntity;
+    }
+
     private BacklogItemsEntity() {
     }
 

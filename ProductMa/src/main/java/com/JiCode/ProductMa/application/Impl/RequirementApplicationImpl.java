@@ -140,10 +140,10 @@ public class RequirementApplicationImpl
             String[] clientIDArr = requirementAggregation.getClientsEntity().getClientIDArr();
             RequirementDetailResDto.Client[] clients = new RequirementDetailResDto.Client[clientIDArr.length];
 
-            requirementDetailResDto.setSupervisor(supervisor);
+            requirementDetailResDto.setSupervisor(null);
             requirementDetailResDto.setVersionArr(versions);
-            requirementDetailResDto.setBacklogItemArr(backlogItems);
-            requirementDetailResDto.setClientArr(clients);
+            requirementDetailResDto.setBacklogItemArr(null);
+            requirementDetailResDto.setClientArr(null);
             return requirementDetailResDto;
         } catch (SelectFailedException | CopyFailedException e) {
             log.error("Server Error", e);

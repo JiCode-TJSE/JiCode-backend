@@ -119,7 +119,8 @@ public class RequirementRepositoryImpl implements RequirementRepository {
             throw new SelectFailedException("Client not found for versionContentId " + requirementContentId + ".");
         }
         try {
-            return ClientsEntity.create(keys.stream().map(RequirementClientKey::getClientId).toArray(String[]::new));
+            return ClientsEntity
+                    .createByAll(keys.stream().map(RequirementClientKey::getClientId).toArray(String[]::new));
         } catch (CreateFailedException e) {
             throw new SelectFailedException(
                     "Failed to create ClientsEntity for versionContentId " + requirementContentId + ".", e);
@@ -136,7 +137,7 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         }
         try {
             return BacklogItemsEntity
-                    .create(keys.stream().map(RequirementBacklogitemKey::getBacklogitemId).toArray(String[]::new));
+                    .createByAll(keys.stream().map(RequirementBacklogitemKey::getBacklogitemId).toArray(String[]::new));
         } catch (CreateFailedException e) {
             throw new SelectFailedException(
                     "Failed to create BacklogItemsEntity for versionContentId " + requirementContentId + ".", e);
@@ -162,7 +163,7 @@ public class RequirementRepositoryImpl implements RequirementRepository {
             }
         }
         try {
-            return VersionsEntity.create(versionAggs.toArray(new VersionAggregation[0]));
+            return VersionsEntity.createByAll(versionAggs.toArray(new VersionAggregation[0]));
         } catch (CreateFailedException e) {
             throw new SelectFailedException(
                     "Failed to create VersionsEntity for requirement with id " + requirementId + ".", e);
@@ -197,6 +198,7 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         String requirementId = UUID.randomUUID().toString();
         requirementAggregation.getRequirementEntity().setRequirementContentId(requirementContentId);
         requirementAggregation.getRequirementEntity().setId(requirementId);
+        requirementAggregation.getVersionsEntity().getVersionArr()[0].setId(requirementContentId);
         // 新建的时候只有一个版本
         Requirement requirement = insertRequirement(requirementAggregation);
         insertVersion(requirementAggregation, requirement.getRequirementId());
@@ -263,9 +265,9 @@ public class RequirementRepositoryImpl implements RequirementRepository {
 
     private void insertVersion(RequirementAggregation requirementAggregation, String requirementId)
             throws InsertFailedException {
-        VersionAggregation version = requirementAggregation.getVersionsEntity().getVersionArr()[0];
+        VersionAggregation versionAgg = requirementAggregation.getVersionsEntity().getVersionArr()[0];
         RequirementVersion requirementVersion = new RequirementVersion();
-        requirementVersion.setId(version.getId());
+        BeanUtils.copyProperties(versionAgg, requirementVersion);
         requirementVersion.setBelongRequirementId(requirementId);
         int versionResult = this.requirementVersionMapper.insert(requirementVersion);
         if (versionResult <= 0) {

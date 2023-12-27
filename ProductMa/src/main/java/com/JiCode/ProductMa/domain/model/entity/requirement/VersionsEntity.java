@@ -31,6 +31,15 @@ public class VersionsEntity {
     private VersionsEntity() {
     }
 
+    public static VersionsEntity createByAll(VersionAggregation[] aggs) throws CreateFailedException {
+        if (aggs == null) {
+            throw new CreateFailedException("VersionAggregation cannot be null.");
+        }
+        VersionsEntity versionsEntity = new VersionsEntity();
+        versionsEntity.versionArr = aggs;
+        return versionsEntity;
+    }
+
     public static <T> VersionsEntity create(T template) throws CreateFailedException {
         VersionsEntity versionsEntity = new VersionsEntity();
         BeanUtils.copyProperties(template, versionsEntity);

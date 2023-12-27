@@ -41,7 +41,7 @@ public class VersionAggregation {
 
     public <T> void copyPropertiesTo(T template) throws CopyFailedException {
         try {
-            BeanUtils.copyProperties(template, this);
+            BeanUtils.copyProperties(this, template);
         } catch (Exception e) {
             throw new CopyFailedException("Failed to copy properties to template.", e);
         }
@@ -52,7 +52,7 @@ public class VersionAggregation {
         VersionAggregation versionAgg = new VersionAggregation();
         BeanUtils.copyProperties(template, versionAgg);
         try {
-            for (Field field : BacklogItemsEntity.class.getDeclaredFields()) {
+            for (Field field : VersionAggregation.class.getDeclaredFields()) {
                 if (field.get(versionAgg) == null) {
                     throw new CreateFailedException(
                             "Field " + field.getName() + " is null in VersionAggregation creation.");

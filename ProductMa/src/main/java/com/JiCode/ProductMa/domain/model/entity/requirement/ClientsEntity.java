@@ -35,6 +35,15 @@ public class ClientsEntity {
     private ClientsEntity() {
     }
 
+    public static ClientsEntity createByAll(String[] clientIDArr) throws CreateFailedException {
+        if (clientIDArr == null) {
+            throw new CreateFailedException("clientIDArr cannot be null.");
+        }
+        ClientsEntity clientsEntity = new ClientsEntity();
+        clientsEntity.clientIDArr = clientIDArr;
+        return clientsEntity;
+    }
+
     public static <T> ClientsEntity create(T template)
             throws CreateFailedException {
         ClientsEntity clientsEntity = new ClientsEntity();

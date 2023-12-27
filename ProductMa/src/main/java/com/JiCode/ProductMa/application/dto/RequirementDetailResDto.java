@@ -1,5 +1,7 @@
 package com.JiCode.ProductMa.application.dto;
 
+import java.util.Date;
+
 import lombok.Data;
 
 @Data
@@ -31,10 +33,10 @@ public class RequirementDetailResDto {
 
     @Data
     static public class Version {
-        String versionId;
+        String id;
         String name;
         String detail;
-        String createTime;
+        Date createTime;
     }
 
     @Data

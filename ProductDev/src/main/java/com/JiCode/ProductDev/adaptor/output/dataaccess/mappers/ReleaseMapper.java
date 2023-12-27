@@ -3,6 +3,8 @@ package com.JiCode.ProductDev.adaptor.output.dataaccess.mappers;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Release;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ReleaseExample;
 import java.util.List;
+
+import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
 
 public interface ReleaseMapper {
@@ -27,4 +29,6 @@ public interface ReleaseMapper {
     int updateByPrimaryKeySelective(Release record);
 
     int updateByPrimaryKey(Release record);
+
+    Page<Release> selectByPaging(ReleaseExample example);
 }

@@ -1,6 +1,7 @@
 package com.JiCode.ProductDev;
 
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Release;
+import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.LogMapper;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ReleaseMapper;
 import com.JiCode.ProductDev.domain.factory.ReleaseFactory;
 import com.JiCode.ProductDev.domain.model.ReleaseAggregation;
@@ -8,6 +9,7 @@ import com.JiCode.ProductDev.domain.repository.ReleaseRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -24,61 +26,51 @@ import java.util.List;
 @WebAppConfiguration
 public class ReleaseTests {
     //test
-    @Autowired
-    ReleaseMapper releaseMapper;
-
-
-    @Autowired
-    ReleaseRepository releaseRepository;
 
     @Autowired
     ReleaseFactory releaseFactory;
 
+    @Autowired
+    ReleaseRepository releaseRepository;
+
     @Test
     public void testSelectById(){
-        ReleaseAggregation releaseAggregation = releaseRepository.selectById("3");
+        ReleaseAggregation releaseAggregation = releaseRepository.selectById("1");
         System.out.println(releaseAggregation);
     }
-
-    @Test
-    public void testMapper(){
-        Release release = new Release();
-        release.setId("1");
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, 2023);
-        calendar.set(Calendar.MONTH, Calendar.DECEMBER);
-        calendar.set(Calendar.DAY_OF_MONTH, 26);
-
-        Date startTime = calendar.getTime();
-        Date endTime = calendar.getTime();
-        release.setType("yes");
-        release.setProjectId("1");
-        release.setManagerId("1");
-        releaseMapper.updateByPrimaryKey(release);
-    }
-//    @Test
-//    public void testGetPage(){
-//        System.out.println(releaseRepository.getPage(1, 10));
-//    }
 
     @Test
     public void testInsert(){
-        String id = null;
+        String id = "2";
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 2023);
-        calendar.set(Calendar.MONTH, Calendar.DECEMBER);
+        calendar.set(Calendar.MONTH, Calendar.DECEMBER); // 注意，月份是从0开始的，所以11代表12月
         calendar.set(Calendar.DAY_OF_MONTH, 26);
-
         Date startTime = calendar.getTime();
         Date endTime = calendar.getTime();
-        String goal = "yes";
-        String projectId = "1";
-        String managerId = "1";
-        List<String> memberIds = Arrays.asList("1", "2", "3");
-
-        ReleaseAggregation releaseAggregation = releaseFactory.createRelease(id, startTime, endTime, goal, projectId, managerId, memberIds);
+        ReleaseAggregation releaseAggregation = releaseFactory.createRelease(id, startTime, endTime, "yes", "1", "1", Arrays.asList("1", "2"));
         releaseRepository.insert(releaseAggregation);
-        System.out.println(releaseAggregation);
     }
+
+    @Test
+    public void testGetPage(){
+        List<ReleaseAggregation> releaseAggregations = releaseRepository.getPage(1, 10).getList();
+        for(ReleaseAggregation releaseAggregation:releaseAggregations){
+            System.out.println(releaseAggregation.getId());
+        }
+    }
+
+    @Test
+    public void testUpdate(){
+        ReleaseAggregation releaseAggregation = releaseRepository.selectById("1");
+        releaseAggregation.setType("no");
+        releaseRepository.update(releaseAggregation);
+    }
+
+    @Test
+    public void testDelete(){
+        releaseRepository.deleteById("1");
+    }
+
 
 }

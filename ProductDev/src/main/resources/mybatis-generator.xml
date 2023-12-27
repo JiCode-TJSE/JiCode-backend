@@ -39,19 +39,8 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
         <!-- 相关表的配置 -->
-        <table tableName="release"
-               domainObjectName="Release"
-               enableInsert="true"
-               enableDeleteByPrimaryKey="true"
-               enableUpdateByPrimaryKey="true"
-               enableSelectByPrimaryKey="true"
-               enableCountByExample="true"
-               enableDeleteByExample="true"
-               enableSelectByExample="true"
-               enableUpdateByExample="true">
-        </table>
-        <table tableName="release_member"
-               domainObjectName="ReleaseMember"
+        <table tableName="log"
+               domainObjectName="Log"
                enableInsert="true"
                enableDeleteByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"

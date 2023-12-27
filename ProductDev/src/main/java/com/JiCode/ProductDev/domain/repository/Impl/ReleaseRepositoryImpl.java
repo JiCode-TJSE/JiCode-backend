@@ -79,22 +79,22 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
         }
     }
 
-//    public PageInfo<ReleaseAggregation> getPage(int pageNum, int pageSize) {
-//        PageHelper.startPage(pageNum, pageSize);
-//        Page<Release> releases = releaseMapper.selectByPaging(null);
-//
-//        List<ReleaseAggregation> releaseAggregations = new ArrayList<>();
-//        for (Release release : releases) {
-//            ReleaseMemberExample example = new ReleaseMemberExample();
-//            example.createCriteria().andReleaseIdEqualTo(release.getId());
-//            List<ReleaseMemberKey> releaseMemberKeys = releaseMemberMapper.selectByExample(example);
-//            List<String> memberIds = releaseMemberKeys.stream().map(ReleaseMemberKey::getAccountId).collect(Collectors.toList());
-//            ReleaseAggregation releaseAggregation = entityToAggregate(release, memberIds);
-//            releaseAggregations.add(releaseAggregation);
-//        }
-//
-//        return new PageInfo<>(releaseAggregations);
-//    }
+    public PageInfo<ReleaseAggregation> getPage(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        Page<Release> releases = releaseMapper.selectByPaging(null);
+
+        List<ReleaseAggregation> releaseAggregations = new ArrayList<>();
+        for (Release release : releases) {
+            ReleaseMemberExample example = new ReleaseMemberExample();
+            example.createCriteria().andReleaseIdEqualTo(release.getId());
+            List<ReleaseMember> releaseMember = releaseMemberMapper.selectByExample(example);
+            List<String> memberIds = releaseMember.stream().map(ReleaseMember::getAccountId).collect(Collectors.toList());
+            ReleaseAggregation releaseAggregation = entityToAggregate(release, memberIds);
+            releaseAggregations.add(releaseAggregation);
+        }
+
+        return new PageInfo<>(releaseAggregations);
+    }
 
     public int insert(ReleaseAggregation releaseAggregation){
         try{
@@ -116,7 +116,21 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
         }
     }
 
+
     public int update(ReleaseAggregation releaseAggregation){
         return saveAggregate(releaseAggregation);
+    }
+
+    public int deleteById(String id){
+        try{
+            ReleaseMemberExample example = new ReleaseMemberExample();
+            example.createCriteria().andReleaseIdEqualTo(id);
+            int rows = releaseMemberMapper.deleteByExample(example);
+            System.out.println("Deleted rows: " + rows);
+            return releaseMapper.deleteByPrimaryKey(id);
+        }catch (Exception e){
+            System.out.println(e);
+            return 0;
+        }
     }
 }

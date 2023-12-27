@@ -6,12 +6,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ReleaseFactoryImpl implements ReleaseFactory {
     public ReleaseAggregation createRelease(String id, Date startTime, Date endTime, String type, String projectid, String managerId, List<String> memberIds){
 
         ReleaseAggregation releaseAggregation = new ReleaseAggregation();
+        if(id == null){
+            id = UUID.randomUUID().toString();
+        }
         releaseAggregation.setId(id);
         releaseAggregation.setStartTime(startTime);
         releaseAggregation.setEndTime(endTime);

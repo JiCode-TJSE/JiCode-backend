@@ -76,7 +76,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from release
+    from `release`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -87,21 +87,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from release
+    from `release`
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from release
+    delete from `release`
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ReleaseExample">
-    delete from release
+    delete from `release`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Release">
-    insert into release (id, start_time, end_time, 
+    insert into `release` (id, start_time, end_time,
       type, project_id, manager_id
       )
     values (#{id,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
@@ -109,7 +109,7 @@
       )
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Release">
-    insert into release
+    insert into `release`
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -152,13 +152,16 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ReleaseExample" resultType="java.lang.Long">
-    select count(*) from release
+    select count(*) from `release`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <update id="updateByExampleSelective" parameterType="map">
-    update release
+    <select id="selectByPaging" resultType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Release">
+      select * from `release`
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+    update `release`
     <set>
       <if test="record.id != null">
         id = #{record.id,jdbcType=VARCHAR},
@@ -184,7 +187,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update release
+    update `release`
     set id = #{record.id,jdbcType=VARCHAR},
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
@@ -196,7 +199,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Release">
-    update release
+    update `release`
     <set>
       <if test="startTime != null">
         start_time = #{startTime,jdbcType=TIMESTAMP},
@@ -217,12 +220,7 @@
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Release">
-    update release
-    set start_time = #{startTime,jdbcType=TIMESTAMP},
-      end_time = #{endTime,jdbcType=TIMESTAMP},
-      type = #{type,jdbcType=VARCHAR},
-      project_id = #{projectId,jdbcType=VARCHAR},
-      manager_id = #{managerId,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+    update `release`
+    set start_time=#{startTime,jdbcType=TIMESTAMP},end_time=#{endTime,jdbcType=TIMESTAMP},type=#{type,jdbcType=VARCHAR},project_id=#{projectId,jdbcType=VARCHAR},manager_id=#{managerId,jdbcType=VARCHAR} where id=#{id,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -70,7 +70,6 @@ public class ProjectTests {
             // you need to implement the toString method in ProjectAggregation class
             System.out.println(projectAggregation);
         }
-        System.out.println(projectRepository.getPage(1, 10));
     }
 
     @Test

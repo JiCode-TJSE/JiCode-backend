@@ -11,7 +11,7 @@ public interface RequirementMapper {
 
     int deleteByExample(RequirementExample example);
 
-    int deleteByPrimaryKey(String requirementid);
+    int deleteByPrimaryKey(String requirementId);
 
     int insert(Requirement record);
 
@@ -21,7 +21,7 @@ public interface RequirementMapper {
 
     List<Requirement> selectByExample(RequirementExample example);
 
-    Requirement selectByPrimaryKey(String requirementid);
+    Requirement selectByPrimaryKey(String requirementId);
 
     int updateByExampleSelective(@Param("record") Requirement record, @Param("example") RequirementExample example);
 

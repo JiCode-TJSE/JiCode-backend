@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementMapper">
   <resultMap id="BaseResultMap" type="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement">
-    <id column="requirementId" jdbcType="VARCHAR" property="requirementid" />
+    <id column="requirement_id" jdbcType="VARCHAR" property="requirementId" />
     <result column="belong_product_id" jdbcType="VARCHAR" property="belongProductId" />
-    <result column="requirementContentId" jdbcType="VARCHAR" property="requirementcontentid" />
+    <result column="requirement_content_id" jdbcType="VARCHAR" property="requirementContentId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    requirementId, belong_product_id, requirementContentId
+    requirement_id, belong_product_id, requirement_content_id
   </sql>
   <select id="selectByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementExample" resultMap="BaseResultMap">
     select
@@ -85,11 +85,11 @@
     select 
     <include refid="Base_Column_List" />
     from requirement
-    where requirementId = #{requirementid,jdbcType=VARCHAR}
+    where requirement_id = #{requirementId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from requirement
-    where requirementId = #{requirementid,jdbcType=VARCHAR}
+    where requirement_id = #{requirementId,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementExample">
     delete from requirement
@@ -98,33 +98,33 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement">
-    insert into requirement (requirementId, belong_product_id, requirementContentId
+    insert into requirement (requirement_id, belong_product_id, requirement_content_id
       )
-    values (#{requirementid,jdbcType=VARCHAR}, #{belongProductId,jdbcType=VARCHAR}, #{requirementcontentid,jdbcType=VARCHAR}
+    values (#{requirementId,jdbcType=VARCHAR}, #{belongProductId,jdbcType=VARCHAR}, #{requirementContentId,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement">
     insert into requirement
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="requirementid != null">
-        requirementId,
+      <if test="requirementId != null">
+        requirement_id,
       </if>
       <if test="belongProductId != null">
         belong_product_id,
       </if>
-      <if test="requirementcontentid != null">
-        requirementContentId,
+      <if test="requirementContentId != null">
+        requirement_content_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="requirementid != null">
-        #{requirementid,jdbcType=VARCHAR},
+      <if test="requirementId != null">
+        #{requirementId,jdbcType=VARCHAR},
       </if>
       <if test="belongProductId != null">
         #{belongProductId,jdbcType=VARCHAR},
       </if>
-      <if test="requirementcontentid != null">
-        #{requirementcontentid,jdbcType=VARCHAR},
+      <if test="requirementContentId != null">
+        #{requirementContentId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -137,14 +137,14 @@
   <update id="updateByExampleSelective" parameterType="map">
     update requirement
     <set>
-      <if test="record.requirementid != null">
-        requirementId = #{record.requirementid,jdbcType=VARCHAR},
+      <if test="record.requirementId != null">
+        requirement_id = #{record.requirementId,jdbcType=VARCHAR},
       </if>
       <if test="record.belongProductId != null">
         belong_product_id = #{record.belongProductId,jdbcType=VARCHAR},
       </if>
-      <if test="record.requirementcontentid != null">
-        requirementContentId = #{record.requirementcontentid,jdbcType=VARCHAR},
+      <if test="record.requirementContentId != null">
+        requirement_content_id = #{record.requirementContentId,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -153,9 +153,9 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update requirement
-    set requirementId = #{record.requirementid,jdbcType=VARCHAR},
+    set requirement_id = #{record.requirementId,jdbcType=VARCHAR},
       belong_product_id = #{record.belongProductId,jdbcType=VARCHAR},
-      requirementContentId = #{record.requirementcontentid,jdbcType=VARCHAR}
+      requirement_content_id = #{record.requirementContentId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -166,17 +166,17 @@
       <if test="belongProductId != null">
         belong_product_id = #{belongProductId,jdbcType=VARCHAR},
       </if>
-      <if test="requirementcontentid != null">
-        requirementContentId = #{requirementcontentid,jdbcType=VARCHAR},
+      <if test="requirementContentId != null">
+        requirement_content_id = #{requirementContentId,jdbcType=VARCHAR},
       </if>
     </set>
-    where requirementId = #{requirementid,jdbcType=VARCHAR}
+    where requirement_id = #{requirementId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement">
     update requirement
     set belong_product_id = #{belongProductId,jdbcType=VARCHAR},
-      requirementContentId = #{requirementcontentid,jdbcType=VARCHAR}
-    where requirementId = #{requirementid,jdbcType=VARCHAR}
+      requirement_content_id = #{requirementContentId,jdbcType=VARCHAR}
+    where requirement_id = #{requirementId,jdbcType=VARCHAR}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementExample" resultMap="BaseResultMap">
     select

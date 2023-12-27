@@ -104,73 +104,73 @@ public class RequirementExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andRequirementidIsNull() {
-            addCriterion("requirementId is null");
+        public Criteria andRequirementIdIsNull() {
+            addCriterion("requirement_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementidIsNotNull() {
-            addCriterion("requirementId is not null");
+        public Criteria andRequirementIdIsNotNull() {
+            addCriterion("requirement_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementidEqualTo(String value) {
-            addCriterion("requirementId =", value, "requirementid");
+        public Criteria andRequirementIdEqualTo(String value) {
+            addCriterion("requirement_id =", value, "requirementId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementidNotEqualTo(String value) {
-            addCriterion("requirementId <>", value, "requirementid");
+        public Criteria andRequirementIdNotEqualTo(String value) {
+            addCriterion("requirement_id <>", value, "requirementId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementidGreaterThan(String value) {
-            addCriterion("requirementId >", value, "requirementid");
+        public Criteria andRequirementIdGreaterThan(String value) {
+            addCriterion("requirement_id >", value, "requirementId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementidGreaterThanOrEqualTo(String value) {
-            addCriterion("requirementId >=", value, "requirementid");
+        public Criteria andRequirementIdGreaterThanOrEqualTo(String value) {
+            addCriterion("requirement_id >=", value, "requirementId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementidLessThan(String value) {
-            addCriterion("requirementId <", value, "requirementid");
+        public Criteria andRequirementIdLessThan(String value) {
+            addCriterion("requirement_id <", value, "requirementId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementidLessThanOrEqualTo(String value) {
-            addCriterion("requirementId <=", value, "requirementid");
+        public Criteria andRequirementIdLessThanOrEqualTo(String value) {
+            addCriterion("requirement_id <=", value, "requirementId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementidLike(String value) {
-            addCriterion("requirementId like", value, "requirementid");
+        public Criteria andRequirementIdLike(String value) {
+            addCriterion("requirement_id like", value, "requirementId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementidNotLike(String value) {
-            addCriterion("requirementId not like", value, "requirementid");
+        public Criteria andRequirementIdNotLike(String value) {
+            addCriterion("requirement_id not like", value, "requirementId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementidIn(List<String> values) {
-            addCriterion("requirementId in", values, "requirementid");
+        public Criteria andRequirementIdIn(List<String> values) {
+            addCriterion("requirement_id in", values, "requirementId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementidNotIn(List<String> values) {
-            addCriterion("requirementId not in", values, "requirementid");
+        public Criteria andRequirementIdNotIn(List<String> values) {
+            addCriterion("requirement_id not in", values, "requirementId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementidBetween(String value1, String value2) {
-            addCriterion("requirementId between", value1, value2, "requirementid");
+        public Criteria andRequirementIdBetween(String value1, String value2) {
+            addCriterion("requirement_id between", value1, value2, "requirementId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementidNotBetween(String value1, String value2) {
-            addCriterion("requirementId not between", value1, value2, "requirementid");
+        public Criteria andRequirementIdNotBetween(String value1, String value2) {
+            addCriterion("requirement_id not between", value1, value2, "requirementId");
             return (Criteria) this;
         }
 
@@ -244,73 +244,73 @@ public class RequirementExample {
             return (Criteria) this;
         }
 
-        public Criteria andRequirementcontentidIsNull() {
-            addCriterion("requirementContentId is null");
+        public Criteria andRequirementContentIdIsNull() {
+            addCriterion("requirement_content_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementcontentidIsNotNull() {
-            addCriterion("requirementContentId is not null");
+        public Criteria andRequirementContentIdIsNotNull() {
+            addCriterion("requirement_content_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementcontentidEqualTo(String value) {
-            addCriterion("requirementContentId =", value, "requirementcontentid");
+        public Criteria andRequirementContentIdEqualTo(String value) {
+            addCriterion("requirement_content_id =", value, "requirementContentId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementcontentidNotEqualTo(String value) {
-            addCriterion("requirementContentId <>", value, "requirementcontentid");
+        public Criteria andRequirementContentIdNotEqualTo(String value) {
+            addCriterion("requirement_content_id <>", value, "requirementContentId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementcontentidGreaterThan(String value) {
-            addCriterion("requirementContentId >", value, "requirementcontentid");
+        public Criteria andRequirementContentIdGreaterThan(String value) {
+            addCriterion("requirement_content_id >", value, "requirementContentId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementcontentidGreaterThanOrEqualTo(String value) {
-            addCriterion("requirementContentId >=", value, "requirementcontentid");
+        public Criteria andRequirementContentIdGreaterThanOrEqualTo(String value) {
+            addCriterion("requirement_content_id >=", value, "requirementContentId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementcontentidLessThan(String value) {
-            addCriterion("requirementContentId <", value, "requirementcontentid");
+        public Criteria andRequirementContentIdLessThan(String value) {
+            addCriterion("requirement_content_id <", value, "requirementContentId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementcontentidLessThanOrEqualTo(String value) {
-            addCriterion("requirementContentId <=", value, "requirementcontentid");
+        public Criteria andRequirementContentIdLessThanOrEqualTo(String value) {
+            addCriterion("requirement_content_id <=", value, "requirementContentId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementcontentidLike(String value) {
-            addCriterion("requirementContentId like", value, "requirementcontentid");
+        public Criteria andRequirementContentIdLike(String value) {
+            addCriterion("requirement_content_id like", value, "requirementContentId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementcontentidNotLike(String value) {
-            addCriterion("requirementContentId not like", value, "requirementcontentid");
+        public Criteria andRequirementContentIdNotLike(String value) {
+            addCriterion("requirement_content_id not like", value, "requirementContentId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementcontentidIn(List<String> values) {
-            addCriterion("requirementContentId in", values, "requirementcontentid");
+        public Criteria andRequirementContentIdIn(List<String> values) {
+            addCriterion("requirement_content_id in", values, "requirementContentId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementcontentidNotIn(List<String> values) {
-            addCriterion("requirementContentId not in", values, "requirementcontentid");
+        public Criteria andRequirementContentIdNotIn(List<String> values) {
+            addCriterion("requirement_content_id not in", values, "requirementContentId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementcontentidBetween(String value1, String value2) {
-            addCriterion("requirementContentId between", value1, value2, "requirementcontentid");
+        public Criteria andRequirementContentIdBetween(String value1, String value2) {
+            addCriterion("requirement_content_id between", value1, value2, "requirementContentId");
             return (Criteria) this;
         }
 
-        public Criteria andRequirementcontentidNotBetween(String value1, String value2) {
-            addCriterion("requirementContentId not between", value1, value2, "requirementcontentid");
+        public Criteria andRequirementContentIdNotBetween(String value1, String value2) {
+            addCriterion("requirement_content_id not between", value1, value2, "requirementContentId");
             return (Criteria) this;
         }
     }

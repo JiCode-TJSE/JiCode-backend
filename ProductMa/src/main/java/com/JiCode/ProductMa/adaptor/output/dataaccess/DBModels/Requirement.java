@@ -1,18 +1,18 @@
 package com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels;
 
 public class Requirement {
-    private String requirementid;
+    private String requirementId;
 
     private String belongProductId;
 
-    private String requirementcontentid;
+    private String requirementContentId;
 
-    public String getRequirementid() {
-        return requirementid;
+    public String getRequirementId() {
+        return requirementId;
     }
 
-    public void setRequirementid(String requirementid) {
-        this.requirementid = requirementid == null ? null : requirementid.trim();
+    public void setRequirementId(String requirementId) {
+        this.requirementId = requirementId == null ? null : requirementId.trim();
     }
 
     public String getBelongProductId() {
@@ -23,11 +23,11 @@ public class Requirement {
         this.belongProductId = belongProductId == null ? null : belongProductId.trim();
     }
 
-    public String getRequirementcontentid() {
-        return requirementcontentid;
+    public String getRequirementContentId() {
+        return requirementContentId;
     }
 
-    public void setRequirementcontentid(String requirementcontentid) {
-        this.requirementcontentid = requirementcontentid == null ? null : requirementcontentid.trim();
+    public void setRequirementContentId(String requirementContentId) {
+        this.requirementContentId = requirementContentId == null ? null : requirementContentId.trim();
     }
 }

@@ -37,9 +37,6 @@ public class RequirementApplicationImpl
     @Autowired
     RequirementRepository requirementRepository;
 
-    @Autowired
-    RequirementAggregation requirementAggregation;
-
     @Transactional(readOnly = true)
     @Override
     public AllrequirementsDto getAllRequirementsByProductId(String productId, int pageNo, int pageSize)

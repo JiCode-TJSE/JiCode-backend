@@ -39,8 +39,8 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
         <!-- 相关表的配置 -->
-        <table tableName="sprint"
-               domainObjectName="Sprint"
+        <table tableName="release"
+               domainObjectName="Release"
                enableInsert="true"
                enableDeleteByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"
@@ -50,8 +50,8 @@
                enableSelectByExample="true"
                enableUpdateByExample="true">
         </table>
-        <table tableName="sprint_member"
-               domainObjectName="SprintMember"
+        <table tableName="release_member"
+               domainObjectName="ReleaseMember"
                enableInsert="true"
                enableDeleteByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"

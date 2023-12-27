@@ -88,7 +88,7 @@ public class SprintRepositoryImpl implements SprintRepository {
             Sprint sprint = sprintMapper.selectByPrimaryKey(id);
             // 获取迭代成员id列表
             SprintMemberExample example = new SprintMemberExample();
-            example.createCriteria().andSprintIdEqualTo("1");
+            example.createCriteria().andSprintIdEqualTo(id);
             List<SprintMember> sprintMembers = sprintMemberMapper.selectByExample(example);
             List<String> memberIds = new ArrayList<>();
             for (SprintMember sprintMember : sprintMembers) {

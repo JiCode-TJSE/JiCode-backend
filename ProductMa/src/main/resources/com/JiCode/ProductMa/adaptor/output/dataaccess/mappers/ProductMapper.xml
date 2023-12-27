@@ -68,7 +68,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, title, detail, visibility, mark, team_id
+    `id`, `title`, `detail`, `visibility`, `mark`, `team_id`
   </sql>
   <select id="selectByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.ProductExample" resultMap="BaseResultMap">
     select
@@ -101,8 +101,7 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Product">
-    insert into product (id, title, detail, 
-      visibility, mark, team_id
+    insert into product (`id`, `title`, `detail`, `visibility`, `mark`, `team_id`
       )
     values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, 
       #{visibility,jdbcType=BIT}, #{mark,jdbcType=VARCHAR}, #{teamId,jdbcType=VARCHAR}

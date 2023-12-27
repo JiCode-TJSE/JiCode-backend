@@ -2,13 +2,17 @@ package com.JiCode.ProductMa.domain.repository.impl;
 
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Client;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.ClientExample;
+import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement;
+import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementExample;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.ClientMapper;
 import com.JiCode.ProductMa.domain.model.ClientAggregation;
+import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementEntity;
 import com.JiCode.ProductMa.domain.repository.ClientRepository;
 import com.JiCode.ProductMa.exception.*;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.ibatis.session.RowBounds;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -22,7 +26,6 @@ import java.util.UUID;
 public class ClientRepositoryImpl implements ClientRepository {
     @Autowired
     ClientMapper clientMapper;
-
 
     /**
      * 按ID查找ClientAggregation
@@ -127,6 +130,40 @@ public class ClientRepositoryImpl implements ClientRepository {
         int result = clientMapper.deleteByPrimaryKey(id);
         if (result <= 0){
             throw new DeleteFailedException("Delete client failed.");
+        }
+    }
+
+
+    /**
+     * 按productID分页查询
+     * @param productId
+     * @param pageNo
+     * @param pageSize
+     * @return
+     * @throws SelectFailedException
+     */
+    @Override
+    public List<ClientAggregation> selectByPage(String productId, int pageNo, int pageSize) throws SelectFailedException {
+        ClientExample example = new ClientExample();
+        example.createCriteria().andProductIdEqualTo(productId);
+        RowBounds rowBounds = new RowBounds((pageNo - 1) * pageSize, pageSize);
+        List<Client> clients = clientMapper.selectByExampleWithRowbounds(example, rowBounds);
+        if(clients == null || clients.isEmpty()){
+            throw new SelectFailedException("Select ClientAggByPage by productId: client not found.");
+        }
+        else{
+            //返回结果：将Client转为ClientAggregation
+            List<ClientAggregation> result = new ArrayList<>();
+            for(Client client : clients){
+                ClientAggregation clientAggregation = null;
+                try {
+                    clientAggregation = selectById(client.getId());
+                } catch (NotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                result.add(clientAggregation);//插入结果
+            }
+            return result;
         }
     }
 }

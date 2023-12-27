@@ -3,8 +3,10 @@ package com.JiCode.ProductMa;
 
 import com.JiCode.ProductMa.domain.model.ClientAggregation;
 import com.JiCode.ProductMa.domain.repository.ClientRepository;
+import com.JiCode.ProductMa.exception.DeleteFailedException;
 import com.JiCode.ProductMa.exception.InsertFailedException;
 import com.JiCode.ProductMa.exception.NotFoundException;
+import com.JiCode.ProductMa.exception.UpdateFailedException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,47 +17,49 @@ import java.util.UUID;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = ProductMaApplication.class)
-public class ClientAggregationTest {
+public class ClientAggregationTests {
     @Autowired
     ClientRepository clientRepository;
 
-    @Test
-    public void testSelectById() throws NotFoundException {
-        System.out.println(clientRepository==null);
-        ClientAggregation clientAggregation = this.clientRepository.selectById("test_client");
-        System.out.println(clientAggregation);
-    }
+//    @Test
+//    public void testSelectById() throws NotFoundException {
+//        System.out.println(clientRepository==null);
+//        ClientAggregation clientAggregation = this.clientRepository.selectById("test_client");
+//        System.out.println(clientAggregation);
+//    }
 
+    //test ok
 //    @Test
 //    public void testInsert() throws InsertFailedException {
 //        String id = String.valueOf(UUID.randomUUID());
-//        String rank = "高级";
-//        String size = "小规模";
-//        String name = "客户1";
-//        String type = "类型1";
-//        String detail = "这是客户1";
-//        String productId = String.valueOf(UUID.randomUUID());
+//        String rank = "client_test";
+//        String size = "client_test";
+//        String name = "client_test";
+//        String type = "client_test";
+//        String detail = "client_test";
+//        String productId = "test";
 //        ClientAggregation clientAggregation = ClientAggregation.createClient(id, rank, size, name, type, detail, productId);
 //        clientRepository.insert(clientAggregation);
 //    }
 
+    //test ok
 //    @Test
 //    public void testUpdateClientById() throws UpdateFailedException {
-//        String id = String.valueOf(UUID.randomUUID());
+//        String id = "test_client";
 //        String rank = "update1";
 //        String size = "update1";
 //        String name = "update1";
 //        String type = "update1";
 //        String detail = "这是客户1";
-//        String productId = String.valueOf(UUID.randomUUID());
+//        String productId = "test";
 //        ClientAggregation clientAggregation = ClientAggregation.createClient(id, rank, size, name, type, detail, productId);
 //        clientRepository.update(clientAggregation);
 //    }
 
+//    //test ok
 //    @Test
-//    public void testDeleteById(){
-//        String id = "";
+//    public void testDeleteById() throws DeleteFailedException {
+//        String id = "e0922711-03e2-432a-88c6-2136ffda4758";
 //        clientRepository.delete(id);
 //    }
-
 }

@@ -24,18 +24,11 @@ public class ProductAggregation {
     private String mark;
     private String teamId;//所属组织
 
-    //requirement表
-    private List<String> requirementList;
-
-    //client表
-    private List<String> clientList;
 
     //product_member表
     private List<String> memberList;
 
     //脏标记
-//    private boolean requirementDirty;
-//    private boolean clientDirty;
     private boolean memberDirty;
     private boolean productDirty;
 
@@ -44,19 +37,10 @@ public class ProductAggregation {
      * @Description 清除所有脏标记
      */
     public void cleanDirty() {
-//        this.requirementDirty = false;
-//        this.clientDirty = false;
         this.memberDirty = false;
         this.productDirty = false;
     }
 
-//    public boolean isRequirementDirty() {
-//        return requirementDirty;
-//    }
-//
-//    public boolean isClientDirty() {
-//        return clientDirty;
-//    }
 
     public boolean isMemberDirty() {
         return memberDirty;
@@ -74,8 +58,6 @@ public class ProductAggregation {
             Boolean visibility,
             String mark,
             String teamId,
-            List<String> clientList,
-            List<String> requirementList,
             List<String> memberList
     ){
         ProductAggregation productAggregation = new ProductAggregation();
@@ -85,8 +67,6 @@ public class ProductAggregation {
         productAggregation.visibility = visibility;
         productAggregation.mark = mark;
         productAggregation.teamId = teamId;
-        productAggregation.clientList = clientList;
-        productAggregation.requirementList = requirementList;
         productAggregation.memberList = memberList;
         return productAggregation;
 

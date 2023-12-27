@@ -20,6 +20,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -41,9 +42,6 @@ public class ProductRepositoryImpl implements ProductRepository {
     // 调用聚合根Client的仓储
     private final ClientRepository clientRepository;
 
-    // 调用聚合根Requirement的仓储
-    private final RequirementRepository requirementRepository;
-
 
     /**
      * 构造函数
@@ -53,7 +51,6 @@ public class ProductRepositoryImpl implements ProductRepository {
      */
     public ProductRepositoryImpl(ClientRepository clientRepository, RequirementRepository requirementRepository, RequirementRepository requirementRepository1) {
         this.clientRepository = clientRepository;
-        this.requirementRepository = requirementRepository;
     }
 
 
@@ -90,18 +87,6 @@ public class ProductRepositoryImpl implements ProductRepository {
 
 
     /**
-     * 调用RequirementRepository按productId查找对应的requirementList
-     * @param product
-     * @return
-     * @throws Exception
-     */
-    private List<String> selectRequirementIds(Product product) throws Exception{
-        //TODO: 先写null
-        return null;
-    }
-
-
-    /**
      * 查找联系表product_member
      * @param product
      * @return
@@ -112,8 +97,12 @@ public class ProductRepositoryImpl implements ProductRepository {
         ProductMemberExample.Criteria criteria = example.createCriteria();
         criteria.andProductIdEqualTo(product.getId());
         List<ProductMemberKey> keys = productMemberMapper.selectByExample(example);
-        if (keys == null || keys.isEmpty()){
+        if (keys == null){
             throw new SelectFailedException("Select ProductAgg: select product's memberList failed.");
+        }
+        //返回结果为空，还没有团队成员
+        if (keys.isEmpty()){
+            return new ArrayList<>();
         }
         //提取数组：memberIds
         return keys.stream()
@@ -167,7 +156,7 @@ public class ProductRepositoryImpl implements ProductRepository {
         example.createCriteria().andProductIdEqualTo(productAggregation.getId());
         productMemberMapper.deleteByExample(example);
         //插入新的联系集
-        for (String memberId : productAggregation.getClientList()){
+        for (String memberId : productAggregation.getMemberList()){
             ProductMemberKey key = new ProductMemberKey();
             key.setProductId(productAggregation.getId());
             key.setMemberId(memberId);
@@ -237,16 +226,6 @@ public class ProductRepositoryImpl implements ProductRepository {
         if (productAggregation.isProductDirty()){
             updateProduct(productAggregation);
         }
-        //只要调用对应Client和Rquirement聚合的接口就可以了，
-        //不用从这里调用？
-//        if (productAggregation.isRequirementDirty()){
-//            //实质是插入操作
-//            insertRequirement(productAggregation);
-//        }
-//        if (productAggregation.isClientDirty()){
-//            //实质是插入操作
-//            insertClient(productAggregation);
-//        }
         if (productAggregation.isMemberDirty()){
             updateProductMember(productAggregation);
         }
@@ -264,9 +243,7 @@ public class ProductRepositoryImpl implements ProductRepository {
     public ProductAggregation selectById(String id) throws Exception {
         // product 实体查询
         Product product = selectProduct(id);
-        //下面两个实体查询好像没有必要，直接从Requirement聚合调用就好了
-        List<String> clientList = selectClientIds(product);
-        List<String> requirementList = selectRequirementIds(product);
+        // product_member 联系查询
         List<String> memberList = selectMemberIds(product);
 
         // 返回聚合
@@ -277,9 +254,6 @@ public class ProductRepositoryImpl implements ProductRepository {
                 product.getVisibility(),
                 product.getMark(),
                 product.getTeamId(),
-                clientList,
-                //TODO: Requirement的selectById写好后调用
-                requirementList,
                 memberList);
     }
 }

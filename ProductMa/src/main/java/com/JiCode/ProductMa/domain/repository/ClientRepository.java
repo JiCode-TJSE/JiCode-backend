@@ -1,10 +1,8 @@
 package com.JiCode.ProductMa.domain.repository;
 
 import com.JiCode.ProductMa.domain.model.ClientAggregation;
-import com.JiCode.ProductMa.exception.DeleteFailedException;
-import com.JiCode.ProductMa.exception.InsertFailedException;
-import com.JiCode.ProductMa.exception.NotFoundException;
-import com.JiCode.ProductMa.exception.UpdateFailedException;
+import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementEntity;
+import com.JiCode.ProductMa.exception.*;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -21,4 +19,7 @@ public interface ClientRepository {
     public void update(ClientAggregation clientAggregation) throws UpdateFailedException;
 
     public void delete(String id) throws DeleteFailedException;
+
+    public List<ClientAggregation> selectByPage(String productId, int pageNo, int pageSize)
+            throws SelectFailedException;
 }

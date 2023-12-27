@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.JiCode.Account.adaptor.output.dataaccess.mappers.UserInfoMapper">
   <resultMap id="BaseResultMap" type="com.JiCode.Account.adaptor.output.dataaccess.DBModels.UserInfo">
-    <id column="userinfo_id" jdbcType="VARCHAR" property="userinfoId" />
+    <id column="account_id" jdbcType="VARCHAR" property="accountId" />
     <result column="avatar" jdbcType="VARCHAR" property="avatar" />
     <result column="gender" jdbcType="VARCHAR" property="gender" />
     <result column="name" jdbcType="VARCHAR" property="name" />
@@ -67,7 +67,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    userinfo_id, avatar, gender, name, user_name
+    account_id, avatar, gender, name, user_name
   </sql>
   <select id="selectByExample" parameterType="com.JiCode.Account.adaptor.output.dataaccess.DBModels.UserInfoExample" resultMap="BaseResultMap">
     select
@@ -87,11 +87,11 @@
     select 
     <include refid="Base_Column_List" />
     from user_info
-    where userinfo_id = #{userinfoId,jdbcType=VARCHAR}
+    where account_id = #{accountId,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from user_info
-    where userinfo_id = #{userinfoId,jdbcType=VARCHAR}
+    where account_id = #{accountId,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.JiCode.Account.adaptor.output.dataaccess.DBModels.UserInfoExample">
     delete from user_info
@@ -100,16 +100,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.JiCode.Account.adaptor.output.dataaccess.DBModels.UserInfo">
-    insert into user_info (userinfo_id, avatar, gender, 
+    insert into user_info (account_id, avatar, gender, 
       name, user_name)
-    values (#{userinfoId,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
+    values (#{accountId,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{gender,jdbcType=VARCHAR}, 
       #{name,jdbcType=VARCHAR}, #{userName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.Account.adaptor.output.dataaccess.DBModels.UserInfo">
     insert into user_info
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="userinfoId != null">
-        userinfo_id,
+      <if test="accountId != null">
+        account_id,
       </if>
       <if test="avatar != null">
         avatar,
@@ -125,8 +125,8 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="userinfoId != null">
-        #{userinfoId,jdbcType=VARCHAR},
+      <if test="accountId != null">
+        #{accountId,jdbcType=VARCHAR},
       </if>
       <if test="avatar != null">
         #{avatar,jdbcType=VARCHAR},
@@ -151,8 +151,8 @@
   <update id="updateByExampleSelective" parameterType="map">
     update user_info
     <set>
-      <if test="record.userinfoId != null">
-        userinfo_id = #{record.userinfoId,jdbcType=VARCHAR},
+      <if test="record.accountId != null">
+        account_id = #{record.accountId,jdbcType=VARCHAR},
       </if>
       <if test="record.avatar != null">
         avatar = #{record.avatar,jdbcType=VARCHAR},
@@ -173,7 +173,7 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update user_info
-    set userinfo_id = #{record.userinfoId,jdbcType=VARCHAR},
+    set account_id = #{record.accountId,jdbcType=VARCHAR},
       avatar = #{record.avatar,jdbcType=VARCHAR},
       gender = #{record.gender,jdbcType=VARCHAR},
       name = #{record.name,jdbcType=VARCHAR},
@@ -198,7 +198,7 @@
         user_name = #{userName,jdbcType=VARCHAR},
       </if>
     </set>
-    where userinfo_id = #{userinfoId,jdbcType=VARCHAR}
+    where account_id = #{accountId,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.JiCode.Account.adaptor.output.dataaccess.DBModels.UserInfo">
     update user_info
@@ -206,6 +206,6 @@
       gender = #{gender,jdbcType=VARCHAR},
       name = #{name,jdbcType=VARCHAR},
       user_name = #{userName,jdbcType=VARCHAR}
-    where userinfo_id = #{userinfoId,jdbcType=VARCHAR}
+    where account_id = #{accountId,jdbcType=VARCHAR}
   </update>
 </mapper>

@@ -1,7 +1,7 @@
 package com.JiCode.Account.adaptor.output.dataaccess.DBModels;
 
 public class UserInfo {
-    private String userinfoId;
+    private String accountId;
 
     private String avatar;
 
@@ -11,12 +11,12 @@ public class UserInfo {
 
     private String userName;
 
-    public String getUserinfoId() {
-        return userinfoId;
+    public String getAccountId() {
+        return accountId;
     }
 
-    public void setUserinfoId(String userinfoId) {
-        this.userinfoId = userinfoId == null ? null : userinfoId.trim();
+    public void setAccountId(String accountId) {
+        this.accountId = accountId == null ? null : accountId.trim();
     }
 
     public String getAvatar() {

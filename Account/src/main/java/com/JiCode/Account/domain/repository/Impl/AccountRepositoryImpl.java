@@ -50,7 +50,7 @@ public class AccountRepositoryImpl implements AccountRepository {
             return accounts; // 成功返回账号id（这里看着是个列表，但其实只会返回一个）
         } catch (Exception e) {
             System.out.println(e);
-            return "";// 失败返回空字符串
+            return null;// 失败返回空
         }
     }
 

@@ -1,7 +1,8 @@
 package com.JiCode.Account.adaptor.in;
 
-import com.JiCode.Account.application.UserInfoApplication;
-import com.JiCode.Account.application.dto.UserInfoDto;
+import com.JiCode.Account.application.AccountApplication;
+import com.JiCode.Account.application.dto.AccountDto;
+import com.JiCode.Account.util.ComResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,17 +17,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/account")
 public class AccountController {
+    @Autowired
+    AccountApplication accountApplication;
 
+    @GetMapping("/userinfo")
+    public ComResponse<AccountDto> getAccount(@RequestParam("id") String id) {
+        AccountDto accountDto = new AccountDto();
+        accountDto = accountApplication.selectByUserId(id);
+        return ComResponse.success(accountDto);
+    }
 
 
 //    @Autowired
-//    UserInfoApplication userInfoApplication;
+//    AccountApplication accountApplication;
 
 //        @GetMapping("/user-signup")
-//        public UserInfoDto signUp(@RequestParam("id") String id) {
-//            UserInfoDto userInfoDto = new UserInfoDto();
-//            userInfoDto = userInfoApplication.selectByUserId(id);
-//            return userInfoDto;
+//        public AccountDto signUp(@RequestParam("id") String id) {
+//            AccountDto accountDto = new AccountDto();
+//            accountDto = accountApplication.selectByUserId(id);
+//            return accountDto;
 //        }
 
 }

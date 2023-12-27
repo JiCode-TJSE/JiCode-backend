@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface AccountRepository {
 
-    public String insert(AccountAggregation accountAggregation);
+    public List<Account> insert(AccountAggregation accountAggregation);
     public int updateById(AccountAggregation accountAggregation);
     public int deleteById(String id);
     // 登录账号查询

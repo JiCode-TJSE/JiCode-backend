@@ -2,9 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementMapper">
   <resultMap id="BaseResultMap" type="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement">
-    <id column="id" jdbcType="VARCHAR" property="id" />
+    <id column="requirementId" jdbcType="VARCHAR" property="requirementid" />
     <result column="belong_product_id" jdbcType="VARCHAR" property="belongProductId" />
-    <result column="in_version" jdbcType="VARCHAR" property="inVersion" />
+    <result column="requirementContentId" jdbcType="VARCHAR" property="requirementcontentid" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, belong_product_id, in_version
+    requirementId, belong_product_id, requirementContentId
   </sql>
   <select id="selectByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementExample" resultMap="BaseResultMap">
     select
@@ -85,11 +85,11 @@
     select 
     <include refid="Base_Column_List" />
     from requirement
-    where id = #{id,jdbcType=VARCHAR}
+    where requirementId = #{requirementid,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from requirement
-    where id = #{id,jdbcType=VARCHAR}
+    where requirementId = #{requirementid,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementExample">
     delete from requirement
@@ -98,33 +98,33 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement">
-    insert into requirement (id, belong_product_id, in_version
+    insert into requirement (requirementId, belong_product_id, requirementContentId
       )
-    values (#{id,jdbcType=VARCHAR}, #{belongProductId,jdbcType=VARCHAR}, #{inVersion,jdbcType=VARCHAR}
+    values (#{requirementid,jdbcType=VARCHAR}, #{belongProductId,jdbcType=VARCHAR}, #{requirementcontentid,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement">
     insert into requirement
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        id,
+      <if test="requirementid != null">
+        requirementId,
       </if>
       <if test="belongProductId != null">
         belong_product_id,
       </if>
-      <if test="inVersion != null">
-        in_version,
+      <if test="requirementcontentid != null">
+        requirementContentId,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+      <if test="requirementid != null">
+        #{requirementid,jdbcType=VARCHAR},
       </if>
       <if test="belongProductId != null">
         #{belongProductId,jdbcType=VARCHAR},
       </if>
-      <if test="inVersion != null">
-        #{inVersion,jdbcType=VARCHAR},
+      <if test="requirementcontentid != null">
+        #{requirementcontentid,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -137,14 +137,14 @@
   <update id="updateByExampleSelective" parameterType="map">
     update requirement
     <set>
-      <if test="record.id != null">
-        id = #{record.id,jdbcType=VARCHAR},
+      <if test="record.requirementid != null">
+        requirementId = #{record.requirementid,jdbcType=VARCHAR},
       </if>
       <if test="record.belongProductId != null">
         belong_product_id = #{record.belongProductId,jdbcType=VARCHAR},
       </if>
-      <if test="record.inVersion != null">
-        in_version = #{record.inVersion,jdbcType=VARCHAR},
+      <if test="record.requirementcontentid != null">
+        requirementContentId = #{record.requirementcontentid,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -153,9 +153,9 @@
   </update>
   <update id="updateByExample" parameterType="map">
     update requirement
-    set id = #{record.id,jdbcType=VARCHAR},
+    set requirementId = #{record.requirementid,jdbcType=VARCHAR},
       belong_product_id = #{record.belongProductId,jdbcType=VARCHAR},
-      in_version = #{record.inVersion,jdbcType=VARCHAR}
+      requirementContentId = #{record.requirementcontentid,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -166,17 +166,17 @@
       <if test="belongProductId != null">
         belong_product_id = #{belongProductId,jdbcType=VARCHAR},
       </if>
-      <if test="inVersion != null">
-        in_version = #{inVersion,jdbcType=VARCHAR},
+      <if test="requirementcontentid != null">
+        requirementContentId = #{requirementcontentid,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where requirementId = #{requirementid,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Requirement">
     update requirement
     set belong_product_id = #{belongProductId,jdbcType=VARCHAR},
-      in_version = #{inVersion,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+      requirementContentId = #{requirementcontentid,jdbcType=VARCHAR}
+    where requirementId = #{requirementid,jdbcType=VARCHAR}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementExample" resultMap="BaseResultMap">
     select

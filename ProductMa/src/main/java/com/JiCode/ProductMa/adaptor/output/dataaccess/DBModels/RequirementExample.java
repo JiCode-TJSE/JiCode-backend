@@ -104,73 +104,73 @@ public class RequirementExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andIdIsNull() {
-            addCriterion("id is null");
+        public Criteria andRequirementidIsNull() {
+            addCriterion("requirementId is null");
             return (Criteria) this;
         }
 
-        public Criteria andIdIsNotNull() {
-            addCriterion("id is not null");
+        public Criteria andRequirementidIsNotNull() {
+            addCriterion("requirementId is not null");
             return (Criteria) this;
         }
 
-        public Criteria andIdEqualTo(String value) {
-            addCriterion("id =", value, "id");
+        public Criteria andRequirementidEqualTo(String value) {
+            addCriterion("requirementId =", value, "requirementid");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotEqualTo(String value) {
-            addCriterion("id <>", value, "id");
+        public Criteria andRequirementidNotEqualTo(String value) {
+            addCriterion("requirementId <>", value, "requirementid");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThan(String value) {
-            addCriterion("id >", value, "id");
+        public Criteria andRequirementidGreaterThan(String value) {
+            addCriterion("requirementId >", value, "requirementid");
             return (Criteria) this;
         }
 
-        public Criteria andIdGreaterThanOrEqualTo(String value) {
-            addCriterion("id >=", value, "id");
+        public Criteria andRequirementidGreaterThanOrEqualTo(String value) {
+            addCriterion("requirementId >=", value, "requirementid");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThan(String value) {
-            addCriterion("id <", value, "id");
+        public Criteria andRequirementidLessThan(String value) {
+            addCriterion("requirementId <", value, "requirementid");
             return (Criteria) this;
         }
 
-        public Criteria andIdLessThanOrEqualTo(String value) {
-            addCriterion("id <=", value, "id");
+        public Criteria andRequirementidLessThanOrEqualTo(String value) {
+            addCriterion("requirementId <=", value, "requirementid");
             return (Criteria) this;
         }
 
-        public Criteria andIdLike(String value) {
-            addCriterion("id like", value, "id");
+        public Criteria andRequirementidLike(String value) {
+            addCriterion("requirementId like", value, "requirementid");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotLike(String value) {
-            addCriterion("id not like", value, "id");
+        public Criteria andRequirementidNotLike(String value) {
+            addCriterion("requirementId not like", value, "requirementid");
             return (Criteria) this;
         }
 
-        public Criteria andIdIn(List<String> values) {
-            addCriterion("id in", values, "id");
+        public Criteria andRequirementidIn(List<String> values) {
+            addCriterion("requirementId in", values, "requirementid");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotIn(List<String> values) {
-            addCriterion("id not in", values, "id");
+        public Criteria andRequirementidNotIn(List<String> values) {
+            addCriterion("requirementId not in", values, "requirementid");
             return (Criteria) this;
         }
 
-        public Criteria andIdBetween(String value1, String value2) {
-            addCriterion("id between", value1, value2, "id");
+        public Criteria andRequirementidBetween(String value1, String value2) {
+            addCriterion("requirementId between", value1, value2, "requirementid");
             return (Criteria) this;
         }
 
-        public Criteria andIdNotBetween(String value1, String value2) {
-            addCriterion("id not between", value1, value2, "id");
+        public Criteria andRequirementidNotBetween(String value1, String value2) {
+            addCriterion("requirementId not between", value1, value2, "requirementid");
             return (Criteria) this;
         }
 
@@ -244,73 +244,73 @@ public class RequirementExample {
             return (Criteria) this;
         }
 
-        public Criteria andInVersionIsNull() {
-            addCriterion("in_version is null");
+        public Criteria andRequirementcontentidIsNull() {
+            addCriterion("requirementContentId is null");
             return (Criteria) this;
         }
 
-        public Criteria andInVersionIsNotNull() {
-            addCriterion("in_version is not null");
+        public Criteria andRequirementcontentidIsNotNull() {
+            addCriterion("requirementContentId is not null");
             return (Criteria) this;
         }
 
-        public Criteria andInVersionEqualTo(String value) {
-            addCriterion("in_version =", value, "inVersion");
+        public Criteria andRequirementcontentidEqualTo(String value) {
+            addCriterion("requirementContentId =", value, "requirementcontentid");
             return (Criteria) this;
         }
 
-        public Criteria andInVersionNotEqualTo(String value) {
-            addCriterion("in_version <>", value, "inVersion");
+        public Criteria andRequirementcontentidNotEqualTo(String value) {
+            addCriterion("requirementContentId <>", value, "requirementcontentid");
             return (Criteria) this;
         }
 
-        public Criteria andInVersionGreaterThan(String value) {
-            addCriterion("in_version >", value, "inVersion");
+        public Criteria andRequirementcontentidGreaterThan(String value) {
+            addCriterion("requirementContentId >", value, "requirementcontentid");
             return (Criteria) this;
         }
 
-        public Criteria andInVersionGreaterThanOrEqualTo(String value) {
-            addCriterion("in_version >=", value, "inVersion");
+        public Criteria andRequirementcontentidGreaterThanOrEqualTo(String value) {
+            addCriterion("requirementContentId >=", value, "requirementcontentid");
             return (Criteria) this;
         }
 
-        public Criteria andInVersionLessThan(String value) {
-            addCriterion("in_version <", value, "inVersion");
+        public Criteria andRequirementcontentidLessThan(String value) {
+            addCriterion("requirementContentId <", value, "requirementcontentid");
             return (Criteria) this;
         }
 
-        public Criteria andInVersionLessThanOrEqualTo(String value) {
-            addCriterion("in_version <=", value, "inVersion");
+        public Criteria andRequirementcontentidLessThanOrEqualTo(String value) {
+            addCriterion("requirementContentId <=", value, "requirementcontentid");
             return (Criteria) this;
         }
 
-        public Criteria andInVersionLike(String value) {
-            addCriterion("in_version like", value, "inVersion");
+        public Criteria andRequirementcontentidLike(String value) {
+            addCriterion("requirementContentId like", value, "requirementcontentid");
             return (Criteria) this;
         }
 
-        public Criteria andInVersionNotLike(String value) {
-            addCriterion("in_version not like", value, "inVersion");
+        public Criteria andRequirementcontentidNotLike(String value) {
+            addCriterion("requirementContentId not like", value, "requirementcontentid");
             return (Criteria) this;
         }
 
-        public Criteria andInVersionIn(List<String> values) {
-            addCriterion("in_version in", values, "inVersion");
+        public Criteria andRequirementcontentidIn(List<String> values) {
+            addCriterion("requirementContentId in", values, "requirementcontentid");
             return (Criteria) this;
         }
 
-        public Criteria andInVersionNotIn(List<String> values) {
-            addCriterion("in_version not in", values, "inVersion");
+        public Criteria andRequirementcontentidNotIn(List<String> values) {
+            addCriterion("requirementContentId not in", values, "requirementcontentid");
             return (Criteria) this;
         }
 
-        public Criteria andInVersionBetween(String value1, String value2) {
-            addCriterion("in_version between", value1, value2, "inVersion");
+        public Criteria andRequirementcontentidBetween(String value1, String value2) {
+            addCriterion("requirementContentId between", value1, value2, "requirementcontentid");
             return (Criteria) this;
         }
 
-        public Criteria andInVersionNotBetween(String value1, String value2) {
-            addCriterion("in_version not between", value1, value2, "inVersion");
+        public Criteria andRequirementcontentidNotBetween(String value1, String value2) {
+            addCriterion("requirementContentId not between", value1, value2, "requirementcontentid");
             return (Criteria) this;
         }
     }

@@ -12,12 +12,13 @@ import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Repository
+@Service
 public class ClientRepositoryImpl implements ClientRepository {
     @Autowired
     ClientMapper clientMapper;
@@ -44,6 +45,8 @@ public class ClientRepositoryImpl implements ClientRepository {
                 client.getDetail(),
                 client.getProductId());
     }
+
+
 
 
     //应该返回List<ClientAggregation>还是List<String> ids？？？

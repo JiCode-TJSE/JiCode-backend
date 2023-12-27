@@ -16,8 +16,8 @@ public class UserInfoApplication {
         UserInfoAggregation userInfoAggregation = new UserInfoAggregation();
         userInfoAggregation = userInfoRepository.selectById(id);
         UserInfoDto userInfoDto = new UserInfoDto();
-        System.out.println(userInfoAggregation);
         BeanUtils.copyProperties(userInfoAggregation, userInfoDto);
+
         return userInfoDto;
     }
 
@@ -26,6 +26,26 @@ public class UserInfoApplication {
             UserInfoAggregation userInfoAggregation = new UserInfoAggregation();
             BeanUtils.copyProperties(userInfoDto, userInfoAggregation);
             userInfoRepository.insertUserInfo(userInfoAggregation);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public Boolean updateUserInfo(UserInfoDto userInfoDto) {
+        try {
+            UserInfoAggregation userInfoAggregation = new UserInfoAggregation();
+            BeanUtils.copyProperties(userInfoDto, userInfoAggregation);
+            userInfoRepository.updateUserInfo(userInfoAggregation);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    public Boolean deleteUserInfo(String id) {
+        try {
+            userInfoRepository.deleteUserInfo(id);
         } catch (Exception e) {
             return false;
         }

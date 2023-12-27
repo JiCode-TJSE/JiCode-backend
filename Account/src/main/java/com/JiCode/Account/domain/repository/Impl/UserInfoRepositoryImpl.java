@@ -8,6 +8,8 @@ import com.JiCode.Account.domain.repository.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @Service
 public class UserInfoRepositoryImpl implements UserInfoRepository {
     @Autowired
@@ -43,7 +45,6 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
             userInfo.setName(userInfoAggregation.getName());
             userInfo.setUserName(userInfoAggregation.getUserName());
             userInfo.setAccountId(userInfoAggregation.getAccountId());
-            System.out.println(userInfo.getAccountId());
             userInfoMapper.insert(userInfo);
             return true;
         } catch (Exception e) {
@@ -51,4 +52,35 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
             return false;
         }
     }
+
+    @Override
+    public Boolean updateUserInfo(UserInfoAggregation userInfoAggregation) {
+        try {
+            UserInfo userInfo = new UserInfo();
+            UserInfo oldUserInfo = userInfoMapper.selectByPrimaryKey(userInfoAggregation.getId());
+            userInfo.setId(oldUserInfo.getId());
+            userInfo.setAvatar(userInfoAggregation.getAvatar() == null ? oldUserInfo.getAvatar() : userInfoAggregation.getAvatar());
+            userInfo.setGender(userInfoAggregation.getGender() == null ? oldUserInfo.getGender() : userInfoAggregation.getGender());
+            userInfo.setName(userInfoAggregation.getName() == null ? oldUserInfo.getName() : userInfoAggregation.getName());
+            userInfo.setUserName(userInfoAggregation.getUserName() == null ? oldUserInfo.getUserName() : userInfoAggregation.getUserName());
+            userInfo.setAccountId(oldUserInfo.getAccountId());
+            userInfoMapper.updateByPrimaryKey(userInfo);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
+        }
+    }
+
+    @Override
+    public Boolean deleteUserInfo(String id) {
+        try {
+            userInfoMapper.deleteByPrimaryKey(id);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
+        }
+    }
 }
+

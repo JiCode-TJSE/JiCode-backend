@@ -14,6 +14,7 @@ public class UserInfoFactoryImpl implements UserInfoFactory {
         userInfoAggregation.setGender(gender);
         userInfoAggregation.setName(name);
         userInfoAggregation.setUserName(userName);
+        userInfoAggregation.setAccountId(accountId);
         return userInfoAggregation;
     }
 }

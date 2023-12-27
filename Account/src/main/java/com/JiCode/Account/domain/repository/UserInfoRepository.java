@@ -6,4 +6,8 @@ public interface UserInfoRepository {
     public UserInfoAggregation selectById(String id);
 
     public Boolean insertUserInfo(UserInfoAggregation userInfoAggregation);
+
+    public Boolean updateUserInfo(UserInfoAggregation userInfoAggregation);
+
+    public Boolean deleteUserInfo(String id);
 }

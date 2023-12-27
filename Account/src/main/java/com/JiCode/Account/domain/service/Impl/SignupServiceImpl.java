@@ -19,8 +19,7 @@ public class SignupServiceImpl implements SignupService {
 
     @Autowired
     AccountRepository accountRepository;
-    @Autowired
-    UserInfoRepository userInfoRepository;
+
 
     @Override
     public int signUpByEmail(AccountAggregation accountAggregation) {

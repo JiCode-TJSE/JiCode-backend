@@ -6,10 +6,11 @@ import com.JiCode.Account.adaptor.output.dataaccess.DBModels.AccountExample;
 import com.JiCode.Account.adaptor.output.dataaccess.DBModels.UserInfo;
 import com.JiCode.Account.adaptor.output.dataaccess.mappers.AccountMapper;
 import com.JiCode.Account.application.UserInfoApplication;
-import com.JiCode.Account.application.dto.UserInfoDto;
+import com.JiCode.Account.application.dto.UserInfoAggregation;
 import com.JiCode.Account.domain.model.AccountAggregation;
 import com.JiCode.Account.domain.model.UserInfoAggregation;
 import com.JiCode.Account.domain.repository.AccountRepository;
+import com.JiCode.Account.domain.repository.UserInfoRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -29,7 +30,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     @Autowired
     AccountMapper accountMapper;
     @Autowired
-    UserInfoApplication userInfoApplication;
+    UserInfoRepository userInfoRepository;
 
     @Override
     public int insert(AccountAggregation accountAggregation) {
@@ -39,14 +40,10 @@ public class AccountRepositoryImpl implements AccountRepository {
             BeanUtils.copyProperties(accountAggregation, account);
             String accountID = UUID.randomUUID().toString();
             account.setAccountId(accountID);
-            account.setEmail((accountAggregation.getEmail()));
-            account.setPassword(accountAggregation.getPassword());
-            account.setOrganizationId("2");
-            account.setPhoneNumber(accountAggregation.getPhoneNumber());
 
-            // 插入一条userinfo表的数据
-            UserInfoDto userInfoDto = new UserInfoDto(null, null, null, null, null, accountID);
-            userInfoApplication.insertUserInfo(userInfoDto);
+            // 调用userinfo的仓储插入一条userinfo表的数据
+            UserInfoAggregation userInfoAggregation = new UserInfoAggregation(accountID, null, null, null, null);
+            userInfoRepository.insertUserInfo(userInfoAggregation);
 
             return accountMapper.insert(account);
         } catch (Exception e) {
@@ -54,7 +51,6 @@ public class AccountRepositoryImpl implements AccountRepository {
             return 0;
         }
     }
-
 
     @Override
     public int updateById(AccountAggregation accountAggregation) {

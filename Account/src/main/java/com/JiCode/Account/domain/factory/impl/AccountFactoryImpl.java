@@ -2,6 +2,8 @@ package com.JiCode.Account.domain.factory.impl;
 
 import com.JiCode.Account.domain.factory.AccountFactory;
 import com.JiCode.Account.domain.model.AccountAggregation;
+import com.JiCode.Account.domain.repository.UserInfoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
@@ -13,6 +15,9 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class AccountFactoryImpl implements AccountFactory {
+    @Autowired
+    UserInfoRepository userInfoRepository;
+
     @Override
     public AccountAggregation createAccount(String accountID, String email, String phoneNumber, String password, String organizationID) {
         AccountAggregation accountAggregation = new AccountAggregation();
@@ -21,6 +26,7 @@ public class AccountFactoryImpl implements AccountFactory {
         accountAggregation.setPhoneNumber(phoneNumber);
         accountAggregation.setPassword(password);
         accountAggregation.setOrganizationID(organizationID);
+        userInfoRepository.selectById(accountID);// 调用userinfo的仓储方法
         return accountAggregation;
     }
 }

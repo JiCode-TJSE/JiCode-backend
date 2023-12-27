@@ -22,4 +22,5 @@ public class AccountAggregation {
     private String phoneNumber;
     private String password;
     private String organizationID;
+    UserInfoAggregation userInfoAggregation;
 }

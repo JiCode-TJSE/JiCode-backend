@@ -18,4 +18,6 @@ public interface BacklogItemRepository {
     public int updateById(BacklogItemAggregation backlogItemAggregation);
 
     public int deleteById(String id);
+
+    public int associateWithBacklogItem(String backlogItemId1,String backlogItemId2);
 }

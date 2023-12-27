@@ -1,6 +1,7 @@
 package com.JiCode.ProductDev.domain.repository.Impl;
 
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.*;
+import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.BacklogitemBacklogitemMapper;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.BacklogitemMapper;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.BacklogitemMemberMapper;
 import com.JiCode.ProductDev.domain.factory.BacklogItemFactory;
@@ -31,6 +32,9 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
     BacklogitemMapper backlogitemMapper;
     @Autowired
     BacklogitemMemberMapper backlogitemMemberMapper;
+
+    @Autowired
+    BacklogitemBacklogitemMapper backlogitemBacklogitemMapper;
 
     /**
      * 将实体类及其他信息转换成聚合返回给上层，用于查
@@ -155,6 +159,19 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
     public int deleteById(String id){
         try{
             return backlogitemMapper.deleteByPrimaryKey(id);
+        }catch (Exception e){
+            System.out.println(e);
+            return 0;
+        }
+    }
+
+    public int associateWithBacklogItem(String backlogItemId1,String backlogItemId2){
+        try{
+            BacklogitemBacklogitem backlogitemBacklogitem = new BacklogitemBacklogitem();
+            backlogitemBacklogitem.setBacklogitemid1(backlogItemId1);
+            backlogitemBacklogitem.setBacklogitemid2(backlogItemId2);
+            backlogitemBacklogitemMapper.insert(backlogitemBacklogitem);
+            return 0;
         }catch (Exception e){
             System.out.println(e);
             return 0;

@@ -15,8 +15,6 @@ public class RequirementContentEntity {
 
     private String detail;
 
-    private String belongProductID;
-
     private String supervisorID;
 
     // 所属模块
@@ -77,6 +75,18 @@ public class RequirementContentEntity {
         } catch (IllegalAccessException | IllegalArgumentException e) {
             throw new CreateFailedException("Failed to create RequirementContentEntity. " + e.getMessage(), e);
         }
+        return requirementContentEntity;
+    }
+
+    public static <T> RequirementContentEntity createNew(T template)
+            throws CreateFailedException {
+        RequirementContentEntity requirementContentEntity = new RequirementContentEntity();
+        BeanUtils.copyProperties(template, requirementContentEntity);
+
+        if (requirementContentEntity.getName() == null || requirementContentEntity.getName().trim().isEmpty()) {
+            throw new CreateFailedException("Name is required.");
+        }
+
         return requirementContentEntity;
     }
 

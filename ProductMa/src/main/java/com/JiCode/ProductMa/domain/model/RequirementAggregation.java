@@ -8,6 +8,9 @@ import com.JiCode.ProductMa.exception.NotFoundException;
 import com.JiCode.ProductMa.exception.requirement.SwitchVersionException;
 import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementContentEntity;
 import com.JiCode.ProductMa.domain.model.entity.requirement.ClientsEntity;
+
+import java.util.UUID;
+
 import com.JiCode.ProductMa.domain.model.entity.requirement.BacklogItemsEntity;
 
 import lombok.Getter;
@@ -100,5 +103,23 @@ public class RequirementAggregation {
         agg.requirementEntity = requirementEntity;
         agg.versionsEntity = versionsEntity;
         return agg;
+    }
+
+    public static RequirementAggregation createNew(
+            String belongProductId, RequirementContentEntity requirementContentEntity) throws CreateFailedException {
+        if (requirementContentEntity == null || belongProductId == null) {
+            throw new CreateFailedException(
+                    "Params must not be null in creating RequirementAggregation createRequirementByRequirement().");
+        }
+        String requirementId = UUID.randomUUID().toString();
+        String requirementContentId = UUID.randomUUID().toString();
+        RequirementEntity requirementEntity = RequirementEntity.createNew(requirementId, requirementContentId,
+                belongProductId);
+        VersionAggregation versionAggregation = VersionAggregation.createNew(requirementContentId);
+        VersionsEntity versionsEntity = VersionsEntity.createNew(versionAggregation);
+        ClientsEntity clientsEntity = ClientsEntity.createNew();
+        BacklogItemsEntity backlogItemsEntity = BacklogItemsEntity.createNew();
+        return RequirementAggregation.createRequirementByAll(requirementEntity, versionsEntity,
+                requirementContentEntity, clientsEntity, backlogItemsEntity);
     }
 }

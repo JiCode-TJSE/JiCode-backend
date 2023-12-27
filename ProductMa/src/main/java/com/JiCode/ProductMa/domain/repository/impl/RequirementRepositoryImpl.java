@@ -190,19 +190,20 @@ public class RequirementRepositoryImpl implements RequirementRepository {
      * @Description 插入新的 RequirementAgg
      */
     @Override
-    public void insert(RequirementAggregation requirementAggregation)
+    public String insert(RequirementAggregation requirementAggregation)
             throws InsertFailedException {
         Requirement requirement = insertRequirement(requirementAggregation);
         // 生成UUID
-        String uuid1 = UUID.randomUUID().toString();
-        String uuid2 = UUID.randomUUID().toString();
-        requirementAggregation.getRequirementEntity().setRequirementContentId(uuid1);
-        requirementAggregation.getRequirementEntity().setId(uuid2);
+        String requirementContentId = UUID.randomUUID().toString();
+        String requirementId = UUID.randomUUID().toString();
+        requirementAggregation.getRequirementEntity().setRequirementContentId(requirementContentId);
+        requirementAggregation.getRequirementEntity().setId(requirementId);
         // 新建的时候只有一个版本
         insertVersion(requirementAggregation, requirement.getId());
         insertRequirementContent(requirementAggregation);
         insertClients(requirementAggregation);
         insertBacklogItems(requirementAggregation);
+        return requirementId;
     }
 
     private void insertRequirementContent(RequirementAggregation requirementAggregation) throws InsertFailedException {

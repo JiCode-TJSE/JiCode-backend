@@ -51,4 +51,10 @@ public class ClientsEntity {
         return clientsEntity;
     }
 
+    public static ClientsEntity createNew() {
+        ClientsEntity clientsEntity = new ClientsEntity();
+        clientsEntity.clientIDArr = new String[0];
+        return clientsEntity;
+    }
+
 }

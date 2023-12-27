@@ -47,4 +47,15 @@ public class VersionsEntity {
         return versionsEntity;
     }
 
+    public static VersionsEntity createNew(VersionAggregation v1) throws CreateFailedException {
+        if (v1 == null) {
+            throw new CreateFailedException("VersionAggregation cannot be null.");
+        }
+
+        VersionsEntity versionsEntity = new VersionsEntity();
+        versionsEntity.versionArr = new VersionAggregation[1];
+        versionsEntity.versionArr[0] = v1;
+        return versionsEntity;
+    }
+
 }

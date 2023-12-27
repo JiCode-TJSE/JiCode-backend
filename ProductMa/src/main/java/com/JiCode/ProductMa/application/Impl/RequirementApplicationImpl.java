@@ -1,13 +1,19 @@
 package com.JiCode.ProductMa.application.Impl;
 
 import com.JiCode.ProductMa.application.RequirementApplication;
+import com.JiCode.ProductMa.application.dto.AddRequirementReqDto;
 import com.JiCode.ProductMa.application.dto.AllrequirementsDto;
 import com.JiCode.ProductMa.domain.repository.VersionRepository;
+import com.JiCode.ProductMa.exception.CreateFailedException;
+import com.JiCode.ProductMa.exception.InsertFailedException;
 import com.JiCode.ProductMa.exception.SelectFailedException;
 import com.JiCode.ProductMa.exception.ServerException;
+import com.JiCode.ProductMa.domain.model.RequirementAggregation;
 import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementContentEntity;
 import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementEntity;
 import com.JiCode.ProductMa.domain.repository.RequirementRepository;
+
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +34,7 @@ public class RequirementApplicationImpl
     RequirementRepository requirementRepository;
 
     @Autowired
+    RequirementAggregation requirementAggregation;
 
     @Transactional(readOnly = true)
     @Override
@@ -74,4 +81,25 @@ public class RequirementApplicationImpl
             throw new ServerException();
         }
     }
+
+    @Transactional
+    @Override
+    public Map<String, String> createRequirement(AddRequirementReqDto addRequirementReqDto) throws ServerException {
+        try {
+            // 根据参数新建一个requirementContentEntity
+            RequirementContentEntity requirementContentEntity = RequirementContentEntity
+                    .createNew(addRequirementReqDto);
+            // 根据参数新建一个requirement聚合
+            RequirementAggregation requirementAggregation = RequirementAggregation
+                    .createNew(addRequirementReqDto.getProductId(), requirementContentEntity);
+            // 将这个聚合存入数据库
+            String requirementId = requirementRepository.insert(requirementAggregation);
+            // 返回id给前端
+            return Map.of("requirementId", requirementId);
+        } catch (CreateFailedException | InsertFailedException e) {
+            log.error("Server Error", e);
+            throw new ServerException();
+        }
+    }
+
 }

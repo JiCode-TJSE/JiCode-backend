@@ -55,4 +55,20 @@ public class VersionAggregation {
         return versionAgg;
     }
 
+    public static VersionAggregation createNew(String productContentId) throws CreateFailedException {
+        if (productContentId == null) {
+            throw new CreateFailedException("versionId cannot be null.");
+        }
+
+        VersionAggregation versionAggregation = new VersionAggregation();
+        versionAggregation.versionId = productContentId;
+        versionAggregation.createTime = new Date(); // 设置createTime为当前时间
+
+        // 设置其他属性为默认值
+        versionAggregation.name = "v1";
+        versionAggregation.detail = "";
+
+        return versionAggregation;
+    }
+
 }

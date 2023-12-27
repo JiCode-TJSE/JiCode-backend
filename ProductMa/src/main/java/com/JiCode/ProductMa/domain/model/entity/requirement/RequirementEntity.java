@@ -15,7 +15,7 @@ public class RequirementEntity {
 
     private String requirementContentId;
 
-    private String belongProductID;
+    private String belongProductId;
 
     private boolean dirty;
 
@@ -57,6 +57,20 @@ public class RequirementEntity {
         } catch (IllegalAccessException e) {
             throw new CreateFailedException("Failed to access field during RequirementEntity creation.", e);
         }
+        return requirementEntity;
+    }
+
+    public static RequirementEntity createNew(String requirementId, String requirementContentId, String belongProductId)
+            throws CreateFailedException {
+        if (requirementId == null || requirementContentId == null || belongProductId == null) {
+            throw new CreateFailedException("Parameters cannot be null.");
+        }
+
+        RequirementEntity requirementEntity = new RequirementEntity();
+        requirementEntity.requirementId = requirementId;
+        requirementEntity.requirementContentId = requirementContentId;
+        requirementEntity.belongProductId = belongProductId;
+
         return requirementEntity;
     }
 

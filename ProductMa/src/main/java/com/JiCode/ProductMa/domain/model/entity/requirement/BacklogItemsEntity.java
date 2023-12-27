@@ -51,4 +51,10 @@ public class BacklogItemsEntity {
         return backlogItemsEntity;
     }
 
+    public static BacklogItemsEntity createNew() {
+        BacklogItemsEntity backlogItemsEntity = new BacklogItemsEntity();
+        backlogItemsEntity.backlogItemIDArr = new String[0];
+        return backlogItemsEntity;
+    }
+
 }

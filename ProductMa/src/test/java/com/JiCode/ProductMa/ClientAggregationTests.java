@@ -3,16 +3,14 @@ package com.JiCode.ProductMa;
 
 import com.JiCode.ProductMa.domain.model.ClientAggregation;
 import com.JiCode.ProductMa.domain.repository.ClientRepository;
-import com.JiCode.ProductMa.exception.DeleteFailedException;
-import com.JiCode.ProductMa.exception.InsertFailedException;
-import com.JiCode.ProductMa.exception.NotFoundException;
-import com.JiCode.ProductMa.exception.UpdateFailedException;
+import com.JiCode.ProductMa.exception.*;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.util.List;
 import java.util.UUID;
 
 @RunWith(SpringRunner.class)
@@ -31,12 +29,13 @@ public class ClientAggregationTests {
     //test ok
 //    @Test
 //    public void testInsert() throws InsertFailedException {
-//        String id = String.valueOf(UUID.randomUUID());
-//        String rank = "client_test";
-//        String size = "client_test";
-//        String name = "client_test";
-//        String type = "client_test";
-//        String detail = "client_test";
+//        //实际调用时id应该为""
+//        String id = "";
+//        String rank = "client3";
+//        String size = "client3";
+//        String name = "client3";
+//        String type = "client3";
+//        String detail = "client3";
 //        String productId = "test";
 //        ClientAggregation clientAggregation = ClientAggregation.createClient(id, rank, size, name, type, detail, productId);
 //        clientRepository.insert(clientAggregation);
@@ -61,5 +60,13 @@ public class ClientAggregationTests {
 //    public void testDeleteById() throws DeleteFailedException {
 //        String id = "e0922711-03e2-432a-88c6-2136ffda4758";
 //        clientRepository.delete(id);
+//    }
+
+
+//    //test ok
+//    @Test
+//    public void testSelectClientByPage() throws SelectFailedException {
+//        List<ClientAggregation> clientAggregations = clientRepository.selectByPage("test", 1, 20);
+//        System.out.println(clientAggregations);
 //    }
 }

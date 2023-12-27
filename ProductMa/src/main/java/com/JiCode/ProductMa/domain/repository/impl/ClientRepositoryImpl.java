@@ -51,7 +51,6 @@ public class ClientRepositoryImpl implements ClientRepository {
 
 
 
-
     //应该返回List<ClientAggregation>还是List<String> ids？？？
     /**
      * 按ProductID查找ClientAggregation
@@ -87,10 +86,11 @@ public class ClientRepositoryImpl implements ClientRepository {
     /**
      * 插入ClientAggregation
      * @param clientAggregation
+     * @return 生成的clientId
      * @throws InsertFailedException
      */
     @Override
-    public void insert(ClientAggregation clientAggregation) throws InsertFailedException {
+    public String insert(ClientAggregation clientAggregation) throws InsertFailedException {
         Client client = new Client();
         BeanUtils.copyProperties(clientAggregation, client);
         //生成唯一标识符
@@ -99,6 +99,7 @@ public class ClientRepositoryImpl implements ClientRepository {
         if( result <= 0){
             throw new InsertFailedException("Insert client failed.");
         }
+        return client.getId();
     }
 
 
@@ -148,7 +149,10 @@ public class ClientRepositoryImpl implements ClientRepository {
         example.createCriteria().andProductIdEqualTo(productId);
         RowBounds rowBounds = new RowBounds((pageNo - 1) * pageSize, pageSize);
         List<Client> clients = clientMapper.selectByExampleWithRowbounds(example, rowBounds);
-        if(clients == null || clients.isEmpty()){
+        if (clients.isEmpty()){
+            return new ArrayList<>();
+        }
+        if(clients == null){
             throw new SelectFailedException("Select ClientAggByPage by productId: client not found.");
         }
         else{

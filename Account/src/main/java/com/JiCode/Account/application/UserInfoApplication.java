@@ -20,4 +20,15 @@ public class UserInfoApplication {
         BeanUtils.copyProperties(userInfoAggregation, userInfoDto);
         return userInfoDto;
     }
+
+    public Boolean insertUserInfo(UserInfoDto userInfoDto) {
+        try {
+            UserInfoAggregation userInfoAggregation = new UserInfoAggregation();
+            BeanUtils.copyProperties(userInfoDto, userInfoAggregation);
+            userInfoRepository.insertUserInfo(userInfoAggregation);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 }

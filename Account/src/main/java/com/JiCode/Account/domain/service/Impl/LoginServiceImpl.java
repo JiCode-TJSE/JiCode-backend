@@ -16,6 +16,6 @@ public class LoginServiceImpl implements LoginService {
 //    AccountRepository accountRepository;
     @Override
     public int loginByEmail(AccountAggregation accountAggregation) {
-
+        return 0;
     }
 }

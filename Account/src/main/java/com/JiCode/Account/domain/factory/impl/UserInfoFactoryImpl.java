@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserInfoFactoryImpl implements UserInfoFactory {
     @Override
-    public UserInfoAggregation createUserInfo(String id, String avatar, String gender, String name, String userName) {
+    public UserInfoAggregation createUserInfo(String id, String avatar, String gender, String name, String userName, String accountId) {
         UserInfoAggregation userInfoAggregation = new UserInfoAggregation();
         userInfoAggregation.setId(id);
         userInfoAggregation.setAvatar(avatar);

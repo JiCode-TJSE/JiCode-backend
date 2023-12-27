@@ -13,4 +13,6 @@ import com.JiCode.Account.domain.model.AccountAggregation;
 public interface AccountRepository {
 
     public int insert(AccountAggregation accountAggregation);
+    public int updateById(AccountAggregation accountAggregation);
+    public int deleteById(String id);
 }

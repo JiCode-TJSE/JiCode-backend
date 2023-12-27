@@ -11,6 +11,8 @@ public class UserInfo {
 
     private String userName;
 
+    private String accountId;
+
     public String getId() {
         return id;
     }
@@ -49,5 +51,13 @@ public class UserInfo {
 
     public void setUserName(String userName) {
         this.userName = userName == null ? null : userName.trim();
+    }
+
+    public String getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(String accountId) {
+        this.accountId = accountId == null ? null : accountId.trim();
     }
 }

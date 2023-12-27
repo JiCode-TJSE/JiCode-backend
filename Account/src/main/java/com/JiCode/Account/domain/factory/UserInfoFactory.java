@@ -8,6 +8,7 @@ public interface UserInfoFactory {
             String avatar,
             String gender,
             String name,
-            String userName
+            String userName,
+            String accountId
     );
 }

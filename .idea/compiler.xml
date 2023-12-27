@@ -10,11 +10,14 @@
         <module name="Account" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="ProductDev" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Account" options="-parameters" />
-      <module name="JiCode-backend" options="-parameters" />
+      <module name="JiCode-backend" options="" />
       <module name="main" options="-parameters" />
     </option>
   </component>

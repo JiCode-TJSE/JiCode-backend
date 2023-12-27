@@ -3,10 +3,7 @@ package com.JiCode.Account.adaptor.in;
 import com.JiCode.Account.application.UserInfoApplication;
 import com.JiCode.Account.application.dto.UserInfoDto;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
@@ -20,4 +17,10 @@ public class UserInfoController {
         userInfoDto = userInfoApplication.selectByUserId(id);
         return userInfoDto;
     }
+
+//    // test
+//    @PostMapping("/createuserinfo")
+//    public Boolean createUserInfo(@RequestBody UserInfoDto userInfoDto) {
+//        return userInfoApplication.insertUserInfo(userInfoDto);
+//    }
 }

@@ -13,4 +13,5 @@ public class UserInfoDto {
     private String gender;
     private String name;
     private String userName;
+    private String accountId;
 }

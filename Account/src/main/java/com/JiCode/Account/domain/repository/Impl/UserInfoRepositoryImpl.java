@@ -24,11 +24,31 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
                     userInfo.getAvatar(),
                     userInfo.getGender(),
                     userInfo.getName(),
-                    userInfo.getUserName()
+                    userInfo.getUserName(),
+                    userInfo.getAccountId()
             );
         } catch (Exception e) {
             System.out.println(e);
         }
         return null;
+    }
+
+    @Override
+    public Boolean insertUserInfo(UserInfoAggregation userInfoAggregation) {
+        try {
+            UserInfo userInfo = new UserInfo();
+            userInfo.setId(userInfoAggregation.getId());
+            userInfo.setAvatar(userInfoAggregation.getAvatar());
+            userInfo.setGender(userInfoAggregation.getGender());
+            userInfo.setName(userInfoAggregation.getName());
+            userInfo.setUserName(userInfoAggregation.getUserName());
+            userInfo.setAccountId(userInfoAggregation.getAccountId());
+            System.out.println(userInfo.getAccountId());
+            userInfoMapper.insert(userInfo);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
+        }
     }
 }

@@ -5,7 +5,10 @@ import com.JiCode.Account.adaptor.output.dataaccess.DBModels.Account;
 import com.JiCode.Account.adaptor.output.dataaccess.DBModels.AccountExample;
 import com.JiCode.Account.adaptor.output.dataaccess.DBModels.UserInfo;
 import com.JiCode.Account.adaptor.output.dataaccess.mappers.AccountMapper;
+import com.JiCode.Account.application.UserInfoApplication;
+import com.JiCode.Account.application.dto.UserInfoDto;
 import com.JiCode.Account.domain.model.AccountAggregation;
+import com.JiCode.Account.domain.model.UserInfoAggregation;
 import com.JiCode.Account.domain.repository.AccountRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +28,8 @@ import java.util.UUID;
 public class AccountRepositoryImpl implements AccountRepository {
     @Autowired
     AccountMapper accountMapper;
-//    @Autowired
-
+    @Autowired
+    UserInfoApplication userInfoApplication;
 
     @Override
     public int insert(AccountAggregation accountAggregation) {
@@ -41,8 +44,9 @@ public class AccountRepositoryImpl implements AccountRepository {
             account.setOrganizationId("2");
             account.setPhoneNumber(accountAggregation.getPhoneNumber());
 
-            // todo:插入userinfo表一条数据
-
+            // 插入一条userinfo表的数据
+            UserInfoDto userInfoDto = new UserInfoDto(null, null, null, null, null, accountID);
+            userInfoApplication.insertUserInfo(userInfoDto);
 
             return accountMapper.insert(account);
         } catch (Exception e) {
@@ -54,11 +58,11 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public int updateById(AccountAggregation accountAggregation) {
-        try{
+        try {
             Account account = new Account();
             BeanUtils.copyProperties(accountAggregation, account);
             return accountMapper.updateByPrimaryKey(account);
-        }catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
             return 0;
         }
@@ -66,9 +70,9 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     @Override
     public int deleteById(String id) {
-        try{
+        try {
             return accountMapper.deleteByPrimaryKey(id);
-        }catch (Exception e){
+        } catch (Exception e) {
             System.out.println(e);
             return 0;
         }
@@ -76,16 +80,18 @@ public class AccountRepositoryImpl implements AccountRepository {
 
     // 检查是否可以登录
     @Override
-    public int checkLogin(String email, String password) {
-        Account account = new Account();
-        account.setEmail(email);
-        account.setPassword(password);
-        AccountExample accountExample=new AccountExample();
+    public List<Account> checkLogin(String email, String password) {
+        AccountExample accountExample = new AccountExample();
         AccountExample.Criteria criteria = accountExample.createCriteria();
         criteria.andEmailEqualTo(email).andPasswordEqualTo(password); // 使用邮箱和密码作为查询条件
 
         // 返回该用户的所有账号列表
         List<Account> accounts = accountMapper.selectByExample(accountExample); // accountMapper是Account表对应的Mapper接口
-        return 0;
+        if (accounts.isEmpty()) {
+            // 用户不存在
+            return null;
+        } else {
+            return accounts;
+        }
     }
 }

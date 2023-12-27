@@ -25,9 +25,7 @@ public class SignupServiceImpl implements SignupService {
     @Override
     public int signUpByEmail(AccountAggregation accountAggregation) {
 
-
-
-
+        // 调用accountRepository的insert方法来注册账号
         return accountRepository.insert(accountAggregation);
     }
 }

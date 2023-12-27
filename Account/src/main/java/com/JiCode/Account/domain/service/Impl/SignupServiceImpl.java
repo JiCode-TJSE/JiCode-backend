@@ -2,6 +2,7 @@ package com.JiCode.Account.domain.service.Impl;
 
 import com.JiCode.Account.domain.model.AccountAggregation;
 import com.JiCode.Account.domain.repository.AccountRepository;
+import com.JiCode.Account.domain.repository.UserInfoRepository;
 import com.JiCode.Account.domain.service.LoginService;
 import com.JiCode.Account.domain.service.SignupService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,11 +19,13 @@ public class SignupServiceImpl implements SignupService {
 
     @Autowired
     AccountRepository accountRepository;
-
+    @Autowired
+    UserInfoRepository userInfoRepository;
 
     @Override
     public int signUpByEmail(AccountAggregation accountAggregation) {
 
+        // 调用accountRepository的insert方法来注册账号
         return accountRepository.insert(accountAggregation);
     }
 }

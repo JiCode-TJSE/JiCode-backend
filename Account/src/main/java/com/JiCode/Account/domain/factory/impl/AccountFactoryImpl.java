@@ -2,6 +2,7 @@ package com.JiCode.Account.domain.factory.impl;
 
 import com.JiCode.Account.domain.factory.AccountFactory;
 import com.JiCode.Account.domain.model.AccountAggregation;
+import org.springframework.stereotype.Service;
 
 
 /**
@@ -9,6 +10,8 @@ import com.JiCode.Account.domain.model.AccountAggregation;
  * @Author fjy
  * @Date 2023-12-27
  **/
+
+@Service
 public class AccountFactoryImpl implements AccountFactory {
     @Override
     public AccountAggregation createAccount(String accountID, String email, String phoneNumber, String password, String organizationID) {

@@ -14,9 +14,10 @@ import java.util.List;
 
 public interface AccountRepository {
 
-    public List<Account> insert(AccountAggregation accountAggregation);
-    public int updateById(AccountAggregation accountAggregation);
-    public int deleteById(String id);
+    public AccountAggregation selectById(String id);
+    public boolean insert(AccountAggregation accountAggregation);
+    public boolean updateById(AccountAggregation accountAggregation);
+    public boolean deleteById(String id);
     // 登录账号查询
     public List<Account> checkLogin(String email, String password);
 }

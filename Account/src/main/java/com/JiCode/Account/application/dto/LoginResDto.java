@@ -8,22 +8,14 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 /**
- * @Description 账户基本信息
+ * @Description 登录的返回参数
  * @Author fjy
- * @Date 2023-12-27
+ * @Date 2023-12-28
  **/
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class AccountDto {
-    private String accountId;
-
-    private String organizationId;
-
-    private String email;
-
-    private String phoneNumber;
-
-    private String password;
+public class LoginResDto {
+    List<Account> accountList;
 }

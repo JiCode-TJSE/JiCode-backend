@@ -1,6 +1,5 @@
 package com.JiCode.Account.domain.model;
 
-import com.JiCode.Account.domain.repository.AccountRepository;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,5 +21,5 @@ public class AccountAggregation {
     private String phoneNumber;
     private String password;
     private String organizationID;
-    UserInfoAggregation userInfoAggregation;
+    private UserInfoAggregation userInfoAggregation;
 }

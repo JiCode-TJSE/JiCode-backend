@@ -26,7 +26,7 @@ public class AccountFactoryImpl implements AccountFactory {
         accountAggregation.setPhoneNumber(phoneNumber);
         accountAggregation.setPassword(password);
         accountAggregation.setOrganizationID(organizationID);
-        userInfoRepository.selectById(accountID);// 调用userinfo的仓储方法
+        accountAggregation.setUserInfoAggregation(userInfoRepository.selectById(accountID));// 调用userinfo的仓储方法
         return accountAggregation;
     }
 }

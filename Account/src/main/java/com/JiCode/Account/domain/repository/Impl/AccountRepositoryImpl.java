@@ -3,10 +3,8 @@ package com.JiCode.Account.domain.repository.Impl;
 
 import com.JiCode.Account.adaptor.output.dataaccess.DBModels.Account;
 import com.JiCode.Account.adaptor.output.dataaccess.DBModels.AccountExample;
-import com.JiCode.Account.adaptor.output.dataaccess.DBModels.UserInfo;
 import com.JiCode.Account.adaptor.output.dataaccess.mappers.AccountMapper;
-import com.JiCode.Account.application.UserInfoApplication;
-import com.JiCode.Account.application.dto.UserInfoAggregation;
+import com.JiCode.Account.domain.factory.AccountFactory;
 import com.JiCode.Account.domain.model.AccountAggregation;
 import com.JiCode.Account.domain.model.UserInfoAggregation;
 import com.JiCode.Account.domain.repository.AccountRepository;
@@ -15,7 +13,6 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -31,23 +28,20 @@ public class AccountRepositoryImpl implements AccountRepository {
     AccountMapper accountMapper;
     @Autowired
     UserInfoRepository userInfoRepository;
+    @Autowired
+    AccountFactory accountFactory;
 
     @Override
-    public List<Account> insert(AccountAggregation accountAggregation) {
+    public AccountAggregation selectById(String id) {
         try {
-            // 插入一条account表的数据（现在写的默认组织id是2）
-            Account account = new Account();
-            BeanUtils.copyProperties(accountAggregation, account);
-            String accountID = UUID.randomUUID().toString();
-            account.setAccountId(accountID);
-
-            // 调用userinfo的仓储插入一条userinfo表的数据
-            UserInfoAggregation userInfoAggregation = new UserInfoAggregation(accountID, null, null, null, null);
-            userInfoRepository.insertUserInfo(userInfoAggregation);
-            accountMapper.insert(account);
-            List<Account> accounts=new ArrayList<>();
-            accounts.add(account);
-            return accounts; // 成功返回账号id（这里看着是个列表，但其实只会返回一个）
+            Account account = accountMapper.selectByPrimaryKey(id);
+            return accountFactory.createAccount(
+                    account.getAccountId(),
+                    account.getEmail(),
+                    account.getPhoneNumber(),
+                    account.getPassword(),
+                    account.getOrganizationId()
+            );
         } catch (Exception e) {
             System.out.println(e);
             return null;// 失败返回空
@@ -55,24 +49,56 @@ public class AccountRepositoryImpl implements AccountRepository {
     }
 
     @Override
-    public int updateById(AccountAggregation accountAggregation) {
+    public boolean insert(AccountAggregation accountAggregation) {
         try {
+            // 插入一条account表的数据
             Account account = new Account();
-            BeanUtils.copyProperties(accountAggregation, account);
-            return accountMapper.updateByPrimaryKey(account);
+            account.setEmail(accountAggregation.getEmail());
+            account.setPhoneNumber(accountAggregation.getPhoneNumber());
+            account.setPassword(accountAggregation.getPassword());
+            account.setOrganizationId("1");// （现在写的默认组织id是1）
+            String accountID = UUID.randomUUID().toString();
+            account.setAccountId(accountID);
+            accountMapper.insert(account);// 先插入account，不然后面userinfo没有外键参照插不进去
+
+            // 调用userinfo的仓储插入一条userinfo表的数据
+            UserInfoAggregation userInfoReq = accountAggregation.getUserInfoAggregation();
+            UserInfoAggregation userInfoAggregation = new UserInfoAggregation();
+            userInfoAggregation.setAccountId(accountID);
+            userInfoAggregation.setUserName(userInfoReq.getUserName());
+            userInfoRepository.insertUserInfo(userInfoAggregation);
+            return true;// 成功返回true
         } catch (Exception e) {
             System.out.println(e);
-            return 0;
+            return false;// 失败返回false
         }
     }
 
     @Override
-    public int deleteById(String id) {
+    public boolean updateById(AccountAggregation accountAggregation) {
         try {
-            return accountMapper.deleteByPrimaryKey(id);
+            Account account = new Account();
+            account.setAccountId(accountAggregation.getAccountID());
+            account.setEmail(accountAggregation.getEmail());
+            account.setPassword(accountAggregation.getPassword());
+            account.setPhoneNumber(accountAggregation.getPhoneNumber());
+            account.setOrganizationId(accountAggregation.getOrganizationID());
+            accountMapper.updateByPrimaryKey(account);
+            return true;
         } catch (Exception e) {
             System.out.println(e);
-            return 0;
+            return false;
+        }
+    }
+
+    @Override
+    public boolean deleteById(String id) {
+        try {
+            accountMapper.deleteByPrimaryKey(id);
+            return true;
+        } catch (Exception e) {
+            System.out.println(e);
+            return false;
         }
     }
 

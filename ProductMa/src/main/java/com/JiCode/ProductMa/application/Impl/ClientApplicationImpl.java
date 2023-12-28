@@ -36,7 +36,7 @@ public class ClientApplicationImpl implements ClientApplication {
     public AllClientsDto getAllClientsByProductId(String productId, int pageNo, int pageSize) throws ServerException {
         List<ClientAggregation> clientAggregations;
         try {
-            clientAggregations = clientRepository.selectByProductId(productId);
+            clientAggregations = clientRepository.selectByPage(productId, pageNo, pageSize);
             // 返回体
             AllClientsDto allClientsDto = new AllClientsDto();
             // 记录
@@ -52,9 +52,12 @@ public class ClientApplicationImpl implements ClientApplication {
             allClientsDto.setRecords(records);
             allClientsDto.setSize(pageSize);
             allClientsDto.setRecordNum(records.length);
-            allClientsDto.setPages((records.length + pageSize - 1) / pageSize);
             allClientsDto.setCurrent(pageNo);
-            allClientsDto.setTotal(records.length);
+            //这里不能直接设置records.length
+            int total = clientRepository.selectByProductId(productId).size();
+            allClientsDto.setTotal(total);
+            allClientsDto.setPages((int) Math.ceil((double) total / pageSize));
+
             return allClientsDto;
 
         } catch (Exception e) {

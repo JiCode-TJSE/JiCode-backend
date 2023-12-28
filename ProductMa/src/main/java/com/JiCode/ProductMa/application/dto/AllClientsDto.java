@@ -23,6 +23,7 @@ public class AllClientsDto {
 
     @Data
     static public class Record {
+        String id;
         String name;
         String rank;
         String size;

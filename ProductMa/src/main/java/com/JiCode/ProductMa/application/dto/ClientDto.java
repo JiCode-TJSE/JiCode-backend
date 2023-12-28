@@ -17,5 +17,7 @@ public class ClientDto {
     String name;
     String type;
     String detail;
+    //这里的product_id和ClientAggregation里的productId不同名
+    //注意处理！！！
     String product_id;
 }

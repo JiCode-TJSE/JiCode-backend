@@ -12,7 +12,7 @@ public interface ClientRepository {
     public ClientAggregation selectById(String id) throws NotFoundException;
 
     //按productID查找分组
-    public List<ClientAggregation> selectByProductId(String productId) throws Exception;
+    public List<ClientAggregation> selectByProductId(String productId) throws NotFoundException;
 
     public String insert(ClientAggregation clientAggregation) throws InsertFailedException;
 

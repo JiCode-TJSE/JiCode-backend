@@ -26,7 +26,7 @@ public class ClientApplicationImpl implements ClientApplication {
 
 
     /**
-     * 获取客户列表
+     * 获取客户列表 (test ok)
      * @param productId
      * @param pageNo
      * @param pageSize
@@ -47,6 +47,7 @@ public class ClientApplicationImpl implements ClientApplication {
                 AllClientsDto.Record record = new AllClientsDto.Record();
                 //将clientAggregations和record的同名属性赋值
                 BeanUtils.copyProperties(clientAggregations.get(i), record);
+                records[i] = record;
             }
 
             // 设置 AllClientsDto 的属性
@@ -79,6 +80,7 @@ public class ClientApplicationImpl implements ClientApplication {
         ClientAggregation clientAggregation = new ClientAggregation();
         //复制同名属性值
         BeanUtils.copyProperties(clientDto, clientAggregation);
+        clientAggregation.setProductId(clientDto.getProduct_id());
         try {
             String clientId = clientRepository.insert(clientAggregation);
             //新建返回Dto
@@ -109,6 +111,8 @@ public class ClientApplicationImpl implements ClientApplication {
             ClientAggregation clientAggregation = clientRepository.selectById(clientId);
             ClientDto clientDto = new ClientDto();
             BeanUtils.copyProperties(clientAggregation, clientDto);
+            //这里ClientDto的product_id和ClientAggregation的productId名不同
+            clientDto.setProduct_id(clientAggregation.getProductId());
             return clientDto;
         } catch (NotFoundException e) {
             log.error("Server Error", e);
@@ -150,6 +154,7 @@ public class ClientApplicationImpl implements ClientApplication {
         ClientAggregation clientAggregation = new ClientAggregation();
         //复制请求参数
         BeanUtils.copyProperties(clientDto, clientAggregation);
+        clientAggregation.setProductId(clientDto.getProduct_id());
         try {
             clientRepository.update(clientAggregation);
             return clientDto;

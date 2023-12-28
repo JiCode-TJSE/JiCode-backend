@@ -59,12 +59,12 @@ public class ClientRepositoryImpl implements ClientRepository {
      * @throws Exception
      */
     @Override
-    public List<ClientAggregation> selectByProductId(String productId) throws SelectFailedException {
+    public List<ClientAggregation> selectByProductId(String productId) throws NotFoundException {
         ClientExample example = new ClientExample();
         example.createCriteria().andProductIdEqualTo(productId);
         List<Client> clients = clientMapper.selectByExample(example);
-        if(clients == null || clients.isEmpty()){
-            throw new SelectFailedException("Select ClientAgg by productId: client not found.");
+        if (clients == null || clients.isEmpty()){
+            throw new NotFoundException("Select ClientAgg by productId: product is not found");
         }
         else{
             //返回结果：将Client转为ClientAggregation
@@ -129,6 +129,7 @@ public class ClientRepositoryImpl implements ClientRepository {
     @Override
     public void delete(String id) throws DeleteFailedException {
         int result = clientMapper.deleteByPrimaryKey(id);
+        System.out.println(result);
         if (result <= 0){
             throw new DeleteFailedException("Delete client failed.");
         }

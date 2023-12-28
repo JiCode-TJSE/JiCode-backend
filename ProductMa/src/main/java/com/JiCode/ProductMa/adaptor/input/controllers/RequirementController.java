@@ -3,7 +3,7 @@ package com.JiCode.ProductMa.adaptor.input.controllers;
 import com.JiCode.ProductMa.adaptor.input.vo.CommonVo;
 import com.JiCode.ProductMa.application.RequirementApplication;
 import com.JiCode.ProductMa.application.dto.AddRequirementReqDto;
-import com.JiCode.ProductMa.application.dto.AllrequirementsDto;
+import com.JiCode.ProductMa.application.dto.RequirementArrResDto;
 import com.JiCode.ProductMa.application.dto.RequirementDetailResDto;
 import com.JiCode.ProductMa.exception.ServerException;
 
@@ -26,9 +26,10 @@ public class RequirementController {
     RequirementApplication requirementApplication;
 
     @GetMapping("/requirments")
-    public CommonVo<AllrequirementsDto> getAllRequirements(@RequestParam("productId") String productId,
+    public CommonVo<RequirementArrResDto> getAllRequirements(@RequestParam("productId") String productId,
             @RequestParam("pageNo") int pageNo, @RequestParam("pageSize") int pageSize) throws ServerException {
-        AllrequirementsDto allrequirementsDto = requirementApplication.getAllRequirementsByProductId(productId, pageNo,
+        RequirementArrResDto allrequirementsDto = requirementApplication.getAllRequirementsByProductId(productId,
+                pageNo,
                 pageSize);
         return CommonVo.create("请求成功", true, allrequirementsDto);
     }
@@ -52,6 +53,14 @@ public class RequirementController {
             throws ServerException {
         RequirementDetailResDto requirementDetailResDto = requirementApplication.getRequirementDetail(requirementId);
         return CommonVo.create("请求成功", true, requirementDetailResDto);
+    }
+
+    @PostMapping("/version")
+    public CommonVo<Void> switchVersion(@RequestParam("versionId") String versionId,
+            @RequestParam("requirementId") String requirementId)
+            throws ServerException {
+        requirementApplication.switchVersion(versionId, requirementId);
+        return CommonVo.create("请求成功", true);
     }
 
 }

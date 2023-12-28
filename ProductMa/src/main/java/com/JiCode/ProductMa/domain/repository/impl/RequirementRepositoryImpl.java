@@ -7,12 +7,14 @@ import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementClient
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementClientKey;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementVersion;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContent;
+import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContentExample;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementExample;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementVersionExample;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementBacklogitemMapper;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementClientMapper;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementContentMapper;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.mappers.RequirementMapper;
+import com.JiCode.ProductMa.application.dto.PagedResultDto;
 import com.JiCode.ProductMa.domain.model.RequirementAggregation;
 import com.JiCode.ProductMa.domain.model.VersionAggregation;
 import com.JiCode.ProductMa.domain.repository.RequirementRepository;
@@ -71,16 +73,45 @@ public class RequirementRepositoryImpl implements RequirementRepository {
     }
 
     /**
+     * @Description 根据 versionContentIds 批量查询 RequirementContentEntity
+     */
+    @Override
+    public RequirementContentEntity[] selectAllRequirementContentsByIds(List<String> contentIds)
+            throws SelectFailedException {
+        RequirementContentExample example = new RequirementContentExample();
+        example.createCriteria().andVersionContentIdIn(contentIds);
+
+        List<RequirementContent> requirementContents = requirementContentMapper
+                .selectByExample(example);
+
+        RequirementContentEntity[] requirementContentEntities = new RequirementContentEntity[requirementContents
+                .size()];
+
+        try {
+            int i = 0;
+            for (RequirementContent requirementContent : requirementContents) {
+                requirementContentEntities[i] = RequirementContentEntity.create(requirementContent);
+                i++;
+            }
+            return requirementContentEntities;
+        } catch (CreateFailedException e) {
+            throw new SelectFailedException("Failed to create RequirementContentEntity for requirementContent: "
+                    + e.getMessage(), e);
+        }
+    }
+
+    /**
      * @Description 根据 productId 查询所有 RequirementEntity，分页版
      */
     @Override
-    public RequirementEntity[] selectRequirementsByPage(String productId, int pageNo, int pageSize)
+    public PagedResultDto selectRequirementsByPage(String productId, int pageNo, int pageSize)
             throws SelectFailedException {
         RequirementExample example = new RequirementExample();
         example.createCriteria().andBelongProductIdEqualTo(productId);
         RowBounds rowBounds = new RowBounds((pageNo - 1) * pageSize, pageSize);
         List<Requirement> requirements = requirementMapper.selectByExampleWithRowbounds(example, rowBounds);
-
+        // 这边因为他自己的方法不会返回总页数等信息，必须自己再查一遍，看看能不能优化吧 TODO
+        long totalCount = requirementMapper.countByExample(example);
         RequirementEntity[] requirementEntities = new RequirementEntity[requirements.size()];
         try {
             int i = 0;
@@ -92,7 +123,10 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         } catch (CreateFailedException e) {
             throw new SelectFailedException("Failed to create RequirementEntity for requirement: " + e.getMessage(), e);
         }
-        return requirementEntities;
+        PagedResultDto result = new PagedResultDto();
+        result.setRequirements(requirementEntities);
+        result.setTotalCount((int) totalCount);
+        return result;
     }
 
     @Override

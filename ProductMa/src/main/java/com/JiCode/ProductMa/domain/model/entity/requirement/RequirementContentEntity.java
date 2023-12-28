@@ -76,12 +76,10 @@ public class RequirementContentEntity {
         RequirementContentEntity requirementContentEntity = new RequirementContentEntity();
         try {
             BeanUtils.copyProperties(template, requirementContentEntity);
-            for (Field field : RequirementContentEntity.class.getDeclaredFields()) {
-                if (field.get(requirementContentEntity) == null) {
-                    throw new CreateFailedException("Field " + field.getName() + " is null");
-                }
+            if (requirementContentEntity.name == null || requirementContentEntity.name.trim().isEmpty()) {
+                throw new CreateFailedException("Name is required.");
             }
-        } catch (IllegalAccessException | IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             throw new CreateFailedException("Failed to create RequirementContentEntity. " + e.getMessage(), e);
         }
         return requirementContentEntity;

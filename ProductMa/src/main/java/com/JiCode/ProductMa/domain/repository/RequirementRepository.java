@@ -1,5 +1,8 @@
 package com.JiCode.ProductMa.domain.repository;
 
+import java.util.List;
+
+import com.JiCode.ProductMa.application.dto.PagedResultDto;
 import com.JiCode.ProductMa.domain.model.RequirementAggregation;
 import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementContentEntity;
 import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementEntity;
@@ -25,6 +28,9 @@ public interface RequirementRepository {
 
         public RequirementEntity selectRequirement(String requirementId) throws SelectFailedException;
 
-        public RequirementEntity[] selectRequirementsByPage(String productId, int pageNo, int pageSize)
+        public PagedResultDto selectRequirementsByPage(String productId, int pageNo, int pageSize)
+                        throws SelectFailedException;
+
+        public RequirementContentEntity[] selectAllRequirementContentsByIds(List<String> contentIds)
                         throws SelectFailedException;
 }

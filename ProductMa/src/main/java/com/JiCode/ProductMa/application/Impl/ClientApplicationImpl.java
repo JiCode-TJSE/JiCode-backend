@@ -2,7 +2,6 @@ package com.JiCode.ProductMa.application.Impl;
 
 import com.JiCode.ProductMa.application.ClientApplication;
 import com.JiCode.ProductMa.application.dto.AllClientsDto;
-import com.JiCode.ProductMa.application.dto.AllrequirementsDto;
 import com.JiCode.ProductMa.application.dto.ClientDto;
 import com.JiCode.ProductMa.domain.model.ClientAggregation;
 import com.JiCode.ProductMa.domain.repository.ClientRepository;
@@ -16,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-
 @Service
 public class ClientApplicationImpl implements ClientApplication {
     private static final Logger log = LoggerFactory.getLogger(RequirementApplicationImpl.class);
@@ -24,9 +22,9 @@ public class ClientApplicationImpl implements ClientApplication {
     @Autowired
     ClientRepository clientRepository;
 
-
     /**
      * 获取客户列表 (test ok)
+     * 
      * @param productId
      * @param pageNo
      * @param pageSize
@@ -39,13 +37,13 @@ public class ClientApplicationImpl implements ClientApplication {
         List<ClientAggregation> clientAggregations;
         try {
             clientAggregations = clientRepository.selectByProductId(productId);
-            //返回体
+            // 返回体
             AllClientsDto allClientsDto = new AllClientsDto();
-            //记录
+            // 记录
             AllClientsDto.Record[] records = new AllClientsDto.Record[clientAggregations.size()];
             for (int i = 0; i < clientAggregations.size(); i++) {
                 AllClientsDto.Record record = new AllClientsDto.Record();
-                //将clientAggregations和record的同名属性赋值
+                // 将clientAggregations和record的同名属性赋值
                 BeanUtils.copyProperties(clientAggregations.get(i), record);
                 records[i] = record;
             }
@@ -65,10 +63,9 @@ public class ClientApplicationImpl implements ClientApplication {
         }
     }
 
-
-
     /**
      * 新建客户
+     * 
      * @param clientDto
      * @return
      * @throws ServerException
@@ -76,14 +73,14 @@ public class ClientApplicationImpl implements ClientApplication {
     @Transactional
     @Override
     public ClientDto createClient(ClientDto clientDto) throws ServerException {
-        //新建聚合
+        // 新建聚合
         ClientAggregation clientAggregation = new ClientAggregation();
-        //复制同名属性值
+        // 复制同名属性值
         BeanUtils.copyProperties(clientDto, clientAggregation);
         clientAggregation.setProductId(clientDto.getProduct_id());
         try {
             String clientId = clientRepository.insert(clientAggregation);
-            //新建返回Dto
+            // 新建返回Dto
             ClientDto response = new ClientDto();
             BeanUtils.copyProperties(clientDto, response);
             response.setId(clientId);
@@ -96,10 +93,9 @@ public class ClientApplicationImpl implements ClientApplication {
 
     }
 
-
-
     /**
      * 获取客户详情
+     * 
      * @param clientId
      * @return
      * @throws ServerException
@@ -111,7 +107,7 @@ public class ClientApplicationImpl implements ClientApplication {
             ClientAggregation clientAggregation = clientRepository.selectById(clientId);
             ClientDto clientDto = new ClientDto();
             BeanUtils.copyProperties(clientAggregation, clientDto);
-            //这里ClientDto的product_id和ClientAggregation的productId名不同
+            // 这里ClientDto的product_id和ClientAggregation的productId名不同
             clientDto.setProduct_id(clientAggregation.getProductId());
             return clientDto;
         } catch (NotFoundException e) {
@@ -121,10 +117,9 @@ public class ClientApplicationImpl implements ClientApplication {
 
     }
 
-
-
     /**
      * 删除客户
+     * 
      * @param clientId
      * @throws ServerException
      */
@@ -140,10 +135,9 @@ public class ClientApplicationImpl implements ClientApplication {
         }
     }
 
-
-
     /**
      * 更新客户信息
+     * 
      * @param clientDto
      * @return
      * @throws ServerException
@@ -152,7 +146,7 @@ public class ClientApplicationImpl implements ClientApplication {
     @Override
     public ClientDto updateClient(ClientDto clientDto) throws ServerException {
         ClientAggregation clientAggregation = new ClientAggregation();
-        //复制请求参数
+        // 复制请求参数
         BeanUtils.copyProperties(clientDto, clientAggregation);
         clientAggregation.setProductId(clientDto.getProduct_id());
         try {
@@ -164,6 +158,5 @@ public class ClientApplicationImpl implements ClientApplication {
         }
 
     }
-
 
 }

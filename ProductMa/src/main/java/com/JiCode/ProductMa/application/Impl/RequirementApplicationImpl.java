@@ -2,7 +2,8 @@ package com.JiCode.ProductMa.application.Impl;
 
 import com.JiCode.ProductMa.application.RequirementApplication;
 import com.JiCode.ProductMa.application.dto.AddRequirementReqDto;
-import com.JiCode.ProductMa.application.dto.AllrequirementsDto;
+import com.JiCode.ProductMa.application.dto.PagedResultDto;
+import com.JiCode.ProductMa.application.dto.RequirementArrResDto;
 import com.JiCode.ProductMa.application.dto.RequirementDetailResDto;
 import com.JiCode.ProductMa.domain.repository.VersionRepository;
 import com.JiCode.ProductMa.exception.CopyFailedException;
@@ -17,7 +18,10 @@ import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementContentEn
 import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementEntity;
 import com.JiCode.ProductMa.domain.repository.RequirementRepository;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,27 +43,28 @@ public class RequirementApplicationImpl
 
     @Transactional(readOnly = true)
     @Override
-    public AllrequirementsDto getAllRequirementsByProductId(String productId, int pageNo, int pageSize)
+    public RequirementArrResDto getAllRequirementsByProductId(String productId, int pageNo, int pageSize)
             throws ServerException {
         try {
             // 根据产品id获取需求实体（分页查询了）
-            RequirementEntity[] requirementEntities = requirementRepository.selectRequirementsByPage(productId, pageNo,
-                    pageSize);
-            // 根据产品版本查询所有内容实体 TODO 这边要手写mapper实现批量查询，用循环效率低
-            RequirementContentEntity[] requirementContentEntities = new RequirementContentEntity[requirementEntities.length];
-            for (int i = 0; i < requirementEntities.length; i++) {
-                requirementContentEntities[i] = requirementRepository
-                        .selectRequirementContent(requirementEntities[i].getRequirementContentId());
-            }
+            PagedResultDto pagedResultDto = requirementRepository.selectRequirementsByPage(productId, pageNo, pageSize);
+            RequirementEntity[] requirementEntities = pagedResultDto.getRequirements();
+            // 根据产品版本查询所有内容实体，条件查询实现批量查询
+            List<String> contentIds = Arrays.stream(requirementEntities)
+                    .map(RequirementEntity::getRequirementContentId)
+                    .collect(Collectors.toList());
+            RequirementContentEntity[] requirementContentEntities = requirementRepository
+                    .selectAllRequirementContentsByIds(contentIds);
+
             // 根据需求实体里的负责人id获取负责人名字
             String[] supervisorNames = new String[requirementContentEntities.length];
             // TODO 这边就是调用账号管理的接口了，用那个黑马的那个有一个同步调用的东西的restclient？
 
             // 包装在一起
-            AllrequirementsDto allrequirementsDto = new AllrequirementsDto();
-            AllrequirementsDto.Record[] records = new AllrequirementsDto.Record[requirementEntities.length];
+            RequirementArrResDto allrequirementsDto = new RequirementArrResDto();
+            RequirementArrResDto.Record[] records = new RequirementArrResDto.Record[requirementEntities.length];
             for (int i = 0; i < requirementEntities.length; i++) {
-                AllrequirementsDto.Record record = new AllrequirementsDto.Record();
+                RequirementArrResDto.Record record = new RequirementArrResDto.Record();
                 record.setRequirementId(requirementEntities[i].getRequirementId());
                 record.setName(requirementContentEntities[i].getName());
                 record.setTypeEnum(requirementContentEntities[i].getTypeEnum());
@@ -71,9 +76,9 @@ public class RequirementApplicationImpl
             allrequirementsDto.setRecords(records);
             allrequirementsDto.setSize(pageSize);
             allrequirementsDto.setRecordNum(records.length);
-            allrequirementsDto.setPages((records.length + pageSize - 1) / pageSize);
+            allrequirementsDto.setPages((pagedResultDto.getTotalCount() + pageSize - 1) / pageSize);
             allrequirementsDto.setCurrent(pageNo);
-            allrequirementsDto.setTotal(records.length);
+            allrequirementsDto.setTotal(pagedResultDto.getTotalCount());
 
             return allrequirementsDto;
         } catch (SelectFailedException e) {
@@ -149,6 +154,10 @@ public class RequirementApplicationImpl
             log.error("Server Error", e);
             throw new ServerException();
         }
+    }
+
+    public void switchVersion(String versionId, String requirementId) throws ServerException {
+
     }
 
 }

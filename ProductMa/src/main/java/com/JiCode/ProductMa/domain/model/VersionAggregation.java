@@ -5,7 +5,6 @@ import java.util.Date;
 
 import org.springframework.beans.BeanUtils;
 
-import com.JiCode.ProductMa.domain.model.entity.requirement.BacklogItemsEntity;
 import com.JiCode.ProductMa.exception.CopyFailedException;
 import com.JiCode.ProductMa.exception.CreateFailedException;
 

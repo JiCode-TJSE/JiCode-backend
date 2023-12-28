@@ -5,6 +5,7 @@ import com.JiCode.ProductMa.application.RequirementApplication;
 import com.JiCode.ProductMa.application.dto.AddRequirementReqDto;
 import com.JiCode.ProductMa.application.dto.RequirementArrResDto;
 import com.JiCode.ProductMa.application.dto.RequirementDetailResDto;
+import com.JiCode.ProductMa.common.CodeEnum;
 import com.JiCode.ProductMa.exception.ServerException;
 
 import java.util.Map;
@@ -31,28 +32,28 @@ public class RequirementController {
         RequirementArrResDto allrequirementsDto = requirementApplication.getAllRequirementsByProductId(productId,
                 pageNo,
                 pageSize);
-        return CommonVo.create("请求成功", true, allrequirementsDto);
+        return CommonVo.create("请求成功", CodeEnum.SUCCESS, allrequirementsDto);
     }
 
     @PostMapping("/requirement")
     public CommonVo<Map<String, String>> createRequirement(@RequestBody AddRequirementReqDto addRequirementReqDto)
             throws ServerException {
         Map<String, String> data = requirementApplication.createRequirement(addRequirementReqDto);
-        return CommonVo.create("请求成功", true, data);
+        return CommonVo.create("请求成功", CodeEnum.SUCCESS, data);
     }
 
     @DeleteMapping("/requirement")
     public CommonVo<Void> deleteRequirement(@RequestParam("RequirementId") String RequirementId)
             throws ServerException {
         requirementApplication.deleteRequirement(RequirementId);
-        return CommonVo.create("请求成功", true);
+        return CommonVo.create("请求成功", CodeEnum.SUCCESS);
     }
 
     @GetMapping("/requirement")
     public CommonVo<RequirementDetailResDto> getRequirementDetail(@RequestParam String requirementId)
             throws ServerException {
         RequirementDetailResDto requirementDetailResDto = requirementApplication.getRequirementDetail(requirementId);
-        return CommonVo.create("请求成功", true, requirementDetailResDto);
+        return CommonVo.create("请求成功", CodeEnum.SUCCESS, requirementDetailResDto);
     }
 
     @PostMapping("/version")
@@ -60,7 +61,7 @@ public class RequirementController {
             @RequestParam("requirementId") String requirementId)
             throws ServerException {
         requirementApplication.switchVersion(versionId, requirementId);
-        return CommonVo.create("请求成功", true);
+        return CommonVo.create("请求成功", CodeEnum.SUCCESS);
     }
 
 }

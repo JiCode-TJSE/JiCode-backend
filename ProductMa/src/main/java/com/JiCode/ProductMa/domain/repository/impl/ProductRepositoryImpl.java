@@ -186,15 +186,20 @@ public class ProductRepositoryImpl implements ProductRepository {
     public void insert(ProductAggregation productAggregation) throws InsertFailedException {
         //新增Product的时候只对product表进行操作，用到其它聚合的地方，比如Client、Requirement在update中完成
         Product product = new Product();
-        BeanUtils.copyProperties(productAggregation, product);
-        //设置唯一标识符
-        product.setId(UUID.randomUUID().toString());
-        int productResult = productMapper.insert(product);
-        if(productResult <= 0){
-            throw new InsertFailedException("Insert ProductAggregation: insert product failed.");
+        if (productAggregation.isProductDirty()){
+            BeanUtils.copyProperties(productAggregation, product);
+            //设置唯一标识符
+            product.setId(UUID.randomUUID().toString());
+            int productResult = productMapper.insert(product);
+            if(productResult <= 0){
+                throw new InsertFailedException("Insert ProductAggregation: insert product failed.");
+            }
         }
-        //插入联系集
-        insertMembers(productAggregation, product);
+        if (productAggregation.isMemberDirty()) {
+            //插入联系集
+            insertMembers(productAggregation, product);
+        }
+        productAggregation.cleanDirty();
     }
 
 
@@ -240,7 +245,7 @@ public class ProductRepositoryImpl implements ProductRepository {
      * @throws Exception
      */
     @Override
-    public ProductAggregation selectById(String id) throws Exception {
+    public ProductAggregation selectById(String id) throws SelectFailedException {
         // product 实体查询
         Product product = selectProduct(id);
         // product_member 联系查询

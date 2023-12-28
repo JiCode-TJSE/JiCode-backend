@@ -1,6 +1,7 @@
 package com.JiCode.ProductMa.domain.model;
 
 import com.JiCode.ProductMa.domain.repository.ProductRepository;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-@Getter
+@Data
 @NoArgsConstructor
 public class ProductAggregation {
 

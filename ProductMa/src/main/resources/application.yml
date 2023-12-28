@@ -25,6 +25,11 @@ spring:
     url: jdbc:mysql://121.41.227.227:3306/jicode?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&allowPublicKeyRetrieval=TRUE&sslMode=REQUIRED
     username: jicode_user
     password: JiCode2024!
+  cloud:
+    nacos:
+      server-addr: http://121.41.227.227:8848
+  application:
+    name: ProductManagementService
 logging:
   level:
     root: WARN

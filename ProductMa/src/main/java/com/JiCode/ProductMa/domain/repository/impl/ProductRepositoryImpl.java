@@ -180,10 +180,11 @@ public class ProductRepositoryImpl implements ProductRepository {
     /**
      * 插入ProductAggregation
      * @param productAggregation
+     * @return productId 新生成的productId
      * @throws InsertFailedException
      */
     @Override
-    public void insert(ProductAggregation productAggregation) throws InsertFailedException {
+    public String insert(ProductAggregation productAggregation) throws InsertFailedException {
         //新增Product的时候只对product表进行操作，用到其它聚合的地方，比如Client、Requirement在update中完成
         Product product = new Product();
         if (productAggregation.isProductDirty()){
@@ -200,6 +201,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             insertMembers(productAggregation, product);
         }
         productAggregation.cleanDirty();
+        return product.getId();
     }
 
 

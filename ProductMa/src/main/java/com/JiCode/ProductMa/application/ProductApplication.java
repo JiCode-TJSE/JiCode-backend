@@ -6,22 +6,22 @@ import com.JiCode.ProductMa.exception.ServerException;
 
 public interface ProductApplication {
 
-    //新增产品
+    //新增产品 (test ok)
     public ProductResponseDto createProduct(ProductRequestDto productReponseDto)
         throws ServerException;
 
 
-    //获取产品详情
+    //获取产品详情 (test ok)
     public ProductResponseDto getProductDetail(String productId)
         throws ServerException;
 
 
-    //删除产品
+    //删除产品 (test ok)
     public void deleteProduct(String productId)
         throws ServerException;
 
 
-    //更新产品
+    //更新产品 (test ok)
     public ProductResponseDto updateProduct(ProductRequestDto request)
         throws ServerException;
 

@@ -1,10 +1,8 @@
 package com.JiCode.ProductMa.application.Impl;
 
 import com.JiCode.ProductMa.application.ProductApplication;
-import com.JiCode.ProductMa.application.dto.ClientDto;
 import com.JiCode.ProductMa.application.dto.ProductResponseDto;
 import com.JiCode.ProductMa.application.dto.ProductRequestDto;
-import com.JiCode.ProductMa.domain.model.ClientAggregation;
 import com.JiCode.ProductMa.domain.model.ProductAggregation;
 import com.JiCode.ProductMa.domain.repository.OutsideRepository;
 import com.JiCode.ProductMa.domain.repository.ProductRepository;
@@ -13,7 +11,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,7 +50,8 @@ public class ProductApplicationImpl implements ProductApplication {
         productAggregation.setVisibility(true);
 
         try {
-            productRepository.insert(productAggregation);
+            String product_id = productRepository.insert(productAggregation);
+            productAggregation.setId(product_id);
         } catch (InsertFailedException e) {
             log.error("Server Error(createProduct): failed to insert product aggregation ", e);
             throw new ServerException(e);
@@ -64,11 +62,13 @@ public class ProductApplicationImpl implements ProductApplication {
         BeanUtils.copyProperties(productRequestDto, response);
         try {
             //获取团队名
-            String team_name = outsideRepository.selectTeamNameById(productRequestDto.getId());
+            String team_name = outsideRepository.selectTeamNameById(productAggregation.getTeamId());
             response.setTeam_name(team_name);
+            response.setId(productAggregation.getId());
             return response;
         } catch (SelectFailedException e) {
-            throw new RuntimeException(e);
+            log.error("Server Error(createProduct): failed to select team_name by team_id ", e);
+            throw new ServerException(e);
         }
     }
 

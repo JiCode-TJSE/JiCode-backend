@@ -13,7 +13,7 @@ import com.JiCode.ProductMa.exception.UpdateFailedException;
 public interface ProductRepository {
     public ProductAggregation selectById(String id) throws SelectFailedException;
 
-    public void insert(ProductAggregation productAggregation) throws InsertFailedException;
+    public String insert(ProductAggregation productAggregation) throws InsertFailedException;
 
     public void update(ProductAggregation productAggregation) throws UpdateFailedException, InsertFailedException;
 

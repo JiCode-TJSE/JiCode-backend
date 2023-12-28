@@ -8,10 +8,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserInfoAggregation {
-    private String id;
+    private String accountId;
     private String avatar;
     private String gender;
     private String name;
     private String userName;
-    private String accountId;
 }

@@ -22,12 +22,11 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
         try {
             UserInfo userInfo = userInfoMapper.selectByPrimaryKey(id);
             return userInfoFactory.createUserInfo(
-                    userInfo.getId(),
+                    userInfo.getAccountId(),
                     userInfo.getAvatar(),
                     userInfo.getGender(),
                     userInfo.getName(),
-                    userInfo.getUserName(),
-                    userInfo.getAccountId()
+                    userInfo.getUserName()
             );
         } catch (Exception e) {
             System.out.println(e);
@@ -39,12 +38,11 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
     public Boolean insertUserInfo(UserInfoAggregation userInfoAggregation) {
         try {
             UserInfo userInfo = new UserInfo();
-            userInfo.setId(userInfoAggregation.getId());
+            userInfo.setAccountId(userInfoAggregation.getAccountId());
             userInfo.setAvatar(userInfoAggregation.getAvatar());
             userInfo.setGender(userInfoAggregation.getGender());
             userInfo.setName(userInfoAggregation.getName());
             userInfo.setUserName(userInfoAggregation.getUserName());
-            userInfo.setAccountId(userInfoAggregation.getAccountId());
             userInfoMapper.insert(userInfo);
             return true;
         } catch (Exception e) {
@@ -57,13 +55,12 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
     public Boolean updateUserInfo(UserInfoAggregation userInfoAggregation) {
         try {
             UserInfo userInfo = new UserInfo();
-            UserInfo oldUserInfo = userInfoMapper.selectByPrimaryKey(userInfoAggregation.getId());
-            userInfo.setId(oldUserInfo.getId());
+            UserInfo oldUserInfo = userInfoMapper.selectByPrimaryKey(userInfoAggregation.getAccountId());
+            userInfo.setAccountId(oldUserInfo.getAccountId());
             userInfo.setAvatar(userInfoAggregation.getAvatar() == null ? oldUserInfo.getAvatar() : userInfoAggregation.getAvatar());
             userInfo.setGender(userInfoAggregation.getGender() == null ? oldUserInfo.getGender() : userInfoAggregation.getGender());
             userInfo.setName(userInfoAggregation.getName() == null ? oldUserInfo.getName() : userInfoAggregation.getName());
             userInfo.setUserName(userInfoAggregation.getUserName() == null ? oldUserInfo.getUserName() : userInfoAggregation.getUserName());
-            userInfo.setAccountId(oldUserInfo.getAccountId());
             userInfoMapper.updateByPrimaryKey(userInfo);
             return true;
         } catch (Exception e) {
@@ -73,9 +70,9 @@ public class UserInfoRepositoryImpl implements UserInfoRepository {
     }
 
     @Override
-    public Boolean deleteUserInfo(String id) {
+    public Boolean deleteUserInfo(String accountId) {
         try {
-            userInfoMapper.deleteByPrimaryKey(id);
+            userInfoMapper.deleteByPrimaryKey(accountId);
             return true;
         } catch (Exception e) {
             System.out.println(e);

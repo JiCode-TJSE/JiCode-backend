@@ -2,6 +2,7 @@ package com.JiCode.ProductMa.domain.model;
 
 import java.lang.reflect.Field;
 import java.util.Date;
+import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 
@@ -39,17 +40,24 @@ public class VersionAggregation {
     }
 
     public <T> void copyPropertiesTo(T template) throws CopyFailedException {
-        try {
-            BeanUtils.copyProperties(this, template);
-        } catch (Exception e) {
-            throw new CopyFailedException("Failed to copy properties to template.", e);
+        BeanUtils.copyProperties(this, template);
+    }
+
+    public <T> void update(T template) throws CopyFailedException {
+        String id = this.id;
+        Date createTime = this.createTime;
+        BeanUtils.copyProperties(template, this);
+        if (!this.id.equals(id) || !this.createTime.equals(createTime)) {
+            throw new CopyFailedException("id or createTime cannot be changed.");
         }
+        this.dirty = true;
     }
 
     public static <T> VersionAggregation createVersionByAll(T template)
             throws CreateFailedException {
         VersionAggregation versionAgg = new VersionAggregation();
         BeanUtils.copyProperties(template, versionAgg);
+        versionAgg.cleanDirty();
         try {
             for (Field field : VersionAggregation.class.getDeclaredFields()) {
                 if (field.get(versionAgg) == null) {
@@ -77,6 +85,39 @@ public class VersionAggregation {
         versionAggregation.detail = "";
 
         return versionAggregation;
+    }
+
+    public static <T> VersionAggregation create(T template) throws CreateFailedException {
+        VersionAggregation versionAgg = new VersionAggregation();
+        BeanUtils.copyProperties(template, versionAgg);
+        versionAgg.cleanDirty();
+        versionAgg.createTime = new Date(); // 设置createTime为当前时间
+        versionAgg.id = UUID.randomUUID().toString();
+        try {
+            for (Field field : VersionAggregation.class.getDeclaredFields()) {
+                if (field.get(versionAgg) == null) {
+                    throw new CreateFailedException(
+                            "Field " + field.getName() + " is null in VersionAggregation creation.");
+                }
+            }
+        } catch (IllegalAccessException e) {
+            throw new CreateFailedException("Failed to access field during VersionAggregation creation.", e);
+        }
+        return versionAgg;
+    }
+
+    public static <T> VersionAggregation[] createByArr(T[] arr) {
+        VersionAggregation[] versionAggregations = new VersionAggregation[arr.length];
+        // 处理传入的数组
+        for (int i = 0; i < arr.length; i++) {
+            T item = arr[i];
+            VersionAggregation versionAggregation = new VersionAggregation();
+            BeanUtils.copyProperties(item, versionAggregation);
+            versionAggregation.cleanDirty();
+            versionAggregations[i] = versionAggregation;
+        }
+
+        return versionAggregations;
     }
 
 }

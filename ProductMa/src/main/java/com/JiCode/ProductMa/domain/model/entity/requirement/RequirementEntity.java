@@ -47,6 +47,7 @@ public class RequirementEntity {
     public static <T> RequirementEntity create(T template) throws CreateFailedException {
         RequirementEntity requirementEntity = new RequirementEntity();
         BeanUtils.copyProperties(template, requirementEntity);
+        requirementEntity.cleanDirty();
         try {
             for (Field field : RequirementEntity.class.getDeclaredFields()) {
                 if (field.get(requirementEntity) == null) {

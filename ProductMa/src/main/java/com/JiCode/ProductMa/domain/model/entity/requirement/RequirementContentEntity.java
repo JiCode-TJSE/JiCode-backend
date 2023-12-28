@@ -40,6 +40,11 @@ public class RequirementContentEntity {
         this.dirty = false;
     }
 
+    public void update(RequirementContentEntity requirementContentEntity) {
+        BeanUtils.copyProperties(requirementContentEntity, this);
+        this.dirty = true;
+    }
+
     public void setDirty(boolean dirty) {
         this.dirty = dirty;
     }
@@ -74,23 +79,10 @@ public class RequirementContentEntity {
     public static <T> RequirementContentEntity create(T template)
             throws CreateFailedException {
         RequirementContentEntity requirementContentEntity = new RequirementContentEntity();
-        try {
-            BeanUtils.copyProperties(template, requirementContentEntity);
-            if (requirementContentEntity.name == null || requirementContentEntity.name.trim().isEmpty()) {
-                throw new CreateFailedException("Name is required.");
-            }
-        } catch (IllegalArgumentException e) {
-            throw new CreateFailedException("Failed to create RequirementContentEntity. " + e.getMessage(), e);
-        }
-        return requirementContentEntity;
-    }
 
-    public static <T> RequirementContentEntity createNew(T template)
-            throws CreateFailedException {
-        RequirementContentEntity requirementContentEntity = new RequirementContentEntity();
         BeanUtils.copyProperties(template, requirementContentEntity);
-
-        if (requirementContentEntity.getName() == null || requirementContentEntity.getName().trim().isEmpty()) {
+        requirementContentEntity.cleanDirty();
+        if (requirementContentEntity.name == null || requirementContentEntity.name.trim().isEmpty()) {
             throw new CreateFailedException("Name is required.");
         }
 

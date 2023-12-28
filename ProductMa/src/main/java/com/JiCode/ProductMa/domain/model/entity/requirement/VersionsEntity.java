@@ -43,6 +43,7 @@ public class VersionsEntity {
     public static <T> VersionsEntity create(T template) throws CreateFailedException {
         VersionsEntity versionsEntity = new VersionsEntity();
         BeanUtils.copyProperties(template, versionsEntity);
+        versionsEntity.cleanDirty();
         try {
             for (Field field : VersionsEntity.class.getDeclaredFields()) {
                 if (field.get(versionsEntity) == null) {

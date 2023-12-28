@@ -32,6 +32,11 @@ public class BacklogItemsEntity {
         this.dirty = true;
     }
 
+    public void update(BacklogItemsEntity backlogItemsEntity) {
+        BeanUtils.copyProperties(backlogItemsEntity, this);
+        this.dirty = true;
+    }
+
     public static BacklogItemsEntity createByAll(String[] backlogItemIDArr) throws CreateFailedException {
         if (backlogItemIDArr == null) {
             throw new CreateFailedException("backlogItemIDArr cannot be null.");
@@ -49,6 +54,7 @@ public class BacklogItemsEntity {
         BacklogItemsEntity backlogItemsEntity = new BacklogItemsEntity();
         try {
             BeanUtils.copyProperties(template, backlogItemsEntity);
+            backlogItemsEntity.cleanDirty();
             for (Field field : BacklogItemsEntity.class.getDeclaredFields()) {
                 if (field.get(backlogItemsEntity) == null) {
                     throw new IllegalArgumentException("Field " + field.getName() + " is null");

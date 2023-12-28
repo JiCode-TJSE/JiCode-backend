@@ -73,6 +73,20 @@ public class RequirementRepositoryImpl implements RequirementRepository {
     }
 
     /**
+     * @Description 根据 RequirementId 查询 RequirementAgg，只包含 RequirementEntity 和
+     *              VersionsEntity
+     */
+    public RequirementAggregation selectByIdWithOnlyRV(String requirementId) throws SelectFailedException {
+        try {
+            RequirementEntity requirementEntity = selectRequirement(requirementId);
+            VersionsEntity versionsEntity = selectVersions(requirementEntity.getRequirementId());
+            return RequirementAggregation.createRequirementByOnlyRV(requirementEntity, versionsEntity);
+        } catch (CreateFailedException e) {
+            throw new SelectFailedException("Failed to select due to creation failure: " + e.getMessage(), e);
+        }
+    }
+
+    /**
      * @Description 根据 versionContentIds 批量查询 RequirementContentEntity
      */
     @Override
@@ -149,9 +163,6 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         RequirementClientExample.Criteria criteria = example.createCriteria();
         criteria.andRequirementContentIdEqualTo(requirementContentId);
         List<RequirementClientKey> keys = this.requirementClientMapper.selectByExample(example);
-        if (keys == null || keys.isEmpty()) {
-            throw new SelectFailedException("Client not found for versionContentId " + requirementContentId + ".");
-        }
         try {
             return ClientsEntity
                     .createByAll(keys.stream().map(RequirementClientKey::getClientId).toArray(String[]::new));
@@ -166,9 +177,6 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         RequirementBacklogitemExample.Criteria criteria = example.createCriteria();
         criteria.andRequirementContentIdEqualTo(requirementContentId);
         List<RequirementBacklogitemKey> keys = this.requirementBacklogitemMapper.selectByExample(example);
-        if (keys == null || keys.isEmpty()) {
-            throw new SelectFailedException("Backlogitem not found for versionContentId " + requirementContentId + ".");
-        }
         try {
             return BacklogItemsEntity
                     .createByAll(keys.stream().map(RequirementBacklogitemKey::getBacklogitemId).toArray(String[]::new));
@@ -331,43 +339,50 @@ public class RequirementRepositoryImpl implements RequirementRepository {
     @Override
     public void update(RequirementAggregation requirementAggregation)
             throws UpdateFailedException {
-        // 对脏标记进行处理，优化 update 语句
-        if (requirementAggregation.isRequirementDirty()) {
-            updateRequirement(requirementAggregation);
+        // 检查 requirementAggregation 是否为 null
+        if (requirementAggregation == null) {
+            throw new IllegalArgumentException("requirementAggregation cannot be null");
         }
-        if (requirementAggregation.isVersionsDirty()) {
+
+        // 对脏标记进行处理，优化 update 语句
+        if (requirementAggregation.getRequirementEntity() != null && requirementAggregation.isRequirementDirty()) {
+            updateRequirement(requirementAggregation.getRequirementEntity());
+        }
+        if (requirementAggregation.getVersionsEntity() != null && requirementAggregation.isVersionsDirty()) {
             updateVersions(requirementAggregation);
         }
-        if (requirementAggregation.isRequirementContentDirty()) {
+        if (requirementAggregation.getRequirementContentEntity() != null
+                && requirementAggregation.isRequirementContentDirty()) {
             updateRequirementContent(requirementAggregation);
         }
-        if (requirementAggregation.isClientsDirty()) {
+        if (requirementAggregation.getClientsEntity() != null && requirementAggregation.isClientsDirty()) {
             updateClients(requirementAggregation);
         }
-        if (requirementAggregation.isBacklogItemsDirty()) {
+        if (requirementAggregation.getBacklogItemsEntity() != null && requirementAggregation.isBacklogItemsDirty()) {
             updateBacklogItems(requirementAggregation);
         }
         requirementAggregation.cleanDirty();
     }
 
-    private void updateRequirementContent(RequirementAggregation requirementAggregation) throws UpdateFailedException {
+    private void updateRequirementContent(RequirementAggregation requirementAggregation)
+            throws UpdateFailedException {
         RequirementContent requirementContent = new RequirementContent();
-        BeanUtils.copyProperties(requirementAggregation, requirementContent);
+        BeanUtils.copyProperties(requirementAggregation.getRequirementContentEntity(), requirementContent);
+        requirementContent.setVersionContentId(requirementAggregation.getRequirementEntity().getRequirementContentId());
         int requirementContentResult = this.requirementContentMapper.updateByPrimaryKey(requirementContent);
         if (requirementContentResult <= 0) {
-            throw new UpdateFailedException("Failed to update RequirementContent for RequirementAggregation with id "
-                    + requirementAggregation.getRequirementEntity().getRequirementId() + ".");
+            throw new UpdateFailedException("Failed to update RequirementContent for RequirementAggregation");
         }
     }
 
-    private void updateRequirement(RequirementAggregation requirementAggregation)
+    private void updateRequirement(RequirementEntity requirementEntity)
             throws UpdateFailedException {
         Requirement requirement = new Requirement();
-        BeanUtils.copyProperties(requirementAggregation, requirement);
+        BeanUtils.copyProperties(requirementEntity, requirement);
         int requirementResult = this.requirementMapper.updateByPrimaryKey(requirement);
         if (requirementResult <= 0) {
             throw new UpdateFailedException("Failed to update requirement for RequirementAggregation with id "
-                    + requirementAggregation.getRequirementEntity().getRequirementId() + ".");
+                    + requirementEntity.getRequirementId() + ".");
         }
     }
 

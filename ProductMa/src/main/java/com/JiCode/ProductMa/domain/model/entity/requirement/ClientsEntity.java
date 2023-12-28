@@ -32,6 +32,11 @@ public class ClientsEntity {
         this.dirty = true;
     }
 
+    public void update(ClientsEntity clientsEntity) {
+        BeanUtils.copyProperties(clientsEntity, this);
+        this.dirty = true;
+    }
+
     private ClientsEntity() {
     }
 
@@ -49,6 +54,7 @@ public class ClientsEntity {
         ClientsEntity clientsEntity = new ClientsEntity();
         try {
             BeanUtils.copyProperties(template, clientsEntity);
+            clientsEntity.cleanDirty();
             for (Field field : ClientsEntity.class.getDeclaredFields()) {
                 if (field.get(clientsEntity) == null) {
                     throw new IllegalArgumentException("Field " + field.getName() + " is null");

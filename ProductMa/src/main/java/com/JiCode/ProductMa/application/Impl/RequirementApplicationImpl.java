@@ -2,9 +2,12 @@ package com.JiCode.ProductMa.application.Impl;
 
 import com.JiCode.ProductMa.application.RequirementApplication;
 import com.JiCode.ProductMa.application.dto.AddRequirementReqDto;
+import com.JiCode.ProductMa.application.dto.AddVersionReqDto;
 import com.JiCode.ProductMa.application.dto.PagedResultDto;
 import com.JiCode.ProductMa.application.dto.RequirementArrResDto;
 import com.JiCode.ProductMa.application.dto.RequirementDetailResDto;
+import com.JiCode.ProductMa.application.dto.UpdateRequirementReqDto;
+import com.JiCode.ProductMa.application.dto.UpdateVersionReqDto;
 import com.JiCode.ProductMa.domain.repository.VersionRepository;
 import com.JiCode.ProductMa.exception.CopyFailedException;
 import com.JiCode.ProductMa.exception.CreateFailedException;
@@ -12,8 +15,13 @@ import com.JiCode.ProductMa.exception.DeleteFailedException;
 import com.JiCode.ProductMa.exception.InsertFailedException;
 import com.JiCode.ProductMa.exception.SelectFailedException;
 import com.JiCode.ProductMa.exception.ServerException;
+import com.JiCode.ProductMa.exception.UpdateFailedException;
+import com.JiCode.ProductMa.exception.requirement.SwitchVersionException;
+
 import com.JiCode.ProductMa.domain.model.RequirementAggregation;
 import com.JiCode.ProductMa.domain.model.VersionAggregation;
+import com.JiCode.ProductMa.domain.model.entity.requirement.BacklogItemsEntity;
+import com.JiCode.ProductMa.domain.model.entity.requirement.ClientsEntity;
 import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementContentEntity;
 import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementEntity;
 import com.JiCode.ProductMa.domain.repository.RequirementRepository;
@@ -94,7 +102,7 @@ public class RequirementApplicationImpl
         try {
             // 根据参数新建一个requirementContentEntity
             RequirementContentEntity requirementContentEntity = RequirementContentEntity
-                    .createNew(addRequirementReqDto);
+                    .create(addRequirementReqDto);
             // 根据参数新建一个requirement聚合
             RequirementAggregation requirementAggregation = RequirementAggregation
                     .createNew(addRequirementReqDto.getBelongProductId(), requirementContentEntity);
@@ -156,8 +164,68 @@ public class RequirementApplicationImpl
         }
     }
 
+    @Transactional
     public void switchVersion(String versionId, String requirementId) throws ServerException {
-
+        try {
+            RequirementAggregation requirementAggregation = requirementRepository.selectByIdWithOnlyRV(requirementId);
+            requirementAggregation.switchVersion(versionId);
+        } catch (SelectFailedException | SwitchVersionException e) {
+            log.error("Server Error", e);
+            throw new ServerException();
+        }
     }
 
+    @Transactional
+    @Override
+    public void updateRequirement(UpdateRequirementReqDto updateRequirementReqDto) throws ServerException {
+        try {
+            // 先查出来
+            RequirementAggregation requirementAggregation = requirementRepository
+                    .selectById(updateRequirementReqDto.getRequirementId());
+            // 再更新聚合
+            ClientsEntity clientsEntity = ClientsEntity.createByAll(updateRequirementReqDto.getClientArr());
+            BacklogItemsEntity backlogItemsEntity = BacklogItemsEntity
+                    .createByAll(updateRequirementReqDto.getBacklogItemArr());
+            RequirementContentEntity requirementContentEntity = RequirementContentEntity
+                    .create(updateRequirementReqDto);
+            requirementAggregation.update(requirementContentEntity, clientsEntity, backlogItemsEntity);
+            // 最后塞回去
+            requirementRepository.update(requirementAggregation);
+        } catch (SelectFailedException | CreateFailedException | UpdateFailedException e) {
+            log.error("Server Error", e);
+            throw new ServerException();
+        }
+    }
+
+    @Transactional
+    @Override
+    public Map<String, String> addVersion(AddVersionReqDto addVersionReqDto) throws ServerException {
+        try {
+            // 先初始化一个聚合
+            VersionAggregation versionAggregation = VersionAggregation.create(addVersionReqDto);
+            // 最后塞回去
+            String id = versionRepository.insert(addVersionReqDto.getRequirementId(), versionAggregation);
+            return Map.of("id", id);
+        } catch (InsertFailedException | CreateFailedException e) {
+            log.error("Server Error", e);
+            throw new ServerException();
+        }
+    }
+
+    @Transactional
+    @Override
+    public void updateVersion(UpdateVersionReqDto updateVersionReqDto) throws ServerException {
+        try {
+            // 先查出来
+            VersionAggregation versionAggregation = versionRepository
+                    .selectById(updateVersionReqDto.getId());
+            // 再更新聚合
+            versionAggregation.update(updateVersionReqDto);
+            // 最后塞回去
+            versionRepository.update(updateVersionReqDto.getRequirementId(), versionAggregation);
+        } catch (SelectFailedException | UpdateFailedException | CopyFailedException e) {
+            log.error("Server Error", e);
+            throw new ServerException();
+        }
+    }
 }

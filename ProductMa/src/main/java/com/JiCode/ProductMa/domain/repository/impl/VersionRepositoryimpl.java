@@ -19,14 +19,16 @@ public class VersionRepositoryimpl implements VersionRepository {
     @Autowired
     private RequirementVersionMapper requirementVersionMapper;
 
-    public void insert(VersionAggregation versionAggregation) throws InsertFailedException {
+    public String insert(String requirementId, VersionAggregation versionAggregation) throws InsertFailedException {
         RequirementVersion record = new RequirementVersion();
         BeanUtils.copyProperties(versionAggregation, record);
+        record.setBelongRequirementId(requirementId);
         int result = requirementVersionMapper.insert(record);
         if (result <= 0) {
             throw new InsertFailedException(
                     "Failed to insert version with id " + versionAggregation.getId() + ".");
         }
+        return record.getId();
     }
 
     public void delete(String id) throws DeleteFailedException {
@@ -36,9 +38,10 @@ public class VersionRepositoryimpl implements VersionRepository {
         }
     }
 
-    public void update(VersionAggregation versionAggregation) throws UpdateFailedException {
+    public void update(String belongRequirementId, VersionAggregation versionAggregation) throws UpdateFailedException {
         RequirementVersion record = new RequirementVersion();
         BeanUtils.copyProperties(versionAggregation, record);
+        record.setBelongRequirementId(belongRequirementId);
         int result = requirementVersionMapper.updateByPrimaryKey(record);
         if (result <= 0) {
             throw new UpdateFailedException(

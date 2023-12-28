@@ -21,6 +21,8 @@ public interface RequirementRepository {
 
         public RequirementAggregation selectById(String requirementId) throws SelectFailedException;
 
+        public RequirementAggregation selectByIdWithOnlyRV(String requirementId) throws SelectFailedException;
+
         public RequirementContentEntity selectRequirementContent(String requirementContentId)
                         throws SelectFailedException;
 

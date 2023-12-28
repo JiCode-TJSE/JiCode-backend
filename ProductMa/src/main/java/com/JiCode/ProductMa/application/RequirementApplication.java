@@ -3,8 +3,11 @@ package com.JiCode.ProductMa.application;
 import java.util.Map;
 
 import com.JiCode.ProductMa.application.dto.AddRequirementReqDto;
+import com.JiCode.ProductMa.application.dto.AddVersionReqDto;
 import com.JiCode.ProductMa.application.dto.RequirementArrResDto;
 import com.JiCode.ProductMa.application.dto.RequirementDetailResDto;
+import com.JiCode.ProductMa.application.dto.UpdateRequirementReqDto;
+import com.JiCode.ProductMa.application.dto.UpdateVersionReqDto;
 import com.JiCode.ProductMa.exception.ServerException;
 
 public interface RequirementApplication {
@@ -34,4 +37,19 @@ public interface RequirementApplication {
      * 切换版本
      */
     public void switchVersion(String versionId, String requirementId) throws ServerException;
+
+    /**
+     * 更新需求
+     */
+    public void updateRequirement(UpdateRequirementReqDto updateRequirementReqDto) throws ServerException;
+
+    /**
+     * 新增版本
+     */
+    public Map<String, String> addVersion(AddVersionReqDto addVersionReqDto) throws ServerException;
+
+    /**
+     * 更新版本
+     */
+    public void updateVersion(UpdateVersionReqDto updateVersionReqDto) throws ServerException;
 }

@@ -7,11 +7,11 @@ import com.JiCode.ProductMa.exception.SelectFailedException;
 import com.JiCode.ProductMa.exception.UpdateFailedException;
 
 public interface VersionRepository {
-    public void insert(VersionAggregation versionAggregation) throws InsertFailedException;
+    public String insert(String requirementId, VersionAggregation versionAggregation) throws InsertFailedException;
 
     public void delete(String id) throws DeleteFailedException;
 
-    public void update(VersionAggregation versionAggregation) throws UpdateFailedException;
+    public void update(String belongRequirementId, VersionAggregation versionAggregation) throws UpdateFailedException;
 
     public VersionAggregation selectById(String id) throws SelectFailedException;
 }

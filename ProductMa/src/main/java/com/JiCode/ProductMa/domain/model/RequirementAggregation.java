@@ -2,9 +2,7 @@ package com.JiCode.ProductMa.domain.model;
 
 import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementEntity;
 import com.JiCode.ProductMa.domain.model.entity.requirement.VersionsEntity;
-import com.JiCode.ProductMa.exception.CopyFailedException;
 import com.JiCode.ProductMa.exception.CreateFailedException;
-import com.JiCode.ProductMa.exception.NotFoundException;
 import com.JiCode.ProductMa.exception.requirement.SwitchVersionException;
 import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementContentEntity;
 import com.JiCode.ProductMa.domain.model.entity.requirement.ClientsEntity;
@@ -59,8 +57,7 @@ public class RequirementAggregation {
         return requirementContentEntity.isDirty();
     }
 
-    public void switchVersion(String versionId, RequirementContentEntity versionContent, String[] backlogItemArr,
-            String[] clientArr) throws SwitchVersionException {
+    public void switchVersion(String versionId) throws SwitchVersionException {
         // 检查 versionId 是否在现在的 versionArr 中，这边领域层要维护自己的数据一致性，所以要在这里检查
         boolean versionIdExists = false;
         for (VersionAggregation versionAggregation : versionsEntity.getVersionArr()) {
@@ -69,17 +66,20 @@ public class RequirementAggregation {
                 break;
             }
         }
-        try {
-            if (!versionIdExists) {
-                throw new NotFoundException("VersionId " + versionId + " is not in the current versionArr.");
-            }
-            this.requirementEntity.setRequirementContentId(versionId);
-            this.requirementContentEntity.copyProperties(versionContent);
-            this.backlogItemsEntity.setBacklogItemIDArr(backlogItemArr);
-            this.clientsEntity.setClientIDArr(clientArr);
-        } catch (CopyFailedException | NotFoundException e) {
-            throw new SwitchVersionException("Failed to switch version due to copy failure: " + e.getMessage(), e);
+
+        if (!versionIdExists) {
+            throw new SwitchVersionException("VersionId " + versionId + " is not in the current versionArr.");
         }
+        this.requirementEntity.setRequirementContentId(versionId);
+    }
+
+    public void update(
+            RequirementContentEntity requirementContentEntity,
+            ClientsEntity clientsEntity,
+            BacklogItemsEntity backlogItemsEntity) {
+        this.requirementContentEntity.update(requirementContentEntity);
+        this.clientsEntity.update(clientsEntity);
+        this.backlogItemsEntity.update(backlogItemsEntity);
     }
 
     private RequirementAggregation() {
@@ -121,5 +121,17 @@ public class RequirementAggregation {
         BacklogItemsEntity backlogItemsEntity = BacklogItemsEntity.createNew();
         return RequirementAggregation.createRequirementByAll(requirementEntity, versionsEntity,
                 requirementContentEntity, clientsEntity, backlogItemsEntity);
+    }
+
+    public static RequirementAggregation createRequirementByOnlyRV(
+            RequirementEntity requirementEntity, VersionsEntity versionsEntity) throws CreateFailedException {
+        if (requirementEntity == null || versionsEntity == null) {
+            throw new CreateFailedException(
+                    "Params must not be null in creating RequirementAggregation createRequirementByOnlyRV().");
+        }
+        RequirementAggregation agg = new RequirementAggregation();
+        agg.requirementEntity = requirementEntity;
+        agg.versionsEntity = versionsEntity;
+        return agg;
     }
 }

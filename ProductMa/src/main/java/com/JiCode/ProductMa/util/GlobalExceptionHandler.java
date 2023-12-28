@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.http.HttpStatus;
 
 import com.JiCode.ProductMa.adaptor.input.vo.ErrorVo;
+import com.JiCode.ProductMa.common.CodeEnum;
 import com.JiCode.ProductMa.exception.ServerException;
 
 @ControllerAdvice
@@ -17,7 +18,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ErrorVo handleSelectFailedException(ServerException e) {
         ErrorVo errorResponse = new ErrorVo();
-        errorResponse.setOk(false);
+        errorResponse.setCode(CodeEnum.ERROR);
         errorResponse.setMsg(e.getMessage());
         return errorResponse;
     }

@@ -19,6 +19,8 @@ public class Sprint {
 
     private String releaseId;
 
+    private String topic;
+
     public String getId() {
         return id;
     }
@@ -81,5 +83,13 @@ public class Sprint {
 
     public void setReleaseId(String releaseId) {
         this.releaseId = releaseId == null ? null : releaseId.trim();
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic == null ? null : topic.trim();
     }
 }

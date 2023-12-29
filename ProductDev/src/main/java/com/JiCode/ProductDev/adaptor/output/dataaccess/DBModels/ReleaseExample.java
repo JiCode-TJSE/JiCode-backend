@@ -504,6 +504,146 @@ public class ReleaseExample {
             addCriterion("manager_id not between", value1, value2, "managerId");
             return (Criteria) this;
         }
+
+        public Criteria andTopicIsNull() {
+            addCriterion("topic is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTopicIsNotNull() {
+            addCriterion("topic is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTopicEqualTo(String value) {
+            addCriterion("topic =", value, "topic");
+            return (Criteria) this;
+        }
+
+        public Criteria andTopicNotEqualTo(String value) {
+            addCriterion("topic <>", value, "topic");
+            return (Criteria) this;
+        }
+
+        public Criteria andTopicGreaterThan(String value) {
+            addCriterion("topic >", value, "topic");
+            return (Criteria) this;
+        }
+
+        public Criteria andTopicGreaterThanOrEqualTo(String value) {
+            addCriterion("topic >=", value, "topic");
+            return (Criteria) this;
+        }
+
+        public Criteria andTopicLessThan(String value) {
+            addCriterion("topic <", value, "topic");
+            return (Criteria) this;
+        }
+
+        public Criteria andTopicLessThanOrEqualTo(String value) {
+            addCriterion("topic <=", value, "topic");
+            return (Criteria) this;
+        }
+
+        public Criteria andTopicLike(String value) {
+            addCriterion("topic like", value, "topic");
+            return (Criteria) this;
+        }
+
+        public Criteria andTopicNotLike(String value) {
+            addCriterion("topic not like", value, "topic");
+            return (Criteria) this;
+        }
+
+        public Criteria andTopicIn(List<String> values) {
+            addCriterion("topic in", values, "topic");
+            return (Criteria) this;
+        }
+
+        public Criteria andTopicNotIn(List<String> values) {
+            addCriterion("topic not in", values, "topic");
+            return (Criteria) this;
+        }
+
+        public Criteria andTopicBetween(String value1, String value2) {
+            addCriterion("topic between", value1, value2, "topic");
+            return (Criteria) this;
+        }
+
+        public Criteria andTopicNotBetween(String value1, String value2) {
+            addCriterion("topic not between", value1, value2, "topic");
+            return (Criteria) this;
+        }
+
+        public Criteria andStageIsNull() {
+            addCriterion("stage is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStageIsNotNull() {
+            addCriterion("stage is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andStageEqualTo(String value) {
+            addCriterion("stage =", value, "stage");
+            return (Criteria) this;
+        }
+
+        public Criteria andStageNotEqualTo(String value) {
+            addCriterion("stage <>", value, "stage");
+            return (Criteria) this;
+        }
+
+        public Criteria andStageGreaterThan(String value) {
+            addCriterion("stage >", value, "stage");
+            return (Criteria) this;
+        }
+
+        public Criteria andStageGreaterThanOrEqualTo(String value) {
+            addCriterion("stage >=", value, "stage");
+            return (Criteria) this;
+        }
+
+        public Criteria andStageLessThan(String value) {
+            addCriterion("stage <", value, "stage");
+            return (Criteria) this;
+        }
+
+        public Criteria andStageLessThanOrEqualTo(String value) {
+            addCriterion("stage <=", value, "stage");
+            return (Criteria) this;
+        }
+
+        public Criteria andStageLike(String value) {
+            addCriterion("stage like", value, "stage");
+            return (Criteria) this;
+        }
+
+        public Criteria andStageNotLike(String value) {
+            addCriterion("stage not like", value, "stage");
+            return (Criteria) this;
+        }
+
+        public Criteria andStageIn(List<String> values) {
+            addCriterion("stage in", values, "stage");
+            return (Criteria) this;
+        }
+
+        public Criteria andStageNotIn(List<String> values) {
+            addCriterion("stage not in", values, "stage");
+            return (Criteria) this;
+        }
+
+        public Criteria andStageBetween(String value1, String value2) {
+            addCriterion("stage between", value1, value2, "stage");
+            return (Criteria) this;
+        }
+
+        public Criteria andStageNotBetween(String value1, String value2) {
+            addCriterion("stage not between", value1, value2, "stage");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

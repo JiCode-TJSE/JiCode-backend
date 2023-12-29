@@ -41,14 +41,16 @@ public class ReleaseTests {
 
     @Test
     public void testInsert(){
-        String id = "2";
+        String id = null;
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 2023);
         calendar.set(Calendar.MONTH, Calendar.DECEMBER); // 注意，月份是从0开始的，所以11代表12月
         calendar.set(Calendar.DAY_OF_MONTH, 26);
         Date startTime = calendar.getTime();
         Date endTime = calendar.getTime();
-        ReleaseAggregation releaseAggregation = releaseFactory.createRelease(id, startTime, endTime, "yes", "1", "1", Arrays.asList("1", "2"));
+        String topic = "wh";
+        String stage = "done";
+        ReleaseAggregation releaseAggregation = releaseFactory.createRelease(id, startTime, endTime, "yes", "1", "1", Arrays.asList("1", "2"),topic, stage);
         releaseRepository.insert(releaseAggregation);
     }
 

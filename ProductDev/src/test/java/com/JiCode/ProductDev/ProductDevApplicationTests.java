@@ -91,7 +91,8 @@ public class ProductDevApplicationTests {
         Date endTime = new Date(2023, 12, 23);
         String managerId = "1";
         List<String> members =  Arrays.asList("1", "2", "4");
-        ProjectAggregation projectAggregation = projectFactory.createProject(null, status, progress, startTime, endTime, managerId, members);
+        String topic = "wh";
+        ProjectAggregation projectAggregation = projectFactory.createProject(null, status, progress, startTime, endTime, managerId, members, topic);
         System.out.println(projectRepositoryImpl.insert(projectAggregation));
     }
 
@@ -104,7 +105,8 @@ public class ProductDevApplicationTests {
         Date endTime = new Date(2023, 12, 23);
         String managerId = "1";
         List<String> members =  Arrays.asList("1", "2", "3");
-        ProjectAggregation projectAggregation = projectFactory.createProject(id, status, progress, startTime, endTime, managerId, members);
+        String topic = "wh";
+        ProjectAggregation projectAggregation = projectFactory.createProject(id, status, progress, startTime, endTime, managerId, members, topic);
         System.out.println(projectRepositoryImpl.updateById(projectAggregation));
     }
 

@@ -10,6 +10,7 @@
     <result column="project_id" jdbcType="VARCHAR" property="projectId" />
     <result column="manager_id" jdbcType="VARCHAR" property="managerId" />
     <result column="release_id" jdbcType="VARCHAR" property="releaseId" />
+    <result column="topic" jdbcType="VARCHAR" property="topic" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, start_time, end_time, goal, type, project_id, manager_id, release_id
+    id, start_time, end_time, goal, type, project_id, manager_id, release_id, topic
   </sql>
   <select id="selectByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.SprintExample" resultMap="BaseResultMap">
     select
@@ -105,10 +106,12 @@
   <insert id="insert" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Sprint">
     insert into sprint (id, start_time, end_time, 
       goal, type, project_id, 
-      manager_id, release_id)
+      manager_id, release_id, topic
+      )
     values (#{id,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=DATE}, 
       #{goal,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
-      #{managerId,jdbcType=VARCHAR}, #{releaseId,jdbcType=VARCHAR})
+      #{managerId,jdbcType=VARCHAR}, #{releaseId,jdbcType=VARCHAR}, #{topic,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Sprint">
     insert into sprint
@@ -137,6 +140,9 @@
       <if test="releaseId != null">
         release_id,
       </if>
+      <if test="topic != null">
+        topic,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -162,6 +168,9 @@
       </if>
       <if test="releaseId != null">
         #{releaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="topic != null">
+        #{topic,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -201,6 +210,9 @@
       <if test="record.releaseId != null">
         release_id = #{record.releaseId,jdbcType=VARCHAR},
       </if>
+      <if test="record.topic != null">
+        topic = #{record.topic,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -215,7 +227,8 @@
       type = #{record.type,jdbcType=VARCHAR},
       project_id = #{record.projectId,jdbcType=VARCHAR},
       manager_id = #{record.managerId,jdbcType=VARCHAR},
-      release_id = #{record.releaseId,jdbcType=VARCHAR}
+      release_id = #{record.releaseId,jdbcType=VARCHAR},
+      topic = #{record.topic,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -244,6 +257,9 @@
       <if test="releaseId != null">
         release_id = #{releaseId,jdbcType=VARCHAR},
       </if>
+      <if test="topic != null">
+        topic = #{topic,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -255,7 +271,8 @@
       type = #{type,jdbcType=VARCHAR},
       project_id = #{projectId,jdbcType=VARCHAR},
       manager_id = #{managerId,jdbcType=VARCHAR},
-      release_id = #{releaseId,jdbcType=VARCHAR}
+      release_id = #{releaseId,jdbcType=VARCHAR},
+      topic = #{topic,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

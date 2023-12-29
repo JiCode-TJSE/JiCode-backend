@@ -33,6 +33,16 @@ public class ProjectAggregation {
 
     private List<String> member;
 
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    private String topic;
+
     public List<String> getMember() {
         return member;
     }

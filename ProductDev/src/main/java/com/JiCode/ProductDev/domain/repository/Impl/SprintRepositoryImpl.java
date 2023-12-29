@@ -43,7 +43,7 @@ public class SprintRepositoryImpl implements SprintRepository {
      * @return {@link SprintAggregation}
      */
     private SprintAggregation entityToAggregate(Sprint sprint, List<String> memberIds){
-        SprintAggregation sprintAggregation = SprintFactory.createSprint(sprint.getId(), sprint.getStartTime(),sprint.getEndTime(),sprint.getGoal(),sprint.getType(),sprint.getProjectId(),sprint.getManagerId(),sprint.getReleaseId(),memberIds);
+        SprintAggregation sprintAggregation = SprintFactory.createSprint(sprint.getId(), sprint.getStartTime(),sprint.getEndTime(),sprint.getGoal(),sprint.getType(),sprint.getProjectId(),sprint.getManagerId(),sprint.getReleaseId(),memberIds, sprint.getTopic());
         return sprintAggregation;
     }
 

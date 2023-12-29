@@ -84,7 +84,8 @@ public class ProjectTests {
         Date endTime = calendar.getTime();
         String managerId = "1";
         List<String> members =  Arrays.asList("1", "2", "4");
-        ProjectAggregation projectAggregation = projectFactory.createProject(null, status, progress, startTime, endTime, managerId, members);
+        String topic =  "wh";
+        ProjectAggregation projectAggregation = projectFactory.createProject(null, status, progress, startTime, endTime, managerId, members,topic);
         System.out.println(projectRepository.insert(projectAggregation));
     }
 
@@ -101,7 +102,8 @@ public class ProjectTests {
         Date endTime = calendar.getTime();
         String managerId = "1";
         List<String> members =  Arrays.asList("1", "2", "3");
-        ProjectAggregation projectAggregation = projectFactory.createProject(id, status, progress, startTime, endTime, managerId, members);
+        String topic =  "wh";
+        ProjectAggregation projectAggregation = projectFactory.createProject(id, status, progress, startTime, endTime, managerId, members,topic);
         System.out.println(projectRepository.updateById(projectAggregation));
     }
 

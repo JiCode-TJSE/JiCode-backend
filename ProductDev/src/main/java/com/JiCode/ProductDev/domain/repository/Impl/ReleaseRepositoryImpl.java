@@ -30,7 +30,7 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
     ReleaseMemberMapper releaseMemberMapper;
 
     private ReleaseAggregation entityToAggregate(Release release, List<String> memberIds){
-        ReleaseAggregation releaseAggregation = releaseFactory.createRelease(release.getId(), release.getStartTime(), release.getEndTime(), release.getType(), release.getProjectId(), release.getManagerId(), memberIds);
+        ReleaseAggregation releaseAggregation = releaseFactory.createRelease(release.getId(), release.getStartTime(), release.getEndTime(), release.getType(), release.getProjectId(), release.getManagerId(), memberIds,release.getTopic(), release.getStage());
         return releaseAggregation;
     }
 

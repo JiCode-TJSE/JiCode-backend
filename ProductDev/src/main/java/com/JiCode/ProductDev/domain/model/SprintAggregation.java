@@ -32,6 +32,16 @@ public class SprintAggregation {
 
     private String releaseId;
 
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    private String topic;
+
     private List<String> memberIds;
 
     public void setId(String id) {

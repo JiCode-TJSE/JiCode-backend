@@ -15,6 +15,8 @@ public class Project {
 
     private String managerId;
 
+    private String topic;
+
     public String getId() {
         return id;
     }
@@ -61,5 +63,13 @@ public class Project {
 
     public void setManagerId(String managerId) {
         this.managerId = managerId == null ? null : managerId.trim();
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic == null ? null : topic.trim();
     }
 }

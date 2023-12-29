@@ -17,6 +17,29 @@ public class ReleaseAggregation {
     private String managerId;
 
     List<String> memberIds;
+    private String topic;
+    private String stage;
+
+    public String getStage() {
+        return stage;
+    }
+
+    public void setStage(String stage) {
+        this.stage = stage;
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+
+
+    public ReleaseAggregation() {
+    }
 
     public String getId() {
         return id;

@@ -59,7 +59,8 @@ public class SprintTests {
         String projectId = "1";
         String managerId = "1";
         List<String> members =  Arrays.asList("1");
-        SprintAggregation sprintAggregation = sprintFactory.createSprint(id, startTime, endTime, goal, type, projectId, managerId, null, members);
+        String topic = "wh";
+        SprintAggregation sprintAggregation = sprintFactory.createSprint(id, startTime, endTime, goal, type, projectId, managerId, null, members, topic);
         sprintRepository.insert(sprintAggregation);
     }
 
@@ -78,7 +79,8 @@ public class SprintTests {
         String projectId = "1";
         String managerId = "1";
         List<String> members =  Arrays.asList("1");
-        SprintAggregation sprintAggregation = sprintFactory.createSprint(id, startTime, endTime, goal, type, projectId, managerId, null, members);
+        String topic = "wh";
+        SprintAggregation sprintAggregation = sprintFactory.createSprint(id, startTime, endTime, goal, type, projectId, managerId, null, members, topic);
         sprintRepository.updateById(sprintAggregation);
     }
 

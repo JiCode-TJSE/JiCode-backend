@@ -45,7 +45,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
      * @return {@link ProjectAggregation}
      */
     private ProjectAggregation entityToAggregate(Project project, List<String> memberIds){
-        ProjectAggregation projectAggregation = projectFactory.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(),memberIds);
+        ProjectAggregation projectAggregation = projectFactory.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(),memberIds, project.getTopic());
         return projectAggregation;
     }
 
@@ -116,7 +116,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
                 List<String> memberIds = projectMemberKeys.stream().map(ProjectMemberKey::getMemberId).collect(Collectors.toList());
 
                 // 工厂模式建立聚合
-                ProjectAggregation projectAggregation = projectFactory.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(), memberIds);
+                ProjectAggregation projectAggregation = projectFactory.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(), memberIds, project.getTopic());
                 projectAggregations.add(projectAggregation);
             }
             return new PageInfo<>(projectAggregations);

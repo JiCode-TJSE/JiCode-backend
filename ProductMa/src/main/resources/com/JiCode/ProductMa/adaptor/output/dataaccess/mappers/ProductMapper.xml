@@ -85,7 +85,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from product
     where id = #{id,jdbcType=VARCHAR}
@@ -102,10 +102,10 @@
   </delete>
   <insert id="insert" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Product">
     insert into product (`id`, `title`, `detail`, `visibility`, `mark`, `team_id`
-      )
-    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, 
-      #{visibility,jdbcType=BIT}, #{mark,jdbcType=VARCHAR}, #{teamId,jdbcType=VARCHAR}
-      )
+    )
+    values (#{id,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR},
+            #{visibility,jdbcType=BIT}, #{mark,jdbcType=VARCHAR}, #{teamId,jdbcType=VARCHAR}
+           )
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Product">
     insert into product
@@ -185,11 +185,11 @@
   <update id="updateByExample" parameterType="map">
     update product
     set id = #{record.id,jdbcType=VARCHAR},
-      title = #{record.title,jdbcType=VARCHAR},
-      detail = #{record.detail,jdbcType=VARCHAR},
-      visibility = #{record.visibility,jdbcType=BIT},
-      mark = #{record.mark,jdbcType=VARCHAR},
-      team_id = #{record.teamId,jdbcType=VARCHAR}
+    title = #{record.title,jdbcType=VARCHAR},
+    detail = #{record.detail,jdbcType=VARCHAR},
+    visibility = #{record.visibility,jdbcType=BIT},
+    mark = #{record.mark,jdbcType=VARCHAR},
+    team_id = #{record.teamId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -218,10 +218,10 @@
   <update id="updateByPrimaryKey" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Product">
     update product
     set title = #{title,jdbcType=VARCHAR},
-      detail = #{detail,jdbcType=VARCHAR},
-      visibility = #{visibility,jdbcType=BIT},
-      mark = #{mark,jdbcType=VARCHAR},
-      team_id = #{teamId,jdbcType=VARCHAR}
+        detail = #{detail,jdbcType=VARCHAR},
+        visibility = #{visibility,jdbcType=BIT},
+        mark = #{mark,jdbcType=VARCHAR},
+        team_id = #{teamId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.ProductExample" resultMap="BaseResultMap">

@@ -2,7 +2,6 @@ package com.JiCode.ProductMa.adaptor.output.dataaccess.mappers;
 
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContent;
 import com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.RequirementContentExample;
-
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.RowBounds;
@@ -24,11 +23,9 @@ public interface RequirementContentMapper {
 
     RequirementContent selectByPrimaryKey(String versionContentId);
 
-    int updateByExampleSelective(@Param("record") RequirementContent record,
-            @Param("example") RequirementContentExample example);
+    int updateByExampleSelective(@Param("record") RequirementContent record, @Param("example") RequirementContentExample example);
 
-    int updateByExample(@Param("record") RequirementContent record,
-            @Param("example") RequirementContentExample example);
+    int updateByExample(@Param("record") RequirementContent record, @Param("example") RequirementContentExample example);
 
     int updateByPrimaryKeySelective(RequirementContent record);
 

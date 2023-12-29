@@ -12,6 +12,7 @@
     <result column="manager_id" jdbcType="VARCHAR" property="managerId" />
     <result column="schedule_id" jdbcType="VARCHAR" property="scheduleId" />
     <result column="project_id" jdbcType="VARCHAR" property="projectId" />
+    <result column="topic" jdbcType="VARCHAR" property="topic" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, priority, start_time, end_time, source, type, description, manager_id, schedule_id, 
-    project_id
+    project_id, topic
   </sql>
   <select id="selectByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.BacklogitemExample" resultMap="BaseResultMap">
     select
@@ -109,11 +110,11 @@
     insert into backlogitem (id, priority, start_time, 
       end_time, source, type, 
       description, manager_id, schedule_id, 
-      project_id)
+      project_id, topic)
     values (#{id,jdbcType=VARCHAR}, #{priority,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{source,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{description,jdbcType=VARCHAR}, #{managerId,jdbcType=VARCHAR}, #{scheduleId,jdbcType=VARCHAR}, 
-      #{projectId,jdbcType=VARCHAR})
+      #{projectId,jdbcType=VARCHAR}, #{topic,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Backlogitem">
     insert into backlogitem
@@ -148,6 +149,9 @@
       <if test="projectId != null">
         project_id,
       </if>
+      <if test="topic != null">
+        topic,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -180,6 +184,9 @@
       <if test="projectId != null">
         #{projectId,jdbcType=VARCHAR},
       </if>
+      <if test="topic != null">
+        #{topic,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.BacklogitemExample" resultType="java.lang.Long">
@@ -188,11 +195,10 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select id="selectByPaging"
-          resultMap="BaseResultMap">
-    select * from backlogitem
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
+    <select id="selectByPaging" resultMap="BaseResultMap">
+      select * from backlogitem
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
     update backlogitem
     <set>
       <if test="record.id != null">
@@ -225,6 +231,9 @@
       <if test="record.projectId != null">
         project_id = #{record.projectId,jdbcType=VARCHAR},
       </if>
+      <if test="record.topic != null">
+        topic = #{record.topic,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -241,7 +250,8 @@
       description = #{record.description,jdbcType=VARCHAR},
       manager_id = #{record.managerId,jdbcType=VARCHAR},
       schedule_id = #{record.scheduleId,jdbcType=VARCHAR},
-      project_id = #{record.projectId,jdbcType=VARCHAR}
+      project_id = #{record.projectId,jdbcType=VARCHAR},
+      topic = #{record.topic,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -276,6 +286,9 @@
       <if test="projectId != null">
         project_id = #{projectId,jdbcType=VARCHAR},
       </if>
+      <if test="topic != null">
+        topic = #{topic,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -289,7 +302,8 @@
       description = #{description,jdbcType=VARCHAR},
       manager_id = #{managerId,jdbcType=VARCHAR},
       schedule_id = #{scheduleId,jdbcType=VARCHAR},
-      project_id = #{projectId,jdbcType=VARCHAR}
+      project_id = #{projectId,jdbcType=VARCHAR},
+      topic = #{topic,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

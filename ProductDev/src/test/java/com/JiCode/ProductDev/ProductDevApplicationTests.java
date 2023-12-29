@@ -133,7 +133,8 @@ public class ProductDevApplicationTests {
         String managerId = "1";
         String scheduleId = "1";
         List<String> memberIds = Arrays.asList("1", "2", "3");
-        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds);
+        String topic = "wh";
+        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds,topic);
         System.out.println(backlogItemRepositoryImpl.insert(backlogItemAggregation));
     }
 
@@ -150,7 +151,8 @@ public class ProductDevApplicationTests {
         String managerId = "1";
         String scheduleId = "1";
         List<String> memberIds = Arrays.asList("4", "5", "6");
-        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds);
+        String topic = "wh";
+        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds,topic);
         System.out.println(backlogItemRepositoryImpl.updateById(backlogItemAggregation));
     }
 

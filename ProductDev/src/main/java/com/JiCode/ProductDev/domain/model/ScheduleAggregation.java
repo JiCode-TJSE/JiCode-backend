@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Data
 @NoArgsConstructor
-public class ScheduleAggregation {
+public class  ScheduleAggregation {
 
     private String id;
     private Integer estimatedWorkhour;

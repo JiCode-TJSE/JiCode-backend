@@ -23,6 +23,8 @@ public class Backlogitem {
 
     private String projectId;
 
+    private String topic;
+
     public String getId() {
         return id;
     }
@@ -101,5 +103,13 @@ public class Backlogitem {
 
     public void setProjectId(String projectId) {
         this.projectId = projectId == null ? null : projectId.trim();
+    }
+
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic == null ? null : topic.trim();
     }
 }

@@ -75,7 +75,7 @@ public class BacklogitemTests{
 
     @Test
     public void testSelectBacklogItemById(){
-        String id = "1";
+        String id = "2";
         System.out.println(backlogItemRepository.selectById(id));
     }
 
@@ -98,13 +98,14 @@ public class BacklogitemTests{
         String managerId = "1";
         String scheduleId = "1";
         List<String> memberIds = Arrays.asList("1", "2", "3");
-        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds);
+        String topic = "wh";
+        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds, topic);
         System.out.println(backlogItemRepository.insert(backlogItemAggregation));
     }
 
     @Test
     public void testUpdateBacklogItem(){
-        String id = "1";
+        String id = "2";
         String priority = "common";
         //获取日期
         Calendar calendar = Calendar.getInstance();
@@ -122,13 +123,14 @@ public class BacklogitemTests{
         String scheduleId = "1";
         // List<String> memberIds = Arrays.asList("4", "5", "6");
         List<String> memberIds = Arrays.asList("1", "2", "3");
-        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds);
+        String topic = "whh";
+        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds,topic);
         System.out.println(backlogItemRepository.updateById(backlogItemAggregation));
     }
 
     @Test
     public void testDeleteBacklogItem(){
-        String id = "1";
+        String id = "b43d0e2d-1b22-47d2-a590-d6d6dd9ccc6a";
         System.out.println(backlogItemRepository.deleteById(id));
     }
 

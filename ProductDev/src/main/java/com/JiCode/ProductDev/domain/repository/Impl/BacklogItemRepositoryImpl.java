@@ -47,7 +47,7 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
      * @return {@link ProjectAggregation}
      */
     private BacklogItemAggregation entityToAggregate(Backlogitem backlogitem, List<String> memberIds){
-        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(),memberIds);
+        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(),memberIds, backlogitem.getTopic());
         return backlogItemAggregation;
     }
 
@@ -110,7 +110,7 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
         try{
             // 分页查询
             PageHelper.startPage(pageNum, pageSize);
-            Page<Backlogitem> backlogitems = backlogitemMapper.selectByPaging(new BacklogitemExample());
+            Page<Backlogitem> backlogitems = backlogitemMapper.selectByPaging(null);
             //System.out.println(backlogitems);
             List<BacklogItemAggregation> backlogItemAggregations = new ArrayList<>();
             for (Backlogitem backlogitem : backlogitems) {
@@ -122,7 +122,7 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
                 List<String> memberIds = backlogitemMemberKeys.stream().map(BacklogitemMemberKey::getAccountId).collect(Collectors.toList());
 
                 // 工厂模式创建ProjectAggregation
-                BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(), memberIds); // use builder to create ProjectAggregation
+                BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(), memberIds, backlogitem.getTopic()); // use builder to create ProjectAggregation
                 backlogItemAggregations.add(backlogItemAggregation);
             }
             return new PageInfo<>(backlogItemAggregations);

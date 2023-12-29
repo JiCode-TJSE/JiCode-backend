@@ -96,6 +96,16 @@ public class BacklogItemAggregation {
 
     private String scheduleId;
 
+    public String getTopic() {
+        return topic;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    private String topic;
+
     // backlogitem_member 联系集当中的属性，在这里体现为一个列表
     private List<String> memberIds;
 

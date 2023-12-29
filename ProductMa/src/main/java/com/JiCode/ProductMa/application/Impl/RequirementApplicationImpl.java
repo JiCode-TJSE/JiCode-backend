@@ -13,6 +13,7 @@ import com.JiCode.ProductMa.exception.CopyFailedException;
 import com.JiCode.ProductMa.exception.CreateFailedException;
 import com.JiCode.ProductMa.exception.DeleteFailedException;
 import com.JiCode.ProductMa.exception.InsertFailedException;
+import com.JiCode.ProductMa.exception.NotFoundException;
 import com.JiCode.ProductMa.exception.SelectFailedException;
 import com.JiCode.ProductMa.exception.ServerException;
 import com.JiCode.ProductMa.exception.UpdateFailedException;
@@ -24,6 +25,7 @@ import com.JiCode.ProductMa.domain.model.entity.requirement.BacklogItemsEntity;
 import com.JiCode.ProductMa.domain.model.entity.requirement.ClientsEntity;
 import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementContentEntity;
 import com.JiCode.ProductMa.domain.model.entity.requirement.RequirementEntity;
+import com.JiCode.ProductMa.domain.repository.ClientRepository;
 import com.JiCode.ProductMa.domain.repository.RequirementRepository;
 
 import java.util.Arrays;
@@ -42,6 +44,9 @@ public class RequirementApplicationImpl
         implements RequirementApplication {
 
     private static final Logger log = LoggerFactory.getLogger(RequirementApplicationImpl.class);
+
+    @Autowired
+    ClientRepository clientRepository;
 
     @Autowired
     VersionRepository versionRepository;
@@ -152,13 +157,20 @@ public class RequirementApplicationImpl
             RequirementDetailResDto.BacklogItem[] backlogItems = new RequirementDetailResDto.BacklogItem[backlogItemIDArr.length];
             String[] clientIDArr = requirementAggregation.getClientsEntity().getClientIDArr();
             RequirementDetailResDto.Client[] clients = new RequirementDetailResDto.Client[clientIDArr.length];
+            String[] clientNameArr = clientRepository.selectNamesById(clientIDArr);
+            // 组合成 clientArr
+            for (int i = 0; i < clientIDArr.length; i++) {
+                clients[i] = new RequirementDetailResDto.Client();
+                clients[i].setClientId(clientIDArr[i]);
+                clients[i].setName(clientNameArr[i]);
+            }
 
             requirementDetailResDto.setSupervisor(null);
             requirementDetailResDto.setVersionArr(versions);
             requirementDetailResDto.setBacklogItemArr(null);
-            requirementDetailResDto.setClientArr(null);
+            requirementDetailResDto.setClientArr(clients);
             return requirementDetailResDto;
-        } catch (SelectFailedException | CopyFailedException e) {
+        } catch (SelectFailedException | CopyFailedException | NotFoundException e) {
             log.error("Server Error", e);
             throw new ServerException();
         }

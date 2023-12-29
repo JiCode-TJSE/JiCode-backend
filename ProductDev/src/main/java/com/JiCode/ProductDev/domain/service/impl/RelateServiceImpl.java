@@ -12,7 +12,7 @@ import com.JiCode.ProductDev.domain.service.RelateService;
 public class RelateServiceImpl implements RelateService {
     @Autowired
     BacklogItemRepository backlogItemRepository;
-    
+
     @Autowired
     ReleaseRepository releaseRepository;
 

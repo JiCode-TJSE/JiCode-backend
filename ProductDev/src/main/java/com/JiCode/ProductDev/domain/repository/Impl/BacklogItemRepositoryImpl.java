@@ -139,7 +139,12 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
 
             // 使用UUID生成ID
             if(backlogitem.getId()==null){
-
+                String projectTopic = projectMapper.selectByPrimaryKey(backlogitem.getProjectId()).getTopic();
+                BacklogitemExample example = new BacklogitemExample();
+                example.createCriteria().andTopicEqualTo(projectTopic);
+                String count = String.valueOf(backlogitemMapper.countByExample(example))+1;
+                System.out.println(projectTopic + " " + count);
+                backlogitem.setId(projectTopic + "-" + count);
             }
             System.out.println(backlogitem);
             int result = backlogitemMapper.insert(backlogitem);

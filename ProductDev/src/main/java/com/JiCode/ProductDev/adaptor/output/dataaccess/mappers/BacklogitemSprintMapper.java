@@ -1,7 +1,7 @@
 package com.JiCode.ProductDev.adaptor.output.dataaccess.mappers;
 
-import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.BacklogitemSprint;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.BacklogitemSprintExample;
+import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.BacklogitemSprintKey;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,13 +10,15 @@ public interface BacklogitemSprintMapper {
 
     int deleteByExample(BacklogitemSprintExample example);
 
-    int insert(BacklogitemSprint record);
+    int deleteByPrimaryKey(BacklogitemSprintKey key);
 
-    int insertSelective(BacklogitemSprint record);
+    int insert(BacklogitemSprintKey record);
 
-    List<BacklogitemSprint> selectByExample(BacklogitemSprintExample example);
+    int insertSelective(BacklogitemSprintKey record);
 
-    int updateByExampleSelective(@Param("record") BacklogitemSprint record, @Param("example") BacklogitemSprintExample example);
+    List<BacklogitemSprintKey> selectByExample(BacklogitemSprintExample example);
 
-    int updateByExample(@Param("record") BacklogitemSprint record, @Param("example") BacklogitemSprintExample example);
+    int updateByExampleSelective(@Param("record") BacklogitemSprintKey record, @Param("example") BacklogitemSprintExample example);
+
+    int updateByExample(@Param("record") BacklogitemSprintKey record, @Param("example") BacklogitemSprintExample example);
 }

@@ -96,6 +96,32 @@ public class BacklogItemAggregation {
 
     private String scheduleId;
 
+    private String topic;
+
+    public List<String> getMemberIds() {
+        return memberIds;
+    }
+
+    // backlogitem_member 联系集当中的属性，在这里体现为一个列表
+    private List<String> memberIds;
+
+    private List<String> sprintIds;
+
+    private List<String> releaseIds;
+
+    private ScheduleAggregation scheduleAggregation;
+
+    //getter
+
+    public List<String> getReleaseIds() {
+        return releaseIds;
+    }
+
+    public void setReleaseIds(List<String> releaseIds) {
+        this.releaseIds = releaseIds;
+    }
+
+
     public String getTopic() {
         return topic;
     }
@@ -104,10 +130,7 @@ public class BacklogItemAggregation {
         this.topic = topic;
     }
 
-    private String topic;
 
-    // backlogitem_member 联系集当中的属性，在这里体现为一个列表
-    private List<String> memberIds;
 
     public List<String> getSprintIds() {
         return sprintIds;
@@ -117,9 +140,6 @@ public class BacklogItemAggregation {
         this.sprintIds = sprintIds;
     }
 
-    private List<String> sprintIds;
-
-    private ScheduleAggregation scheduleAggregation;
 
 
     public List<String> getMembers() {

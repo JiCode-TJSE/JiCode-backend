@@ -22,7 +22,7 @@ public class BacklogItemFactoryImpl implements BacklogItemFactory {
     @Autowired
     ScheduleRepository scheduleRepository;
 
-    public BacklogItemAggregation createBacklogItem(String id, String priority, Date startTime, Date endTime, String source, String type, String description, String projectId, String managerId, String scheduleId, List<String> memberIds,String topic,List<String>sprintIds){
+    public BacklogItemAggregation createBacklogItem(String id, String priority, Date startTime, Date endTime, String source, String type, String description, String projectId, String managerId, String scheduleId, List<String> memberIds,String topic,List<String>sprintIds, List<String> releaseIds){
         BacklogItemAggregation backlogItemAggregation = new BacklogItemAggregation();
         backlogItemAggregation.setId(id);
         backlogItemAggregation.setPriority(priority);
@@ -38,6 +38,7 @@ public class BacklogItemFactoryImpl implements BacklogItemFactory {
         backlogItemAggregation.setTopic(topic);
         backlogItemAggregation.setMemberIds(memberIds);
         backlogItemAggregation.setSprintIds(sprintIds);
+        backlogItemAggregation.setReleaseIds(releaseIds);
 
         // 这里把scheduleAggregation select出来并且加入到聚合当中
         System.out.println("scheduleRepository: " + scheduleRepository);

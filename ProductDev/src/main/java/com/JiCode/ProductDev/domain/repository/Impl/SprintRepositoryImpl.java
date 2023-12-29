@@ -102,9 +102,9 @@ public class SprintRepositoryImpl implements SprintRepository {
             // 获取迭代当中的工作项
             BacklogitemSprintExample example1 = new BacklogitemSprintExample();
             example1.createCriteria().andSprintIdEqualTo(id);
-            List<BacklogitemSprint> backlogitemSprints = backlogitemSprintMapper.selectByExample(example1);
+            List<BacklogitemSprintKey> backlogitemSprints = backlogitemSprintMapper.selectByExample(example1);
             List<String> backlogItemIds = new ArrayList<>();
-            for (BacklogitemSprint backlogitemSprint : backlogitemSprints) {
+            for (BacklogitemSprintKey backlogitemSprint : backlogitemSprints) {
                 backlogItemIds.add(backlogitemSprint.getBacklogitemId());
             }
 
@@ -138,9 +138,9 @@ public class SprintRepositoryImpl implements SprintRepository {
                 // 获取迭代当中的工作项
                 BacklogitemSprintExample example1 = new BacklogitemSprintExample();
                 example1.createCriteria().andSprintIdEqualTo(sprint.getId());
-                List<BacklogitemSprint> backlogitemSprints = backlogitemSprintMapper.selectByExample(example1);
+                List<BacklogitemSprintKey> backlogitemSprints = backlogitemSprintMapper.selectByExample(example1);
                 List<String> backlogItemIds = new ArrayList<>();
-                for (BacklogitemSprint backlogitemSprint : backlogitemSprints) {
+                for (BacklogitemSprintKey backlogitemSprint : backlogitemSprints) {
                     backlogItemIds.add(backlogitemSprint.getBacklogitemId());
                 }
 
@@ -231,10 +231,10 @@ public class SprintRepositoryImpl implements SprintRepository {
 
     public int associateWithBacklogItem(String sprintId, String backlogItemId){
         try{
-            BacklogitemSprint backlogitemSprint = new BacklogitemSprint();
-            backlogitemSprint.setBacklogitemId(backlogItemId);
-            backlogitemSprint.setSprintId(sprintId);
-            int result = backlogitemSprintMapper.insert(backlogitemSprint);
+            BacklogitemSprintKey key = new BacklogitemSprintKey();
+            key.setBacklogitemId(backlogItemId);
+            key.setSprintId(sprintId);
+            int result = backlogitemSprintMapper.insert(key);
             return result;
         }catch(Exception e){
             System.out.println(e);

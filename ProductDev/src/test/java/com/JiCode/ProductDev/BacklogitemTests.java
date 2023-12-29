@@ -99,8 +99,9 @@ public class BacklogitemTests{
         String scheduleId = "1";
         List<String> memberIds = Arrays.asList("1", "2", "3");
         List<String> sprintIds = Arrays.asList("1", "2", "3");
+        List<String> releaseIds = Arrays.asList("1", "2", "3");
         String topic = "wh";
-        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds, topic,sprintIds);
+        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds, topic, sprintIds, releaseIds);
         System.out.println(backlogItemRepository.insert(backlogItemAggregation));
     }
 
@@ -123,10 +124,11 @@ public class BacklogitemTests{
         String managerId = "1";
         String scheduleId = "1";
         // List<String> memberIds = Arrays.asList("4", "5", "6");
-        List<String> memberIds = Arrays.asList("1", "2", "3");
+        List<String> memberIds = Arrays.asList("1", "2", "5");
         List<String> sprintIds = Arrays.asList("1", "2", "3");
+        List<String> releaseIds = Arrays.asList("1", "2", "3");
         String topic = "whh";
-        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds,topic,sprintIds);
+        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds,topic,sprintIds,releaseIds);
         System.out.println(backlogItemRepository.updateById(backlogItemAggregation));
     }
 
@@ -150,10 +152,5 @@ public class BacklogitemTests{
         System.out.println(backlogItemRepository.associateWithProductRequirement(backlogItemId, productRequirementId));
     }
 
-    @Test
-    public void testAssociateWithSprint(){
-        String backlogItemId = "2";
-        String sprintId = "1";
-        System.out.println(backlogItemRepository.associateWithSprint(backlogItemId, sprintId));
-    }
+
 }

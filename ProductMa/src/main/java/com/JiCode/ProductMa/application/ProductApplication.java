@@ -1,5 +1,6 @@
 package com.JiCode.ProductMa.application;
 
+import com.JiCode.ProductMa.application.dto.AllProductsDto;
 import com.JiCode.ProductMa.application.dto.ProductResponseDto;
 import com.JiCode.ProductMa.application.dto.ProductRequestDto;
 import com.JiCode.ProductMa.exception.ServerException;
@@ -27,5 +28,7 @@ public interface ProductApplication {
 
 
     //获取产品列表（根据account_id？所有成员都可以看到这个产品）
+    public AllProductsDto getAllProductsByAccountId(String accountId)
+        throws ServerException;
 
 }

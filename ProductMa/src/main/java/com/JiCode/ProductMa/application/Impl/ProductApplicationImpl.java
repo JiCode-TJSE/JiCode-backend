@@ -1,6 +1,7 @@
 package com.JiCode.ProductMa.application.Impl;
 
 import com.JiCode.ProductMa.application.ProductApplication;
+import com.JiCode.ProductMa.application.dto.AllProductsDto;
 import com.JiCode.ProductMa.application.dto.ProductResponseDto;
 import com.JiCode.ProductMa.application.dto.ProductRequestDto;
 import com.JiCode.ProductMa.domain.model.ProductAggregation;
@@ -13,6 +14,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Service
@@ -174,5 +178,37 @@ public class ProductApplicationImpl implements ProductApplication {
             log.error("Server Error(updateProduct): failed to select team_name by team_id ", e);
             throw new ServerException(e);
         }
+    }
+
+
+    /**
+     * 根据账号ID返回可见产品列表
+     * @param accountId
+     * @return
+     * @throws ServerException
+     */
+    @Override
+    public AllProductsDto getAllProductsByAccountId(String accountId) throws ServerException {
+        List<String> productIds = new ArrayList<>();
+        try {
+            productIds = productRepository.selectByAccountId(accountId);
+        } catch (SelectFailedException e) {
+            log.error("Server Error", e);
+            throw new ServerException(e);
+        }
+
+        //返回响应
+        AllProductsDto result = new AllProductsDto();
+        List<ProductResponseDto> records = new ArrayList<>();
+
+        for ( String productId : productIds){
+            records.add(getProductDetail(productId));
+        }
+
+        //此处0为占位符，不表示实际数组大小
+        result.setRecords(records.toArray(new ProductResponseDto[records.size()]));
+        result.setTotal(records.size());
+
+        return result;
     }
 }

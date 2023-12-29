@@ -12,10 +12,7 @@ import com.JiCode.ProductMa.domain.model.ProductAggregation;
 import com.JiCode.ProductMa.domain.repository.ClientRepository;
 import com.JiCode.ProductMa.domain.repository.ProductRepository;
 import com.JiCode.ProductMa.domain.repository.RequirementRepository;
-import com.JiCode.ProductMa.exception.DeleteFailedException;
-import com.JiCode.ProductMa.exception.InsertFailedException;
-import com.JiCode.ProductMa.exception.SelectFailedException;
-import com.JiCode.ProductMa.exception.UpdateFailedException;
+import com.JiCode.ProductMa.exception.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -87,9 +84,9 @@ public class ProductRepositoryImpl implements ProductRepository {
 
 
     /**
-     * 查找联系表product_member
+     * 查找联系表product_member(按productId)
      * @param product
-     * @return
+     * @return memberIds
      * @throws Exception
      */
     private List<String> selectMemberIds(Product product) throws SelectFailedException{
@@ -109,6 +106,35 @@ public class ProductRepositoryImpl implements ProductRepository {
                 .map(ProductMemberKey::getMemberId)
                 .collect(Collectors.toList());//collect()将Stream元素收集到List
     }
+
+
+    /**
+     * 查找联系表product_member(按memberId)
+     * @param accountId
+     * @return productIds
+     * @throws Exception
+     */
+    private List<String> selectProductIdsByAccount(String accountId) throws SelectFailedException{
+        ProductMemberExample example = new ProductMemberExample();
+        example.createCriteria().andMemberIdEqualTo(accountId);
+        List<ProductMemberKey> keys = productMemberMapper.selectByExample(example);
+        if (keys == null){
+            try {
+                throw new NotFoundException("Select ProductAgg: select account's productList failed.");
+            } catch (NotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        //返回结果为空，还没有可见的产品
+        if (keys.isEmpty()){
+            return new ArrayList<>();
+        }
+        //提取数组：productIds
+        return keys.stream()
+                .map(ProductMemberKey::getProductId)
+                .collect(Collectors.toList());//collect()将Stream元素收集到List
+    }
+
 
 
     /**
@@ -262,5 +288,19 @@ public class ProductRepositoryImpl implements ProductRepository {
                 product.getMark(),
                 product.getTeamId(),
                 memberList);
+    }
+
+
+    /**
+     * 按accoundId查找对应的产品列表
+     * @param accountId
+     * @return
+     * @throws SelectFailedException
+     */
+    @Override
+    public List<String> selectByAccountId(String accountId) throws SelectFailedException {
+        //查找accountId对应的productIds列表
+        List<String> result = selectProductIdsByAccount(accountId);
+        return result;
     }
 }

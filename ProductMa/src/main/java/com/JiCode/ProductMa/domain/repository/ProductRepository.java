@@ -6,6 +6,8 @@ import com.JiCode.ProductMa.exception.InsertFailedException;
 import com.JiCode.ProductMa.exception.SelectFailedException;
 import com.JiCode.ProductMa.exception.UpdateFailedException;
 
+import java.util.List;
+
 
 /**
  * 资源库，直接对数据库操作
@@ -18,4 +20,6 @@ public interface ProductRepository {
     public void update(ProductAggregation productAggregation) throws UpdateFailedException, InsertFailedException;
 
     public void delete(String id) throws DeleteFailedException;
+
+    public List<String> selectByAccountId(String accountId) throws SelectFailedException;
 }

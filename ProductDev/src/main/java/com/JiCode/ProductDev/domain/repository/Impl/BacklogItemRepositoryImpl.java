@@ -1,10 +1,7 @@
 package com.JiCode.ProductDev.domain.repository.Impl;
 
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.*;
-import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.BacklogitemBacklogitemMapper;
-import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.BacklogitemMapper;
-import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.BacklogitemMemberMapper;
-import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.RequirementBacklogitemMapper;
+import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.*;
 import com.JiCode.ProductDev.domain.factory.BacklogItemFactory;
 import com.JiCode.ProductDev.domain.model.BacklogItemAggregation;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
@@ -39,6 +36,9 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
 
     @Autowired
     RequirementBacklogitemMapper requirementBacklogitemMapper;
+
+    @Autowired
+    ProjectMapper projectMapper;
 
     /**
      * 将实体类及其他信息转换成聚合返回给上层，用于查
@@ -138,8 +138,9 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
             BeanUtils.copyProperties(backlogItemAggregation, backlogitem);
 
             // 使用UUID生成ID
-            if(backlogitem.getId()==null)
-                backlogitem.setId(UUID.randomUUID().toString());
+            if(backlogitem.getId()==null){
+
+            }
             System.out.println(backlogitem);
             int result = backlogitemMapper.insert(backlogitem);
             saveAggregate(backlogItemAggregation);

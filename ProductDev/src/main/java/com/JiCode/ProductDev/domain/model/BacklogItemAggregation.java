@@ -109,6 +109,16 @@ public class BacklogItemAggregation {
     // backlogitem_member 联系集当中的属性，在这里体现为一个列表
     private List<String> memberIds;
 
+    public List<String> getSprintIds() {
+        return sprintIds;
+    }
+
+    public void setSprintIds(List<String> sprintIds) {
+        this.sprintIds = sprintIds;
+    }
+
+    private List<String> sprintIds;
+
     private ScheduleAggregation scheduleAggregation;
 
 

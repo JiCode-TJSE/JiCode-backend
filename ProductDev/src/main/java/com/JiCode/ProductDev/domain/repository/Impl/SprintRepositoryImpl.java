@@ -106,12 +106,13 @@ public class SprintRepositoryImpl implements SprintRepository {
 
     public PageInfo<SprintAggregation> getPage(int pageNum, int pageSize){
         try{
+            // 根据条件进行分页查询
             PageHelper.startPage(pageNum, pageSize);
             Page<Sprint> sprints = sprintMapper.selectByPaging(null);
 
             List<SprintAggregation> sprintAggregations = new ArrayList<>();
             for (Sprint sprint : sprints) {
-                System.out.println(sprint.getStartTime());
+                System.out.println(sprint.getType());
                 // 获取迭代成员id列表
                 SprintMemberExample example = new SprintMemberExample();
                 example.createCriteria().andSprintIdEqualTo(sprint.getId());

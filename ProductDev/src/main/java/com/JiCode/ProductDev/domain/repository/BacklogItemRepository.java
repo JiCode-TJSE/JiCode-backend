@@ -23,4 +23,5 @@ public interface BacklogItemRepository {
 
     public int associateWithProductRequirement(String backlogItemId,String productRequirementId);
 
+    public int associateWithSprint(String backlogItemId,String sprintId);
 }

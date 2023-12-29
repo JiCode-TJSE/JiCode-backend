@@ -38,7 +38,8 @@ public class SprintTests {
 
     @Test
     public void testGetPage() {
-        System.out.println(sprintRepository.getPage(1, 10));
+        String type = "common";
+        System.out.println(sprintRepository.getPage(1, 10).getList());
     }
 
     @Test
@@ -55,7 +56,7 @@ public class SprintTests {
         Date startTime = calendar.getTime();
         Date endTime = calendar.getTime();
         String goal = "yes";
-        String type = "plan";
+        String type = "temp";
         String projectId = "1";
         String managerId = "1";
         List<String> members =  Arrays.asList("1");

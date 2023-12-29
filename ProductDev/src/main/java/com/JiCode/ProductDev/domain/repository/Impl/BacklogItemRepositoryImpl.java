@@ -24,18 +24,28 @@ import java.util.stream.Collectors;
 
 @Service
 public class BacklogItemRepositoryImpl implements BacklogItemRepository {
+    // 工厂
     @Autowired
     BacklogItemFactory backlogItemFactory;
+
+    // backlogitem自身
     @Autowired
     BacklogitemMapper backlogitemMapper;
+    // backlogitem 与成员的联系集，负责返回一个项目的成员有哪些
     @Autowired
     BacklogitemMemberMapper backlogitemMemberMapper;
 
+    // backlogitem 与 backlogitem的联系集，负责返回一个工作项与哪些工作项关联
     @Autowired
     BacklogitemBacklogitemMapper backlogitemBacklogitemMapper;
 
+    // backlogitem 与 productrequirement的联系集，负责返回一个工作项与哪些产品需求关联
     @Autowired
     RequirementBacklogitemMapper requirementBacklogitemMapper;
+
+    // backlogitem 与 sprint的联系集，负责返回一个工作项与哪些迭代关联
+    @Autowired
+    BacklogitemSprintMapper backlogitemSprintMapper;
 
     @Autowired
     ProjectMapper projectMapper;
@@ -46,8 +56,8 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
      * @param memberIds 项目成员id列表
      * @return {@link ProjectAggregation}
      */
-    private BacklogItemAggregation entityToAggregate(Backlogitem backlogitem, List<String> memberIds){
-        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(),memberIds, backlogitem.getTopic());
+    private BacklogItemAggregation entityToAggregate(Backlogitem backlogitem, List<String> memberIds, List<String> sprintIds){
+        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(),memberIds, backlogitem.getTopic(),sprintIds);
         return backlogItemAggregation;
     }
 
@@ -91,14 +101,20 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
             // 查询实体集中的信息
             Backlogitem backlogitem = backlogitemMapper.selectByPrimaryKey(id);
 
-            // 查询联系集中的信息
+            // 查询成员
             BacklogitemMemberExample example = new BacklogitemMemberExample();
             example.createCriteria().andBacklogitemIdEqualTo(id);
             List<BacklogitemMemberKey> backlogitemMemberKeys = backlogitemMemberMapper.selectByExample(example);
             List<String> memberIds = backlogitemMemberKeys.stream().map(BacklogitemMemberKey::getAccountId).collect(Collectors.toList());
 
+            // 查询迭代
+            BacklogitemSprintExample example1 = new BacklogitemSprintExample();
+            example1.createCriteria().andBacklogitemIdEqualTo(id);
+            List<BacklogitemSprint> backlogitemSprints = backlogitemSprintMapper.selectByExample(example1);
+            List<String> sprintIds = backlogitemSprints.stream().map(BacklogitemSprint::getSprintId).collect(Collectors.toList());
+
             // 将实体集和联系集中的信息转换成聚合返回给上层
-            BacklogItemAggregation backlogItemAggregation = entityToAggregate(backlogitem, memberIds);
+            BacklogItemAggregation backlogItemAggregation = entityToAggregate(backlogitem, memberIds, sprintIds);
             return backlogItemAggregation;
         }catch (Exception e){
             System.out.println(e);
@@ -108,7 +124,7 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
 
     public PageInfo<BacklogItemAggregation> getPage(int pageNum, int pageSize){
         try{
-            // 分页查询
+            //
             PageHelper.startPage(pageNum, pageSize);
             Page<Backlogitem> backlogitems = backlogitemMapper.selectByPaging(null);
             //System.out.println(backlogitems);
@@ -121,8 +137,14 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
                 List<BacklogitemMemberKey> backlogitemMemberKeys = backlogitemMemberMapper.selectByExample(example);
                 List<String> memberIds = backlogitemMemberKeys.stream().map(BacklogitemMemberKey::getAccountId).collect(Collectors.toList());
 
+                // 获取迭代列表
+                BacklogitemSprintExample example1 = new BacklogitemSprintExample();
+                example1.createCriteria().andBacklogitemIdEqualTo(backlogitem.getId());
+                List<BacklogitemSprint> backlogitemSprints = backlogitemSprintMapper.selectByExample(example1);
+                List<String> sprintIds = backlogitemSprints.stream().map(BacklogitemSprint::getSprintId).collect(Collectors.toList());
+
                 // 工厂模式创建ProjectAggregation
-                BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(), memberIds, backlogitem.getTopic()); // use builder to create ProjectAggregation
+                BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(), memberIds, backlogitem.getTopic(),sprintIds); // use builder to create ProjectAggregation
                 backlogItemAggregations.add(backlogItemAggregation);
             }
             return new PageInfo<>(backlogItemAggregations);
@@ -193,6 +215,19 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
             key.setBacklogitemId(backlogItemId);
             key.setRequirementContentId(productRequirementId);
             requirementBacklogitemMapper.insert(key);
+            return 0;
+        }catch (Exception e){
+            System.out.println(e);
+            return 0;
+        }
+    }
+
+    public int associateWithSprint(String backlogItemId,String sprintId){
+        try{
+            BacklogitemSprint backlogitemSprint = new BacklogitemSprint();
+            backlogitemSprint.setBacklogitemId(backlogItemId);
+            backlogitemSprint.setSprintId(sprintId);
+            backlogitemSprintMapper.insert(backlogitemSprint);
             return 0;
         }catch (Exception e){
             System.out.println(e);

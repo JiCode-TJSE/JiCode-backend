@@ -56,7 +56,7 @@ public class ProductDevApplicationTests {
 
     @Test
     public void testSelectById(){
-        ProjectAggregation projectAggregation = projectRepositoryImpl.selectById("6");
+        ProjectAggregation projectAggregation = projectRepositoryImpl.selectById("2");
         Project project = new Project();
         BeanUtils.copyProperties(projectAggregation, project);
         System.out.println(project);
@@ -135,8 +135,9 @@ public class ProductDevApplicationTests {
         String managerId = "1";
         String scheduleId = "1";
         List<String> memberIds = Arrays.asList("1", "2", "3");
+        List<String> sprintIds = Arrays.asList("1");
         String topic = "wh";
-        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds,topic);
+        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds,topic,sprintIds);
         System.out.println(backlogItemRepositoryImpl.insert(backlogItemAggregation));
     }
 
@@ -153,8 +154,9 @@ public class ProductDevApplicationTests {
         String managerId = "1";
         String scheduleId = "1";
         List<String> memberIds = Arrays.asList("4", "5", "6");
+        List<String> sprintIds = Arrays.asList("1");
         String topic = "wh";
-        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds,topic);
+        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds,topic, sprintIds);
         System.out.println(backlogItemRepositoryImpl.updateById(backlogItemAggregation));
     }
 

@@ -138,6 +138,8 @@
 				<executions>
 					<execution>
 						<id>Generate MyBatis Artifacts</id>
+						<!--			下面这行不要删！！不然每次运行都会重新generate！！会出错！！！			-->
+						<phase>deploy</phase>
 						<goals>
 							<goal>generate</goal>
 						</goals>

@@ -1,6 +1,7 @@
 package com.JiCode.ProductDev.domain.repository.Impl;
 
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.*;
+import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.BacklogitemSprintMapper;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.SprintMapper;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.SprintMemberMapper;
 import com.JiCode.ProductDev.domain.factory.SprintFactory;
@@ -34,6 +35,9 @@ public class SprintRepositoryImpl implements SprintRepository {
     SprintMemberMapper sprintMemberMapper;
 
     @Autowired
+    BacklogitemSprintMapper backlogitemSprintMapper;
+
+    @Autowired
     SprintFactory SprintFactory;
 
 
@@ -42,8 +46,8 @@ public class SprintRepositoryImpl implements SprintRepository {
      * @param memberIds
      * @return {@link SprintAggregation}
      */
-    private SprintAggregation entityToAggregate(Sprint sprint, List<String> memberIds){
-        SprintAggregation sprintAggregation = SprintFactory.createSprint(sprint.getId(), sprint.getStartTime(),sprint.getEndTime(),sprint.getGoal(),sprint.getType(),sprint.getProjectId(),sprint.getManagerId(),sprint.getReleaseId(),memberIds, sprint.getTopic());
+    private SprintAggregation entityToAggregate(Sprint sprint, List<String> memberIds, List<String> backlogItemIds){
+        SprintAggregation sprintAggregation = SprintFactory.createSprint(sprint.getId(), sprint.getStartTime(),sprint.getEndTime(),sprint.getGoal(),sprint.getType(),sprint.getProjectId(),sprint.getManagerId(),sprint.getReleaseId(),memberIds, sprint.getTopic(),backlogItemIds);
         return sprintAggregation;
     }
 
@@ -95,8 +99,17 @@ public class SprintRepositoryImpl implements SprintRepository {
                 memberIds.add(sprintMember.getAccountId());
             }
 
+            // 获取迭代当中的工作项
+            BacklogitemSprintExample example1 = new BacklogitemSprintExample();
+            example1.createCriteria().andSprintIdEqualTo(id);
+            List<BacklogitemSprint> backlogitemSprints = backlogitemSprintMapper.selectByExample(example1);
+            List<String> backlogItemIds = new ArrayList<>();
+            for (BacklogitemSprint backlogitemSprint : backlogitemSprints) {
+                backlogItemIds.add(backlogitemSprint.getBacklogitemId());
+            }
+
             //工厂方法构造聚合
-            SprintAggregation sprintAggregation = entityToAggregate(sprint, memberIds);
+            SprintAggregation sprintAggregation = entityToAggregate(sprint, memberIds,backlogItemIds);
             return sprintAggregation;
         }catch (Exception e) {
             System.out.println(e);
@@ -122,8 +135,17 @@ public class SprintRepositoryImpl implements SprintRepository {
                     memberIds.add(sprintMember.getAccountId());
                 }
 
+                // 获取迭代当中的工作项
+                BacklogitemSprintExample example1 = new BacklogitemSprintExample();
+                example1.createCriteria().andSprintIdEqualTo(sprint.getId());
+                List<BacklogitemSprint> backlogitemSprints = backlogitemSprintMapper.selectByExample(example1);
+                List<String> backlogItemIds = new ArrayList<>();
+                for (BacklogitemSprint backlogitemSprint : backlogitemSprints) {
+                    backlogItemIds.add(backlogitemSprint.getBacklogitemId());
+                }
+
                 //工厂方法构造聚合
-                SprintAggregation sprintAggregation = entityToAggregate(sprint, memberIds);
+                SprintAggregation sprintAggregation = entityToAggregate(sprint, memberIds,backlogItemIds);
                 sprintAggregations.add(sprintAggregation);
             }
             return new PageInfo<>(sprintAggregations);
@@ -151,7 +173,15 @@ public class SprintRepositoryImpl implements SprintRepository {
 
     public int updateById(SprintAggregation sprintAggregation) throws UpdateFaliureException {
         try{
-            return saveAggregate(sprintAggregation);
+            // 保存聚合
+            int result = saveAggregate(sprintAggregation);
+            if(result==1){
+                // 保存迭代与工作项的联系
+                for(String backlogItemId:sprintAggregation.getBacklogItemIds()){
+                    associateWithBacklogItem(sprintAggregation.getId(),backlogItemId);
+                }
+            }
+            return result;
         }catch (Exception e){
             System.out.println(e);
             throw new UpdateFaliureException(e.getMessage());
@@ -192,6 +222,19 @@ public class SprintRepositoryImpl implements SprintRepository {
                 throw new SprintNotFoundException("Can not find such sprint.");
             sprint.setReleaseId(releaseId);
             int result = sprintMapper.updateByPrimaryKey(sprint);
+            return result;
+        }catch(Exception e){
+            System.out.println(e);
+            return 0;
+        }
+    }
+
+    public int associateWithBacklogItem(String sprintId, String backlogItemId){
+        try{
+            BacklogitemSprint backlogitemSprint = new BacklogitemSprint();
+            backlogitemSprint.setBacklogitemId(backlogItemId);
+            backlogitemSprint.setSprintId(sprintId);
+            int result = backlogitemSprintMapper.insert(backlogitemSprint);
             return result;
         }catch(Exception e){
             System.out.println(e);

@@ -44,6 +44,18 @@ public class SprintAggregation {
 
     private List<String> memberIds;
 
+    private List<String> backlogItemIds;
+
+    public List<String> getBacklogItemIds() {
+        return backlogItemIds;
+    }
+
+    public void setBacklogItemIds(List<String> backlogItemIds) {
+        this.backlogItemIds = backlogItemIds;
+    }
+
+
+
     public void setId(String id) {
         this.id = id;
     }

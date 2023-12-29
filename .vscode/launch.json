@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-AccountApplication<Account>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.JiCode.Account.AccountApplication",
+            "projectName": "Account",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}

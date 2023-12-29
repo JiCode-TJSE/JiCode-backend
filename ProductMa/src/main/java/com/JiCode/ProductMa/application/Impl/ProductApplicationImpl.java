@@ -156,6 +156,7 @@ public class ProductApplicationImpl implements ProductApplication {
         productAggregation.setTeamId(request.getTeam_id());
 
         try {
+            productAggregation.setProductDirty(true);
             productRepository.update(productAggregation);
         } catch (UpdateFailedException e) {
             log.error("Server Error(updateProduct): failed to select product by id ", e);

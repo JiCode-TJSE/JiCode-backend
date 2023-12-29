@@ -48,12 +48,12 @@ public class ProductAggregationTests {
 //    }
 
 
-    //test ok?
+    //test ok
 //    @Test
 //    public void testUpdateProductById() throws Exception {
 //        String id = "test";
-//        String title = "product_test";
-//        String detail = "product_test";
+//        String title = "update1";
+//        String detail = "update2";
 //        Boolean visibility = Boolean.TRUE;
 //        String mark = "product_test";
 //        String teamId = "test_team";

@@ -20,6 +20,16 @@ public class ReleaseAggregation {
     private String topic;
     private String stage;
 
+    public List<String> getBacklogItemIds() {
+        return backlogItemIds;
+    }
+
+    public void setBacklogItemIds(List<String> backlogItemIds) {
+        this.backlogItemIds = backlogItemIds;
+    }
+
+    List<String> backlogItemIds;
+
     public String getStage() {
         return stage;
     }

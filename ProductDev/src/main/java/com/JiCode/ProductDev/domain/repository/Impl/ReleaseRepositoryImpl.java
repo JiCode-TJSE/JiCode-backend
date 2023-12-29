@@ -1,6 +1,7 @@
 package com.JiCode.ProductDev.domain.repository.Impl;
 
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.*;
+import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.BacklogitemReleaseMapper;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ReleaseMapper;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ReleaseMemberMapper;
 import com.JiCode.ProductDev.domain.factory.ReleaseFactory;
@@ -29,8 +30,11 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
     @Autowired
     ReleaseMemberMapper releaseMemberMapper;
 
-    private ReleaseAggregation entityToAggregate(Release release, List<String> memberIds){
-        ReleaseAggregation releaseAggregation = releaseFactory.createRelease(release.getId(), release.getStartTime(), release.getEndTime(), release.getType(), release.getProjectId(), release.getManagerId(), memberIds,release.getTopic(), release.getStage());
+    @Autowired
+    BacklogitemReleaseMapper backlogitemReleaseMapper;
+
+    private ReleaseAggregation entityToAggregate(Release release, List<String> memberIds, List<String> backlogItemIds){
+        ReleaseAggregation releaseAggregation = releaseFactory.createRelease(release.getId(), release.getStartTime(), release.getEndTime(), release.getType(), release.getProjectId(), release.getManagerId(), memberIds,release.getTopic(), release.getStage(), backlogItemIds);
         return releaseAggregation;
     }
 
@@ -64,14 +68,21 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
 
     public ReleaseAggregation selectById(String id){
         try{
-            System.out.println("select");
             Release release = releaseMapper.selectByPrimaryKey(id);
-            System.out.println("select finished");
+            // 获取所有成员
             ReleaseMemberExample example = new ReleaseMemberExample();
             example.createCriteria().andReleaseIdEqualTo(id);
             List<ReleaseMember> releaseMembers = releaseMemberMapper.selectByExample(example);
             List<String>memberIds = releaseMembers.stream().map(ReleaseMember::getAccountId).collect(Collectors.toList());
-            ReleaseAggregation releaseAggregation = entityToAggregate(release, memberIds);
+
+            // 获取所有工作项
+            BacklogitemReleaseExample example2 = new BacklogitemReleaseExample();
+            example2.createCriteria().andReleaseIdEqualTo(id);
+            List<BacklogitemReleaseKey> backlogitemReleaseKeys = backlogitemReleaseMapper.selectByExample(example2);
+            List<String> backlogItemIds = backlogitemReleaseKeys.stream().map(BacklogitemReleaseKey::getBacklogitemId).collect(Collectors.toList());
+
+
+            ReleaseAggregation releaseAggregation = entityToAggregate(release, memberIds, backlogItemIds);
             return releaseAggregation;
         }catch (Exception e) {
             System.out.println(e);
@@ -89,7 +100,14 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
             example.createCriteria().andReleaseIdEqualTo(release.getId());
             List<ReleaseMember> releaseMember = releaseMemberMapper.selectByExample(example);
             List<String> memberIds = releaseMember.stream().map(ReleaseMember::getAccountId).collect(Collectors.toList());
-            ReleaseAggregation releaseAggregation = entityToAggregate(release, memberIds);
+
+            // 获取所有工作项
+            BacklogitemReleaseExample example2 = new BacklogitemReleaseExample();
+            example2.createCriteria().andReleaseIdEqualTo(release.getId());
+            List<BacklogitemReleaseKey> backlogitemReleaseKeys = backlogitemReleaseMapper.selectByExample(example2);
+            List<String> backlogItemIds = backlogitemReleaseKeys.stream().map(BacklogitemReleaseKey::getBacklogitemId).collect(Collectors.toList());
+
+            ReleaseAggregation releaseAggregation = entityToAggregate(release, memberIds,backlogItemIds);
             releaseAggregations.add(releaseAggregation);
         }
 
@@ -109,6 +127,8 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
                 releaseMember.setAccountId(memberId);
                 releaseMemberMapper.insert(releaseMember);
             }
+
+            associateWithBacklogItem(release.getId(), releaseAggregation.getBacklogItemIds());
             return result;
         }catch (Exception e){
             System.out.println(e);
@@ -118,7 +138,9 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
 
 
     public int update(ReleaseAggregation releaseAggregation){
-        return saveAggregate(releaseAggregation);
+        int result = saveAggregate(releaseAggregation);
+        associateWithBacklogItem(releaseAggregation.getId(), releaseAggregation.getBacklogItemIds());
+        return result;
     }
 
     public int deleteById(String id){
@@ -128,6 +150,28 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
             int rows = releaseMemberMapper.deleteByExample(example);
             System.out.println("Deleted rows: " + rows);
             return releaseMapper.deleteByPrimaryKey(id);
+        }catch (Exception e){
+            System.out.println(e);
+            return 0;
+        }
+    }
+
+    public int associateWithBacklogItem(String releaseId, List<String> backlogItemIds){
+        try{
+            // 首先删除联系集中project对应的所有记录
+            BacklogitemReleaseExample example = new BacklogitemReleaseExample();
+            example.createCriteria().andBacklogitemIdEqualTo(releaseId);
+            int rows = backlogitemReleaseMapper.deleteByExample(example);
+            System.out.println("Deleted release rows: " + rows);
+
+            // 再添加当前所有的成员到联系集当中
+            for(String backlogItemId:backlogItemIds){
+                BacklogitemReleaseKey backlogitemRelease = new BacklogitemReleaseKey();
+                backlogitemRelease.setBacklogitemId(backlogItemId);
+                backlogitemRelease.setReleaseId(releaseId);
+                backlogitemReleaseMapper.insert(backlogitemRelease);
+            }
+            return 1;
         }catch (Exception e){
             System.out.println(e);
             return 0;

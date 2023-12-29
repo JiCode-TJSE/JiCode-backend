@@ -21,4 +21,6 @@ public interface SprintRepository {
     public int setRelease(String sprintId, String releaseId) throws SetReleaseException;
 
     public int associateWithRelease(String sprintId, String releaseId);
+
+    public int associateWithBacklogItem(String sprintId, String backlogItemId);
 }

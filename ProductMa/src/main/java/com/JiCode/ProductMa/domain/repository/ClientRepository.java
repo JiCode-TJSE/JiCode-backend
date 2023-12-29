@@ -22,4 +22,7 @@ public interface ClientRepository {
 
     public List<ClientAggregation> selectByPage(String productId, int pageNo, int pageSize)
             throws SelectFailedException;
+
+    public String[] selectNamesById(String[] clientIds)
+        throws NotFoundException;
 }

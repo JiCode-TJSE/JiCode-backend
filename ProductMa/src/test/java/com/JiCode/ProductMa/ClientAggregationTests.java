@@ -69,4 +69,19 @@ public class ClientAggregationTests {
 //        List<ClientAggregation> clientAggregations = clientRepository.selectByPage("test", 1, 20);
 //        System.out.println(clientAggregations);
 //    }
+
+    //test ok
+//    @Test
+//    public void testSelectNamesByIds() throws SelectFailedException {
+//        String[] clientIds = {"test_client", "9e731863-6cc9-4a87-bc5f-bbacf37019c6", "e1d42f8a-abd0-45b5-af09-b13486017bff"};
+//        String[] clientNames;
+//        try {
+//            clientNames = clientRepository.selectNamesById(clientIds);
+//        } catch (NotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//        for(int i = 0; i < clientIds.length; i++){
+//            System.out.println(clientNames[i]);
+//        }
+//    }
 }

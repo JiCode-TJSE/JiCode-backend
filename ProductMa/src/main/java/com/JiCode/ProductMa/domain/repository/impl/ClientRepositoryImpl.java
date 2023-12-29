@@ -171,4 +171,24 @@ public class ClientRepositoryImpl implements ClientRepository {
             return result;
         }
     }
+
+
+    /**
+     * 根据clientIds批量查询对应的clientNames
+     * @param clientIds
+     * @return
+     * @throws NotFoundException
+     */
+    @Override
+    public String[] selectNamesById(String[] clientIds) throws NotFoundException {
+        String[] clientNames = new String[clientIds.length];
+        for (int i = 0; i < clientIds.length; i++){
+            Client client = clientMapper.selectByPrimaryKey(clientIds[i]);
+            if (client == null){
+                throw new NotFoundException("ClientRepository: select client's name failed with id——" + clientIds[i]);
+            }
+            clientNames[i] = client.getName();
+        }
+            return clientNames;
+    }
 }

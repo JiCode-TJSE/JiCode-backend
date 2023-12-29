@@ -86,7 +86,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
-    select 
+    select
     <include refid="Base_Column_List" />
     from client
     where id = #{id,jdbcType=VARCHAR}
@@ -103,9 +103,9 @@
   </delete>
   <insert id="insert" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Client">
     insert into client (`id`, `rank`, `name`, `type`, `detail`, `size`, `product_id`)
-    values (#{id,jdbcType=VARCHAR}, #{rank,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
-      #{type,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR}, 
-      #{productId,jdbcType=VARCHAR})
+    values (#{id,jdbcType=VARCHAR}, #{rank,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR},
+            #{type,jdbcType=VARCHAR}, #{detail,jdbcType=VARCHAR}, #{size,jdbcType=VARCHAR},
+            #{productId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Client">
     insert into client
@@ -194,12 +194,12 @@
   <update id="updateByExample" parameterType="map">
     update client
     set `id` = #{record.id,jdbcType=VARCHAR},
-      `rank` = #{record.rank,jdbcType=VARCHAR},
-      `name` = #{record.name,jdbcType=VARCHAR},
-      `type` = #{record.type,jdbcType=VARCHAR},
-      `detail` = #{record.detail,jdbcType=VARCHAR},
-      `size` = #{record.size,jdbcType=VARCHAR},
-      `product_id` = #{record.productId,jdbcType=VARCHAR}
+    `rank` = #{record.rank,jdbcType=VARCHAR},
+    `name` = #{record.name,jdbcType=VARCHAR},
+    `type` = #{record.type,jdbcType=VARCHAR},
+    `detail` = #{record.detail,jdbcType=VARCHAR},
+    `size` = #{record.size,jdbcType=VARCHAR},
+    `product_id` = #{record.productId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -231,11 +231,11 @@
   <update id="updateByPrimaryKey" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.Client">
     update client
     set `rank` = #{rank,jdbcType=VARCHAR},
-      `name` = #{name,jdbcType=VARCHAR},
-      `type` = #{type,jdbcType=VARCHAR},
-      `detail` = #{detail,jdbcType=VARCHAR},
-      `size` = #{size,jdbcType=VARCHAR},
-      `product_id` = #{productId,jdbcType=VARCHAR}
+        `name` = #{name,jdbcType=VARCHAR},
+        `type` = #{type,jdbcType=VARCHAR},
+        `detail` = #{detail,jdbcType=VARCHAR},
+        `size` = #{size,jdbcType=VARCHAR},
+        `product_id` = #{productId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
   <select id="selectByExampleWithRowbounds" parameterType="com.JiCode.ProductMa.adaptor.output.dataaccess.DBModels.ClientExample" resultMap="BaseResultMap">

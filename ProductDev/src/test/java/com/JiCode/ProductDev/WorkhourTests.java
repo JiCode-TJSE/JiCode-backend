@@ -32,6 +32,7 @@ public class WorkhourTests{
 
     @Test
     public void testSelectBySchedule() throws Exception{
+        System.out.println(workhourRepository==null);
         List<WorkhourAggregation> workhourAggregations = workhourRepository.selectBySchedule("1");
         for(WorkhourAggregation workhourAggregation : workhourAggregations){
             System.out.println(workhourAggregation);

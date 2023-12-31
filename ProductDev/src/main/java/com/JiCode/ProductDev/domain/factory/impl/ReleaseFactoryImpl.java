@@ -10,7 +10,7 @@ import java.util.UUID;
 
 @Service
 public class ReleaseFactoryImpl implements ReleaseFactory {
-    public ReleaseAggregation createRelease(String id, Date startTime, Date endTime, String type, String projectid, String managerId, List<String> memberIds, String topic, String stage, List<String> backlogItemIds){
+    public ReleaseAggregation createRelease(String id, Date startTime, Date endTime, String type, String projectid, String managerId, List<String> memberIds, String topic, String stageId, List<String> backlogItemIds){
 
         ReleaseAggregation releaseAggregation = new ReleaseAggregation();
         if(id == null){
@@ -22,7 +22,7 @@ public class ReleaseFactoryImpl implements ReleaseFactory {
         releaseAggregation.setManagerId(managerId);
         releaseAggregation.setMemberIds(memberIds);
         releaseAggregation.setTopic(topic);
-        releaseAggregation.setStage(stage);
+        releaseAggregation.setStageId(stageId);
         releaseAggregation.setBacklogItemIds(backlogItemIds);
         System.out.println(releaseAggregation);
         return releaseAggregation;

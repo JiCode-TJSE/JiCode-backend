@@ -18,7 +18,9 @@ public class ReleaseAggregation {
 
     List<String> memberIds;
     private String topic;
-    private String stage;
+    private String stageId;
+
+    List<String> backlogItemIds;
 
     public List<String> getBacklogItemIds() {
         return backlogItemIds;
@@ -28,14 +30,12 @@ public class ReleaseAggregation {
         this.backlogItemIds = backlogItemIds;
     }
 
-    List<String> backlogItemIds;
-
-    public String getStage() {
-        return stage;
+    public String getStageId() {
+        return stageId;
     }
 
-    public void setStage(String stage) {
-        this.stage = stage;
+    public void setStageId(String stageId) {
+        this.stageId = stageId;
     }
 
     public String getTopic() {
@@ -45,8 +45,6 @@ public class ReleaseAggregation {
     public void setTopic(String topic) {
         this.topic = topic;
     }
-
-
 
     public ReleaseAggregation() {
     }

@@ -17,7 +17,7 @@ public class Release {
 
     private String topic;
 
-    private String stage;
+    private String stageId;
 
     public String getId() {
         return id;
@@ -75,11 +75,11 @@ public class Release {
         this.topic = topic == null ? null : topic.trim();
     }
 
-    public String getStage() {
-        return stage;
+    public String getStageId() {
+        return stageId;
     }
 
-    public void setStage(String stage) {
-        this.stage = stage == null ? null : stage.trim();
+    public void setStageId(String stageId) {
+        this.stageId = stageId == null ? null : stageId.trim();
     }
 }

@@ -72,9 +72,6 @@ public class BacklogItemAggregation {
         this.memberIds = memberIds;
     }
 
-    public void setScheduleAggregation(ScheduleAggregation scheduleAggregation) {
-        this.scheduleAggregation = scheduleAggregation;
-    }
     // backlogitem 的属性
     private String id;
 
@@ -108,8 +105,6 @@ public class BacklogItemAggregation {
     private List<String> sprintIds;
 
     private List<String> releaseIds;
-
-    private ScheduleAggregation scheduleAggregation;
 
     //getter
 

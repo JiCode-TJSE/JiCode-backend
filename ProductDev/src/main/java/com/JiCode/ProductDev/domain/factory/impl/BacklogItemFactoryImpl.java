@@ -40,13 +40,6 @@ public class BacklogItemFactoryImpl implements BacklogItemFactory {
         backlogItemAggregation.setSprintIds(sprintIds);
         backlogItemAggregation.setReleaseIds(releaseIds);
 
-        // 这里把scheduleAggregation select出来并且加入到聚合当中
-        System.out.println("scheduleRepository: " + scheduleRepository);
-
-        ScheduleAggregation scheduleAggregation = scheduleRepository.selectById(scheduleId);
-
-        backlogItemAggregation.setScheduleAggregation(scheduleAggregation);
-
         return backlogItemAggregation;
     }
 }

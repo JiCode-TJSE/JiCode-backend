@@ -206,7 +206,6 @@ public class ProductApplicationImpl implements ProductApplication {
             records.add(getProductDetail(productId));
         }
 
-        //此处0为占位符，不表示实际数组大小
         result.setRecords(records.toArray(new ProductResponseDto[records.size()]));
         result.setTotal(records.size());
 

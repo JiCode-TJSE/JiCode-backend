@@ -4,6 +4,7 @@ import com.JiCode.ProductMa.adaptor.input.vo.CommonVo;
 import com.JiCode.ProductMa.application.ClientApplication;
 import com.JiCode.ProductMa.application.dto.AllClientsDto;
 import com.JiCode.ProductMa.application.dto.ClientDto;
+import com.JiCode.ProductMa.application.dto.SearchClientResponseDto;
 import com.JiCode.ProductMa.common.CodeEnum;
 import com.JiCode.ProductMa.exception.ServerException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,5 +57,16 @@ public class ClientController {
         ClientDto responseData = clientApplication.updateClient(clientDto);
         return CommonVo.create("请求成功", CodeEnum.SUCCESS, responseData);
     }
+
+    //搜索客户列表
+    @GetMapping("/clients/search")
+    public CommonVo<SearchClientResponseDto> searchClient(@RequestParam("product_id") String productId,
+                                                          @RequestParam("keyword") String keyword)
+        throws  ServerException{
+        SearchClientResponseDto responseData = clientApplication.searchClientByName(productId, keyword);
+        return CommonVo.create("请求成功",CodeEnum.SUCCESS, responseData);
+    }
+
+
 
 }

@@ -31,11 +31,11 @@ public class ClientAggregationTests {
 //    public void testInsert() throws InsertFailedException {
 //        //实际调用时id应该为""
 //        String id = "";
-//        String rank = "client3";
-//        String size = "client3";
-//        String name = "client3";
-//        String type = "client3";
-//        String detail = "client3";
+//        String rank = "美羊羊";
+//        String size = "美洋洋";
+//        String name = "小样";
+//        String type = "小羊";
+//        String detail = "羊";
 //        String productId = "test";
 //        ClientAggregation clientAggregation = ClientAggregation.createClient(id, rank, size, name, type, detail, productId);
 //        clientRepository.insert(clientAggregation);
@@ -84,4 +84,17 @@ public class ClientAggregationTests {
 //            System.out.println(clientNames[i]);
 //        }
 //    }
+
+
+//    //test ok
+//    @Test
+//    public void testSelectByNames() throws SelectFailedException, NotFoundException {
+//        String keyword = "小样";
+//        List<ClientAggregation> clientAggregations = clientRepository.selectByClientName(keyword);
+//
+//        for(ClientAggregation clientAggregation : clientAggregations){
+//            System.out.println(clientAggregation.getName());
+//        }
+//    }
+
 }

@@ -37,4 +37,12 @@ public interface ClientApplication {
      */
     public ClientDto updateClient(ClientDto clientDto) throws ServerException;
 
+
+    /**
+     * 按姓名搜索客户
+     */
+    public SearchClientResponseDto searchClientByName(String productId, String keyword)
+        throws  ServerException;
+
+
 }

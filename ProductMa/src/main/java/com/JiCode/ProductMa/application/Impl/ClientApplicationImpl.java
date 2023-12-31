@@ -1,8 +1,7 @@
 package com.JiCode.ProductMa.application.Impl;
 
 import com.JiCode.ProductMa.application.ClientApplication;
-import com.JiCode.ProductMa.application.dto.AllClientsDto;
-import com.JiCode.ProductMa.application.dto.ClientDto;
+import com.JiCode.ProductMa.application.dto.*;
 import com.JiCode.ProductMa.domain.model.ClientAggregation;
 import com.JiCode.ProductMa.domain.repository.ClientRepository;
 import com.JiCode.ProductMa.exception.*;
@@ -13,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -160,6 +160,40 @@ public class ClientApplicationImpl implements ClientApplication {
             throw new ServerException(e);
         }
 
+    }
+
+
+    /**
+     * 关键词搜索客户列表
+     * @param productId
+     * @param keyword
+     * @return
+     * @throws ServerException
+     */
+    @Transactional(readOnly = true)
+    @Override
+    public SearchClientResponseDto searchClientByName(String productId, String keyword) throws ServerException {
+        List<ClientAggregation> clientAggregations;
+        try {
+            clientAggregations = clientRepository.selectByClientName(keyword, productId);
+            // 返回体
+            SearchClientResponseDto result = new SearchClientResponseDto();
+            // 记录
+            List<SearchClientResponseDto.Record> records = new ArrayList<>();
+            for(ClientAggregation clientAggregation : clientAggregations){
+                SearchClientResponseDto.Record record = new SearchClientResponseDto.Record();
+                BeanUtils.copyProperties(clientAggregation, record);
+                records.add(record);
+            }
+
+            result.setRecords(records.toArray(new SearchClientResponseDto.Record[records.size()]));
+            result.setTotal(records.size());
+            return  result;
+
+        } catch (Exception e) {
+            log.error("Server Error", e);
+            throw new ServerException(e);
+        }
     }
 
 }

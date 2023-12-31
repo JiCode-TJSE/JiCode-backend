@@ -25,4 +25,7 @@ public interface ClientRepository {
 
     public String[] selectNamesById(String[] clientIds)
         throws NotFoundException;
+
+    //按客户名查找客户列表
+    public List<ClientAggregation> selectByClientName(String keyword, String productId) throws NotFoundException;
 }

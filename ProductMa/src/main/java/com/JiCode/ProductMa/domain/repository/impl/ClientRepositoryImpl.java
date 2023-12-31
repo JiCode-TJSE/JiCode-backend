@@ -150,9 +150,6 @@ public class ClientRepositoryImpl implements ClientRepository {
         example.createCriteria().andProductIdEqualTo(productId);
         RowBounds rowBounds = new RowBounds((pageNo - 1) * pageSize, pageSize);
         List<Client> clients = clientMapper.selectByExampleWithRowbounds(example, rowBounds);
-        if (clients.isEmpty()){
-            return new ArrayList<>();
-        }
         if(clients == null){
             throw new SelectFailedException("Select ClientAggByPage by productId: client not found.");
         }
@@ -190,5 +187,37 @@ public class ClientRepositoryImpl implements ClientRepository {
             clientNames[i] = client.getName();
         }
             return clientNames;
+    }
+
+
+    /**
+     * 按客户名搜索客户列表
+     * @param keyword
+     * @return
+     * @throws NotFoundException
+     */
+    @Override
+    public List<ClientAggregation> selectByClientName(String keyword, String productId) throws NotFoundException {
+        ClientExample example = new ClientExample();
+        example.createCriteria().andNameLike("%" + keyword + "%").andProductIdEqualTo(productId);
+
+        List<Client> clients = clientMapper.selectByExample(example);
+        if(clients == null){
+            throw new NotFoundException("ClientRepository: failed to search clientList by name-keyword");
+        }
+        else {
+            //返回结果：将Client转为ClientAggregation
+            List<ClientAggregation> result = new ArrayList<>();
+            ClientAggregation clientAggregation = null;
+            for (Client client : clients) {
+                try {
+                    clientAggregation = selectById(client.getId());
+                } catch (NotFoundException e) {
+                    throw new RuntimeException(e);
+                }
+                result.add(clientAggregation);//插入结果
+            }
+            return result;
+        }
     }
 }

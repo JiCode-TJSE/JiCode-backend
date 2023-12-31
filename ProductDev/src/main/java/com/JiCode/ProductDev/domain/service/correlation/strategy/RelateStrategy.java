@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.JiCode.ProductDev.domain.bo.RelateBo;
+import com.JiCode.ProductDev.domain.repository.BacklogItemRepository;
+import com.JiCode.ProductDev.domain.repository.ReleaseRepository;
+import com.JiCode.ProductDev.domain.repository.SprintRepository;
 
 import jakarta.websocket.server.ServerEndpoint;
 import lombok.Data;
@@ -19,6 +22,31 @@ public class RelateStrategy {
 
     @Autowired
     ReleaseRelateStrategy releaseRelateStrategy;
+
+    @Autowired
+    BacklogBacklogStrategy backlogBacklogStrategy;
+
+    @Autowired
+    BacklogPRStrategy backlogPRStrategy;
+
+    @Autowired
+    BacklogReleaseStrategy backlogReleaseStrategy;
+
+    @Autowired
+    BacklogSprintStrategy backlogSprintStrategy;
+
+    @Autowired
+    SprintReleaseStrategy sprintReleaseStrategy;
+
+    // repositories
+    @Autowired
+    BacklogItemRepository backlogItemRepository;
+
+    @Autowired
+    ReleaseRepository releaseRepository;
+
+    @Autowired
+    SprintRepository sprintRepository;
 
     // next strategy level to match relate type
     RelateStrategy successor;

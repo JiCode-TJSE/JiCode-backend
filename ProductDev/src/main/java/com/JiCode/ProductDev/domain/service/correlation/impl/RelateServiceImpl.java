@@ -24,6 +24,14 @@ public class RelateServiceImpl implements RelateService {
     // SprintRepository sprintRepository;
 
     public void relate(RelateBo item1, RelateBo item2){
+        if(item1.type != RelateItemTypeEnum.Backlogitem){
+            if(item2.type == RelateItemTypeEnum.Backlogitem){
+                RelateBo temp = item1;
+                item1 = item2;
+                item2 = temp;
+            }
+        }
+
         relateStrategy.relate(item1, item2);
         // if(item1.type == RelateItemTypeEnum.Backlogitem){
         //     if(item2.type == RelateItemTypeEnum.Backlogitem){

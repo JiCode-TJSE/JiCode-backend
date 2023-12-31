@@ -2,6 +2,7 @@ package com.JiCode.ProductDev;
 
 import com.JiCode.ProductDev.domain.factory.SprintFactory;
 import com.JiCode.ProductDev.domain.model.SprintAggregation;
+import com.JiCode.ProductDev.domain.model.WorkhourAggregation;
 import com.JiCode.ProductDev.domain.repository.SprintRepository;
 import com.JiCode.ProductDev.domain.repository.WorkhourRepository;
 import com.JiCode.ProductDev.exceptions.sprint.DeleteFailureException;
@@ -28,14 +29,13 @@ public class WorkhourTests{
     @Autowired
     WorkhourRepository workhourRepository;
 
-    @Test
-    public void testSelectById() {
-        System.out.println(workhourRepository.selectById("1"));
-    }
 
     @Test
-    public void testGetPage() {
-        System.out.println(workhourRepository.getPage(1, 10).getList());
+    public void testSelectBySchedule() throws Exception{
+        List<WorkhourAggregation> workhourAggregations = workhourRepository.selectBySchedule("1");
+        for(WorkhourAggregation workhourAggregation : workhourAggregations){
+            System.out.println(workhourAggregation);
+        }
     }
 
 }

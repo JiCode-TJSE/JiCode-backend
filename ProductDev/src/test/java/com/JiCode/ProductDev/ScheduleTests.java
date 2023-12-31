@@ -11,6 +11,7 @@ import com.JiCode.ProductDev.domain.repository.Impl.ProjectRepositoryImpl;
 import com.JiCode.ProductDev.domain.repository.Impl.ScheduleRepositoryImpl;
 import com.JiCode.ProductDev.domain.repository.ProjectRepository;
 import com.JiCode.ProductDev.domain.repository.ScheduleRepository;
+import com.JiCode.ProductDev.exceptions.WorkHour.SelectFailureException;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -46,7 +47,7 @@ public class ScheduleTests {
     ScheduleRepository scheduleRepository;
 
     @Test
-    public void testSelectById(){
+    public void testSelectById() throws SelectFailureException {
         ScheduleAggregation scheduleAggregation = scheduleRepository.selectById("1");
         System.out.println(scheduleAggregation);
     }

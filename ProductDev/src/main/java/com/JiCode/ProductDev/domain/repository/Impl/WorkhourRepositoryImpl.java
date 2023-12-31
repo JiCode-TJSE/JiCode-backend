@@ -2,6 +2,7 @@ package com.JiCode.ProductDev.domain.repository.Impl;
 
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Sprint;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Workhour;
+import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.WorkhourExample;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.WorkhourMapper;
 import com.JiCode.ProductDev.domain.factory.WorkhourFactory;
 import com.JiCode.ProductDev.domain.model.WorkhourAggregation;
@@ -37,6 +38,22 @@ public class WorkhourRepositoryImpl implements WorkhourRepository {
        }catch(Exception e){
            throw new SelectFailureException("Can not find this workhour id: "+id);
        }
+    }
+
+    public List<WorkhourAggregation> selectBySchedule(String scheduleId) throws SelectFailureException {
+        try{
+            WorkhourExample example = new WorkhourExample();
+            example.createCriteria().andScheduleIdEqualTo(scheduleId);
+            List<Workhour> workhours = workhourMapper.selectByExample(example);
+            List<WorkhourAggregation> workhourAggregations = new ArrayList<>();
+            for(Workhour workhour : workhours){
+                WorkhourAggregation workhourAggregation = workhourFactory.createWorkhour(workhour.getId(), workhour.getHours(), workhour.getDate(), workhour.getType(), workhour.getDetail(), workhour.getScheduleId());
+                workhourAggregations.add(workhourAggregation);
+            }
+            return workhourAggregations;
+        }catch(Exception e){
+            throw new SelectFailureException("Can not find this workhour id: "+scheduleId);
+        }
     }
 
     public PageInfo<WorkhourAggregation> getPage(int pageNum, int pageSize) throws SelectFailureException {

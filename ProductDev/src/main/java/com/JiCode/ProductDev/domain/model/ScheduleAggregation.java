@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Data
 @NoArgsConstructor
@@ -16,6 +18,19 @@ public class  ScheduleAggregation {
     private Integer actualWorkhour;
     private Integer remainWorkhour;
     private float progress;
+
+    // 子聚合根
+    private List<WorkhourAggregation> workhourAggregation;
+
+    public List<WorkhourAggregation> getWorkhourAggregation() {
+        return workhourAggregation;
+    }
+
+    public void setWorkhourAggregation(List<WorkhourAggregation> workhourAggregation) {
+        this.workhourAggregation = workhourAggregation;
+    }
+
+
 
     public void setId(String id) {
         this.id = id;
@@ -36,5 +51,6 @@ public class  ScheduleAggregation {
     public void setProgress(float progress) {
         this.progress = progress;
     }
+
 
 }

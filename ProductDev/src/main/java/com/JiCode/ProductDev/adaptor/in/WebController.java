@@ -2,6 +2,7 @@ package com.JiCode.ProductDev.adaptor.in;
 
 import com.JiCode.ProductDev.application.ScheduleApplication;
 import com.JiCode.ProductDev.application.dto.SelectScheduleByIdDto;
+import com.JiCode.ProductDev.exceptions.WorkHour.SelectFailureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,7 @@ public class WebController {
     }
 
     @GetMapping("/selectById")
-    public SelectScheduleByIdDto selectScheduleById(@RequestParam("id") String id){
+    public SelectScheduleByIdDto selectScheduleById(@RequestParam("id") String id) throws SelectFailureException {
         SelectScheduleByIdDto selectScheduleByIdDto = scheduleApplication.selectById(id);
         return selectScheduleByIdDto;
     }

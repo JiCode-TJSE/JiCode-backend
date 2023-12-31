@@ -32,6 +32,10 @@ public class SprintFactoryImpl implements SprintFactory {
         sprintAggregation.setTopic(topic);
         sprintAggregation.setBacklogItemIds(backlogItemIds);
         System.out.println(sprintAggregation);
+
+        // 搜索workhour
+
+
         return sprintAggregation;
     }
 }

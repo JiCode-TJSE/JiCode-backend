@@ -1,4 +1,4 @@
-package com.JiCode.ProductDev.domain.service;
+package com.JiCode.ProductDev.domain.service.correlation;
 
 import com.JiCode.ProductDev.domain.bo.RelateBo;
 

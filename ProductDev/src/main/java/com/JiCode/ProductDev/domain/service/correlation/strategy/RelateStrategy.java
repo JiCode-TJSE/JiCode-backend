@@ -14,40 +14,6 @@ import lombok.Data;
 @Service
 @Data
 public class RelateStrategy {
-    @Autowired
-    BacklogRelateStrategy backlogRelateStrategy;
-
-    @Autowired
-    SprintRelateStrategy sprintRelateStrategy;
-
-    @Autowired
-    ReleaseRelateStrategy releaseRelateStrategy;
-
-    @Autowired
-    BacklogBacklogStrategy backlogBacklogStrategy;
-
-    @Autowired
-    BacklogPRStrategy backlogPRStrategy;
-
-    @Autowired
-    BacklogReleaseStrategy backlogReleaseStrategy;
-
-    @Autowired
-    BacklogSprintStrategy backlogSprintStrategy;
-
-    @Autowired
-    SprintReleaseStrategy sprintReleaseStrategy;
-
-    // repositories
-    @Autowired
-    BacklogItemRepository backlogItemRepository;
-
-    @Autowired
-    ReleaseRepository releaseRepository;
-
-    @Autowired
-    SprintRepository sprintRepository;
-
     // next strategy level to match relate type
     RelateStrategy successor;
 
@@ -58,6 +24,10 @@ public class RelateStrategy {
 
     protected void checkSuccessor(RelateBo item1, RelateBo item2)
     {
+        BacklogRelateStrategy backlogRelateStrategy = new BacklogRelateStrategy();
+        SprintRelateStrategy sprintRelateStrategy = new SprintRelateStrategy();
+        ReleaseRelateStrategy releaseRelateStrategy = new ReleaseRelateStrategy();
+        
         if(backlogRelateStrategy.testType(item1, item2)){
             setSuccessor(backlogRelateStrategy);
         }

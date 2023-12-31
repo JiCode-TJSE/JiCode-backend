@@ -9,6 +9,7 @@
     <result column="end_time" jdbcType="TIMESTAMP" property="endTime" />
     <result column="manager_id" jdbcType="VARCHAR" property="managerId" />
     <result column="topic" jdbcType="VARCHAR" property="topic" />
+    <result column="organization_id" jdbcType="VARCHAR" property="organizationId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, status, progress, start_time, end_time, manager_id, topic
+    id, status, progress, start_time, end_time, manager_id, topic, organization_id
   </sql>
   <select id="selectByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ProjectExample" resultMap="BaseResultMap">
     select
@@ -104,10 +105,10 @@
   <insert id="insert" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project">
     insert into project (id, status, progress, 
       start_time, end_time, manager_id, 
-      topic)
+      topic, organization_id)
     values (#{id,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{progress,jdbcType=REAL}, 
       #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, #{managerId,jdbcType=VARCHAR}, 
-      #{topic,jdbcType=VARCHAR})
+      #{topic,jdbcType=VARCHAR}, #{organizationId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project">
     insert into project
@@ -133,6 +134,9 @@
       <if test="topic != null">
         topic,
       </if>
+      <if test="organizationId != null">
+        organization_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -156,6 +160,9 @@
       <if test="topic != null">
         #{topic,jdbcType=VARCHAR},
       </if>
+      <if test="organizationId != null">
+        #{organizationId,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ProjectExample" resultType="java.lang.Long">
@@ -164,10 +171,10 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select id="selectByPaging" resultMap="BaseResultMap">
-    select * from project
-  </select>
-  <update id="updateByExampleSelective" parameterType="map">
+    <select id="selectByPaging" resultMap="BaseResultMap">
+      select * from project
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
     update project
     <set>
       <if test="record.id != null">
@@ -191,6 +198,9 @@
       <if test="record.topic != null">
         topic = #{record.topic,jdbcType=VARCHAR},
       </if>
+      <if test="record.organizationId != null">
+        organization_id = #{record.organizationId,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -204,7 +214,8 @@
       start_time = #{record.startTime,jdbcType=TIMESTAMP},
       end_time = #{record.endTime,jdbcType=TIMESTAMP},
       manager_id = #{record.managerId,jdbcType=VARCHAR},
-      topic = #{record.topic,jdbcType=VARCHAR}
+      topic = #{record.topic,jdbcType=VARCHAR},
+      organization_id = #{record.organizationId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -230,6 +241,9 @@
       <if test="topic != null">
         topic = #{topic,jdbcType=VARCHAR},
       </if>
+      <if test="organizationId != null">
+        organization_id = #{organizationId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -240,7 +254,8 @@
       start_time = #{startTime,jdbcType=TIMESTAMP},
       end_time = #{endTime,jdbcType=TIMESTAMP},
       manager_id = #{managerId,jdbcType=VARCHAR},
-      topic = #{topic,jdbcType=VARCHAR}
+      topic = #{topic,jdbcType=VARCHAR},
+      organization_id = #{organizationId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

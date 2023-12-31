@@ -30,8 +30,19 @@ public class ProjectAggregation {
     private Date endTime;
 
     private String managerId;
+    private String topic;
+    private String organizationId;
 
     private List<String> member;
+
+    public String getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
+    }
+
 
     public String getTopic() {
         return topic;
@@ -41,7 +52,7 @@ public class ProjectAggregation {
         this.topic = topic;
     }
 
-    private String topic;
+
 
     public List<String> getMember() {
         return member;

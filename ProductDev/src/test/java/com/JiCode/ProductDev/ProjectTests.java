@@ -85,7 +85,8 @@ public class ProjectTests {
         String managerId = "1";
         List<String> members =  Arrays.asList("1", "2", "4");
         String topic =  "wh";
-        ProjectAggregation projectAggregation = projectFactory.createProject(null, status, progress, startTime, endTime, managerId, members,topic);
+        String organizationId = "1";
+        ProjectAggregation projectAggregation = projectFactory.createProject(null, status, progress, startTime, endTime, managerId, members,topic, organizationId);
         System.out.println(projectRepository.insert(projectAggregation));
     }
 
@@ -103,7 +104,8 @@ public class ProjectTests {
         String managerId = "1";
         List<String> members =  Arrays.asList("1", "2", "3");
         String topic =  "wh";
-        ProjectAggregation projectAggregation = projectFactory.createProject(id, status, progress, startTime, endTime, managerId, members,topic);
+        String organizationId = "1";
+        ProjectAggregation projectAggregation = projectFactory.createProject(id, status, progress, startTime, endTime, managerId, members,topic, organizationId);
         System.out.println(projectRepository.updateById(projectAggregation));
     }
 

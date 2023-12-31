@@ -45,7 +45,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
      * @return {@link ProjectAggregation}
      */
     private ProjectAggregation entityToAggregate(Project project, List<String> memberIds){
-        ProjectAggregation projectAggregation = projectFactory.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(),memberIds, project.getTopic());
+        ProjectAggregation projectAggregation = projectFactory.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(),memberIds, project.getTopic(),project.getOrganizationId());
         return projectAggregation;
     }
 
@@ -106,6 +106,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         try{
             PageHelper.startPage(pageNum, pageSize);
             Page<Project> projects = projectMapper.selectByPaging(null);
+
             System.out.println(projects);
             List<ProjectAggregation> projectAggregations = new ArrayList<>();
             for (Project project : projects) {
@@ -116,7 +117,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
                 List<String> memberIds = projectMemberKeys.stream().map(ProjectMemberKey::getMemberId).collect(Collectors.toList());
 
                 // 工厂模式建立聚合
-                ProjectAggregation projectAggregation = projectFactory.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(), memberIds, project.getTopic());
+                ProjectAggregation projectAggregation = projectFactory.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(), memberIds, project.getTopic(),project.getOrganizationId());
                 projectAggregations.add(projectAggregation);
             }
             return new PageInfo<>(projectAggregations);

@@ -2,7 +2,13 @@ package com.JiCode.ProductDev.domain.factory.impl;
 
 import com.JiCode.ProductDev.domain.factory.ScheduleFactory;
 import com.JiCode.ProductDev.domain.model.ScheduleAggregation;
+import com.JiCode.ProductDev.domain.model.WorkhourAggregation;
+import com.JiCode.ProductDev.domain.repository.WorkhourRepository;
+import com.JiCode.ProductDev.exceptions.WorkHour.SelectFailureException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * 工厂类实现
@@ -11,7 +17,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class ScheduleFactoryImpl implements ScheduleFactory {
-    public ScheduleAggregation createSchedule(String id, int estimatedWorkhour, int actualWorkhour,int remainWorkhour, float progress){
+    @Autowired
+    WorkhourRepository workhourRepository;
+    public ScheduleAggregation createSchedule(String id, int estimatedWorkhour, int actualWorkhour,int remainWorkhour, float progress) throws SelectFailureException {
         ScheduleAggregation scheduleAggregation = new ScheduleAggregation();
         scheduleAggregation.setId(id);
         scheduleAggregation.setEstimatedWorkhour(estimatedWorkhour);
@@ -19,6 +27,11 @@ public class ScheduleFactoryImpl implements ScheduleFactory {
         scheduleAggregation.setRemainWorkhour(remainWorkhour);
         scheduleAggregation.setProgress(progress);
         System.out.println(scheduleAggregation);
+
+        // 子聚合根
+        List<WorkhourAggregation> workhourAggregation = workhourRepository.selectBySchedule(id);
+        scheduleAggregation.setWorkhourAggregation(workhourAggregation);
+
         return scheduleAggregation;
     }
 }

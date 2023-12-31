@@ -25,5 +25,8 @@ public interface BacklogItemRepository {
 
     public int associateWithSprint(String backlogItemId,List<String> sprintId);
 
+    public int insertSrint(String backlogItemId,String sprintId);
+
     public int associateWithRelease(String backlogItemId,List<String> releaseId);
+    public int insertRelease(String backlogItemId,String releaseId);
 }

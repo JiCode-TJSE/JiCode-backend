@@ -14,6 +14,7 @@ public interface ReleaseRepository {
      public int update(ReleaseAggregation releaseAggregation);
 
      public int deleteById(String id);
+     public int insertBacklogItem(String releaseId,String backlogItemId);
 
      public int associateWithBacklogItem(String releaseId, List<String> backlogItemIds);
 }

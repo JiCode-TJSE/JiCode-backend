@@ -78,7 +78,7 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
             int result = backlogitemMapper.updateByPrimaryKey(backlogitem);
 
             // 插入与成员的关系
-           associateWithMember(backlogitem.getId(),backlogItemAggregation.getMemberIds());
+            associateWithMember(backlogitem.getId(),backlogItemAggregation.getMemberIds());
 
             // 插入与迭代的联系
             associateWithSprint(backlogitem.getId(),backlogItemAggregation.getSprintIds());
@@ -292,6 +292,32 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
                 backlogitemReleaseMapper.insert(backlogitemRelease);
             }
 
+            return 0;
+        }catch (Exception e){
+            System.out.println(e);
+            return 0;
+        }
+    }
+
+    public int insertSrint(String backlogItemId,String sprintId){
+        try{
+            BacklogitemSprintKey backlogitemSprint = new BacklogitemSprintKey();
+            backlogitemSprint.setBacklogitemId(backlogItemId);
+            backlogitemSprint.setSprintId(sprintId);
+            backlogitemSprintMapper.insert(backlogitemSprint);
+            return 0;
+        }catch (Exception e){
+            System.out.println(e);
+            return 0;
+        }
+    }
+
+    public int insertRelease(String backlogItemId,String releaseId){
+        try{
+            BacklogitemReleaseKey backlogitemRelease = new BacklogitemReleaseKey();
+            backlogitemRelease.setBacklogitemId(backlogItemId);
+            backlogitemRelease.setReleaseId(releaseId);
+            backlogitemReleaseMapper.insert(backlogitemRelease);
             return 0;
         }catch (Exception e){
             System.out.println(e);

@@ -177,4 +177,17 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
             return 0;
         }
     }
+
+    public int insertBacklogItem(String releaseId,String backlogItemId){
+        try{
+            BacklogitemReleaseKey backlogitemRelease = new BacklogitemReleaseKey();
+            backlogitemRelease.setBacklogitemId(backlogItemId);
+            backlogitemRelease.setReleaseId(releaseId);
+            backlogitemReleaseMapper.insert(backlogitemRelease);
+            return 1;
+        }catch (Exception e){
+            System.out.println(e);
+            return 0;
+        }
+    }
 }

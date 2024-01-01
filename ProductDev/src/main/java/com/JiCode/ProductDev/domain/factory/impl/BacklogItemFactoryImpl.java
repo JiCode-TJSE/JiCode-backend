@@ -22,7 +22,7 @@ public class BacklogItemFactoryImpl implements BacklogItemFactory {
     @Autowired
     ScheduleRepository scheduleRepository;
 
-    public BacklogItemAggregation createBacklogItem(String id, String priority, Date startTime, Date endTime, String source, String type, String description, String projectId, String managerId, String scheduleId, List<String> memberIds,String topic,List<String>sprintIds, List<String> releaseIds){
+    public BacklogItemAggregation createBacklogItem(String id, String priority, Date startTime, Date endTime, String source, String type, String description, String projectId, String managerId, String scheduleId, List<String> memberIds,String topic,List<String>sprintIds, List<String> releaseIds, String status){
         BacklogItemAggregation backlogItemAggregation = new BacklogItemAggregation();
         backlogItemAggregation.setId(id);
         backlogItemAggregation.setPriority(priority);
@@ -36,6 +36,7 @@ public class BacklogItemFactoryImpl implements BacklogItemFactory {
         backlogItemAggregation.setScheduleId(scheduleId);
         backlogItemAggregation.setManagerId(managerId);
         backlogItemAggregation.setTopic(topic);
+        backlogItemAggregation.setStatus(status);
         backlogItemAggregation.setMemberIds(memberIds);
         backlogItemAggregation.setSprintIds(sprintIds);
         backlogItemAggregation.setReleaseIds(releaseIds);

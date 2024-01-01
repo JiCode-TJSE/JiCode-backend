@@ -17,7 +17,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Account" options="-parameters" />
-      <module name="JiCode-backend" options="" />
+      <module name="JiCode-backend" options="-parameters" />
       <module name="main" options="-parameters" />
     </option>
   </component>

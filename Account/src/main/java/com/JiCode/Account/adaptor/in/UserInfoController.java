@@ -6,6 +6,9 @@ import com.JiCode.Account.util.ComResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/user")
 public class UserInfoController {
@@ -50,4 +53,15 @@ public class UserInfoController {
         }
         return ComResponse.success(deleteResult);
     }
+
+    @PostMapping("/multiuserInfo")
+    public ComResponse<List<UserInfoDto>> getMultiUserInfo(@RequestBody Map<String, List<String>> map) {
+        List<String> accountIdList = map.get("accountIdArr");
+        List<UserInfoDto> userInfoDtoList = userInfoApplication.selectMultiUserInfo(accountIdList);
+        if (userInfoDtoList == null) {
+            return ComResponse.error("There is an error account_id in the accountIdList.");
+        }
+        return ComResponse.success(userInfoDtoList);
+    }
+
 }

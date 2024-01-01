@@ -7,6 +7,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.logging.Logger;
 
 @Service
@@ -18,13 +21,17 @@ public class UserInfoApplication {
     // accountId 不存在时，返回 null
     public UserInfoDto selectByUserId(String accountId) {
         UserInfoAggregation userInfoAggregation = new UserInfoAggregation();
-        userInfoAggregation = userInfoRepository.selectById(accountId);
-        UserInfoDto userInfoDto = new UserInfoDto();
-        if (userInfoAggregation.getAccountId() == null) { // not found
+        try {
+            userInfoAggregation = userInfoRepository.selectById(accountId);
+            UserInfoDto userInfoDto = new UserInfoDto();
+            if (userInfoAggregation.getAccountId() == null) { // not found
+                return null;
+            }
+            BeanUtils.copyProperties(userInfoAggregation, userInfoDto);
+            return userInfoDto;
+        } catch (Exception e) {
             return null;
         }
-        BeanUtils.copyProperties(userInfoAggregation, userInfoDto);
-        return userInfoDto;
     }
 
     public Boolean insertUserInfo(UserInfoDto userInfoDto) {
@@ -65,5 +72,24 @@ public class UserInfoApplication {
             return false;
         }
         return true;
+    }
+
+    public List<UserInfoDto> selectMultiUserInfo(List<String> accountIdList) {
+        List<UserInfoDto> userInfoDtoList = new ArrayList<>();
+
+        for (String accountId : accountIdList) {
+            System.out.println(accountId);
+        }
+
+        for (String accountId : accountIdList) {
+            UserInfoDto userInfoDto = new UserInfoDto();
+            userInfoDto = selectByUserId(accountId);
+            if (userInfoDto == null) {
+                return null;
+            }
+            userInfoDtoList.add(userInfoDto);
+        }
+
+        return userInfoDtoList;
     }
 }

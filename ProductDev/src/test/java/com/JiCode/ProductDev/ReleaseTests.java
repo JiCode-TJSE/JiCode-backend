@@ -1,15 +1,11 @@
 package com.JiCode.ProductDev;
 
-import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Release;
-import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.LogMapper;
-import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ReleaseMapper;
 import com.JiCode.ProductDev.domain.factory.ReleaseFactory;
 import com.JiCode.ProductDev.domain.model.ReleaseAggregation;
 import com.JiCode.ProductDev.domain.repository.ReleaseRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.stereotype.Service;
 import org.springframework.test.context.junit4.SpringRunner;

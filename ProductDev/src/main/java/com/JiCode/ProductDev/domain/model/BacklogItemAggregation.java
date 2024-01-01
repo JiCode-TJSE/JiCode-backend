@@ -94,17 +94,27 @@ public class BacklogItemAggregation {
     private String scheduleId;
 
     private String topic;
-
-    public List<String> getMemberIds() {
-        return memberIds;
-    }
-
+    private String status;
     // backlogitem_member 联系集当中的属性，在这里体现为一个列表
     private List<String> memberIds;
 
     private List<String> sprintIds;
 
     private List<String> releaseIds;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public List<String> getMemberIds() {
+        return memberIds;
+    }
+
+
 
     //getter
 

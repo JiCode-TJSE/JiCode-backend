@@ -575,73 +575,73 @@ public class ReleaseExample {
             return (Criteria) this;
         }
 
-        public Criteria andStageIsNull() {
-            addCriterion("stage is null");
+        public Criteria andStageIdIsNull() {
+            addCriterion("stage_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andStageIsNotNull() {
-            addCriterion("stage is not null");
+        public Criteria andStageIdIsNotNull() {
+            addCriterion("stage_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andStageEqualTo(String value) {
-            addCriterion("stage =", value, "stage");
+        public Criteria andStageIdEqualTo(String value) {
+            addCriterion("stage_id =", value, "stageId");
             return (Criteria) this;
         }
 
-        public Criteria andStageNotEqualTo(String value) {
-            addCriterion("stage <>", value, "stage");
+        public Criteria andStageIdNotEqualTo(String value) {
+            addCriterion("stage_id <>", value, "stageId");
             return (Criteria) this;
         }
 
-        public Criteria andStageGreaterThan(String value) {
-            addCriterion("stage >", value, "stage");
+        public Criteria andStageIdGreaterThan(String value) {
+            addCriterion("stage_id >", value, "stageId");
             return (Criteria) this;
         }
 
-        public Criteria andStageGreaterThanOrEqualTo(String value) {
-            addCriterion("stage >=", value, "stage");
+        public Criteria andStageIdGreaterThanOrEqualTo(String value) {
+            addCriterion("stage_id >=", value, "stageId");
             return (Criteria) this;
         }
 
-        public Criteria andStageLessThan(String value) {
-            addCriterion("stage <", value, "stage");
+        public Criteria andStageIdLessThan(String value) {
+            addCriterion("stage_id <", value, "stageId");
             return (Criteria) this;
         }
 
-        public Criteria andStageLessThanOrEqualTo(String value) {
-            addCriterion("stage <=", value, "stage");
+        public Criteria andStageIdLessThanOrEqualTo(String value) {
+            addCriterion("stage_id <=", value, "stageId");
             return (Criteria) this;
         }
 
-        public Criteria andStageLike(String value) {
-            addCriterion("stage like", value, "stage");
+        public Criteria andStageIdLike(String value) {
+            addCriterion("stage_id like", value, "stageId");
             return (Criteria) this;
         }
 
-        public Criteria andStageNotLike(String value) {
-            addCriterion("stage not like", value, "stage");
+        public Criteria andStageIdNotLike(String value) {
+            addCriterion("stage_id not like", value, "stageId");
             return (Criteria) this;
         }
 
-        public Criteria andStageIn(List<String> values) {
-            addCriterion("stage in", values, "stage");
+        public Criteria andStageIdIn(List<String> values) {
+            addCriterion("stage_id in", values, "stageId");
             return (Criteria) this;
         }
 
-        public Criteria andStageNotIn(List<String> values) {
-            addCriterion("stage not in", values, "stage");
+        public Criteria andStageIdNotIn(List<String> values) {
+            addCriterion("stage_id not in", values, "stageId");
             return (Criteria) this;
         }
 
-        public Criteria andStageBetween(String value1, String value2) {
-            addCriterion("stage between", value1, value2, "stage");
+        public Criteria andStageIdBetween(String value1, String value2) {
+            addCriterion("stage_id between", value1, value2, "stageId");
             return (Criteria) this;
         }
 
-        public Criteria andStageNotBetween(String value1, String value2) {
-            addCriterion("stage not between", value1, value2, "stage");
+        public Criteria andStageIdNotBetween(String value1, String value2) {
+            addCriterion("stage_id not between", value1, value2, "stageId");
             return (Criteria) this;
         }
     }

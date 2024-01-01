@@ -25,6 +25,8 @@ public class Backlogitem {
 
     private String topic;
 
+    private String status;
+
     public String getId() {
         return id;
     }
@@ -111,5 +113,13 @@ public class Backlogitem {
 
     public void setTopic(String topic) {
         this.topic = topic == null ? null : topic.trim();
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
     }
 }

@@ -9,6 +9,8 @@ public interface ReleaseRepository {
     public ReleaseAggregation selectById(String id);
     public PageInfo<ReleaseAggregation> getPage(int pageNum, int pageSize);
 
+    public List<ReleaseAggregation> selectAll();
+
     public int insert(ReleaseAggregation releaseAggregation);
 
      public int update(ReleaseAggregation releaseAggregation);

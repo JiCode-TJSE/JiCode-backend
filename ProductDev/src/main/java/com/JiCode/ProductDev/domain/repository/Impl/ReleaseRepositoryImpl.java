@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service("ReleaseRepository")
@@ -64,6 +65,28 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
             System.out.println(e);
             return 0;
         }
+    }
+
+    public List<ReleaseAggregation> selectAll(){
+        List<Release> releases = releaseMapper.selectByExample(null);
+        List<ReleaseAggregation> releaseAggregations = new ArrayList<>();
+        for (Release release : releases) {
+            ReleaseMemberExample example = new ReleaseMemberExample();
+            example.createCriteria().andReleaseIdEqualTo(release.getId());
+            // 获取所有成员
+            List<ReleaseMember> releaseMember = releaseMemberMapper.selectByExample(example);
+            List<String> memberIds = releaseMember.stream().map(ReleaseMember::getAccountId).collect(Collectors.toList());
+
+            // 获取所有工作项
+            BacklogitemReleaseExample example2 = new BacklogitemReleaseExample();
+            example2.createCriteria().andReleaseIdEqualTo(release.getId());
+            List<BacklogitemReleaseKey> backlogitemReleaseKeys = backlogitemReleaseMapper.selectByExample(example2);
+            List<String> backlogItemIds = backlogitemReleaseKeys.stream().map(BacklogitemReleaseKey::getBacklogitemId).collect(Collectors.toList());
+
+            ReleaseAggregation releaseAggregation = entityToAggregate(release, memberIds,backlogItemIds);
+            releaseAggregations.add(releaseAggregation);
+        }
+        return releaseAggregations;
     }
 
     public ReleaseAggregation selectById(String id){
@@ -118,8 +141,11 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
         try{
             Release release = new Release();
             BeanUtils.copyProperties(releaseAggregation, release);
-            int result = releaseMapper.insert(release);
 
+            if(release.getId()==null){
+               release.setId(UUID.randomUUID().toString());
+            }
+            int result = releaseMapper.insert(release);
             List<String> memberIds = releaseAggregation.getMemberIds();
             ReleaseMember releaseMember = new ReleaseMember();
             releaseMember.setReleaseId(release.getId());

@@ -43,7 +43,7 @@ public class ProjectApplication {
     @Transactional(readOnly = true)
     public void createProject(CreateProjectDto createProjectDto)
     {
-        var projectAggregate=projectFactory.createProject(null,null,null,null,null,null,null,createProjectDto.topic,createProjectDto.organizationId);
+        var projectAggregate=projectFactory.createProject(null,null,null,null,null,null,null,createProjectDto.topic,createProjectDto.organizationId,createProjectDto.description);
         projectRepository.insert(projectAggregate);
     }
 
@@ -65,7 +65,7 @@ public class ProjectApplication {
     {
         var projectAggregation=projectFactory.createProject(updateProjectDto.id,updateProjectDto.status,
                 updateProjectDto.progress,updateProjectDto.startTime,updateProjectDto.endTime,
-                updateProjectDto.managerId,updateProjectDto.member,updateProjectDto.topic,updateProjectDto.organizationId);
+                updateProjectDto.managerId,updateProjectDto.member,updateProjectDto.topic,updateProjectDto.organizationId,updateProjectDto.description);
         projectRepository.updateById(projectAggregation);
     }
 

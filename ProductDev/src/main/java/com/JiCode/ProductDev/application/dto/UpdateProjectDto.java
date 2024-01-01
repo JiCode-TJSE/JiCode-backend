@@ -26,4 +26,6 @@ public class UpdateProjectDto {
     public String organizationId;
 
     public List<String> member;
+
+    public String description;
 }

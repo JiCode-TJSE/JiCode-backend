@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ApifoxUploaderProjectSetting">
+    <option name="apifoxAccessToken" value="APS-p3OyZ0eL4WaO9HvTdnSccQabFuVAc6X8" />
+    <option name="apifoxProjectIds">
+      <array>
+        <option value="# ModuleName:ProjectID" />
+        <option value="Module:3754258" />
+        <option value="ProductDev:3754258" />
+        <option value="OutputDir: /Back-end/ProductDev/ProjectController" />
+      </array>
+    </option>
+    <option name="yapiTokens" value="" />
+  </component>
+</project>

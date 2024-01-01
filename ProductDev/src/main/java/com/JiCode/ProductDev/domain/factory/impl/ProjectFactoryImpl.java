@@ -18,7 +18,7 @@ import com.JiCode.ProductDev.domain.repository.ProjectRepository;
 @Service
 public class ProjectFactoryImpl implements ProjectFactory {
 
-    public ProjectAggregation createProject(String id, String status, float progress, Date startTime, Date endTime, String managerId, List<String>members, String topic, String organizationId){
+    public ProjectAggregation createProject(String id, String status, Float progress, Date startTime, Date endTime, String managerId, List<String>members, String topic, String organizationId){
         ProjectAggregation projectAggregation = new ProjectAggregation();
         projectAggregation.setId(id);
         projectAggregation.setStatus(status);

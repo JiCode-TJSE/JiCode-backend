@@ -1,13 +1,9 @@
 package com.JiCode.ProductDev.application.dto;
 
-import lombok.NoArgsConstructor;
-
 import java.util.Date;
 import java.util.List;
 
-@NoArgsConstructor
-public class SelectAllBacklogitemDto {
-    private String id;
+public class BacklogitemDto {
 
     public String getId() {
         return id;
@@ -113,13 +109,6 @@ public class SelectAllBacklogitemDto {
         this.organizationId = organizationId;
     }
 
-    public String getProjectTopic() {
-        return projectTopic;
-    }
-
-    public void setProjectTopic(String projectTopic) {
-        this.projectTopic = projectTopic;
-    }
 
     public List<String> getMemberIds() {
         return memberIds;
@@ -145,6 +134,8 @@ public class SelectAllBacklogitemDto {
         this.releaseIds = releaseIds;
     }
 
+    private String id;
+
     private String priority;
 
     private Date startTime;
@@ -167,7 +158,6 @@ public class SelectAllBacklogitemDto {
     private String status;
 
     private String organizationId;
-    private String projectTopic;
     // backlogitem_member 联系集当中的属性，在这里体现为一个列表
     private List<String> memberIds;
 
@@ -177,7 +167,7 @@ public class SelectAllBacklogitemDto {
 
     @Override
     public String toString() {
-        return "SelectAllBacklogitemDto{" +
+        return "BacklogitemDto{" +
                 "id='" + id + '\'' +
                 ", priority='" + priority + '\'' +
                 ", startTime=" + startTime +
@@ -191,7 +181,6 @@ public class SelectAllBacklogitemDto {
                 ", topic='" + topic + '\'' +
                 ", status='" + status + '\'' +
                 ", organizationId='" + organizationId + '\'' +
-                ", projectTopic='" + projectTopic + '\'' +
                 ", memberIds=" + memberIds +
                 ", sprintIds=" + sprintIds +
                 ", releaseIds=" + releaseIds +

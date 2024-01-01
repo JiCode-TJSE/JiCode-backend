@@ -144,13 +144,16 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
 
             // 使用项目名称+个数生成工作项id
             if(backlogitem.getId()==null){
+                System.out.println(backlogitem.getProjectId());
                 String projectTopic = projectMapper.selectByPrimaryKey(backlogitem.getProjectId()).getTopic();
                 BacklogitemExample example = new BacklogitemExample();
                 example.createCriteria().andProjectIdEqualTo(backlogitem.getProjectId());
                 long count = backlogitemMapper.countByExample(example)+1;
                 System.out.println(projectTopic + " " + count);
                 backlogitem.setId(projectTopic + "-" + count);
+                backlogitem.setProjectTopic(projectTopic);
                 backlogItemAggregation.setId(projectTopic + "-" + count);
+                backlogItemAggregation.setProjectTopic(projectTopic);
             }
             System.out.println(backlogitem);
             int result = backlogitemMapper.insert(backlogitem);
@@ -165,6 +168,8 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
 
     public int updateById(BacklogItemAggregation backlogItemAggregation){
         try{
+            String projectTopic = projectMapper.selectByPrimaryKey(backlogItemAggregation.getProjectId()).getTopic();
+            backlogItemAggregation.setProjectTopic(projectTopic);
             return saveAggregate(backlogItemAggregation);
         }catch (Exception e){
             System.out.println(e);
@@ -174,6 +179,7 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
 
     public int deleteById(String id){
         try{
+            System.out.println("Repo Delete backlogitem: " + id);
             return backlogitemMapper.deleteByPrimaryKey(id);
         }catch (Exception e){
             System.out.println(e);

@@ -127,6 +127,28 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         }
     }
 
+
+    public List<ProjectAggregation> selectAll(){
+        try{
+            List<Project> projects = projectMapper.selectByExample(null);
+            List<ProjectAggregation> projectAggregations = new ArrayList<>();
+            for (Project project : projects) {
+                // 获取成员列表
+                ProjectMemberExample example = new ProjectMemberExample();
+                example.createCriteria().andProjectIdEqualTo(project.getId());
+                List<ProjectMemberKey> projectMemberKeys = projectMemberMapper.selectByExample(example);
+                List<String> memberIds = projectMemberKeys.stream().map(ProjectMemberKey::getMemberId).collect(Collectors.toList());
+
+                // 工厂模式建立聚合
+                ProjectAggregation projectAggregation = projectFactory.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(), memberIds, project.getTopic(),project.getOrganizationId());
+                projectAggregations.add(projectAggregation);
+            }
+            return projectAggregations;
+        }catch (Exception e){
+            System.out.println(e);
+            return null;
+        }
+    }
     public int insert(ProjectAggregation projectAggregation){
         try {
             Project project = new Project();

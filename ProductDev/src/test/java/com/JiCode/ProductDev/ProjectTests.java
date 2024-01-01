@@ -115,4 +115,12 @@ public class ProjectTests {
         System.out.println(projectRepository.deleteById(id));
     }
 
+    @Test
+    public void testSelectAll(){
+        List<ProjectAggregation> projectAggregations = projectRepository.selectAll();
+        for(ProjectAggregation projectAggregation : projectAggregations){
+            System.out.println(projectAggregation);
+        }
+    }
+
 }

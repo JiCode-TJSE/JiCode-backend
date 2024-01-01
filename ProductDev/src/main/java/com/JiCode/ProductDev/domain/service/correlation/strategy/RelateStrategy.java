@@ -39,6 +39,14 @@ public class RelateStrategy {
         }
     }
 
+    public RelateStrategy getSuccessor() {
+        return successor;
+    }
+
+    public void setSuccessor(RelateStrategy successor) {
+        this.successor = successor;
+    }
+
     public void relate(RelateBo item1, RelateBo item2)
     {
         checkSuccessor(item1, item2);

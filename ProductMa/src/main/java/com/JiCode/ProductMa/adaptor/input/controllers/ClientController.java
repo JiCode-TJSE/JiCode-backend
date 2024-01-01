@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "*")
-@RequestMapping("/product")
+@RequestMapping("/api/product")
 public class ClientController {
     @Autowired
     ClientApplication clientApplication;

@@ -100,7 +100,7 @@ public class BacklogitemTests{
         List<String> memberIds = Arrays.asList("1", "2", "3");
         List<String> sprintIds = Arrays.asList("1", "2", "3");
         List<String> releaseIds = Arrays.asList("1", "2", "3");
-        String topic = "wh";
+        String topic = "whh";
         String status = "未完成";
         BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds, topic, sprintIds, releaseIds, status);
         System.out.println(backlogItemRepository.insert(backlogItemAggregation));

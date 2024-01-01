@@ -46,8 +46,9 @@ public class ReleaseTests {
         Date endTime = calendar.getTime();
         String topic = "wh";
         String stage = "done";
-        List<String> backlogItemIds = Arrays.asList("3", "2");
-        ReleaseAggregation releaseAggregation = releaseFactory.createRelease(id, startTime, endTime, "yes", "1", "1", Arrays.asList("1", "2"),topic, stage, backlogItemIds);
+        List<String> backlogItemIds = Arrays.asList("1");
+        String organizationId = "1";
+        ReleaseAggregation releaseAggregation = releaseFactory.createRelease(id, startTime, endTime, "yes", "1", "1", Arrays.asList("1", "2"),topic, stage, backlogItemIds,organizationId);
         releaseRepository.insert(releaseAggregation);
     }
 

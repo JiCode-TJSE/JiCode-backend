@@ -31,6 +31,15 @@ public class SprintAggregation {
     private String managerId;
 
     private String releaseId;
+    private String organizationId;
+
+    public String getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
+    }
 
     public String getTopic() {
         return topic;

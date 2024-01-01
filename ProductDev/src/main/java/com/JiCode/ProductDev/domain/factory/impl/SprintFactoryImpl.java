@@ -18,7 +18,7 @@ import java.util.UUID;
 @Service
 public class SprintFactoryImpl implements SprintFactory {
 
-    public SprintAggregation createSprint(String id, Date startTime, Date endTime, String goal, String type, String projectId, String managerId, String releaseId, List<String> memberIds, String topic, List<String> backlogItemIds){
+    public SprintAggregation createSprint(String id, Date startTime, Date endTime, String goal, String type, String projectId, String managerId, String releaseId, List<String> memberIds, String topic, List<String> backlogItemIds, String organizationId){
         SprintAggregation sprintAggregation = new SprintAggregation();
         sprintAggregation.setId(id);
         sprintAggregation.setStartTime(startTime);
@@ -31,6 +31,7 @@ public class SprintFactoryImpl implements SprintFactory {
         sprintAggregation.setMemberIds(memberIds);
         sprintAggregation.setTopic(topic);
         sprintAggregation.setBacklogItemIds(backlogItemIds);
+        sprintAggregation.setOrganizationId(organizationId);
         System.out.println(sprintAggregation);
 
         // 搜索workhour

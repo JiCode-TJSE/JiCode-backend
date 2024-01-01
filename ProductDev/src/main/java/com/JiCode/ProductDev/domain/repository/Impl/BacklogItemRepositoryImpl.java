@@ -163,19 +163,30 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
         }
     }
 
+    public List<BacklogItemAggregation> selectAll(){
+        List<Backlogitem> backlogitems = backlogitemMapper.selectByExample(null);
+        List<BacklogItemAggregation> backlogItemAggregations = new ArrayList<>();
+        for(Backlogitem backlogitem:backlogitems){
+            BacklogItemAggregation backlogItemAggregation = selectById(backlogitem.getId());
+            backlogItemAggregations.add(backlogItemAggregation);
+        }
+        return backlogItemAggregations;
+    }
+
     public int insert(BacklogItemAggregation backlogItemAggregation){
         try {
             Backlogitem backlogitem = new Backlogitem();
             BeanUtils.copyProperties(backlogItemAggregation, backlogitem);
 
-            // 使用UUID生成ID
+            // 使用项目名称+个数生成工作项id
             if(backlogitem.getId()==null){
                 String projectTopic = projectMapper.selectByPrimaryKey(backlogitem.getProjectId()).getTopic();
                 BacklogitemExample example = new BacklogitemExample();
-                example.createCriteria().andTopicEqualTo(projectTopic);
-                String count = String.valueOf(backlogitemMapper.countByExample(example))+1;
+                example.createCriteria().andProjectIdEqualTo(backlogitem.getProjectId());
+                long count = backlogitemMapper.countByExample(example)+1;
                 System.out.println(projectTopic + " " + count);
                 backlogitem.setId(projectTopic + "-" + count);
+                backlogItemAggregation.setId(projectTopic + "-" + count);
             }
             System.out.println(backlogitem);
             int result = backlogitemMapper.insert(backlogitem);
@@ -233,6 +244,8 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
 
     public int associateWithMember(String backlogItemId,List<String> memberId){
         try{
+            if(memberId==null)
+                return 0;
             // 首先删除联系集中project对应的所有记录
             BacklogitemMemberExample example = new BacklogitemMemberExample();
             example.createCriteria().andBacklogitemIdEqualTo(backlogItemId);
@@ -256,6 +269,8 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
 
     public int associateWithSprint(String backlogItemId,List<String> sprintIds){
         try{
+            if(sprintIds == null)
+                return 0;
             // 首先删除联系集中project对应的所有记录
             BacklogitemSprintExample example = new BacklogitemSprintExample();
             example.createCriteria().andBacklogitemIdEqualTo(backlogItemId);
@@ -278,7 +293,10 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
     }
 
     public int associateWithRelease(String backlogItemId,List<String> releaseIds){
-        try{// 首先删除联系集中project对应的所有记录
+        try{
+            if(releaseIds == null)
+                return 0;
+            // 首先删除联系集中project对应的所有记录
             BacklogitemReleaseExample example = new BacklogitemReleaseExample();
             example.createCriteria().andBacklogitemIdEqualTo(backlogItemId);
             int rows = backlogitemReleaseMapper.deleteByExample(example);

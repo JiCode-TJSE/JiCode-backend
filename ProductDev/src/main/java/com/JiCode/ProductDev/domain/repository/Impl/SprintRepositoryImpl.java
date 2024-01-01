@@ -117,6 +117,16 @@ public class SprintRepositoryImpl implements SprintRepository {
         }
     }
 
+    public List<SprintAggregation> selectAll(){
+        List<Sprint> sprints = sprintMapper.selectByExample(null);
+        List<SprintAggregation> sprintAggregations = new ArrayList<>();
+        for(Sprint sprint:sprints){
+            SprintAggregation sprintAggregation = selectById(sprint.getId());
+            sprintAggregations.add(sprintAggregation);
+        }
+        return sprintAggregations;
+    }
+
     public PageInfo<SprintAggregation> getPage(int pageNum, int pageSize){
         try{
             // 根据条件进行分页查询

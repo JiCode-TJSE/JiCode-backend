@@ -107,4 +107,12 @@ public class SprintTests {
         String releaseId = "2";
         sprintRepository.associateWithRelease(sprintId, releaseId);
     }
+
+    @Test
+    public void testSelectAll(){
+        List<SprintAggregation> sprintAggregations = sprintRepository.selectAll();
+        for(SprintAggregation sprintAggregation:sprintAggregations){
+            System.out.println(sprintAggregation);
+        }
+    }
 }

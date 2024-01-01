@@ -924,6 +924,76 @@ public class BacklogitemExample {
             addCriterion("status not between", value1, value2, "status");
             return (Criteria) this;
         }
+
+        public Criteria andProjectTopicIsNull() {
+            addCriterion("project_topic is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTopicIsNotNull() {
+            addCriterion("project_topic is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTopicEqualTo(String value) {
+            addCriterion("project_topic =", value, "projectTopic");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTopicNotEqualTo(String value) {
+            addCriterion("project_topic <>", value, "projectTopic");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTopicGreaterThan(String value) {
+            addCriterion("project_topic >", value, "projectTopic");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTopicGreaterThanOrEqualTo(String value) {
+            addCriterion("project_topic >=", value, "projectTopic");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTopicLessThan(String value) {
+            addCriterion("project_topic <", value, "projectTopic");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTopicLessThanOrEqualTo(String value) {
+            addCriterion("project_topic <=", value, "projectTopic");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTopicLike(String value) {
+            addCriterion("project_topic like", value, "projectTopic");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTopicNotLike(String value) {
+            addCriterion("project_topic not like", value, "projectTopic");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTopicIn(List<String> values) {
+            addCriterion("project_topic in", values, "projectTopic");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTopicNotIn(List<String> values) {
+            addCriterion("project_topic not in", values, "projectTopic");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTopicBetween(String value1, String value2) {
+            addCriterion("project_topic between", value1, value2, "projectTopic");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectTopicNotBetween(String value1, String value2) {
+            addCriterion("project_topic not between", value1, value2, "projectTopic");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

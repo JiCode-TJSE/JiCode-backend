@@ -3,6 +3,8 @@ package com.JiCode.ProductDev.domain.factory.impl;
 import java.util.Date;
 import java.util.List;
 
+import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project;
+import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ProjectMapper;
 import com.JiCode.ProductDev.domain.model.ScheduleAggregation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,8 +22,7 @@ import com.JiCode.ProductDev.domain.repository.ScheduleRepository;
 @Service
 public class BacklogItemFactoryImpl implements BacklogItemFactory {
     @Autowired
-    ScheduleRepository scheduleRepository;
-
+    ProjectMapper projectMapper;
     public BacklogItemAggregation createBacklogItem(String id, String priority, Date startTime, Date endTime, String source, String type, String description, String projectId, String managerId, String scheduleId, List<String> memberIds,String topic,List<String>sprintIds, List<String> releaseIds, String status){
         BacklogItemAggregation backlogItemAggregation = new BacklogItemAggregation();
         backlogItemAggregation.setId(id);
@@ -41,6 +42,8 @@ public class BacklogItemFactoryImpl implements BacklogItemFactory {
         backlogItemAggregation.setSprintIds(sprintIds);
         backlogItemAggregation.setReleaseIds(releaseIds);
 
+        Project project = projectMapper.selectByPrimaryKey(projectId);
+        backlogItemAggregation.setProjectTopic(project.getTopic());
         return backlogItemAggregation;
     }
 }

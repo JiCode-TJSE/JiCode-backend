@@ -95,6 +95,16 @@ public class BacklogItemAggregation {
 
     private String topic;
     private String status;
+
+    public String getProjectTopic() {
+        return projectTopic;
+    }
+
+    public void setProjectTopic(String projectTopic) {
+        this.projectTopic = projectTopic;
+    }
+
+    private String projectTopic;
     // backlogitem_member 联系集当中的属性，在这里体现为一个列表
     private List<String> memberIds;
 

@@ -97,10 +97,10 @@ public class BacklogitemTests{
         String projectId = "1";
         String managerId = "1";
         String scheduleId = "1";
-        List<String> memberIds = Arrays.asList("1", "2", "3");
-        List<String> sprintIds = Arrays.asList("1", "2", "3");
-        List<String> releaseIds = Arrays.asList("1", "2", "3");
-        String topic = "whh";
+        List<String> memberIds = null;
+        List<String> sprintIds = null;
+        List<String> releaseIds = null;
+        String topic = "whhhh";
         String status = "未完成";
         BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds, topic, sprintIds, releaseIds, status);
         System.out.println(backlogItemRepository.insert(backlogItemAggregation));
@@ -154,5 +154,13 @@ public class BacklogitemTests{
         System.out.println(backlogItemRepository.associateWithProductRequirement(backlogItemId, productRequirementId));
     }
 
+
+    @Test
+    public void testSelectAll(){
+        List<BacklogItemAggregation> backlogItemAggregations = backlogItemRepository.selectAll();
+        for(BacklogItemAggregation backlogItemAggregation : backlogItemAggregations){
+            System.out.println(backlogItemAggregation);
+        }
+    }
 
 }

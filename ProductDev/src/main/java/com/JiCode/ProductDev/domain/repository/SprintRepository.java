@@ -8,6 +8,8 @@ import com.JiCode.ProductDev.exceptions.sprint.UpdateFaliureException;
 import com.github.pagehelper.PageInfo;
 import org.springframework.boot.SpringApplication;
 
+import java.util.List;
+
 /**
  * @author Laurent Wu
  * @date 2023/12/26
@@ -15,6 +17,8 @@ import org.springframework.boot.SpringApplication;
 public interface SprintRepository {
     public SprintAggregation selectById(String id);
     public PageInfo<SprintAggregation> getPage(int pageNum, int pageSize);
+
+    public List<SprintAggregation> selectAll();
     public int insert(SprintAggregation sprintAggregation) throws InsertFailureException;
     public int updateById(SprintAggregation sprintAggregation) throws UpdateFaliureException;
     public int deleteById(String id) throws DeleteFailureException;

@@ -14,6 +14,7 @@
     <result column="project_id" jdbcType="VARCHAR" property="projectId" />
     <result column="topic" jdbcType="VARCHAR" property="topic" />
     <result column="status" jdbcType="VARCHAR" property="status" />
+    <result column="project_topic" jdbcType="VARCHAR" property="projectTopic" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List">
     id, priority, start_time, end_time, source, type, description, manager_id, schedule_id, 
-    project_id, topic, status
+    project_id, topic, status, project_topic
   </sql>
   <select id="selectByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.BacklogitemExample" resultMap="BaseResultMap">
     select
@@ -111,13 +112,13 @@
     insert into backlogitem (id, priority, start_time, 
       end_time, source, type, 
       description, manager_id, schedule_id, 
-      project_id, topic, status
-      )
+      project_id, topic, status, 
+      project_topic)
     values (#{id,jdbcType=VARCHAR}, #{priority,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{source,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, 
       #{description,jdbcType=VARCHAR}, #{managerId,jdbcType=VARCHAR}, #{scheduleId,jdbcType=VARCHAR}, 
-      #{projectId,jdbcType=VARCHAR}, #{topic,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}
-      )
+      #{projectId,jdbcType=VARCHAR}, #{topic,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{projectTopic,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Backlogitem">
     insert into backlogitem
@@ -158,6 +159,9 @@
       <if test="status != null">
         status,
       </if>
+      <if test="projectTopic != null">
+        project_topic,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -195,6 +199,9 @@
       </if>
       <if test="status != null">
         #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="projectTopic != null">
+        #{projectTopic,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -246,6 +253,9 @@
       <if test="record.status != null">
         status = #{record.status,jdbcType=VARCHAR},
       </if>
+      <if test="record.projectTopic != null">
+        project_topic = #{record.projectTopic,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -264,7 +274,8 @@
       schedule_id = #{record.scheduleId,jdbcType=VARCHAR},
       project_id = #{record.projectId,jdbcType=VARCHAR},
       topic = #{record.topic,jdbcType=VARCHAR},
-      status = #{record.status,jdbcType=VARCHAR}
+      status = #{record.status,jdbcType=VARCHAR},
+      project_topic = #{record.projectTopic,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -305,6 +316,9 @@
       <if test="status != null">
         status = #{status,jdbcType=VARCHAR},
       </if>
+      <if test="projectTopic != null">
+        project_topic = #{projectTopic,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -320,7 +334,8 @@
       schedule_id = #{scheduleId,jdbcType=VARCHAR},
       project_id = #{projectId,jdbcType=VARCHAR},
       topic = #{topic,jdbcType=VARCHAR},
-      status = #{status,jdbcType=VARCHAR}
+      status = #{status,jdbcType=VARCHAR},
+      project_topic = #{projectTopic,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

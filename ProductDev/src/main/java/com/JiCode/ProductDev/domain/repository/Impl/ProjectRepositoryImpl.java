@@ -45,7 +45,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
      * @return {@link ProjectAggregation}
      */
     private ProjectAggregation entityToAggregate(Project project, List<String> memberIds){
-        ProjectAggregation projectAggregation = projectFactory.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(),memberIds, project.getTopic(),project.getOrganizationId());
+        ProjectAggregation projectAggregation = projectFactory.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(),memberIds, project.getTopic(),project.getOrganizationId(),project.getDescription());
         return projectAggregation;
     }
 
@@ -102,31 +102,6 @@ public class ProjectRepositoryImpl implements ProjectRepository {
        }
     }
 
-    public PageInfo<ProjectAggregation> getPage(int pageNum, int pageSize) {
-        try{
-            PageHelper.startPage(pageNum, pageSize);
-            Page<Project> projects = projectMapper.selectByPaging(null);
-
-            System.out.println(projects);
-            List<ProjectAggregation> projectAggregations = new ArrayList<>();
-            for (Project project : projects) {
-                // 获取成员列表
-                ProjectMemberExample example = new ProjectMemberExample();
-                example.createCriteria().andProjectIdEqualTo(project.getId());
-                List<ProjectMemberKey> projectMemberKeys = projectMemberMapper.selectByExample(example);
-                List<String> memberIds = projectMemberKeys.stream().map(ProjectMemberKey::getMemberId).collect(Collectors.toList());
-
-                // 工厂模式建立聚合
-                ProjectAggregation projectAggregation = projectFactory.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(), memberIds, project.getTopic(),project.getOrganizationId());
-                projectAggregations.add(projectAggregation);
-            }
-            return new PageInfo<>(projectAggregations);
-        } catch (Exception e){
-            System.out.println(e);
-            return null;
-        }
-    }
-
 
     public List<ProjectAggregation> selectAll(){
         try{
@@ -140,7 +115,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
                 List<String> memberIds = projectMemberKeys.stream().map(ProjectMemberKey::getMemberId).collect(Collectors.toList());
 
                 // 工厂模式建立聚合
-                ProjectAggregation projectAggregation = projectFactory.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(), memberIds, project.getTopic(),project.getOrganizationId());
+                ProjectAggregation projectAggregation = projectFactory.createProject(project.getId(),project.getStatus(),project.getProgress(), project.getStartTime(),project.getEndTime(),project.getManagerId(), memberIds, project.getTopic(),project.getOrganizationId(), project.getDescription());
                 projectAggregations.add(projectAggregation);
             }
             return projectAggregations;

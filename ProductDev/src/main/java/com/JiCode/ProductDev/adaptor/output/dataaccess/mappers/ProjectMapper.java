@@ -3,8 +3,6 @@ package com.JiCode.ProductDev.adaptor.output.dataaccess.mappers;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Project;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ProjectExample;
 import java.util.List;
-
-import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
 
 public interface ProjectMapper {
@@ -29,6 +27,4 @@ public interface ProjectMapper {
     int updateByPrimaryKeySelective(Project record);
 
     int updateByPrimaryKey(Project record);
-
-    Page<Project> selectByPaging(ProjectExample example);
 }

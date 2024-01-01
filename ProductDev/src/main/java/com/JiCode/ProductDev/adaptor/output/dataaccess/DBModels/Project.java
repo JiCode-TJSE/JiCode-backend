@@ -19,6 +19,8 @@ public class Project {
 
     private String organizationId;
 
+    private String description;
+
     public String getId() {
         return id;
     }
@@ -81,5 +83,13 @@ public class Project {
 
     public void setOrganizationId(String organizationId) {
         this.organizationId = organizationId == null ? null : organizationId.trim();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
     }
 }

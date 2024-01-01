@@ -55,23 +55,7 @@ public class BacklogitemTests{
         System.out.println(backlogItemAggregation);
     }
 
-    @Test
-    public void testGetPage(){
-        PageInfo<BacklogItemAggregation> pageInfo = backlogItemRepository.getPage(1, 10);
 
-        System.out.println("Page number: " + pageInfo.getPageNum());
-        System.out.println("Page size: " + pageInfo.getPageSize());
-        System.out.println("Total pages: " + pageInfo.getPages());
-        System.out.println("Total elements: " + pageInfo.getTotal());
-
-        List<BacklogItemAggregation> backlogItemAggregations = pageInfo.getList();
-        for (BacklogItemAggregation backlogItemAggregation : backlogItemAggregations) {
-            // print the content of projectAggregation
-            // you need to implement the toString method in ProjectAggregation class
-            System.out.println(backlogItemAggregation);
-        }
-
-    }
 
     @Test
     public void testSelectBacklogItemById(){
@@ -102,7 +86,8 @@ public class BacklogitemTests{
         List<String> releaseIds = null;
         String topic = "whhhh";
         String status = "未完成";
-        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds, topic, sprintIds, releaseIds, status);
+        String organizationId = "1";
+        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds, topic, sprintIds, releaseIds, status,organizationId);
         System.out.println(backlogItemRepository.insert(backlogItemAggregation));
     }
 
@@ -130,7 +115,8 @@ public class BacklogitemTests{
         List<String> releaseIds = Arrays.asList("1", "2", "3");
         String topic = "whh";
         String status = "未完成";
-        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds,topic,sprintIds,releaseIds,status);
+        String organizationId = "1";
+        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds,topic,sprintIds,releaseIds,status,organizationId);
         System.out.println(backlogItemRepository.updateById(backlogItemAggregation));
     }
 

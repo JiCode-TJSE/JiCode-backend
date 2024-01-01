@@ -11,7 +11,6 @@ import java.util.List;
 public interface BacklogItemRepository {
     public BacklogItemAggregation selectById(String id);
 
-    public PageInfo<BacklogItemAggregation> getPage(int pageNum, int pageSize);
     public List<BacklogItemAggregation> selectAll();
 
     public int insert(BacklogItemAggregation backlogItemAggregation);

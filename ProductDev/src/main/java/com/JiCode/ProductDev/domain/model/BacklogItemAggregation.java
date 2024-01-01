@@ -96,6 +96,16 @@ public class BacklogItemAggregation {
     private String topic;
     private String status;
 
+    public String getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
+    }
+
+    private String organizationId;
+
     public String getProjectTopic() {
         return projectTopic;
     }

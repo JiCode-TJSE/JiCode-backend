@@ -18,7 +18,8 @@ import com.JiCode.ProductDev.domain.repository.ProjectRepository;
 @Service
 public class ProjectFactoryImpl implements ProjectFactory {
 
-    public ProjectAggregation createProject(String id, String status, Float progress, Date startTime, Date endTime, String managerId, List<String>members, String topic, String organizationId){
+
+    public ProjectAggregation createProject(String id, String status, Float progress, Date startTime, Date endTime, String managerId, List<String>members, String topic, String organizationId, String description) {
         ProjectAggregation projectAggregation = new ProjectAggregation();
         projectAggregation.setId(id);
         projectAggregation.setStatus(status);
@@ -29,6 +30,7 @@ public class ProjectFactoryImpl implements ProjectFactory {
         projectAggregation.setMember(members);
         projectAggregation.setTopic(topic);
         projectAggregation.setOrganizationId(organizationId);
+        projectAggregation.setDescription(description);
         System.out.println(projectAggregation);
         return projectAggregation;
     }

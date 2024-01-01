@@ -35,6 +35,16 @@ public class ProjectAggregation {
 
     private List<String> member;
 
+    private String description;
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public String getOrganizationId() {
         return organizationId;
     }

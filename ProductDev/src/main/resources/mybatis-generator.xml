@@ -39,8 +39,8 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
         <!-- 相关表的配置 -->
-        <table tableName="backlogitem"
-               domainObjectName="Backlogitem"
+        <table tableName="project"
+               domainObjectName="Project"
                enableInsert="true"
                enableDeleteByPrimaryKey="true"
                enableUpdateByPrimaryKey="true"

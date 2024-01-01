@@ -1,6 +1,5 @@
 package com.JiCode.ProductMa.adaptor.input.controllers;
 
-
 import com.JiCode.ProductMa.adaptor.input.vo.CommonVo;
 import com.JiCode.ProductMa.application.ProductApplication;
 import com.JiCode.ProductMa.application.dto.AllProductsDto;
@@ -13,19 +12,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/product")
 public class ProductController {
     @Autowired
     ProductApplication productApplication;
 
-    //获取当前账号可见所有产品
+    // 获取当前账号可见所有产品
     @GetMapping("/items")
     public CommonVo<AllProductsDto> getAllProducts(@RequestHeader("Authorization") String authorization)
-        throws ServerException{
-        AllProductsDto responseData = productApplication.getAllProductsByAccountId(authorization); //实际是userID
+            throws ServerException {
+        AllProductsDto responseData = productApplication.getAllProductsByAccountId(authorization); // 实际是userID
         return CommonVo.create("请求成功", CodeEnum.SUCCESS, responseData);
     }
-
 
     // 获取产品
     @GetMapping("/item")
@@ -35,7 +34,6 @@ public class ProductController {
         return CommonVo.create("请求成功", CodeEnum.SUCCESS, responseData);
     }
 
-
     // 新建产品
     @PostMapping("/item")
     public CommonVo<ProductResponseDto> createProduct(@RequestBody ProductRequestDto requestDto)
@@ -44,7 +42,6 @@ public class ProductController {
         return CommonVo.create("请求成功", CodeEnum.SUCCESS, responseData);
     }
 
-
     // 删除产品
     @DeleteMapping("/item")
     public CommonVo<Void> deleteProduct(@RequestParam("id") String productId)
@@ -52,7 +49,6 @@ public class ProductController {
         productApplication.deleteProduct(productId);
         return CommonVo.create("请求成功", CodeEnum.SUCCESS);
     }
-
 
     // 更新产品信息
     @PutMapping("/item")

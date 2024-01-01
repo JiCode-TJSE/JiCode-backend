@@ -11,10 +11,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/product")
 public class ClientController {
     @Autowired
     ClientApplication clientApplication;
+
+    @GetMapping("hello")
+    public String hello() {
+        return "hello world";
+    }
 
     // 分页获取客户信息
     @GetMapping("/clients")
@@ -58,15 +64,13 @@ public class ClientController {
         return CommonVo.create("请求成功", CodeEnum.SUCCESS, responseData);
     }
 
-    //搜索客户列表
+    // 搜索客户列表
     @GetMapping("/clients/search")
     public CommonVo<SearchClientResponseDto> searchClient(@RequestParam("product_id") String productId,
-                                                          @RequestParam("keyword") String keyword)
-        throws  ServerException{
+            @RequestParam("keyword") String keyword)
+            throws ServerException {
         SearchClientResponseDto responseData = clientApplication.searchClientByName(productId, keyword);
-        return CommonVo.create("请求成功",CodeEnum.SUCCESS, responseData);
+        return CommonVo.create("请求成功", CodeEnum.SUCCESS, responseData);
     }
-
-
 
 }

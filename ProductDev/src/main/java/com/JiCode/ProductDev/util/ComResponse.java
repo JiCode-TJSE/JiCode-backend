@@ -4,18 +4,23 @@ import com.JiCode.ProductDev.common.ResponseCode;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author sty
  */
-@Data
-@Builder
+// @Data
+// @Builder
+@Setter
+@Getter
 public class ComResponse<T> {
 
     public static <T> ComResponse success(T data) {
         return ComResponse.builder()
                 .code(ResponseCode.SUCCESS.getCode())
                 .msg(ResponseCode.SUCCESS.getMessage())
+                .responseCode(ResponseCode.SUCCESS)
                 .data(data).build();
     }
 
@@ -23,6 +28,7 @@ public class ComResponse<T> {
         return ComResponse.builder()
                 .code(ResponseCode.SUCCESS.getCode())
                 .msg(ResponseCode.SUCCESS.getMessage())
+                .responseCode(ResponseCode.SUCCESS)
                 .data("").build();
     }
 
@@ -30,6 +36,7 @@ public class ComResponse<T> {
         return ComResponse.builder()
                 .code(ResponseCode.SYSTEM_ERROR.getCode())
                 .msg(ResponseCode.SYSTEM_ERROR.getMessage())
+                .responseCode(ResponseCode.SYSTEM_ERROR)
                 .build();
     }
 
@@ -65,6 +72,7 @@ public class ComResponse<T> {
         return ComResponse.builder()
                 .code( ResponseCode.NOT_LOGIN.getCode() )
                 .msg( ResponseCode.NOT_LOGIN.getMessage() )
+                .responseCode(ResponseCode.NOT_LOGIN)
                 .build();
     }
 
@@ -76,6 +84,8 @@ public class ComResponse<T> {
 
     private String msg;
 
+    private ResponseCode responseCode;
+
     private T data;
 
     public ComResponse(Integer code, String msg, T data) {
@@ -85,6 +95,51 @@ public class ComResponse<T> {
     }
 
     public ComResponse(){}
+
+    private static <T> Builder builder(){
+        return new Builder<T>();
+    }
+
+    @Getter
+    @Setter
+    public static class Builder<T> {
+        private static Builder builder;
+
+        private ComResponse comResponse;
+
+        public static Builder getInstance(){
+            if(builder == null){
+                builder = new Builder<>();
+            }
+
+            return builder;
+        }
+
+        public Builder responseCode(ResponseCode responseCode){
+            comResponse.setResponseCode(responseCode);
+            return this;
+        }
+
+        public Builder code(Integer code){
+            comResponse.setCode(code);
+            return this;
+        }
+
+        public Builder msg(String msg){
+            comResponse.setMsg(msg);
+            return this;
+        }
+
+        public Builder data(T data){
+            comResponse.setData(data);
+            return this;
+        }
+
+        public ComResponse build(){
+            return comResponse;
+        }
+        
+    }
 
 }
 

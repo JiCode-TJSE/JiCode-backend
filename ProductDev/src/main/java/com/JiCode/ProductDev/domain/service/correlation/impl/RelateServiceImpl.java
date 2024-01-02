@@ -12,7 +12,7 @@ import com.JiCode.ProductDev.domain.service.correlation.RelateService;
 import com.JiCode.ProductDev.domain.service.correlation.strategy.RelateStrategy;
 
 @Service
-public class RelateServiceImpl implements RelateService {
+public class RelateServiceImpl extends RelateStrategy implements RelateService {
     @Autowired
     RelateStrategy relateStrategy;
 

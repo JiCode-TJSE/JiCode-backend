@@ -62,13 +62,14 @@ public class SprintTests {
         List<String> members =  Arrays.asList("1");
         List<String> backlogItemIds = Arrays.asList("2");
         String topic = "wh";
-        SprintAggregation sprintAggregation = sprintFactory.createSprint(id, startTime, endTime, goal, type, projectId, managerId, null, members, topic, backlogItemIds);
+        String organizationId = "1";
+        SprintAggregation sprintAggregation = sprintFactory.createSprint(id, startTime, endTime, goal, type, projectId, managerId, null, members, topic, backlogItemIds,organizationId);
         sprintRepository.insert(sprintAggregation);
     }
 
     @Test
     public void testUpdateById() throws UpdateFaliureException {
-        String id = "1";
+        String id = null;
 
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, 2023);
@@ -83,7 +84,8 @@ public class SprintTests {
         List<String> members =  Arrays.asList("1");
         List<String> backlogItemIds = Arrays.asList("2","3","5");
         String topic = "wh";
-        SprintAggregation sprintAggregation = sprintFactory.createSprint(id, startTime, endTime, goal, type, projectId, managerId, null, members, topic, backlogItemIds);
+        String organizationId = "1";
+        SprintAggregation sprintAggregation = sprintFactory.createSprint(id, startTime, endTime, goal, type, projectId, managerId, null, members, topic, backlogItemIds,organizationId);
         sprintRepository.updateById(sprintAggregation);
     }
 
@@ -104,5 +106,13 @@ public class SprintTests {
         String sprintId = "3";
         String releaseId = "2";
         sprintRepository.associateWithRelease(sprintId, releaseId);
+    }
+
+    @Test
+    public void testSelectAll(){
+        List<SprintAggregation> sprintAggregations = sprintRepository.selectAll();
+        for(SprintAggregation sprintAggregation:sprintAggregations){
+            System.out.println(sprintAggregation);
+        }
     }
 }

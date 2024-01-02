@@ -19,6 +19,8 @@ public class Release {
 
     private String stageId;
 
+    private String organizationId;
+
     public String getId() {
         return id;
     }
@@ -81,5 +83,13 @@ public class Release {
 
     public void setStageId(String stageId) {
         this.stageId = stageId == null ? null : stageId.trim();
+    }
+
+    public String getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId == null ? null : organizationId.trim();
     }
 }

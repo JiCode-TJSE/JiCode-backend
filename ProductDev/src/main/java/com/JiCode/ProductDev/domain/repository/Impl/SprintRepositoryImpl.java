@@ -47,7 +47,7 @@ public class SprintRepositoryImpl implements SprintRepository {
      * @return {@link SprintAggregation}
      */
     private SprintAggregation entityToAggregate(Sprint sprint, List<String> memberIds, List<String> backlogItemIds){
-        SprintAggregation sprintAggregation = SprintFactory.createSprint(sprint.getId(), sprint.getStartTime(),sprint.getEndTime(),sprint.getGoal(),sprint.getType(),sprint.getProjectId(),sprint.getManagerId(),sprint.getReleaseId(),memberIds, sprint.getTopic(),backlogItemIds);
+        SprintAggregation sprintAggregation = SprintFactory.createSprint(sprint.getId(), sprint.getStartTime(),sprint.getEndTime(),sprint.getGoal(),sprint.getType(),sprint.getProjectId(),sprint.getManagerId(),sprint.getReleaseId(),memberIds, sprint.getTopic(),backlogItemIds, sprint.getOrganizationId());
         return sprintAggregation;
     }
 
@@ -115,6 +115,16 @@ public class SprintRepositoryImpl implements SprintRepository {
             System.out.println(e);
             return null;
         }
+    }
+
+    public List<SprintAggregation> selectAll(){
+        List<Sprint> sprints = sprintMapper.selectByExample(null);
+        List<SprintAggregation> sprintAggregations = new ArrayList<>();
+        for(Sprint sprint:sprints){
+            SprintAggregation sprintAggregation = selectById(sprint.getId());
+            sprintAggregations.add(sprintAggregation);
+        }
+        return sprintAggregations;
     }
 
     public PageInfo<SprintAggregation> getPage(int pageNum, int pageSize){

@@ -3,8 +3,6 @@ package com.JiCode.ProductDev.adaptor.output.dataaccess.mappers;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Backlogitem;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.BacklogitemExample;
 import java.util.List;
-
-import com.github.pagehelper.Page;
 import org.apache.ibatis.annotations.Param;
 
 public interface BacklogitemMapper {
@@ -29,6 +27,4 @@ public interface BacklogitemMapper {
     int updateByPrimaryKeySelective(Backlogitem record);
 
     int updateByPrimaryKey(Backlogitem record);
-
-    Page<Backlogitem> selectByPaging(BacklogitemExample example);
 }

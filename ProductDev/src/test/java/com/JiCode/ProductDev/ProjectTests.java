@@ -50,26 +50,9 @@ public class ProjectTests {
     ProjectFactory projectFactory;
 
     @Test
-    public void testSelectById(){
+    public void testSelectById() {
         ProjectAggregation projectAggregation = projectRepository.selectById("6");
         System.out.println(projectAggregation);
-    }
-
-    @Test
-    public void testGetPage(){
-        PageInfo<ProjectAggregation> pageInfo = projectRepository.getPage(1, 10);
-
-        System.out.println("Page number: " + pageInfo.getPageNum());
-        System.out.println("Page size: " + pageInfo.getPageSize());
-        System.out.println("Total pages: " + pageInfo.getPages());
-        System.out.println("Total elements: " + pageInfo.getTotal());
-
-        List<ProjectAggregation> projectAggregations = pageInfo.getList();
-        for(ProjectAggregation projectAggregation : projectAggregations){
-            // print the content of projectAggregation
-            // you need to implement the toString method in ProjectAggregation class
-            System.out.println(projectAggregation);
-        }
     }
 
     @Test
@@ -86,7 +69,8 @@ public class ProjectTests {
         List<String> members =  Arrays.asList("1", "2", "4");
         String topic =  "wh";
         String organizationId = "1";
-        ProjectAggregation projectAggregation = projectFactory.createProject(null, status, progress, startTime, endTime, managerId, members,topic, organizationId);
+        String description = "test";
+        ProjectAggregation projectAggregation = projectFactory.createProject(null, status, progress, startTime, endTime, managerId, members,topic, organizationId,description);
         System.out.println(projectRepository.insert(projectAggregation));
     }
 
@@ -105,7 +89,8 @@ public class ProjectTests {
         List<String> members =  Arrays.asList("1", "2", "3");
         String topic =  "wh";
         String organizationId = "1";
-        ProjectAggregation projectAggregation = projectFactory.createProject(id, status, progress, startTime, endTime, managerId, members,topic, organizationId);
+        String description = "test";
+        ProjectAggregation projectAggregation = projectFactory.createProject(id, status, progress, startTime, endTime, managerId, members,topic, organizationId,description);
         System.out.println(projectRepository.updateById(projectAggregation));
     }
 
@@ -113,6 +98,14 @@ public class ProjectTests {
     public void testDeleteById(){
         String id = "6";
         System.out.println(projectRepository.deleteById(id));
+    }
+
+    @Test
+    public void testSelectAll(){
+        List<ProjectAggregation> projectAggregations = projectRepository.selectAll();
+        for(ProjectAggregation projectAggregation : projectAggregations){
+            System.out.println(projectAggregation);
+        }
     }
 
 }

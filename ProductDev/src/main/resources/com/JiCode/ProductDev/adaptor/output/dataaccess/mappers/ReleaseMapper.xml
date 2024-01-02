@@ -10,6 +10,7 @@
     <result column="manager_id" jdbcType="VARCHAR" property="managerId" />
     <result column="topic" jdbcType="VARCHAR" property="topic" />
     <result column="stage_id" jdbcType="VARCHAR" property="stageId" />
+    <result column="organization_id" jdbcType="VARCHAR" property="organizationId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -70,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, start_time, end_time, type, project_id, manager_id, topic, stage_id
+    id, start_time, end_time, type, project_id, manager_id, topic, stage_id, organization_id
   </sql>
   <select id="selectByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ReleaseExample" resultMap="BaseResultMap">
     select
@@ -78,7 +79,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from release
+    from `release`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -89,29 +90,31 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from release
+    from `release`
     where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from release
+    delete from `release`
     where id = #{id,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ReleaseExample">
-    delete from release
+    delete from `release`
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Release">
-    insert into release (id, start_time, end_time, 
+    insert into `release` (id, start_time, end_time,
       type, project_id, manager_id, 
-      topic, stage_id)
+      topic, stage_id, organization_id
+      )
     values (#{id,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, #{endTime,jdbcType=TIMESTAMP}, 
       #{type,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{managerId,jdbcType=VARCHAR}, 
-      #{topic,jdbcType=VARCHAR}, #{stageId,jdbcType=VARCHAR})
+      #{topic,jdbcType=VARCHAR}, #{stageId,jdbcType=VARCHAR}, #{organizationId,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Release">
-    insert into release
+    insert into `release`
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
@@ -136,6 +139,9 @@
       </if>
       <if test="stageId != null">
         stage_id,
+      </if>
+      <if test="organizationId != null">
+        organization_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -163,6 +169,9 @@
       <if test="stageId != null">
         #{stageId,jdbcType=VARCHAR},
       </if>
+      <if test="organizationId != null">
+        #{organizationId,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.ReleaseExample" resultType="java.lang.Long">
@@ -172,7 +181,7 @@
     </if>
   </select>
     <select id="selectByPaging" resultMap="BaseResultMap">
-      selct * from `release`
+      select * from `release`
     </select>
     <update id="updateByExampleSelective" parameterType="map">
     update `release`
@@ -201,6 +210,9 @@
       <if test="record.stageId != null">
         stage_id = #{record.stageId,jdbcType=VARCHAR},
       </if>
+      <if test="record.organizationId != null">
+        organization_id = #{record.organizationId,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -215,7 +227,8 @@
       project_id = #{record.projectId,jdbcType=VARCHAR},
       manager_id = #{record.managerId,jdbcType=VARCHAR},
       topic = #{record.topic,jdbcType=VARCHAR},
-      stage_id = #{record.stageId,jdbcType=VARCHAR}
+      stage_id = #{record.stageId,jdbcType=VARCHAR},
+      organization_id = #{record.organizationId,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -244,6 +257,9 @@
       <if test="stageId != null">
         stage_id = #{stageId,jdbcType=VARCHAR},
       </if>
+      <if test="organizationId != null">
+        organization_id = #{organizationId,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=VARCHAR}
   </update>
@@ -255,7 +271,8 @@
       project_id = #{projectId,jdbcType=VARCHAR},
       manager_id = #{managerId,jdbcType=VARCHAR},
       topic = #{topic,jdbcType=VARCHAR},
-      stage_id = #{stageId,jdbcType=VARCHAR}
+      stage_id = #{stageId,jdbcType=VARCHAR},
+      organization_id = #{organizationId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

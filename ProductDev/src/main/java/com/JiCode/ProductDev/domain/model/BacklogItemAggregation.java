@@ -95,12 +95,36 @@ public class BacklogItemAggregation {
 
     private String topic;
     private String status;
+
+    private String organizationId;
+    private String projectTopic;
     // backlogitem_member 联系集当中的属性，在这里体现为一个列表
     private List<String> memberIds;
 
     private List<String> sprintIds;
 
     private List<String> releaseIds;
+
+
+
+    public String getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId;
+    }
+
+
+    public String getProjectTopic() {
+        return projectTopic;
+    }
+
+    public void setProjectTopic(String projectTopic) {
+        this.projectTopic = projectTopic;
+    }
+
+
 
     public String getStatus() {
         return status;

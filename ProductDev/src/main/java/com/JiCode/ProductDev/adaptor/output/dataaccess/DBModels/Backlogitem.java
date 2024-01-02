@@ -27,6 +27,10 @@ public class Backlogitem {
 
     private String status;
 
+    private String projectTopic;
+
+    private String organizationId;
+
     public String getId() {
         return id;
     }
@@ -121,5 +125,21 @@ public class Backlogitem {
 
     public void setStatus(String status) {
         this.status = status == null ? null : status.trim();
+    }
+
+    public String getProjectTopic() {
+        return projectTopic;
+    }
+
+    public void setProjectTopic(String projectTopic) {
+        this.projectTopic = projectTopic == null ? null : projectTopic.trim();
+    }
+
+    public String getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId == null ? null : organizationId.trim();
     }
 }

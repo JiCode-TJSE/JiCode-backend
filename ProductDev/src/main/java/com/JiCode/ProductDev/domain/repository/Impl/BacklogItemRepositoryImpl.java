@@ -61,7 +61,7 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
      * @return {@link ProjectAggregation}
      */
     private BacklogItemAggregation entityToAggregate(Backlogitem backlogitem, List<String> memberIds, List<String> sprintIds, List<String> releaseIds){
-        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(),memberIds, backlogitem.getTopic(),sprintIds,releaseIds,backlogitem.getStatus());
+        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(),memberIds, backlogitem.getTopic(),sprintIds,releaseIds,backlogitem.getStatus(),backlogitem.getOrganizationId());
         return backlogItemAggregation;
     }
 
@@ -125,42 +125,16 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
         }
     }
 
-    public PageInfo<BacklogItemAggregation> getPage(int pageNum, int pageSize){
-        try{
-            //
-            PageHelper.startPage(pageNum, pageSize);
-            Page<Backlogitem> backlogitems = backlogitemMapper.selectByPaging(null);
-            //System.out.println(backlogitems);
-            List<BacklogItemAggregation> backlogItemAggregations = new ArrayList<>();
-            for (Backlogitem backlogitem : backlogitems) {
-                System.out.println(backlogitem.getScheduleId());
-                // 获取成员列表
-                BacklogitemMemberExample example = new BacklogitemMemberExample();
-                example.createCriteria().andBacklogitemIdEqualTo(backlogitem.getId());
-                List<BacklogitemMemberKey> backlogitemMemberKeys = backlogitemMemberMapper.selectByExample(example);
-                List<String> memberIds = backlogitemMemberKeys.stream().map(BacklogitemMemberKey::getAccountId).collect(Collectors.toList());
 
-                // 获取迭代列表
-                BacklogitemSprintExample example1 = new BacklogitemSprintExample();
-                example1.createCriteria().andBacklogitemIdEqualTo(backlogitem.getId());
-                List<BacklogitemSprintKey> backlogitemSprints = backlogitemSprintMapper.selectByExample(example1);
-                List<String> sprintIds = backlogitemSprints.stream().map(BacklogitemSprintKey::getSprintId).collect(Collectors.toList());
 
-                // 获取发布列表
-                BacklogitemReleaseExample example2 = new BacklogitemReleaseExample();
-                example2.createCriteria().andBacklogitemIdEqualTo(backlogitem.getId());
-                List<BacklogitemReleaseKey> backlogitemReleases = backlogitemReleaseMapper.selectByExample(example2);
-                List<String> releaseIds = backlogitemReleases.stream().map(BacklogitemReleaseKey::getReleaseId).collect(Collectors.toList());
-
-                // 工厂模式创建ProjectAggregation
-                BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(), memberIds, backlogitem.getTopic(),sprintIds,releaseIds,backlogitem.getStatus()); // use builder to create ProjectAggregation
-                backlogItemAggregations.add(backlogItemAggregation);
-            }
-            return new PageInfo<>(backlogItemAggregations);
-        } catch (Exception e){
-            System.out.println(e);
-            return null;
+    public List<BacklogItemAggregation> selectAll(){
+        List<Backlogitem> backlogitems = backlogitemMapper.selectByExample(null);
+        List<BacklogItemAggregation> backlogItemAggregations = new ArrayList<>();
+        for(Backlogitem backlogitem:backlogitems){
+            BacklogItemAggregation backlogItemAggregation = selectById(backlogitem.getId());
+            backlogItemAggregations.add(backlogItemAggregation);
         }
+        return backlogItemAggregations;
     }
 
     public int insert(BacklogItemAggregation backlogItemAggregation){
@@ -168,14 +142,18 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
             Backlogitem backlogitem = new Backlogitem();
             BeanUtils.copyProperties(backlogItemAggregation, backlogitem);
 
-            // 使用UUID生成ID
+            // 使用项目名称+个数生成工作项id
             if(backlogitem.getId()==null){
+                System.out.println(backlogitem.getProjectId());
                 String projectTopic = projectMapper.selectByPrimaryKey(backlogitem.getProjectId()).getTopic();
                 BacklogitemExample example = new BacklogitemExample();
-                example.createCriteria().andTopicEqualTo(projectTopic);
-                String count = String.valueOf(backlogitemMapper.countByExample(example))+1;
+                example.createCriteria().andProjectIdEqualTo(backlogitem.getProjectId());
+                long count = backlogitemMapper.countByExample(example)+1;
                 System.out.println(projectTopic + " " + count);
                 backlogitem.setId(projectTopic + "-" + count);
+                backlogitem.setProjectTopic(projectTopic);
+                backlogItemAggregation.setId(projectTopic + "-" + count);
+                backlogItemAggregation.setProjectTopic(projectTopic);
             }
             System.out.println(backlogitem);
             int result = backlogitemMapper.insert(backlogitem);
@@ -190,6 +168,8 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
 
     public int updateById(BacklogItemAggregation backlogItemAggregation){
         try{
+            String projectTopic = projectMapper.selectByPrimaryKey(backlogItemAggregation.getProjectId()).getTopic();
+            backlogItemAggregation.setProjectTopic(projectTopic);
             return saveAggregate(backlogItemAggregation);
         }catch (Exception e){
             System.out.println(e);
@@ -199,6 +179,7 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
 
     public int deleteById(String id){
         try{
+            System.out.println("Repo Delete backlogitem: " + id);
             return backlogitemMapper.deleteByPrimaryKey(id);
         }catch (Exception e){
             System.out.println(e);
@@ -233,6 +214,8 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
 
     public int associateWithMember(String backlogItemId,List<String> memberId){
         try{
+            if(memberId==null)
+                return 0;
             // 首先删除联系集中project对应的所有记录
             BacklogitemMemberExample example = new BacklogitemMemberExample();
             example.createCriteria().andBacklogitemIdEqualTo(backlogItemId);
@@ -256,6 +239,8 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
 
     public int associateWithSprint(String backlogItemId,List<String> sprintIds){
         try{
+            if(sprintIds == null)
+                return 0;
             // 首先删除联系集中project对应的所有记录
             BacklogitemSprintExample example = new BacklogitemSprintExample();
             example.createCriteria().andBacklogitemIdEqualTo(backlogItemId);
@@ -278,7 +263,10 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
     }
 
     public int associateWithRelease(String backlogItemId,List<String> releaseIds){
-        try{// 首先删除联系集中project对应的所有记录
+        try{
+            if(releaseIds == null)
+                return 0;
+            // 首先删除联系集中project对应的所有记录
             BacklogitemReleaseExample example = new BacklogitemReleaseExample();
             example.createCriteria().andBacklogitemIdEqualTo(backlogItemId);
             int rows = backlogitemReleaseMapper.deleteByExample(example);

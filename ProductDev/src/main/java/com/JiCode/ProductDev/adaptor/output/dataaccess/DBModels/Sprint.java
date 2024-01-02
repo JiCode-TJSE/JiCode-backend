@@ -21,6 +21,8 @@ public class Sprint {
 
     private String topic;
 
+    private String organizationId;
+
     public String getId() {
         return id;
     }
@@ -91,5 +93,13 @@ public class Sprint {
 
     public void setTopic(String topic) {
         this.topic = topic == null ? null : topic.trim();
+    }
+
+    public String getOrganizationId() {
+        return organizationId;
+    }
+
+    public void setOrganizationId(String organizationId) {
+        this.organizationId = organizationId == null ? null : organizationId.trim();
     }
 }

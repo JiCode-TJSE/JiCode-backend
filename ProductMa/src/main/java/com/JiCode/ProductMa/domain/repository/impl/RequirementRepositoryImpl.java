@@ -98,12 +98,25 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         List<RequirementContent> requirementContents = requirementContentMapper
                 .selectByExample(example);
 
-        RequirementContentEntity[] requirementContentEntities = new RequirementContentEntity[requirementContents
+        // 创建一个新的列表，用于存放排序后的结果
+        List<RequirementContent> sortedRequirementContents = new ArrayList<>();
+
+        // 遍历 contentIds，按照 contentIds 的顺序添加结果到 sortedRequirementContents
+        for (String contentId : contentIds) {
+            for (RequirementContent requirementContent : requirementContents) {
+                if (requirementContent.getVersionContentId().equals(contentId)) {
+                    sortedRequirementContents.add(requirementContent);
+                    break;
+                }
+            }
+        }
+
+        RequirementContentEntity[] requirementContentEntities = new RequirementContentEntity[sortedRequirementContents
                 .size()];
 
         try {
             int i = 0;
-            for (RequirementContent requirementContent : requirementContents) {
+            for (RequirementContent requirementContent : sortedRequirementContents) {
                 requirementContentEntities[i] = RequirementContentEntity.create(requirementContent);
                 i++;
             }

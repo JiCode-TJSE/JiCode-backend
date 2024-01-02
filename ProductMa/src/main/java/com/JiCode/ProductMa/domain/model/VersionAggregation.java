@@ -57,17 +57,8 @@ public class VersionAggregation {
             throws CreateFailedException {
         VersionAggregation versionAgg = new VersionAggregation();
         BeanUtils.copyProperties(template, versionAgg);
+        // TODO 这边记得之后还得加一下错误检测
         versionAgg.cleanDirty();
-        try {
-            for (Field field : VersionAggregation.class.getDeclaredFields()) {
-                if (field.get(versionAgg) == null) {
-                    throw new CreateFailedException(
-                            "Field " + field.getName() + " is null in VersionAggregation creation.");
-                }
-            }
-        } catch (IllegalAccessException e) {
-            throw new CreateFailedException("Failed to access field during VersionAggregation creation.", e);
-        }
         return versionAgg;
     }
 

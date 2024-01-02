@@ -3,7 +3,6 @@ package com.JiCode.ProductMa.adaptor.input.controllers;
 import com.JiCode.ProductMa.adaptor.input.vo.CommonVo;
 import com.JiCode.ProductMa.application.ProductApplication;
 import com.JiCode.ProductMa.application.dto.AllProductsDto;
-import com.JiCode.ProductMa.application.dto.ClientDto;
 import com.JiCode.ProductMa.application.dto.ProductRequestDto;
 import com.JiCode.ProductMa.application.dto.ProductResponseDto;
 import com.JiCode.ProductMa.common.CodeEnum;

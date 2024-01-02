@@ -2,6 +2,7 @@ package com.JiCode.ProductMa.application;
 
 import java.util.Map;
 
+import com.JiCode.ProductMa.adaptor.input.vo.GetShowingRequirementVo;
 import com.JiCode.ProductMa.application.dto.AddRequirementReqDto;
 import com.JiCode.ProductMa.application.dto.AddVersionReqDto;
 import com.JiCode.ProductMa.application.dto.RequirementArrResDto;

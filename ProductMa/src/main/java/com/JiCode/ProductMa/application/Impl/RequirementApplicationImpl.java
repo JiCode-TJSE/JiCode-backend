@@ -1,5 +1,6 @@
 package com.JiCode.ProductMa.application.Impl;
 
+import com.JiCode.ProductMa.adaptor.input.vo.GetShowingRequirementVo;
 import com.JiCode.ProductMa.application.RequirementApplication;
 import com.JiCode.ProductMa.application.dto.AddRequirementReqDto;
 import com.JiCode.ProductMa.application.dto.AddVersionReqDto;
@@ -62,7 +63,14 @@ public class RequirementApplicationImpl
             // 根据产品id获取需求实体（分页查询了）
             PagedResultDto pagedResultDto = requirementRepository.selectRequirementsByPage(productId, pageNo, pageSize);
             if (pagedResultDto.getTotalCount() == 0) {
-                return null;
+                RequirementArrResDto allrequirementsDto = new RequirementArrResDto();
+                allrequirementsDto.setRecords(new RequirementArrResDto.Record[0]);
+                allrequirementsDto.setSize(pageSize);
+                allrequirementsDto.setRecordNum(0);
+                allrequirementsDto.setPages(0);
+                allrequirementsDto.setCurrent(pageNo);
+                allrequirementsDto.setTotal(0);
+                return allrequirementsDto;
             }
             RequirementEntity[] requirementEntities = pagedResultDto.getRequirements();
             // 根据产品版本查询所有内容实体，条件查询实现批量查询
@@ -211,6 +219,7 @@ public class RequirementApplicationImpl
                     .createByAll(backlogItemIDArr);
             RequirementContentEntity requirementContentEntity = RequirementContentEntity
                     .create(updateRequirementReqDto);
+            // TODO 这边好像根本没判断一不一样啊呜呜呜忘记了，慢慢改吧
             requirementAggregation.update(requirementContentEntity, clientsEntity, backlogItemsEntity);
             // 最后塞回去
             requirementRepository.update(requirementAggregation);

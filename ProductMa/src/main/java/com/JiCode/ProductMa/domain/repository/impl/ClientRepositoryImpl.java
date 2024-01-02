@@ -29,6 +29,7 @@ public class ClientRepositoryImpl implements ClientRepository {
 
     /**
      * 按ID查找ClientAggregation
+     * 
      * @param id
      * @return
      * @throws NotFoundException
@@ -36,7 +37,7 @@ public class ClientRepositoryImpl implements ClientRepository {
     @Override
     public ClientAggregation selectById(String id) throws NotFoundException {
         Client client = clientMapper.selectByPrimaryKey(id);
-        if(client == null){
+        if (client == null) {
             throw new NotFoundException("Select ClientAgg: client not found.");
         }
         return ClientAggregation.createClient(
@@ -49,11 +50,10 @@ public class ClientRepositoryImpl implements ClientRepository {
                 client.getProductId());
     }
 
-
-
-    //应该返回List<ClientAggregation>还是List<String> ids？？？
+    // 应该返回List<ClientAggregation>还是List<String> ids？？？
     /**
      * 按ProductID查找ClientAggregation
+     * 
      * @param productId
      * @return
      * @throws Exception
@@ -63,28 +63,24 @@ public class ClientRepositoryImpl implements ClientRepository {
         ClientExample example = new ClientExample();
         example.createCriteria().andProductIdEqualTo(productId);
         List<Client> clients = clientMapper.selectByExample(example);
-        if (clients == null || clients.isEmpty()){
-            throw new NotFoundException("Select ClientAgg by productId: product is not found");
-        }
-        else{
-            //返回结果：将Client转为ClientAggregation
-            List<ClientAggregation> result = new ArrayList<>();
-            for(Client client : clients){
-                ClientAggregation clientAggregation = null;
-                try {
-                    clientAggregation = selectById(client.getId());
-                } catch (NotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                result.add(clientAggregation);//插入结果
+        // 返回结果：将Client转为ClientAggregation
+        List<ClientAggregation> result = new ArrayList<>();
+        for (Client client : clients) {
+            ClientAggregation clientAggregation = null;
+            try {
+                clientAggregation = selectById(client.getId());
+            } catch (NotFoundException e) {
+                throw new RuntimeException(e);
             }
-            return result;
+            result.add(clientAggregation);// 插入结果
         }
-    }
+        return result;
 
+    }
 
     /**
      * 插入ClientAggregation
+     * 
      * @param clientAggregation
      * @return 生成的clientId
      * @throws InsertFailedException
@@ -93,36 +89,36 @@ public class ClientRepositoryImpl implements ClientRepository {
     public String insert(ClientAggregation clientAggregation) throws InsertFailedException {
         Client client = new Client();
         BeanUtils.copyProperties(clientAggregation, client);
-        //生成唯一标识符
+        // 生成唯一标识符
         client.setId(UUID.randomUUID().toString());
         int result = clientMapper.insert(client);
-        if( result <= 0){
+        if (result <= 0) {
             throw new InsertFailedException("Insert client failed.");
         }
         return client.getId();
     }
 
-
     /**
      * 更新ClientAggregation
+     * 
      * @param clientAggregation
      * @throws UpdateFailedException
      */
     @Override
     public void update(ClientAggregation clientAggregation) throws UpdateFailedException {
-            Client client = new Client();
-            BeanUtils.copyProperties(clientAggregation, client);
-            //按PK更新数据库中的client
-            int result = clientMapper.updateByPrimaryKey(client);
-            if (result <= 0){
-                throw new UpdateFailedException("Update client failed");
-            }
+        Client client = new Client();
+        BeanUtils.copyProperties(clientAggregation, client);
+        // 按PK更新数据库中的client
+        int result = clientMapper.updateByPrimaryKey(client);
+        if (result <= 0) {
+            throw new UpdateFailedException("Update client failed");
+        }
 
     }
 
-
     /**
      * 按ID删除ProductAggregation
+     * 
      * @param id
      * @throws DeleteFailedException
      */
@@ -130,14 +126,14 @@ public class ClientRepositoryImpl implements ClientRepository {
     public void delete(String id) throws DeleteFailedException {
         int result = clientMapper.deleteByPrimaryKey(id);
         System.out.println(result);
-        if (result <= 0){
+        if (result <= 0) {
             throw new DeleteFailedException("Delete client failed.");
         }
     }
 
-
     /**
      * 按productID分页查询
+     * 
      * @param productId
      * @param pageNo
      * @param pageSize
@@ -145,33 +141,29 @@ public class ClientRepositoryImpl implements ClientRepository {
      * @throws SelectFailedException
      */
     @Override
-    public List<ClientAggregation> selectByPage(String productId, int pageNo, int pageSize) throws SelectFailedException {
+    public List<ClientAggregation> selectByPage(String productId, int pageNo, int pageSize)
+            throws SelectFailedException {
         ClientExample example = new ClientExample();
         example.createCriteria().andProductIdEqualTo(productId);
         RowBounds rowBounds = new RowBounds((pageNo - 1) * pageSize, pageSize);
         List<Client> clients = clientMapper.selectByExampleWithRowbounds(example, rowBounds);
-        if(clients == null){
-            throw new SelectFailedException("Select ClientAggByPage by productId: client not found.");
-        }
-        else{
-            //返回结果：将Client转为ClientAggregation
-            List<ClientAggregation> result = new ArrayList<>();
-            for(Client client : clients){
-                ClientAggregation clientAggregation = null;
-                try {
-                    clientAggregation = selectById(client.getId());
-                } catch (NotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-                result.add(clientAggregation);//插入结果
+        // 返回结果：将Client转为ClientAggregation
+        List<ClientAggregation> result = new ArrayList<>();
+        for (Client client : clients) {
+            ClientAggregation clientAggregation = null;
+            try {
+                clientAggregation = selectById(client.getId());
+            } catch (NotFoundException e) {
+                throw new RuntimeException(e);
             }
-            return result;
+            result.add(clientAggregation);// 插入结果
         }
+        return result;
     }
-
 
     /**
      * 根据clientIds批量查询对应的clientNames
+     * 
      * @param clientIds
      * @return
      * @throws NotFoundException
@@ -179,19 +171,19 @@ public class ClientRepositoryImpl implements ClientRepository {
     @Override
     public String[] selectNamesById(String[] clientIds) throws NotFoundException {
         String[] clientNames = new String[clientIds.length];
-        for (int i = 0; i < clientIds.length; i++){
+        for (int i = 0; i < clientIds.length; i++) {
             Client client = clientMapper.selectByPrimaryKey(clientIds[i]);
-            if (client == null){
+            if (client == null) {
                 throw new NotFoundException("ClientRepository: select client's name failed with id——" + clientIds[i]);
             }
             clientNames[i] = client.getName();
         }
-            return clientNames;
+        return clientNames;
     }
-
 
     /**
      * 按客户名搜索客户列表
+     * 
      * @param keyword
      * @return
      * @throws NotFoundException
@@ -202,11 +194,10 @@ public class ClientRepositoryImpl implements ClientRepository {
         example.createCriteria().andNameLike("%" + keyword + "%").andProductIdEqualTo(productId);
 
         List<Client> clients = clientMapper.selectByExample(example);
-        if(clients == null){
+        if (clients == null) {
             throw new NotFoundException("ClientRepository: failed to search clientList by name-keyword");
-        }
-        else {
-            //返回结果：将Client转为ClientAggregation
+        } else {
+            // 返回结果：将Client转为ClientAggregation
             List<ClientAggregation> result = new ArrayList<>();
             ClientAggregation clientAggregation = null;
             for (Client client : clients) {
@@ -215,7 +206,7 @@ public class ClientRepositoryImpl implements ClientRepository {
                 } catch (NotFoundException e) {
                     throw new RuntimeException(e);
                 }
-                result.add(clientAggregation);//插入结果
+                result.add(clientAggregation);// 插入结果
             }
             return result;
         }

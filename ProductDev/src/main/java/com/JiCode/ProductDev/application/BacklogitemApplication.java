@@ -118,21 +118,23 @@ public class BacklogitemApplication {
     public int update(BacklogitemDto backlogitemDto){
         BacklogItemAggregation backlogItemAggregation=new BacklogItemAggregation();
         backlogItemAggregation.setId(backlogitemDto.getId());
-        backlogItemAggregation.setPriority(backlogitemDto.getPriority());
-        backlogItemAggregation.setStartTime(backlogitemDto.getStartTime());
-        backlogItemAggregation.setEndTime(backlogitemDto.getEndTime());
-        backlogItemAggregation.setSource(backlogitemDto.getSource());
-        backlogItemAggregation.setType(backlogitemDto.getType());
-        backlogItemAggregation.setDescription(backlogitemDto.getDescription());
-        backlogItemAggregation.setProjectId(backlogitemDto.getProjectId());
-        backlogItemAggregation.setOrganizationId(backlogitemDto.getOrganizationId());
-        backlogItemAggregation.setManagerId(backlogitemDto.getManagerId());
-        backlogItemAggregation.setScheduleId(backlogitemDto.getScheduleId());
-        backlogItemAggregation.setTopic(backlogitemDto.getTopic());
-        backlogItemAggregation.setStatus(backlogitemDto.getStatus());
-        backlogItemAggregation.setMemberIds(backlogitemDto.getMemberIds());
-        backlogItemAggregation.setSprintIds(backlogitemDto.getSprintIds());
-        backlogItemAggregation.setReleaseIds(backlogitemDto.getReleaseIds());
+        BacklogItemAggregation origin = backlogItemRepository.selectById(backlogitemDto.getId());
+
+        backlogItemAggregation.setPriority(backlogitemDto.getPriority()==null?origin.getPriority():backlogitemDto.getPriority());
+        backlogItemAggregation.setStartTime(backlogitemDto.getStartTime()==null?origin.getStartTime():backlogitemDto.getStartTime());
+        backlogItemAggregation.setEndTime(backlogitemDto.getEndTime()==null?origin.getEndTime():backlogitemDto.getEndTime());
+        backlogItemAggregation.setSource(backlogitemDto.getSource()==null?origin.getSource():backlogitemDto.getSource());
+        backlogItemAggregation.setType(backlogitemDto.getType()==null?origin.getType():backlogitemDto.getType());
+        backlogItemAggregation.setDescription(backlogitemDto.getDescription()==null?origin.getDescription():backlogitemDto.getDescription());
+        backlogItemAggregation.setProjectId(backlogitemDto.getProjectId()==null?origin.getProjectId():backlogitemDto.getProjectId());
+        backlogItemAggregation.setOrganizationId(backlogitemDto.getOrganizationId()==null?origin.getOrganizationId():backlogitemDto.getOrganizationId());
+        backlogItemAggregation.setManagerId(backlogitemDto.getManagerId()==null?origin.getManagerId():backlogitemDto.getManagerId());
+        backlogItemAggregation.setScheduleId(backlogitemDto.getScheduleId()==null?origin.getScheduleId():backlogitemDto.getScheduleId());
+        backlogItemAggregation.setTopic(backlogitemDto.getTopic()==null?origin.getTopic():backlogitemDto.getTopic());
+        backlogItemAggregation.setStatus(backlogitemDto.getStatus()==null?origin.getStatus():backlogitemDto.getStatus());
+        backlogItemAggregation.setMemberIds(backlogitemDto.getMemberIds()==null?origin.getMemberIds():backlogitemDto.getMemberIds());
+        backlogItemAggregation.setSprintIds(backlogitemDto.getSprintIds()==null?origin.getSprintIds():backlogitemDto.getSprintIds());
+        backlogItemAggregation.setReleaseIds(backlogitemDto.getReleaseIds()==null?origin.getReleaseIds():backlogitemDto.getReleaseIds());
         return backlogItemRepository.updateById(backlogItemAggregation);
     }
 

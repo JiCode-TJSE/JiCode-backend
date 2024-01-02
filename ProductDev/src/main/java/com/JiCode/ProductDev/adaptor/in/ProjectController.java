@@ -13,33 +13,33 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Project")
+@RequestMapping("api/productdev")
 public class ProjectController {
     @Autowired
     ProjectApplication projectApplication;
 
-    @GetMapping("/all")
+    @GetMapping("/projects")
     public ComResponse<List<ProjectAggregation>> all(@RequestParam("organization_id")String organization_id) throws SelectFailureException {
         return ComResponse.success(projectApplication.getAllProject(organization_id));
     }
 
-    @PostMapping("/add")
+    @PostMapping("/project")
     public ComResponse<?> add(@RequestBody CreateProjectDto createProjectDto) {
         projectApplication.createProject(createProjectDto);
         return ComResponse.success();
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/project")
     public ComResponse<?> delete(@RequestParam("projectId")String projectId) {
         projectApplication.deleteProject(projectId);
         return ComResponse.success();
     }
 
-    @GetMapping("/get")
+    @GetMapping("/project")
     public ComResponse<?> get(@RequestParam("projectId")String projectId) {
         return ComResponse.success(projectApplication.getProjectInfo(projectId));
     }
-    @PutMapping("/update")
+    @PutMapping("/project")
     public ComResponse<?> update(@RequestBody UpdateProjectDto updateProjectDto)
     {
         projectApplication.updateProject(updateProjectDto);

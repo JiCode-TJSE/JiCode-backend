@@ -10,18 +10,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/Sprint")
+@RequestMapping("/api/productdev")
 public class SprintController {
     @Autowired
     SprintApplication sprintApplication;
 
-    @PostMapping("/add")
+    @PostMapping("/sprint")
     public ComResponse<?> add(@RequestBody CreateSprintDto createSprintDto) throws InsertFailureException {
         sprintApplication.createSprint(createSprintDto);
         return ComResponse.success();
     }
 
-    @GetMapping("/get")
+    @GetMapping("/sprints")
     public ComResponse<?> get(@RequestParam("sprintId")String sprintId) {
         return ComResponse.success(sprintApplication.selectSprint(sprintId));
     }

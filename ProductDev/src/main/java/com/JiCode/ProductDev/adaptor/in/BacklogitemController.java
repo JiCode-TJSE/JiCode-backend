@@ -47,19 +47,19 @@ public class BacklogitemController {
         return ComResponse.success(ans);
     }
 
-    @PostMapping("/update")
+    @PutMapping("/backlogitem")
     public ComResponse<Integer> update(@RequestBody BacklogitemDto backlogitemDto){
         int ans = backlogitemApplication.update(backlogitemDto);
         return ComResponse.success(ans);
     }
 
-    @GetMapping("/detail")
+    @GetMapping("/backlogitem")
     public ComResponse<BacklogitemDto> selectById(@RequestParam("id") String id){
         BacklogitemDto backlogitemDto = backlogitemApplication.selectById(id);
         return ComResponse.success(backlogitemDto);
     }
 
-    @GetMapping("/joined")
+    @GetMapping("/joineditems")
     public ComResponse<List<BacklogitemDto>> getJoined(@RequestParam("accountId") String accountId){
         List<BacklogitemDto> backlogitemDtos = backlogitemApplication.getJoined(accountId);
         return ComResponse.success(backlogitemDtos);

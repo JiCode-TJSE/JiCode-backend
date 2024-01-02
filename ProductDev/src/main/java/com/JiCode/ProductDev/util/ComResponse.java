@@ -97,7 +97,17 @@ public class ComResponse<T> {
     @Getter
     @Setter
     public static class Builder<T> {
+        private static Builder builder;
+
         private ComResponse comResponse;
+
+        public static Builder getInstance(){
+            if(builder == null){
+                builder = new Builder<>();
+            }
+            
+            return builder;
+        }
 
         public Builder code(Integer code){
             comResponse.setCode(code);

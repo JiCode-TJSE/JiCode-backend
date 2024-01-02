@@ -26,4 +26,8 @@ public class AccountDto {
     private String phoneNumber;
 
     private String password;
+
+    private String userName;
+
+    private String name;
 }

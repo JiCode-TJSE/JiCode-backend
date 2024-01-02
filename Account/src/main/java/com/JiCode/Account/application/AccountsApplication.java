@@ -79,6 +79,7 @@ public class AccountsApplication {
             accountDto.setEmail(accountAggregation.getEmail());
             accountDto.setOrganizationId(accountAggregation.getOrganizationID());
             accountDto.setPassword(accountAggregation.getPassword());
+            accountDto.setUserName(accountAggregation.getUserInfoAggregation().getUserName());
             return accountDto;
         } catch (Exception e) {
             System.out.println(e);

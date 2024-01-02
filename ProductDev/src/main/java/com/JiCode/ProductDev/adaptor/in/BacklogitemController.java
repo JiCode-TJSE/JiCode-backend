@@ -15,12 +15,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/backlogitem")
+@RequestMapping("/api/productdev")
 public class BacklogitemController {
     @Autowired
     BacklogitemApplication backlogitemApplication;
 
-    @GetMapping("/get")
+    @GetMapping("/backlogitems")
     public ComResponse<List<SelectAllBacklogitemDto>> selectAll(@RequestParam("organizationId") String organizationId){
         List<SelectAllBacklogitemDto> selectAllBacklogitemDtos = backlogitemApplication.selectAll(organizationId);
 
@@ -29,19 +29,19 @@ public class BacklogitemController {
 
     }
 
-    @GetMapping("/managed")
+    @GetMapping("/manageditems")
     public ComResponse<List<BacklogitemDto>> selectManaged(@RequestParam("accountId") String accountId){
         List<BacklogitemDto> backlogitemDtos = backlogitemApplication.selectManaged(accountId);
         return ComResponse.success(backlogitemDtos);
     }
 
-    @DeleteMapping("/delete")
+    @DeleteMapping("/backlogitem")
     public ComResponse<Integer> delete(@RequestParam("id") String id){
         int ans = backlogitemApplication.delete(id);
         return ComResponse.success(ans);
     }
 
-    @PostMapping("/insert")
+    @PostMapping("/backlogitem")
     public ComResponse<Integer> insert(@RequestBody BacklogitemDto backlogitemDto){
         int ans = backlogitemApplication.insert(backlogitemDto);
         return ComResponse.success(ans);

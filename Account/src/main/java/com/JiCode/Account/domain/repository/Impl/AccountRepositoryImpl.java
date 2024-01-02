@@ -20,7 +20,7 @@ import java.util.UUID;
 /**
  * @author Fan Jiayi
  * @date 2023/12/26
- * @description repository的实现类
+ * @description AccountRepository的实现类
  */
 @Repository
 public class AccountRepositoryImpl implements AccountRepository {
@@ -35,7 +35,7 @@ public class AccountRepositoryImpl implements AccountRepository {
     public AccountAggregation selectById(String id) {
         try {
             Account account = accountMapper.selectByPrimaryKey(id);
-            return accountFactory.createAccount(
+            return accountFactory.createAccount(// 使用工厂模式创建聚合作为返回结果
                     account.getAccountId(),
                     account.getEmail(),
                     account.getPhoneNumber(),

@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
  * @Author fjy
  * @Date 2023-12-27
  **/
-
 @Service
 public class AccountFactoryImpl implements AccountFactory {
     @Autowired
@@ -26,7 +25,7 @@ public class AccountFactoryImpl implements AccountFactory {
         accountAggregation.setPhoneNumber(phoneNumber);
         accountAggregation.setPassword(password);
         accountAggregation.setOrganizationID(organizationID);
-        accountAggregation.setUserInfoAggregation(userInfoRepository.selectById(accountID));// 调用userinfo的仓储方法
+        accountAggregation.setUserInfoAggregation(userInfoRepository.selectById(accountID));// 调用userinfo的仓储方法创建聚合
         return accountAggregation;
     }
 }

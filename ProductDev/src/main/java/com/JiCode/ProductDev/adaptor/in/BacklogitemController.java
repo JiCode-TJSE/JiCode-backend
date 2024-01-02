@@ -24,6 +24,7 @@ public class BacklogitemController {
     public ComResponse<List<SelectAllBacklogitemDto>> selectAll(@RequestParam("organizationId") String organizationId){
         List<SelectAllBacklogitemDto> selectAllBacklogitemDtos = backlogitemApplication.selectAll(organizationId);
 
+
         return ComResponse.success(selectAllBacklogitemDtos);
 
     }

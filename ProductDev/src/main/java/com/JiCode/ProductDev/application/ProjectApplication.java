@@ -95,10 +95,62 @@ public class ProjectApplication {
     @Transactional(readOnly = false)
     public void updateProject(UpdateProjectDto updateProjectDto)
     {
-        var projectAggregation=projectFactory.createProject(updateProjectDto.id,updateProjectDto.status,
-                updateProjectDto.progress,updateProjectDto.startTime,updateProjectDto.endTime,
-                updateProjectDto.managerId,updateProjectDto.member,updateProjectDto.topic,updateProjectDto.organizationId,updateProjectDto.description);
-        projectRepository.updateById(projectAggregation);
+        var ori_projectAggregation=projectRepository.selectById(updateProjectDto.id);
+        if (updateProjectDto.id == null)
+            ori_projectAggregation.setId(ori_projectAggregation.getId());
+        else
+            ori_projectAggregation.setId(updateProjectDto.id);
+
+
+        if (updateProjectDto.status == null)
+            ori_projectAggregation.setStatus(ori_projectAggregation.getStatus());
+        else
+            ori_projectAggregation.setStatus(updateProjectDto.status);
+
+        if (updateProjectDto.progress == null)
+            ori_projectAggregation.setProgress(ori_projectAggregation.getProgress());
+        else
+            ori_projectAggregation.setProgress(updateProjectDto.progress);
+
+        if (updateProjectDto.startTime == null)
+            ori_projectAggregation.setStartTime(ori_projectAggregation.getStartTime());
+        else
+            ori_projectAggregation.setStartTime(updateProjectDto.startTime);
+
+        if (updateProjectDto.endTime == null)
+            ori_projectAggregation.setEndTime(ori_projectAggregation.getEndTime());
+        else
+            ori_projectAggregation.setEndTime(updateProjectDto.endTime);
+
+        if (updateProjectDto.managerId == null)
+            ori_projectAggregation.setManagerId(ori_projectAggregation.getManagerId());
+        else
+            ori_projectAggregation.setManagerId(updateProjectDto.managerId);
+
+
+        if (updateProjectDto.member == null)
+            ori_projectAggregation.setMember(ori_projectAggregation.getMember());
+        else
+            ori_projectAggregation.setMember(updateProjectDto.member);
+
+        if (updateProjectDto.topic == null)
+            ori_projectAggregation.setTopic(ori_projectAggregation.getTopic());
+        else
+            ori_projectAggregation.setTopic(updateProjectDto.topic);
+
+        if (updateProjectDto.organizationId == null)
+            ori_projectAggregation.setOrganizationId(ori_projectAggregation.getOrganizationId());
+        else
+            ori_projectAggregation.setOrganizationId(updateProjectDto.organizationId);
+
+        if (updateProjectDto.description == null)
+            ori_projectAggregation.setDescription(ori_projectAggregation.getDescription());
+        else
+            ori_projectAggregation.setDescription(updateProjectDto.description);
+
+
+
+        projectRepository.updateById(ori_projectAggregation);
     }
 
 

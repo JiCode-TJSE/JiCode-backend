@@ -25,7 +25,7 @@ public class SprintApplication {
 
     @Autowired
     SprintFactory sprintFactory;
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = false)
     public void createSprint(CreateSprintDto createSprintDto) throws InsertFailureException {
         SprintAggregation sprintAggregation=sprintFactory.createSprint(createSprintDto.id,
                 createSprintDto.startTime,

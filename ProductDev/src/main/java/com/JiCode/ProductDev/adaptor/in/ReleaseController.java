@@ -2,6 +2,7 @@ package com.JiCode.ProductDev.adaptor.in;
 
 import com.JiCode.ProductDev.application.ReleaseApplication;
 import com.JiCode.ProductDev.application.dto.ReleaseDto;
+import com.JiCode.ProductDev.util.ComResponse;
 import org.apache.ibatis.annotations.SelectKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +16,12 @@ public class ReleaseController {
     ReleaseApplication releaseApplication;
 
     @GetMapping("/all")
-    public List<ReleaseDto> selectAll(@RequestParam("organizationId")String organizationId){
-        return releaseApplication.selectAll(organizationId);
+    public ComResponse<?> selectAll(@RequestParam("organizationId")String organizationId){
+        return ComResponse.success(releaseApplication.selectAll(organizationId));
     }
 
     @PostMapping("/insert")
-    public int insert(@RequestBody ReleaseDto releaseDto){
-        return releaseApplication.insert(releaseDto);
+    public ComResponse<?> insert(@RequestBody ReleaseDto releaseDto){
+        return ComResponse.success(releaseApplication.insert(releaseDto));
     }
 }

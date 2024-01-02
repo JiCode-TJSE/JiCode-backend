@@ -7,7 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
 public class ProjectInfoVo {
     ProjectAggregation projectAggregation;
@@ -15,5 +14,10 @@ public class ProjectInfoVo {
     Integer in_progress;
     Integer finished;
 
-
+    public ProjectInfoVo(ProjectAggregation projectAggregation, Integer not_begin, Integer in_progress, Integer finished) {
+        this.projectAggregation = projectAggregation;
+        this.not_begin = not_begin;
+        this.in_progress = in_progress;
+        this.finished = finished;
+    }
 }

@@ -96,7 +96,7 @@ public class ProjectTests {
 
     @Test
     public void testDeleteById(){
-        String id = "6";
+        String id = "7c741a00-2f5f-4305-b94d-e99ac5fdedd3";
         System.out.println(projectRepository.deleteById(id));
     }
 

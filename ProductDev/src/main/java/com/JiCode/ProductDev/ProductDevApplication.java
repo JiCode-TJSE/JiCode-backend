@@ -12,7 +12,7 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @MapperScan("com.JiCode.ProductDev.adaptor.output.dataaccess.mappers")
 @ComponentScan(basePackages = {"com.JiCode.ProductDev.adaptor.output.dataaccess.mappers"})
 @ComponentScan("com.JiCode.ProductDev.domain")
-@EntityScan({"com.JiCOde.ProductDev.service"})
+@EntityScan({"com.JiCode.ProductDev.service"})
 public class ProductDevApplication {
 
 	public static void main(String[] args) {

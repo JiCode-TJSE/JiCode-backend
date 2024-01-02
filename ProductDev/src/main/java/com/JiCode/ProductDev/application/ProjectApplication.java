@@ -46,14 +46,14 @@ public class ProjectApplication {
     }
 
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = false)
     public void createProject(CreateProjectDto createProjectDto)
     {
         var projectAggregate=projectFactory.createProject(null,null,null,null,null,null,null,createProjectDto.topic,createProjectDto.organizationId,createProjectDto.description);
         projectRepository.insert(projectAggregate);
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = false)
     public void deleteProject(String projectId)
     {
         projectRepository.deleteById(projectId);
@@ -92,7 +92,7 @@ public class ProjectApplication {
 
     }
 
-    @Transactional(readOnly = true)
+    @Transactional(readOnly = false)
     public void updateProject(UpdateProjectDto updateProjectDto)
     {
         var projectAggregation=projectFactory.createProject(updateProjectDto.id,updateProjectDto.status,

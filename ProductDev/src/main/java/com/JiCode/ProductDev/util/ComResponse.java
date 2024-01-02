@@ -4,12 +4,16 @@ import com.JiCode.ProductDev.common.ResponseCode;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author sty
  */
-@Data
-@Builder
+// @Data
+// @Builder
+@Setter
+@Getter
 public class ComResponse<T> {
 
     public static <T> ComResponse success(T data) {
@@ -85,6 +89,36 @@ public class ComResponse<T> {
     }
 
     public ComResponse(){}
+
+    private static <T> Builder builder(){
+        return new Builder<T>();
+    }
+
+    @Getter
+    @Setter
+    public static class Builder<T> {
+        private ComResponse comResponse;
+
+        public Builder code(Integer code){
+            comResponse.setCode(code);
+            return this;
+        }
+
+        public Builder msg(String msg){
+            comResponse.setMsg(msg);
+            return this;
+        }
+
+        public Builder data(T data){
+            comResponse.setData(data);
+            return this;
+        }
+
+        public ComResponse build(){
+            return comResponse;
+        }
+        
+    }
 
 }
 

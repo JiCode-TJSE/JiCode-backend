@@ -97,7 +97,9 @@ public class ComResponse<T> {
     public ComResponse(){}
 
     private static <T> Builder builder(){
-        return new Builder<T>();
+        Builder builder = Builder.getInstance();
+        builder.setComResponse(new ComResponse<>());
+        return builder;
     }
 
     @Getter
@@ -139,6 +141,11 @@ public class ComResponse<T> {
             return comResponse;
         }
         
+    }
+
+    public static void main(String[] args){
+        ComResponse<String> testResponse = ComResponse.success("test response");
+        System.out.println(testResponse.data);
     }
 
 }

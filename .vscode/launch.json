@@ -2,6 +2,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "ComResponse",
+            "request": "launch",
+            "mainClass": "com.JiCode.ProductDev.util.ComResponse",
+            "projectName": "ProductDev"
+        },
+        {
+            "type": "java",
             "name": "Spring Boot-ProductDevApplication<ProductDev>",
             "request": "launch",
             "cwd": "${workspaceFolder}",

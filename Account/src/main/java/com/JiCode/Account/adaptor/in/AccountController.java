@@ -17,6 +17,21 @@ public class AccountController {
     @Autowired
     AccountsApplication accountsApplication;
 
+    @PostMapping("/register")
+    public ComResponse<Boolean> register(@RequestBody RegisterReqDto registerReqDto) {
+        Boolean registerResult = accountsApplication.register(registerReqDto);
+        return ComResponse.success(registerResult);
+    }
+
+    @PostMapping("/login")
+    public ComResponse<LoginResDto> login(@RequestBody LoginReqDto loginReqDto) {
+        LoginResDto loginResDto=new LoginResDto(accountsApplication.login(loginReqDto).getAccountList());
+        if (loginResDto != null) {
+            return ComResponse.success(loginResDto);
+        } else {
+            return ComResponse.error("Account not found");
+        }
+    }
     @GetMapping("/info")
     public ComResponse<AccountDto> getAccountInfo(@RequestParam("account_id") String account_id) {
         AccountDto accountDto = accountsApplication.selectById(account_id);
@@ -33,21 +48,7 @@ public class AccountController {
         return ComResponse.success(updateResult);
     }
 
-    @PostMapping("/register")
-    public ComResponse<Boolean> register(@RequestBody RegisterReqDto registerReqDto) {
-        Boolean registerResult = accountsApplication.register(registerReqDto);
-        return ComResponse.success(registerResult);
-    }
 
-    @PostMapping("/login")
-    public ComResponse<LoginResDto> login(@RequestBody LoginReqDto loginReqDto) {
-        LoginResDto loginResDto=new LoginResDto(accountsApplication.login(loginReqDto).getAccountList());
-        if (loginResDto != null) {
-            return ComResponse.success(loginResDto);
-        } else {
-            return ComResponse.error("Account not found");
-        }
-    }
 
     @DeleteMapping("")
     public ComResponse<Boolean> deleteAccount(@RequestParam("account_id") String account_id) {

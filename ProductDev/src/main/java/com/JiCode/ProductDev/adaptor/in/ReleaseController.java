@@ -10,7 +10,6 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/release")
-@CrossOrigin(origins = "*")
 public class ReleaseController {
     @Autowired
     ReleaseApplication releaseApplication;

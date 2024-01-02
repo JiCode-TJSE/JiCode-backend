@@ -49,7 +49,7 @@ public class RequirementController {
     }
 
     @DeleteMapping("/requirement")
-    public CommonVo<Void> deleteRequirement(@RequestParam("RequirementId") String RequirementId)
+    public CommonVo<Void> deleteRequirement(@RequestParam("requirementId") String RequirementId)
             throws ServerException {
         requirementApplication.deleteRequirement(RequirementId);
         return CommonVo.create("请求成功", CodeEnum.SUCCESS);

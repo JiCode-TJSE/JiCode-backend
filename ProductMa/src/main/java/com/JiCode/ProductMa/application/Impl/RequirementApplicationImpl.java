@@ -61,6 +61,9 @@ public class RequirementApplicationImpl
         try {
             // 根据产品id获取需求实体（分页查询了）
             PagedResultDto pagedResultDto = requirementRepository.selectRequirementsByPage(productId, pageNo, pageSize);
+            if (pagedResultDto.getTotalCount() == 0) {
+                return null;
+            }
             RequirementEntity[] requirementEntities = pagedResultDto.getRequirements();
             // 根据产品版本查询所有内容实体，条件查询实现批量查询
             List<String> contentIds = Arrays.stream(requirementEntities)
@@ -195,9 +198,17 @@ public class RequirementApplicationImpl
             RequirementAggregation requirementAggregation = requirementRepository
                     .selectById(updateRequirementReqDto.getRequirementId());
             // 再更新聚合
-            ClientsEntity clientsEntity = ClientsEntity.createByAll(updateRequirementReqDto.getClientArr());
+            String[] clientIDArr = updateRequirementReqDto.getClientArr();
+            if (clientIDArr == null) {
+                clientIDArr = new String[0];
+            }
+            ClientsEntity clientsEntity = ClientsEntity.createByAll(clientIDArr);
+            String[] backlogItemIDArr = updateRequirementReqDto.getBacklogItemArr();
+            if (backlogItemIDArr == null) {
+                backlogItemIDArr = new String[0];
+            }
             BacklogItemsEntity backlogItemsEntity = BacklogItemsEntity
-                    .createByAll(updateRequirementReqDto.getBacklogItemArr());
+                    .createByAll(backlogItemIDArr);
             RequirementContentEntity requirementContentEntity = RequirementContentEntity
                     .create(updateRequirementReqDto);
             requirementAggregation.update(requirementContentEntity, clientsEntity, backlogItemsEntity);

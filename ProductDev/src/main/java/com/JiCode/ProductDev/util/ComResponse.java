@@ -20,7 +20,7 @@ public class ComResponse<T> {
         return ComResponse.builder()
                 .code(ResponseCode.SUCCESS.getCode())
                 .msg(ResponseCode.SUCCESS.getMessage())
-                .responseCode(ResponseCode.SUCCESS)
+                .responseCode(ResponseCode.SUCCESS.cloneResponse())
                 .data(data).build();
     }
 
@@ -28,7 +28,7 @@ public class ComResponse<T> {
         return ComResponse.builder()
                 .code(ResponseCode.SUCCESS.getCode())
                 .msg(ResponseCode.SUCCESS.getMessage())
-                .responseCode(ResponseCode.SUCCESS)
+                .responseCode(ResponseCode.SUCCESS.cloneResponse())
                 .data("").build();
     }
 
@@ -36,7 +36,7 @@ public class ComResponse<T> {
         return ComResponse.builder()
                 .code(ResponseCode.SYSTEM_ERROR.getCode())
                 .msg(ResponseCode.SYSTEM_ERROR.getMessage())
-                .responseCode(ResponseCode.SYSTEM_ERROR)
+                .responseCode(ResponseCode.SYSTEM_ERROR.cloneResponse())
                 .build();
     }
 
@@ -72,7 +72,7 @@ public class ComResponse<T> {
         return ComResponse.builder()
                 .code( ResponseCode.NOT_LOGIN.getCode() )
                 .msg( ResponseCode.NOT_LOGIN.getMessage() )
-                .responseCode(ResponseCode.NOT_LOGIN)
+                .responseCode(ResponseCode.NOT_LOGIN.cloneResponse())
                 .build();
     }
 

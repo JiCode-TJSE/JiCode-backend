@@ -20,6 +20,14 @@ public enum ResponseCode {
         this.message = message;
     }
 
+    ResponseCode(ResponseCode other){
+        this(other.getCode(), other.getMessage());
+    }
+
+    public ResponseCode cloneResponse(){
+        return this;
+    }
+
     Integer code;
     String message;
 

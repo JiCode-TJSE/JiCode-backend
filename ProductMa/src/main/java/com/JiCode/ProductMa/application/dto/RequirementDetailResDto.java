@@ -2,6 +2,7 @@ package com.JiCode.ProductMa.application.dto;
 
 import java.util.Date;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
@@ -26,6 +27,7 @@ public class RequirementDetailResDto {
     BacklogItem[] backlogItemArr;
 
     @Data
+    @AllArgsConstructor
     static public class Supervisor {
         String supervisorName;
         String supervisorId;
@@ -46,6 +48,7 @@ public class RequirementDetailResDto {
     }
 
     @Data
+    @AllArgsConstructor
     static public class BacklogItem {
         String backlogItemId;
         String name;

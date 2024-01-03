@@ -1,6 +1,10 @@
 package com.JiCode.ProductMa.application.Impl;
 
 import com.JiCode.ProductMa.adaptor.input.vo.GetShowingRequirementVo;
+import com.JiCode.ProductMa.adaptor.output.feign.AccountFeignClient;
+import com.JiCode.ProductMa.adaptor.output.feign.BacklogItemFeignClient;
+import com.JiCode.ProductMa.adaptor.output.feign.dto.BacklogItemNamesReqDto;
+import com.JiCode.ProductMa.adaptor.output.feign.dto.UsernamesReqDto;
 import com.JiCode.ProductMa.application.RequirementApplication;
 import com.JiCode.ProductMa.application.dto.AddRequirementReqDto;
 import com.JiCode.ProductMa.application.dto.AddVersionReqDto;
@@ -47,6 +51,12 @@ public class RequirementApplicationImpl
     private static final Logger log = LoggerFactory.getLogger(RequirementApplicationImpl.class);
 
     @Autowired
+    AccountFeignClient accountFeignClient;
+
+    @Autowired
+    BacklogItemFeignClient backlogItemFeignClient;
+
+    @Autowired
     ClientRepository clientRepository;
 
     @Autowired
@@ -81,8 +91,13 @@ public class RequirementApplicationImpl
                     .selectAllRequirementContentsByIds(contentIds);
 
             // 根据需求实体里的负责人id获取负责人名字
-            String[] supervisorNames = new String[requirementContentEntities.length];
-            // TODO 这边就是调用账号管理的接口了，用那个黑马的那个有一个同步调用的东西的restclient？
+            String[] supervisorIds = new String[requirementContentEntities.length];
+            for (int i = 0; i < requirementContentEntities.length; i++) {
+                supervisorIds[i] = requirementContentEntities[i].getSupervisorId();
+            }
+            // 调用feign接口获取负责人名字
+            String[] supervisorNames = accountFeignClient.getMultiUserInfo(new UsernamesReqDto(supervisorIds)).data
+                    .getUsernameArr();
 
             // 包装在一起
             RequirementArrResDto allrequirementsDto = new RequirementArrResDto();
@@ -161,11 +176,21 @@ public class RequirementApplicationImpl
                 versions[i] = new RequirementDetailResDto.Version();
                 VersionAggs[i].copyPropertiesTo(versions[i]);
             }
-            // TODO 这边包一下然后写一下查外部接口的逻辑
-            String supervisorId = requirementContentEntity.getSupervisorId();
-            RequirementDetailResDto.Supervisor supervisor = new RequirementDetailResDto.Supervisor();
+            String supervisorName = accountFeignClient
+                    .getMultiUserInfo(new UsernamesReqDto(requirementContentEntity.getSupervisorId())).data
+                    .getUsernameArr()[0];
+            RequirementDetailResDto.Supervisor supervisor = new RequirementDetailResDto.Supervisor(supervisorName,
+                    requirementContentEntity.getSupervisorId());
             String[] backlogItemIDArr = requirementAggregation.getBacklogItemsEntity().getBacklogItemIDArr();
+            // 调用feign接口获取负责人名字
+            String[] backlogItemNames = backlogItemFeignClient
+                    .getMultiNames(new BacklogItemNamesReqDto(backlogItemIDArr)).data
+                    .getBacklogItemNameArr();
             RequirementDetailResDto.BacklogItem[] backlogItems = new RequirementDetailResDto.BacklogItem[backlogItemIDArr.length];
+            for (int i = 0; i < backlogItemIDArr.length; i++) {
+                backlogItems[i] = new RequirementDetailResDto.BacklogItem(backlogItemIDArr[i], backlogItemNames[i]);
+            }
+
             String[] clientIDArr = requirementAggregation.getClientsEntity().getClientIDArr();
             RequirementDetailResDto.Client[] clients = new RequirementDetailResDto.Client[clientIDArr.length];
             String[] clientNameArr = clientRepository.selectNamesById(clientIDArr);
@@ -176,9 +201,9 @@ public class RequirementApplicationImpl
                 clients[i].setName(clientNameArr[i]);
             }
 
-            requirementDetailResDto.setSupervisor(null);
+            requirementDetailResDto.setSupervisor(supervisor);
             requirementDetailResDto.setVersionArr(versions);
-            requirementDetailResDto.setBacklogItemArr(null);
+            requirementDetailResDto.setBacklogItemArr(backlogItems);
             requirementDetailResDto.setClientArr(clients);
             return requirementDetailResDto;
         } catch (SelectFailedException | CopyFailedException | NotFoundException e) {

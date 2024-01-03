@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.logging.Logger;
 
 @Service
@@ -17,6 +18,8 @@ public class UserInfoApplication {
     private static final Logger logger = Logger.getLogger(UserInfoApplication.class.getName());
     @Autowired
     UserInfoRepository userInfoRepository;
+
+
 
     // accountId 不存在时，返回 null
     public UserInfoDto selectByUserId(String accountId) {
@@ -41,6 +44,14 @@ public class UserInfoApplication {
                 logger.severe("该用户的用户信息已存在，accountId: " + userInfoDto.getAccountId() + "，不做处理");
                 return false;
             } else {
+                List<String> photoList = new ArrayList<>();
+                Random random = new Random();
+                int randomNum = random.nextInt(3);
+                photoList.add("https://th.bing.com/th/id/OIP.l3VsjFfBQBTo3NE7a909hwAAAA?rs=1&pid=ImgDetMain");
+                photoList.add("https://p.qqan.com/up/2020-5/2020051811245458831.jpg");
+                photoList.add("https://p.qqan.com/up/2021-5/16213049233749708.jpg");
+                userInfoDto.setAvatar(photoList.get(randomNum));
+
                 BeanUtils.copyProperties(userInfoDto, userInfoAggregation);
                 userInfoRepository.insertUserInfo(userInfoAggregation);
             }

@@ -5,6 +5,7 @@ import com.JiCode.ProductDev.adaptor.in.vo.ProjectInfoVo;
 import com.JiCode.ProductDev.application.dto.CreateProjectDto;
 import com.JiCode.ProductDev.application.dto.SelectScheduleByIdDto;
 import com.JiCode.ProductDev.application.dto.UpdateProjectDto;
+import com.JiCode.ProductDev.domain.bo.RelateBo;
 import com.JiCode.ProductDev.domain.factory.ProjectFactory;
 import com.JiCode.ProductDev.domain.factory.impl.ProjectFactoryImpl;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
@@ -12,6 +13,7 @@ import com.JiCode.ProductDev.domain.model.ScheduleAggregation;
 import com.JiCode.ProductDev.domain.model.SprintAggregation;
 import com.JiCode.ProductDev.domain.repository.BacklogItemRepository;
 import com.JiCode.ProductDev.domain.repository.ProjectRepository;
+import com.JiCode.ProductDev.domain.service.correlation.RelateService;
 import com.JiCode.ProductDev.exceptions.WorkHour.SelectFailureException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,9 @@ public class ProjectApplication {
 
     @Autowired
     BacklogItemRepository backlogItemRepository;
+
+    @Autowired
+    RelateService relateService;
 
 
     @Transactional(readOnly = true)
@@ -153,7 +158,9 @@ public class ProjectApplication {
         projectRepository.updateById(ori_projectAggregation);
     }
 
-
+    public void relate(RelateBo item1,RelateBo item2){
+        relateService.relate(item1, item2);
+    }
 
 
 

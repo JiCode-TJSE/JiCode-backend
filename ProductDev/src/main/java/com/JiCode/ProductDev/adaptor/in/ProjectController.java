@@ -3,7 +3,9 @@ package com.JiCode.ProductDev.adaptor.in;
 
 import com.JiCode.ProductDev.application.ProjectApplication;
 import com.JiCode.ProductDev.application.dto.CreateProjectDto;
+import com.JiCode.ProductDev.application.dto.RelateDto;
 import com.JiCode.ProductDev.application.dto.UpdateProjectDto;
+import com.JiCode.ProductDev.domain.bo.RelateBo;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
 import com.JiCode.ProductDev.exceptions.WorkHour.SelectFailureException;
 import com.JiCode.ProductDev.util.ComResponse;
@@ -46,7 +48,12 @@ public class ProjectController {
         return ComResponse.success();
     }
 
-
+    @PostMapping("/project/relation")
+    public ComResponse relate(@RequestBody RelateDto relateDto){
+        projectApplication.relate(new RelateBo(relateDto.getId1(), relateDto.getType1()),
+                                 new RelateBo(relateDto.getId2(), relateDto.getType2()));
+        return ComResponse.success();
+    }
 
 
 

@@ -1,6 +1,7 @@
 package com.JiCode.ProductDev.domain.repository;
 
 import com.JiCode.ProductDev.domain.model.ReleaseAggregation;
+import com.JiCode.ProductDev.domain.model.value.ReleaseStage;
 import com.github.pagehelper.PageInfo;
 
 import java.util.List;
@@ -19,4 +20,5 @@ public interface ReleaseRepository {
      public int insertBacklogItem(String releaseId,String backlogItemId);
 
      public int associateWithBacklogItem(String releaseId, List<String> backlogItemIds);
+
 }

@@ -4,6 +4,7 @@ import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.*;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.BacklogitemReleaseMapper;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ReleaseMapper;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.ReleaseMemberMapper;
+import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.StageMapper;
 import com.JiCode.ProductDev.domain.factory.ReleaseFactory;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
 import com.JiCode.ProductDev.domain.model.ReleaseAggregation;
@@ -27,6 +28,9 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
     ReleaseMapper releaseMapper;
     @Autowired
     ReleaseFactory releaseFactory;
+
+    @Autowired
+    StageMapper stageMapper;
 
     @Autowired
     ReleaseMemberMapper releaseMemberMapper;
@@ -147,6 +151,7 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
             if(release.getId()==null){
                release.setId(UUID.randomUUID().toString());
             }
+
             int result = releaseMapper.insert(release);
             List<String> memberIds = releaseAggregation.getMemberIds();
             ReleaseMember releaseMember = new ReleaseMember();
@@ -155,6 +160,14 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
                 releaseMember.setAccountId(memberId);
                 releaseMemberMapper.insert(releaseMember);
             }
+
+            // 自动生成初始阶段
+            Stage stage = new Stage();
+            long count = stageMapper.countByExample(null);
+            stage.setId(Long.toString(count+1));
+            stage.setReleaseId(release.getId());
+            stage.setStage("NotStarted");
+            stageMapper.insert(stage);
 
             associateWithBacklogItem(release.getId(), releaseAggregation.getBacklogItemIds());
             return result;

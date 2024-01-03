@@ -36,6 +36,7 @@ public class ReleaseApplication {
                 releaseDto.setStageId(releaseAggregation.getStageId());
                 releaseDto.setBacklogItemIds(releaseAggregation.getBacklogItemIds());
                 releaseDto.setOrganizationId(releaseAggregation.getOrganizationId());
+                releaseDto.setStages(releaseAggregation.getStages());
                 ans.add(releaseDto);
             }
         }

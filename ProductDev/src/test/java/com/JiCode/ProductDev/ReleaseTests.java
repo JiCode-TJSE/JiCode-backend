@@ -31,8 +31,8 @@ public class ReleaseTests {
 
     @Test
     public void testSelectById(){
-        ReleaseAggregation releaseAggregation = releaseRepository.selectById("1");
-        System.out.println(releaseAggregation);
+        ReleaseAggregation releaseAggregation = releaseRepository.selectById("3");
+        System.out.println(releaseAggregation.getStages());
     }
 
     @Test

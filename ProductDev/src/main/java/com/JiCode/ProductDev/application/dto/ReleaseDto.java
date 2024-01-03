@@ -1,5 +1,7 @@
 package com.JiCode.ProductDev.application.dto;
 
+import com.JiCode.ProductDev.domain.model.value.ReleaseStage;
+
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +25,16 @@ public class ReleaseDto {
     private String organizationId;
 
     List<String> backlogItemIds;
+
+    List<ReleaseStage> stages;
+
+    public List<ReleaseStage> getStages() {
+        return stages;
+    }
+
+    public void setStages(List<ReleaseStage> stages) {
+        this.stages = stages;
+    }
 
     public String getId() {
         return id;

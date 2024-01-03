@@ -20,14 +20,13 @@ public class BacklogitemApplication {
     BacklogItemRepository backlogItemRepository;
 
     @Transactional(readOnly = true)
-    public List<SelectAllBacklogitemDto> selectAll(String organizationId){
+    public List<SelectAllBacklogitemDto> selectAll(String organizationId,String projectId){
         List<BacklogItemAggregation> backlogitemAggregations = backlogItemRepository.selectAll();
         System.out.println(backlogitemAggregations.size());
         var ans=new ArrayList<SelectAllBacklogitemDto>();
         for(BacklogItemAggregation backlogItemAggregation:backlogitemAggregations){
-            System.out.println(backlogItemAggregation.getOrganizationId());
-            System.out.println("organizationId: " + organizationId);
-            if(backlogItemAggregation.getOrganizationId().equals(organizationId)){
+            if(backlogItemAggregation.getOrganizationId().equals(organizationId)
+            &&(backlogItemAggregation.getProjectId().equals(projectId) || projectId==null)){
                 SelectAllBacklogitemDto selectAllBacklogitemDto=new SelectAllBacklogitemDto();
                 selectAllBacklogitemDto.setId(backlogItemAggregation.getId());
                 selectAllBacklogitemDto.setPriority(backlogItemAggregation.getPriority());

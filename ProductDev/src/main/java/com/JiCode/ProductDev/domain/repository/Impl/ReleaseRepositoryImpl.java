@@ -71,6 +71,7 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
         List<Release> releases = releaseMapper.selectByExample(null);
         List<ReleaseAggregation> releaseAggregations = new ArrayList<>();
         for (Release release : releases) {
+            System.out.println("release: " + release.getOrganizationId() + " " + release.getProjectId());
             ReleaseMemberExample example = new ReleaseMemberExample();
             example.createCriteria().andReleaseIdEqualTo(release.getId());
             // 获取所有成员
@@ -85,6 +86,7 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
 
             ReleaseAggregation releaseAggregation = entityToAggregate(release, memberIds,backlogItemIds);
             releaseAggregations.add(releaseAggregation);
+            System.out.println("releaseAggregation: " + releaseAggregation.getOrganizationId() + " " + releaseAggregation.getProjectId());
         }
         return releaseAggregations;
     }

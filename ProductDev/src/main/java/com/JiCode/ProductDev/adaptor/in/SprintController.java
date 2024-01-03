@@ -22,8 +22,8 @@ public class SprintController {
     }
 
     @GetMapping("/sprints")
-    public ComResponse<?> get(@RequestParam("sprintId")String sprintId) {
-        return ComResponse.success(sprintApplication.selectSprint(sprintId));
+    public ComResponse<?> get(@RequestParam("organizationId")String organizationId) {
+        return ComResponse.success(sprintApplication.selectSprint(organizationId));
     }
 
 

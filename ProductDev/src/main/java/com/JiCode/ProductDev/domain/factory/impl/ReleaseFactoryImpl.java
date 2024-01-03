@@ -25,6 +25,7 @@ public class ReleaseFactoryImpl implements ReleaseFactory {
         releaseAggregation.setStageId(stageId);
         releaseAggregation.setBacklogItemIds(backlogItemIds);
         releaseAggregation.setOrganizationId(organizationId);
+        releaseAggregation.setProjectId(projectid);
         System.out.println(releaseAggregation);
         return releaseAggregation;
     }

@@ -17,11 +17,13 @@ public class ReleaseApplication {
     ReleaseRepository releaseRepository;
 
     @Transactional(readOnly = true)
-    public List<ReleaseDto> selectAll(String organizationId){
+    public List<ReleaseDto> selectAll(String organizationId,String projectId){
         List<ReleaseAggregation> releaseAggregations=releaseRepository.selectAll();
         List<ReleaseDto> ans = new ArrayList<>();
+        System.out.println(projectId==null);
         for(ReleaseAggregation releaseAggregation:releaseAggregations){
-            if(releaseAggregation.getOrganizationId().equals(organizationId)){
+            if(releaseAggregation.getOrganizationId().equals(organizationId)
+                    &&(releaseAggregation.getProjectId().equals(projectId) || projectId==null)){
                 ReleaseDto releaseDto = new ReleaseDto();
                 releaseDto.setId(releaseAggregation.getId());
                 releaseDto.setStartTime(releaseAggregation.getStartTime());

@@ -15,12 +15,12 @@ public class ReleaseController {
     @Autowired
     ReleaseApplication releaseApplication;
 
-    @GetMapping("/all")
-    public ComResponse<?> selectAll(@RequestParam("organizationId")String organizationId){
-        return ComResponse.success(releaseApplication.selectAll(organizationId));
+    @GetMapping("/releases")
+    public ComResponse<?> selectAll(@RequestParam("organizationId")String organizationId,@RequestParam(value = "projectId",required = false)String projectId){
+        return ComResponse.success(releaseApplication.selectAll(organizationId,projectId));
     }
 
-    @PostMapping("/insert")
+    @PostMapping("/release")
     public ComResponse<?> insert(@RequestBody ReleaseDto releaseDto){
         return ComResponse.success(releaseApplication.insert(releaseDto));
     }

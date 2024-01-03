@@ -7,6 +7,7 @@ import com.JiCode.ProductDev.domain.model.ScheduleAggregation;
 import com.JiCode.ProductDev.domain.model.SprintAggregation;
 import com.JiCode.ProductDev.domain.repository.SprintRepository;
 import com.JiCode.ProductDev.exceptions.WorkHour.SelectFailureException;
+import com.JiCode.ProductDev.exceptions.sprint.DeleteFailureException;
 import com.JiCode.ProductDev.exceptions.sprint.InsertFailureException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,10 @@ public class SprintApplication {
                 .collect(Collectors.toList());
         return filteredSprints;
 
+    }
+
+    public int delete(String sprintId) throws DeleteFailureException {
+        return sprintRepository.deleteById(sprintId);
     }
 
 

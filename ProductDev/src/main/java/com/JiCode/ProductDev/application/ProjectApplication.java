@@ -54,7 +54,7 @@ public class ProjectApplication {
     @Transactional(readOnly = false)
     public void createProject(CreateProjectDto createProjectDto)
     {
-        var projectAggregate=projectFactory.createProject(null,null,null,null,null,null,null,createProjectDto.topic,createProjectDto.organizationId,createProjectDto.description);
+        var projectAggregate=projectFactory.createProject(null,"未开始",null,null,null,null,null,createProjectDto.topic,createProjectDto.organizationId,createProjectDto.description);
         projectRepository.insert(projectAggregate);
     }
 

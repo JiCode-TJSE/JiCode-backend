@@ -11,4 +11,8 @@ public interface ScheduleRepository {
     public ScheduleAggregation selectById(String id) throws SelectFailureException;
 
     public List<WorkhourAggregation> selectAll();
+
+    public int insert(ScheduleAggregation scheduleAggregation) throws SelectFailureException;
+
+    public int update(ScheduleAggregation scheduleAggregation);
 }

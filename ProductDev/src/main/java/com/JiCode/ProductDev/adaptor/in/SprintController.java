@@ -4,6 +4,7 @@ import com.JiCode.ProductDev.application.ProjectApplication;
 import com.JiCode.ProductDev.application.SprintApplication;
 import com.JiCode.ProductDev.application.dto.CreateSprintDto;
 import com.JiCode.ProductDev.domain.model.SprintAggregation;
+import com.JiCode.ProductDev.exceptions.sprint.DeleteFailureException;
 import com.JiCode.ProductDev.exceptions.sprint.InsertFailureException;
 import com.JiCode.ProductDev.util.ComResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +27,8 @@ public class SprintController {
         return ComResponse.success(sprintApplication.selectSprint(organizationId));
     }
 
-
+    @DeleteMapping("/sprint")
+    public ComResponse<Integer> delete(@RequestParam("sprintId")String sprintId) throws DeleteFailureException {
+        return ComResponse.success(sprintApplication.delete(sprintId));
+    }
 }

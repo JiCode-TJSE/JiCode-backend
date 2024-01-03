@@ -3,9 +3,12 @@ package com.JiCode.ProductDev.domain.repository.Impl;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.*;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.mappers.*;
 import com.JiCode.ProductDev.domain.factory.BacklogItemFactory;
+import com.JiCode.ProductDev.domain.factory.ScheduleFactory;
 import com.JiCode.ProductDev.domain.model.BacklogItemAggregation;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
+import com.JiCode.ProductDev.domain.model.ScheduleAggregation;
 import com.JiCode.ProductDev.domain.repository.BacklogItemRepository;
+import com.JiCode.ProductDev.domain.repository.ScheduleRepository;
 import com.fasterxml.jackson.core.JsonToken;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -53,6 +56,12 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
 
     @Autowired
     ProjectMapper projectMapper;
+
+    @Autowired
+    ScheduleFactory scheduleFactory;
+
+    @Autowired
+    ScheduleRepository scheduleRepository;
 
     /**
      * 将实体类及其他信息转换成聚合返回给上层，用于查
@@ -155,6 +164,12 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
                 backlogItemAggregation.setId(projectTopic + "-" + count);
                 backlogItemAggregation.setProjectTopic(projectTopic);
             }
+
+            // 新建schedule
+            ScheduleAggregation scheduleAggregation = scheduleFactory.createSchedule(UUID.randomUUID().toString(),0,0,0,0);
+            scheduleRepository.insert(scheduleAggregation);
+
+
             System.out.println(backlogitem);
             int result = backlogitemMapper.insert(backlogitem);
             saveAggregate(backlogItemAggregation);

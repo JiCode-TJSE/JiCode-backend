@@ -24,4 +24,9 @@ public class ReleaseController {
     public ComResponse<?> insert(@RequestBody ReleaseDto releaseDto){
         return ComResponse.success(releaseApplication.insert(releaseDto));
     }
+
+    @DeleteMapping("/release")
+    public ComResponse<?> delete(@RequestParam("releaseId")String releaseId){
+        return ComResponse.success(releaseApplication.delete(releaseId));
+    }
 }

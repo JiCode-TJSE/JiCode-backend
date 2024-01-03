@@ -44,4 +44,24 @@ public class ScheduleRepositoryImpl implements ScheduleRepository {
         }
         return workhourAggregations;
     }
+
+    public int insert(ScheduleAggregation scheduleAggregation) throws SelectFailureException {
+        Schedule schedule = new Schedule();
+        schedule.setId(scheduleAggregation.getId());
+        schedule.setEstimatedWorkhour(scheduleAggregation.getEstimatedWorkhour());
+        schedule.setActualWorkhour(scheduleAggregation.getActualWorkhour());
+        schedule.setRemainWorkhour(scheduleAggregation.getRemainWorkhour());
+        schedule.setProgress(scheduleAggregation.getProgress());
+        return scheduleMapper.insert(schedule);
+    }
+
+    public int update(ScheduleAggregation scheduleAggregation){
+        Schedule schedule = new Schedule();
+        schedule.setId(scheduleAggregation.getId());
+        schedule.setEstimatedWorkhour(scheduleAggregation.getEstimatedWorkhour());
+        schedule.setActualWorkhour(scheduleAggregation.getActualWorkhour());
+        schedule.setRemainWorkhour(scheduleAggregation.getRemainWorkhour());
+        schedule.setProgress(scheduleAggregation.getProgress());
+        return scheduleMapper.updateByPrimaryKey(schedule);
+    }
 }

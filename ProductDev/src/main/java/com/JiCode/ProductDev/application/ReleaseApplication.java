@@ -59,4 +59,9 @@ public class ReleaseApplication {
         releaseAggregation.setOrganizationId(releaseDto.getOrganizationId());
         return releaseRepository.insert(releaseAggregation);
     }
+
+    @Transactional(readOnly = false)
+    public int delete(String releaseId){
+        return releaseRepository.deleteById(releaseId);
+    }
 }

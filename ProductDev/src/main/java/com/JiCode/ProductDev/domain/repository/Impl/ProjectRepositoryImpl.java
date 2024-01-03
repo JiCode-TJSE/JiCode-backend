@@ -128,6 +128,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
         try {
             Project project = new Project();
             BeanUtils.copyProperties(projectAggregation, project);
+            System.out.println(project.toString());
             project.setId(UUID.randomUUID().toString());
             return projectMapper.insert(project);
         }catch (Exception e){

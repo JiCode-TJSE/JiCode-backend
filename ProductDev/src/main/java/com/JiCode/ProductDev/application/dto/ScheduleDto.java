@@ -1,18 +1,6 @@
-package com.JiCode.ProductDev.domain.model;
+package com.JiCode.ProductDev.application.dto;
 
-import com.JiCode.ProductDev.domain.repository.ScheduleRepository;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-
-
-@Data
-@NoArgsConstructor
-public class  ScheduleAggregation {
-
+public class ScheduleDto {
     private String id;
     private Integer estimatedWorkhour;
     private Integer actualWorkhour;
@@ -21,17 +9,6 @@ public class  ScheduleAggregation {
 
     public String getId() {
         return id;
-    }
-
-    public void setWorkhourAggregation(List<WorkhourAggregation> workhourAggregation) {
-        this.workhourAggregation = workhourAggregation;
-    }
-
-    // 子聚合根
-    private List<WorkhourAggregation> workhourAggregation;
-
-    public List<WorkhourAggregation> getWorkhourAggregation() {
-        return workhourAggregation;
     }
 
     public void setId(String id) {

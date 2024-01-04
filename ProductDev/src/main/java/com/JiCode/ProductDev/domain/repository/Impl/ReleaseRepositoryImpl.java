@@ -39,6 +39,7 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
     BacklogitemReleaseMapper backlogitemReleaseMapper;
 
     private ReleaseAggregation entityToAggregate(Release release, List<String> memberIds, List<String> backlogItemIds){
+        System.out.println(release.getType());
         ReleaseAggregation releaseAggregation = releaseFactory.createRelease(release.getId(), release.getStartTime(), release.getEndTime(), release.getType(), release.getProjectId(), release.getManagerId(), memberIds,release.getTopic(), release.getStageId(), backlogItemIds, release.getOrganizationId());
         return releaseAggregation;
     }

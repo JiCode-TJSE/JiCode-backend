@@ -159,12 +159,8 @@ public class ProjectApplication {
     }
 
     public void relate(RelateBo item1,RelateBo item2){
+        System.out.println("relate");
         relateService.relate(item1, item2);
     }
-
-
-
-
-
 
 }

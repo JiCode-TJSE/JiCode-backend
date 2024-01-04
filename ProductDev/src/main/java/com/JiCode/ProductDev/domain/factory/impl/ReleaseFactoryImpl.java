@@ -36,6 +36,7 @@ public class ReleaseFactoryImpl implements ReleaseFactory {
         releaseAggregation.setBacklogItemIds(backlogItemIds);
         releaseAggregation.setOrganizationId(organizationId);
         releaseAggregation.setProjectId(projectid);
+        releaseAggregation.setType(type);
 
         // 获取发布阶段
         System.out.println("Factory:");

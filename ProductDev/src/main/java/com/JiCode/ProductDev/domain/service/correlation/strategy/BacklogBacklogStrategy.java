@@ -24,6 +24,7 @@ public final class BacklogBacklogStrategy extends RelateStrategy {
     @Override
     public void relate(RelateBo item1, RelateBo item2)
     {
+        System.out.println("backloitemrepo==null: " + backlogItemRepository==null);
         backlogItemRepository.associateWithBacklogItem(item1.id, item2.id);
     }
 }

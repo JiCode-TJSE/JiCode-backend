@@ -48,7 +48,7 @@ public class ProjectController {
         return ComResponse.success();
     }
 
-    @PostMapping("/project/relation")
+    @PostMapping("/relation")
     public ComResponse relate(@RequestBody RelateDto relateDto){
         projectApplication.relate(new RelateBo(relateDto.getId1(), relateDto.getType1()),
                                  new RelateBo(relateDto.getId2(), relateDto.getType2()));

@@ -39,7 +39,7 @@ public class ProductApplicationImpl implements ProductApplication {
      */
     @Transactional
     @Override
-    public ProductResponseDto createProduct(ProductRequestDto productRequestDto) throws ServerException {
+    public ProductResponseDto createProduct(ProductRequestDto productRequestDto, String accountId) throws ServerException {
         // 新建聚合
         ProductAggregation productAggregation = new ProductAggregation();
 
@@ -47,9 +47,14 @@ public class ProductApplicationImpl implements ProductApplication {
         BeanUtils.copyProperties(productRequestDto, productAggregation);
         //设置非同名team_id
         productAggregation.setTeamId(productRequestDto.getTeam_id());
+        List<String> memberList = new ArrayList<>();
+        memberList.add(accountId);
+        productAggregation.setMemberList(memberList);
+        System.out.println(memberList);
 
         // product表添加脏标记
         productAggregation.setProductDirty(true);
+        productAggregation.setMemberDirty(true);
         //这个暂时不做，默认为true
         productAggregation.setVisibility(true);
 

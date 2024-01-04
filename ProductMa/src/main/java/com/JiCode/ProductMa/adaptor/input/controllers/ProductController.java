@@ -35,9 +35,10 @@ public class ProductController {
 
     // 新建产品
     @PostMapping("/item")
-    public CommonVo<ProductResponseDto> createProduct(@RequestBody ProductRequestDto requestDto)
+    public CommonVo<ProductResponseDto> createProduct(@RequestBody ProductRequestDto requestDto,
+    @RequestParam("id") String accountId)
             throws ServerException {
-        ProductResponseDto responseData = productApplication.createProduct(requestDto);
+        ProductResponseDto responseData = productApplication.createProduct(requestDto, accountId);
         return CommonVo.create("请求成功", CodeEnum.SUCCESS, responseData);
     }
 

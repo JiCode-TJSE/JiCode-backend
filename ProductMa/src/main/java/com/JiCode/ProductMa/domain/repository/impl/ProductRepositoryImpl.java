@@ -144,6 +144,7 @@ public class ProductRepositoryImpl implements ProductRepository {
      * @throws InsertFailedException
      */
     private void insertMembers(ProductAggregation productAggregation, Product product) throws InsertFailedException {
+        System.out.println(productAggregation.getMemberList());
         for(String memberId : productAggregation.getMemberList()){
             ProductMemberKey productMemberKey = new ProductMemberKey();
             productMemberKey.setProductId(product.getId());
@@ -223,6 +224,7 @@ public class ProductRepositoryImpl implements ProductRepository {
             }
         }
         if (productAggregation.isMemberDirty()) {
+            System.out.println("Znagngsfdsfds");
             //插入联系集
             insertMembers(productAggregation, product);
         }

@@ -8,7 +8,7 @@ import com.JiCode.ProductMa.exception.ServerException;
 public interface ProductApplication {
 
     //新增产品 (test ok)
-    public ProductResponseDto createProduct(ProductRequestDto productReponseDto)
+    public ProductResponseDto createProduct(ProductRequestDto productReponseDto, String accountId)
         throws ServerException;
 
 

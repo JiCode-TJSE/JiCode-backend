@@ -22,6 +22,8 @@ public class ReleaseDto {
     private String topic;
     private String stageId;
 
+    private String stageStatus;
+
     private String organizationId;
 
     List<String> backlogItemIds;
@@ -30,6 +32,14 @@ public class ReleaseDto {
 
     public List<ReleaseStage> getStages() {
         return stages;
+    }
+
+    public String getStageStatus() {
+        return stageStatus;
+    }
+
+    public void setStageStatus(String stageStatus) {
+        this.stageStatus = stageStatus;
     }
 
     public void setStages(List<ReleaseStage> stages) {

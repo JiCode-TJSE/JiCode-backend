@@ -1,7 +1,10 @@
 package com.JiCode.ProductDev.application;
 
+import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Stage;
 import com.JiCode.ProductDev.application.dto.ReleaseDto;
+import com.JiCode.ProductDev.common.ReleaseStageEnum;
 import com.JiCode.ProductDev.domain.model.ReleaseAggregation;
+import com.JiCode.ProductDev.domain.model.value.ReleaseStage;
 import com.JiCode.ProductDev.domain.repository.ReleaseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +40,21 @@ public class ReleaseApplication {
                 releaseDto.setBacklogItemIds(releaseAggregation.getBacklogItemIds());
                 releaseDto.setOrganizationId(releaseAggregation.getOrganizationId());
                 releaseDto.setStages(releaseAggregation.getStages());
+
+                // 返回发布阶段
+                List<ReleaseStage> stages = releaseAggregation.getStages();
+                for(ReleaseStage stage:stages){
+                    if(stage.getId().equals(releaseAggregation.getStageId())){
+                        if(stage.getStage()== ReleaseStageEnum.NotStarted){
+                            releaseDto.setStageStatus("未开始");
+                        }else if(stage.getStage()== ReleaseStageEnum.InProgress){
+                            releaseDto.setStageStatus("进行中");
+                        }else{
+                            releaseDto.setStageStatus("已发布");
+                        }
+                    }
+                }
+
                 ans.add(releaseDto);
             }
         }
@@ -57,6 +75,7 @@ public class ReleaseApplication {
         releaseAggregation.setStageId(releaseDto.getStageId());
         releaseAggregation.setBacklogItemIds(releaseDto.getBacklogItemIds());
         releaseAggregation.setOrganizationId(releaseDto.getOrganizationId());
+
         return releaseRepository.insert(releaseAggregation);
     }
 

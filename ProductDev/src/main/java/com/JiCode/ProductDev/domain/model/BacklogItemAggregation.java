@@ -105,7 +105,15 @@ public class BacklogItemAggregation {
 
     private List<String> releaseIds;
 
+    private List<String> backlogitemIds;
 
+    public List<String> getBacklogitemIds() {
+        return backlogitemIds;
+    }
+
+    public void setBacklogitemIds(List<String> backlogitemIds) {
+        this.backlogitemIds = backlogitemIds;
+    }
 
     public String getOrganizationId() {
         return organizationId;

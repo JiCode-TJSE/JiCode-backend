@@ -1,8 +1,11 @@
 package com.JiCode.ProductDev.application.dto;
 
+import com.JiCode.ProductDev.domain.model.WorkhourAggregation;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -13,6 +16,8 @@ public class SelectScheduleByIdDto {
     int actualWorkhour;
     int remainWorkhour;
     float progress;
+
+    List<WorkhourAggregation> workhourAggregations;
 
     public String getId() {
         return id;

@@ -12,6 +12,8 @@ import java.util.List;
 public interface WorkhourRepository {
     public WorkhourAggregation selectById(String id) throws SelectFailureException;
 
+    public List<WorkhourAggregation> selectAll();
+
     public PageInfo<WorkhourAggregation> getPage(int pageNum, int pageSize) throws SelectFailureException;
 
     public int insert(WorkhourAggregation workhourAggregation) throws InsertFailureException;

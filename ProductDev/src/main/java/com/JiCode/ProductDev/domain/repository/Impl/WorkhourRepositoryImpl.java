@@ -56,6 +56,17 @@ public class WorkhourRepositoryImpl implements WorkhourRepository {
         }
     }
 
+    public List<WorkhourAggregation> selectAll() {
+        WorkhourExample example = new WorkhourExample();
+        List<Workhour> workhours = workhourMapper.selectByExample(example);
+        List<WorkhourAggregation> workhourAggregations = new ArrayList<>();
+        for(Workhour workhour : workhours){
+            WorkhourAggregation workhourAggregation = workhourFactory.createWorkhour(workhour.getId(), workhour.getHours(), workhour.getDate(), workhour.getType(), workhour.getDetail(), workhour.getScheduleId());
+            workhourAggregations.add(workhourAggregation);
+        }
+        return workhourAggregations;
+    }
+
     public PageInfo<WorkhourAggregation> getPage(int pageNum, int pageSize) throws SelectFailureException {
         try{
             PageHelper.startPage(pageNum, pageSize);

@@ -23,7 +23,7 @@ import com.JiCode.ProductDev.domain.repository.ScheduleRepository;
 public class BacklogItemFactoryImpl implements BacklogItemFactory {
     @Autowired
     ProjectMapper projectMapper;
-    public BacklogItemAggregation createBacklogItem(String id, String priority, Date startTime, Date endTime, String source, String type, String description, String projectId, String managerId, String scheduleId, List<String> memberIds,String topic,List<String>sprintIds, List<String> releaseIds, String status, String organizationId){
+    public BacklogItemAggregation createBacklogItem(String id, String priority, Date startTime, Date endTime, String source, String type, String description, String projectId, String managerId, String scheduleId, List<String> memberIds,String topic,List<String>sprintIds, List<String> releaseIds, String status, String organizationId, List<String> backloitemIds){
         BacklogItemAggregation backlogItemAggregation = new BacklogItemAggregation();
         backlogItemAggregation.setId(id);
         backlogItemAggregation.setPriority(priority);
@@ -42,6 +42,7 @@ public class BacklogItemFactoryImpl implements BacklogItemFactory {
         backlogItemAggregation.setSprintIds(sprintIds);
         backlogItemAggregation.setReleaseIds(releaseIds);
         backlogItemAggregation.setOrganizationId(organizationId);
+        backlogItemAggregation.setBacklogitemIds(backloitemIds);
 
         Project project = projectMapper.selectByPrimaryKey(projectId);
         backlogItemAggregation.setProjectTopic(project.getTopic());

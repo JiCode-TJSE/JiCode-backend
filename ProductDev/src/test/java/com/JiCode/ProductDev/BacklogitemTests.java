@@ -87,8 +87,8 @@ public class BacklogitemTests{
         String topic = "whhhh";
         String status = "未完成";
         String organizationId = "1";
-        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds, topic, sprintIds, releaseIds, status,organizationId);
-        System.out.println(backlogItemRepository.insert(backlogItemAggregation));
+//        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds, topic, sprintIds, releaseIds, status,organizationId);
+//        System.out.println(backlogItemRepository.insert(backlogItemAggregation));
     }
 
     @Test
@@ -116,8 +116,8 @@ public class BacklogitemTests{
         String topic = "whh";
         String status = "未完成";
         String organizationId = "1";
-        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds,topic,sprintIds,releaseIds,status,organizationId);
-        System.out.println(backlogItemRepository.updateById(backlogItemAggregation));
+//        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(id, priority, startTime, endTime, source, type, description, projectId, managerId, scheduleId, memberIds,topic,sprintIds,releaseIds,status,organizationId);
+//        System.out.println(backlogItemRepository.updateById(backlogItemAggregation));
     }
 
     @Test

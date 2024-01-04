@@ -157,6 +157,7 @@ public class BacklogitemApplication {
         backlogitemDto.setMemberIds(backlogItemAggregation.getMemberIds());
         backlogitemDto.setSprintIds(backlogItemAggregation.getSprintIds());
         backlogitemDto.setReleaseIds(backlogItemAggregation.getReleaseIds());
+        backlogitemDto.setBacklogitemIds(backlogItemAggregation.getBacklogitemIds());
         return backlogitemDto;
     }
 

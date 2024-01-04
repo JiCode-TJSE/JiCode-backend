@@ -69,8 +69,8 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
      * @param memberIds 项目成员id列表
      * @return {@link ProjectAggregation}
      */
-    private BacklogItemAggregation entityToAggregate(Backlogitem backlogitem, List<String> memberIds, List<String> sprintIds, List<String> releaseIds){
-        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(),memberIds, backlogitem.getTopic(),sprintIds,releaseIds,backlogitem.getStatus(),backlogitem.getOrganizationId());
+    private BacklogItemAggregation entityToAggregate(Backlogitem backlogitem, List<String> memberIds, List<String> sprintIds, List<String> releaseIds, List<String> backlogitemIds){
+        BacklogItemAggregation backlogItemAggregation = backlogItemFactory.createBacklogItem(backlogitem.getId(),backlogitem.getPriority(),backlogitem.getStartTime(),backlogitem.getEndTime(),backlogitem.getSource(),backlogitem.getType(),backlogitem.getDescription(),backlogitem.getProjectId(),backlogitem.getManagerId(),backlogitem.getScheduleId(),memberIds, backlogitem.getTopic(),sprintIds,releaseIds,backlogitem.getStatus(),backlogitem.getOrganizationId(),backlogitemIds);
         return backlogItemAggregation;
     }
 
@@ -125,8 +125,20 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
             List<BacklogitemReleaseKey> backlogitemReleases = backlogitemReleaseMapper.selectByExample(example2);
             List<String> releaseIds = backlogitemReleases.stream().map(BacklogitemReleaseKey::getReleaseId).collect(Collectors.toList());
 
+            // 查询关联的工作项
+            BacklogitemBacklogitemExample example3 = new BacklogitemBacklogitemExample();
+            example3.createCriteria().andBacklogitemid1EqualTo(id);
+            List<BacklogitemBacklogitem> backlogitemBacklogitems = backlogitemBacklogitemMapper.selectByExample(example3);
+            List<String> backlogitemIds = backlogitemBacklogitems.stream().map(BacklogitemBacklogitem::getBacklogitemid2).collect(Collectors.toList());
+
+            BacklogitemBacklogitemExample example4 = new BacklogitemBacklogitemExample();
+            example4.createCriteria().andBacklogitemid2EqualTo(id);
+            List<BacklogitemBacklogitem> backlogitemBacklogitems2 = backlogitemBacklogitemMapper.selectByExample(example4);
+            List<String> backlogitemIds2 = backlogitemBacklogitems2.stream().map(BacklogitemBacklogitem::getBacklogitemid1).collect(Collectors.toList());
+            backlogitemIds.addAll(backlogitemIds2);
+
             // 将实体集和联系集中的信息转换成聚合返回给上层
-            BacklogItemAggregation backlogItemAggregation = entityToAggregate(backlogitem, memberIds, sprintIds, releaseIds);
+            BacklogItemAggregation backlogItemAggregation = entityToAggregate(backlogitem, memberIds, sprintIds, releaseIds, backlogitemIds);
             return backlogItemAggregation;
         }catch (Exception e){
             System.out.println(e);

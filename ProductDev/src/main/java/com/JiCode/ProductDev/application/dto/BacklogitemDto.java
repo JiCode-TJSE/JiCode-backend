@@ -165,6 +165,16 @@ public class BacklogitemDto {
 
     private List<String> releaseIds;
 
+    private List<String> backlogitemIds;
+
+    public List<String> getBacklogitemIds() {
+        return backlogitemIds;
+    }
+
+    public void setBacklogitemIds(List<String> backlogitemIds) {
+        this.backlogitemIds = backlogitemIds;
+    }
+
     @Override
     public String toString() {
         return "BacklogitemDto{" +

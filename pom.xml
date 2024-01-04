@@ -39,6 +39,11 @@
     </dependencyManagement>
 
 	<dependencies>
+		<!--客户端负载均衡loadbalancer-->
+		<dependency>
+			<groupId>org.springframework.cloud</groupId>
+			<artifactId>spring-cloud-starter-loadbalancer</artifactId>
+		</dependency>
 	    <!--网关-->
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>

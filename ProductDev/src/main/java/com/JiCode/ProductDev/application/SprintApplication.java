@@ -9,6 +9,7 @@ import com.JiCode.ProductDev.domain.repository.SprintRepository;
 import com.JiCode.ProductDev.exceptions.WorkHour.SelectFailureException;
 import com.JiCode.ProductDev.exceptions.sprint.DeleteFailureException;
 import com.JiCode.ProductDev.exceptions.sprint.InsertFailureException;
+import com.JiCode.ProductDev.exceptions.sprint.UpdateFaliureException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -60,11 +61,29 @@ public class SprintApplication {
         return sprintRepository.deleteById(sprintId);
     }
 
+    public CreateSprintDto selectById(String sprintId) throws SelectFailureException {
+        SprintAggregation sprintAggregation=sprintRepository.selectById(sprintId);
+        CreateSprintDto createSprintDto=new CreateSprintDto();
+        BeanUtils.copyProperties(sprintAggregation,createSprintDto);
+        return createSprintDto;
+    }
 
 
-
-
-
+    public int update(CreateSprintDto createSprintDto) throws UpdateFaliureException {
+        SprintAggregation sprintAggregation=sprintFactory.createSprint(createSprintDto.id,
+                createSprintDto.startTime,
+                createSprintDto.endTime,
+                createSprintDto.goal,
+                createSprintDto.type,
+                createSprintDto.projectId,
+                createSprintDto.managerId,
+                createSprintDto.releaseId,
+                createSprintDto.memberIds,
+                createSprintDto.topic,
+                createSprintDto.backlogItemIds,
+                createSprintDto.organizationId);
+        return sprintRepository.updateById(sprintAggregation);
+    }
 
 
 }

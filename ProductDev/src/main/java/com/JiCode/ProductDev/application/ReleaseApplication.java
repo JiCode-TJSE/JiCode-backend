@@ -83,4 +83,37 @@ public class ReleaseApplication {
     public int delete(String releaseId){
         return releaseRepository.deleteById(releaseId);
     }
+
+    public ReleaseDto selectById(String releaseId){
+        ReleaseAggregation releaseAggregation=releaseRepository.selectById(releaseId);
+        ReleaseDto releaseDto = new ReleaseDto();
+        releaseDto.setId(releaseAggregation.getId());
+        releaseDto.setStartTime(releaseAggregation.getStartTime());
+        releaseDto.setEndTime(releaseAggregation.getEndTime());
+        releaseDto.setType(releaseAggregation.getType());
+        releaseDto.setProjectId(releaseAggregation.getProjectId());
+        releaseDto.setManagerId(releaseAggregation.getManagerId());
+        releaseDto.setMemberIds(releaseAggregation.getMemberIds());
+        releaseDto.setTopic(releaseAggregation.getTopic());
+        releaseDto.setStageId(releaseAggregation.getStageId());
+        releaseDto.setBacklogItemIds(releaseAggregation.getBacklogItemIds());
+        releaseDto.setOrganizationId(releaseAggregation.getOrganizationId());
+        releaseDto.setStages(releaseAggregation.getStages());
+
+        // 返回发布阶段
+        List<ReleaseStage> stages = releaseAggregation.getStages();
+        for(ReleaseStage stage:stages){
+            if(stage.getId().equals(releaseAggregation.getStageId())){
+                if(stage.getStage()== ReleaseStageEnum.NotStarted){
+                    releaseDto.setStageStatus("未开始");
+                }else if(stage.getStage()== ReleaseStageEnum.InProgress){
+                    releaseDto.setStageStatus("进行中");
+                }else{
+                    releaseDto.setStageStatus("已发布");
+                }
+            }
+        }
+
+        return releaseDto;
+    }
 }

@@ -29,4 +29,9 @@ public class ReleaseController {
     public ComResponse<?> delete(@RequestParam("releaseId")String releaseId){
         return ComResponse.success(releaseApplication.delete(releaseId));
     }
+
+    @GetMapping("/release")
+    public ComResponse<?> selectById(@RequestParam("releaseId")String releaseId){
+        return ComResponse.success(releaseApplication.selectById(releaseId));
+    }
 }

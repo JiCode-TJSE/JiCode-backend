@@ -95,9 +95,10 @@ public class RequirementApplicationImpl
             for (int i = 0; i < requirementContentEntities.length; i++) {
                 supervisorIds[i] = requirementContentEntities[i].getSupervisorId();
             }
-            // 调用feign接口获取负责人名字
-            String[] supervisorNames = accountFeignClient.getMultiUserInfo(new UsernamesReqDto(supervisorIds)).data
-                    .getUsernameArr();
+            // // 调用feign接口获取负责人名字
+            // String[] supervisorNames = accountFeignClient.getMultiUserInfo(new
+            // UsernamesReqDto(supervisorIds)).data
+            // .getUsernameArr();
 
             // 包装在一起
             RequirementArrResDto allrequirementsDto = new RequirementArrResDto();
@@ -107,7 +108,7 @@ public class RequirementApplicationImpl
                 record.setRequirementId(requirementEntities[i].getRequirementId());
                 record.setName(requirementContentEntities[i].getName());
                 record.setTypeEnum(requirementContentEntities[i].getTypeEnum());
-                record.setSupervisorName(supervisorNames[i]);
+                record.setSupervisorName("FeignTest");
                 records[i] = record;
             }
 
@@ -176,19 +177,20 @@ public class RequirementApplicationImpl
                 versions[i] = new RequirementDetailResDto.Version();
                 VersionAggs[i].copyPropertiesTo(versions[i]);
             }
-            String supervisorName = accountFeignClient
-                    .getMultiUserInfo(new UsernamesReqDto(requirementContentEntity.getSupervisorId())).data
-                    .getUsernameArr()[0];
-            RequirementDetailResDto.Supervisor supervisor = new RequirementDetailResDto.Supervisor(supervisorName,
+            // String supervisorName = accountFeignClient
+            // .getMultiUserInfo(new
+            // UsernamesReqDto(requirementContentEntity.getSupervisorId())).data
+            // .getUsernameArr()[0];
+            RequirementDetailResDto.Supervisor supervisor = new RequirementDetailResDto.Supervisor("Feigntest",
                     requirementContentEntity.getSupervisorId());
             String[] backlogItemIDArr = requirementAggregation.getBacklogItemsEntity().getBacklogItemIDArr();
             // 调用feign接口获取负责人名字
-            String[] backlogItemNames = backlogItemFeignClient
-                    .getMultiNames(new BacklogItemNamesReqDto(backlogItemIDArr)).data
-                    .getBacklogItemNameArr();
+            // String[] backlogItemNames = backlogItemFeignClient
+            // .getMultiNames(new BacklogItemNamesReqDto(backlogItemIDArr)).data
+            // .getBacklogItemNameArr();
             RequirementDetailResDto.BacklogItem[] backlogItems = new RequirementDetailResDto.BacklogItem[backlogItemIDArr.length];
             for (int i = 0; i < backlogItemIDArr.length; i++) {
-                backlogItems[i] = new RequirementDetailResDto.BacklogItem(backlogItemIDArr[i], backlogItemNames[i]);
+                backlogItems[i] = new RequirementDetailResDto.BacklogItem(backlogItemIDArr[i], "Feigntest");
             }
 
             String[] clientIDArr = requirementAggregation.getClientsEntity().getClientIDArr();
@@ -205,6 +207,8 @@ public class RequirementApplicationImpl
             requirementDetailResDto.setVersionArr(versions);
             requirementDetailResDto.setBacklogItemArr(backlogItems);
             requirementDetailResDto.setClientArr(clients);
+            requirementDetailResDto
+                    .setVersionId(requirementAggregation.getRequirementEntity().getRequirementContentId());
             return requirementDetailResDto;
         } catch (SelectFailedException | CopyFailedException | NotFoundException e) {
             log.error("Server Error", e);
@@ -217,7 +221,8 @@ public class RequirementApplicationImpl
         try {
             RequirementAggregation requirementAggregation = requirementRepository.selectByIdWithOnlyRV(requirementId);
             requirementAggregation.switchVersion(versionId);
-        } catch (SelectFailedException | SwitchVersionException e) {
+            requirementRepository.update(requirementAggregation);
+        } catch (SelectFailedException | SwitchVersionException | UpdateFailedException e) {
             log.error("Server Error", e);
             throw new ServerException();
         }
@@ -260,10 +265,14 @@ public class RequirementApplicationImpl
         try {
             // 先初始化一个聚合
             VersionAggregation versionAggregation = VersionAggregation.create(addVersionReqDto);
+            // 而且要有一个一模一样的内容先存进去
+            RequirementAggregation requirementAggregation = requirementRepository
+                    .selectById(addVersionReqDto.getRequirementId());
+            String id = requirementAggregation.addVersion(versionAggregation);
             // 最后塞回去
-            String id = versionRepository.insert(addVersionReqDto.getRequirementId(), versionAggregation);
+            requirementRepository.insertNewVersion(requirementAggregation);
             return Map.of("id", id);
-        } catch (InsertFailedException | CreateFailedException e) {
+        } catch (InsertFailedException | CreateFailedException | SelectFailedException e) {
             log.error("Server Error", e);
             throw new ServerException();
         }

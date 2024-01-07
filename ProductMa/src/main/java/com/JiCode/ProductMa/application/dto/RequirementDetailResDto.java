@@ -20,6 +20,8 @@ public class RequirementDetailResDto {
 
     Supervisor supervisor;
 
+    String versionId;
+
     Version[] versionArr;
 
     Client[] clientArr;

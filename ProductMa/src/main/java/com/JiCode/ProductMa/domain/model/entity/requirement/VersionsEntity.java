@@ -40,6 +40,19 @@ public class VersionsEntity {
         return versionsEntity;
     }
 
+    public void addVersion(VersionAggregation versionAggregation) throws CreateFailedException {
+        if (versionAggregation == null) {
+            throw new CreateFailedException("VersionAggregation cannot be null.");
+        }
+        VersionAggregation[] newVersionArr = new VersionAggregation[versionArr.length + 1];
+        for (int i = 0; i < versionArr.length; i++) {
+            newVersionArr[i] = versionArr[i];
+        }
+        newVersionArr[versionArr.length] = versionAggregation;
+        versionArr = newVersionArr;
+        this.dirty = true;
+    }
+
     public static <T> VersionsEntity create(T template) throws CreateFailedException {
         VersionsEntity versionsEntity = new VersionsEntity();
         BeanUtils.copyProperties(template, versionsEntity);

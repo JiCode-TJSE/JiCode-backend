@@ -30,11 +30,16 @@ public class RequirementAggregation {
      * @Description 清除所有脏标记
      */
     public void cleanDirty() {
-        requirementEntity.cleanDirty();
-        versionsEntity.cleanDirty();
-        requirementContentEntity.cleanDirty();
-        clientsEntity.cleanDirty();
-        backlogItemsEntity.cleanDirty();
+        if (requirementEntity != null)
+            requirementEntity.cleanDirty();
+        if (versionsEntity != null)
+            versionsEntity.cleanDirty();
+        if (requirementContentEntity != null)
+            requirementContentEntity.cleanDirty();
+        if (clientsEntity != null)
+            clientsEntity.cleanDirty();
+        if (backlogItemsEntity != null)
+            backlogItemsEntity.cleanDirty();
     }
 
     public boolean isRequirementDirty() {
@@ -55,6 +60,19 @@ public class RequirementAggregation {
 
     public boolean isRequirementContentDirty() {
         return requirementContentEntity.isDirty();
+    }
+
+    public String addVersion(VersionAggregation versionAggregation) throws CreateFailedException {
+        if (versionAggregation == null) {
+            throw new CreateFailedException(
+                    "Params must not be null in creating RequirementAggregation addVersion().");
+        }
+        String versionId = UUID.randomUUID().toString();
+        versionAggregation.setId(versionId);
+        versionsEntity.addVersion(versionAggregation);
+        requirementEntity.setRequirementContentId(versionId);
+        return versionId;
+
     }
 
     public void switchVersion(String versionId) throws SwitchVersionException {

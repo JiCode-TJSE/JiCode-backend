@@ -263,6 +263,14 @@ public class RequirementRepositoryImpl implements RequirementRepository {
         return requirementId;
     }
 
+    @Override
+    public void insertNewVersion(RequirementAggregation requirementAggregation) throws InsertFailedException {
+        insertVersion(requirementAggregation, requirementAggregation.getRequirementEntity().getRequirementId());
+        insertRequirementContent(requirementAggregation);
+        insertClients(requirementAggregation);
+        insertBacklogItems(requirementAggregation);
+    }
+
     private void insertRequirementContent(RequirementAggregation requirementAggregation) throws InsertFailedException {
         RequirementContent requirementContent = new RequirementContent();
         BeanUtils.copyProperties(requirementAggregation.getRequirementContentEntity(), requirementContent);
@@ -320,7 +328,15 @@ public class RequirementRepositoryImpl implements RequirementRepository {
 
     private void insertVersion(RequirementAggregation requirementAggregation, String requirementId)
             throws InsertFailedException {
-        VersionAggregation versionAgg = requirementAggregation.getVersionsEntity().getVersionArr()[0];
+        String versionId = requirementAggregation.getRequirementEntity().getRequirementContentId();
+        VersionAggregation[] versionAggs = requirementAggregation.getVersionsEntity().getVersionArr();
+        VersionAggregation versionAgg = null;
+        for (VersionAggregation version : versionAggs) {
+            if (version.getId().equals(versionId)) {
+                versionAgg = version;
+                break;
+            }
+        }
         RequirementVersion requirementVersion = new RequirementVersion();
         BeanUtils.copyProperties(versionAgg, requirementVersion);
         requirementVersion.setBelongRequirementId(requirementId);

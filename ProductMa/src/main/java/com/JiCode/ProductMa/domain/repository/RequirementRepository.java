@@ -35,4 +35,6 @@ public interface RequirementRepository {
 
         public RequirementContentEntity[] selectAllRequirementContentsByIds(List<String> contentIds)
                         throws SelectFailedException;
+
+        public void insertNewVersion(RequirementAggregation requirementAggregation) throws InsertFailedException;
 }

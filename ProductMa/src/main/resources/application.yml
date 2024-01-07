@@ -35,3 +35,5 @@ logging:
     root: WARN
     '[org.springframework.web]': DEBUG
     '[com.JiCode.ProductMa]': INFO
+  file:
+    name: application.log

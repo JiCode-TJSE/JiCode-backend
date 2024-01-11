@@ -163,6 +163,8 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
             Backlogitem backlogitem = new Backlogitem();
             BeanUtils.copyProperties(backlogItemAggregation, backlogitem);
 
+            List<String> names = backlogitemMapper.selectByExample(null).stream().map(Backlogitem::getId).collect(Collectors.toList());
+
             // 使用项目名称+个数生成工作项id
             if(backlogitem.getId()==null){
                 System.out.println(backlogitem.getProjectId());

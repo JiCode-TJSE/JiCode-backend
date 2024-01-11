@@ -106,10 +106,13 @@ public class BacklogitemApplication {
         backlogItemAggregation.setManagerId(backlogitemDto.getManagerId());
         backlogItemAggregation.setScheduleId(backlogitemDto.getScheduleId());
         backlogItemAggregation.setTopic(backlogitemDto.getTopic());
-        backlogItemAggregation.setStatus(backlogitemDto.getStatus());
+        backlogItemAggregation.setStatus(backlogitemDto.getStatus()==null?"未开始":backlogitemDto.getStatus());
         backlogItemAggregation.setMemberIds(backlogitemDto.getMemberIds());
         backlogItemAggregation.setSprintIds(backlogitemDto.getSprintIds());
         backlogItemAggregation.setReleaseIds(backlogitemDto.getReleaseIds());
+
+        System.out.println(backlogItemAggregation.getProjectId());
+        System.out.println(backlogItemAggregation.getStatus());
         return backlogItemRepository.insert(backlogItemAggregation);
     }
 

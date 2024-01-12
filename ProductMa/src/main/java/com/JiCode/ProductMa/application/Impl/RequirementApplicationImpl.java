@@ -183,14 +183,13 @@ public class RequirementApplicationImpl
             // .getUsernameArr()[0];
             RequirementDetailResDto.Supervisor supervisor = new RequirementDetailResDto.Supervisor("Feigntest",
                     requirementContentEntity.getSupervisorId());
-            String[] backlogItemIDArr = requirementAggregation.getBacklogItemsEntity().getBacklogItemIDArr();
-            // 调用feign接口获取负责人名字
-            // String[] backlogItemNames = backlogItemFeignClient
-            // .getMultiNames(new BacklogItemNamesReqDto(backlogItemIDArr)).data
-            // .getBacklogItemNameArr();
-            RequirementDetailResDto.BacklogItem[] backlogItems = new RequirementDetailResDto.BacklogItem[backlogItemIDArr.length];
-            for (int i = 0; i < backlogItemIDArr.length; i++) {
-                backlogItems[i] = new RequirementDetailResDto.BacklogItem(backlogItemIDArr[i], "Feigntest");
+            String[] backlogitemIds = requirementAggregation.getBacklogItemsEntity().getBacklogItemIDArr();
+            // 调用feign接口获取工作项名字
+            String[] backlogItemNames = backlogItemFeignClient
+                    .getMultiNames(new BacklogItemNamesReqDto(backlogitemIds)).data;
+            RequirementDetailResDto.BacklogItem[] backlogItems = new RequirementDetailResDto.BacklogItem[backlogitemIds.length];
+            for (int i = 0; i < backlogitemIds.length; i++) {
+                backlogItems[i] = new RequirementDetailResDto.BacklogItem(backlogitemIds[i], backlogItemNames[i]);
             }
 
             String[] clientIDArr = requirementAggregation.getClientsEntity().getClientIDArr();

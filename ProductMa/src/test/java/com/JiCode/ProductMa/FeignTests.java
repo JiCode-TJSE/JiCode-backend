@@ -27,7 +27,7 @@ public class FeignTests {
     @Test
     public void testGetMultiBacklogItemNames() throws Exception {
         BacklogItemNamesReqDto backlogItemNamesReqDto = new BacklogItemNamesReqDto(new String[] { "1", "2", "3" });
-        CommonDto<BacklogItemNamesResDto> response = backlogItemFeignClient.getMultiNames(backlogItemNamesReqDto);
+        CommonDto<String[]> response = backlogItemFeignClient.getMultiNames(backlogItemNamesReqDto);
         if (response.getCode() == CodeEnum.SUCCESS) {
             System.out.println(response.getData());
         } else {

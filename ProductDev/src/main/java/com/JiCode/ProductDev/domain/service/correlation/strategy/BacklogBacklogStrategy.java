@@ -1,5 +1,6 @@
 package com.JiCode.ProductDev.domain.service.correlation.strategy;
 
+import com.JiCode.ProductDev.exceptions.sprint.InsertFailureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,8 +23,7 @@ public final class BacklogBacklogStrategy extends RelateStrategy {
     }
 
     @Override
-    public void relate(RelateBo item1, RelateBo item2)
-    {
+    public void relate(RelateBo item1, RelateBo item2) throws InsertFailureException {
         System.out.println("backloitemrepo==null: " + backlogItemRepository==null);
         backlogItemRepository.associateWithBacklogItem(item1.id, item2.id);
     }

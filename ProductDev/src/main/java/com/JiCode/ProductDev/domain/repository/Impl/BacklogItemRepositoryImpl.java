@@ -9,6 +9,7 @@ import com.JiCode.ProductDev.domain.model.ProjectAggregation;
 import com.JiCode.ProductDev.domain.model.ScheduleAggregation;
 import com.JiCode.ProductDev.domain.repository.BacklogItemRepository;
 import com.JiCode.ProductDev.domain.repository.ScheduleRepository;
+import com.JiCode.ProductDev.exceptions.sprint.InsertFailureException;
 import com.fasterxml.jackson.core.JsonToken;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -163,7 +164,7 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
             Backlogitem backlogitem = new Backlogitem();
             BeanUtils.copyProperties(backlogItemAggregation, backlogitem);
 
-            List<String> names = backlogitemMapper.selectByExample(null).stream().map(Backlogitem::getId).collect(Collectors.toList());
+            // List<String> names = backlogitemMapper.selectByExample(null).stream().map(Backlogitem::getId).collect(Collectors.toList());
 
             // 使用项目名称+个数生成工作项id
             if(backlogitem.getId()==null){
@@ -216,17 +217,23 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
         }
     }
 
-    public int associateWithBacklogItem(String backlogItemId1,String backlogItemId2){
-        try{
-            BacklogitemBacklogitem backlogitemBacklogitem = new BacklogitemBacklogitem();
-            backlogitemBacklogitem.setBacklogitemid1(backlogItemId1);
-            backlogitemBacklogitem.setBacklogitemid2(backlogItemId2);
-            backlogitemBacklogitemMapper.insert(backlogitemBacklogitem);
-            return 0;
-        }catch (Exception e){
-            System.out.println(e);
-            return 0;
-        }
+    public int associateWithBacklogItem(String backlogItemId1,String backlogItemId2) throws InsertFailureException {
+        BacklogitemBacklogitemExample example = new BacklogitemBacklogitemExample();
+        example.createCriteria().andBacklogitemid1EqualTo(backlogItemId1).andBacklogitemid2EqualTo(backlogItemId2);
+        List<BacklogitemBacklogitem> backlogitemBacklogitems = backlogitemBacklogitemMapper.selectByExample(example);
+        if(backlogitemBacklogitems.size()!=0)
+            throw new InsertFailureException("已经存在关联关系");
+        example.createCriteria().andBacklogitemid1EqualTo(backlogItemId2).andBacklogitemid2EqualTo(backlogItemId1);
+        backlogitemBacklogitems = backlogitemBacklogitemMapper.selectByExample(example);
+        if(backlogitemBacklogitems.size()!=0)
+            throw new InsertFailureException("已经存在关联关系");
+
+        BacklogitemBacklogitem backlogitemBacklogitem = new BacklogitemBacklogitem();
+        backlogitemBacklogitem.setBacklogitemid1(backlogItemId1);
+        backlogitemBacklogitem.setBacklogitemid2(backlogItemId2);
+        backlogitemBacklogitemMapper.insert(backlogitemBacklogitem);
+        return 0;
+
     }
     public int associateWithProductRequirement(String backlogItemId,String productRequirementId){
         try{
@@ -335,6 +342,19 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
             backlogitemRelease.setBacklogitemId(backlogItemId);
             backlogitemRelease.setReleaseId(releaseId);
             backlogitemReleaseMapper.insert(backlogitemRelease);
+            return 0;
+        }catch (Exception e){
+            System.out.println(e);
+            return 0;
+        }
+    }
+
+    public int cancelAssociate(String backlogItemId1,String backlogItemId2){
+        try{
+            BacklogitemBacklogitemExample example = new BacklogitemBacklogitemExample();
+            example.createCriteria().andBacklogitemid1EqualTo(backlogItemId1).andBacklogitemid2EqualTo(backlogItemId2);
+            int rows = backlogitemBacklogitemMapper.deleteByExample(example);
+            System.out.println("Deleted associate rows: " + rows);
             return 0;
         }catch (Exception e){
             System.out.println(e);

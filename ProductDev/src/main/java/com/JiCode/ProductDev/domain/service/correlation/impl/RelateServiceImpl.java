@@ -1,5 +1,6 @@
 package com.JiCode.ProductDev.domain.service.correlation.impl;
 
+import com.JiCode.ProductDev.exceptions.sprint.InsertFailureException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,7 @@ public class RelateServiceImpl extends RelateStrategy implements RelateService {
      @Autowired
      SprintRepository sprintRepository;
 
-    public void relate(RelateBo item1, RelateBo item2){
+    public void relate(RelateBo item1, RelateBo item2) throws InsertFailureException {
 //        if(item1.type != RelateItemTypeEnum.Backlogitem){
 //            if(item2.type == RelateItemTypeEnum.Backlogitem){
 //                RelateBo temp = item1;

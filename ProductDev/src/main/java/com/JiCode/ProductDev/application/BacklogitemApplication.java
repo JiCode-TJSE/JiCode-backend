@@ -193,4 +193,17 @@ public class BacklogitemApplication {
         }
         return backlogitemDtos;
     }
+
+    public int cancelAssociate(String backlogItemId1,String backlogItemId2){
+        return backlogItemRepository.cancelAssociate(backlogItemId1,backlogItemId2);
+    }
+
+    public List<String> getBacklogitemNames(List<String> backlogitemIds){
+        List<String> ans = new ArrayList<>();
+        for(String id:backlogitemIds){
+            BacklogitemDto backlogitemDto = selectById(id);
+            ans.add(backlogitemDto.getTopic());
+        }
+        return ans;
+    }
 }

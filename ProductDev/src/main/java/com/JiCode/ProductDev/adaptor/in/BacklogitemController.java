@@ -4,6 +4,7 @@ import com.JiCode.ProductDev.adaptor.in.vo.SelectAllBacklogitemVo;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Backlogitem;
 import com.JiCode.ProductDev.application.BacklogitemApplication;
 import com.JiCode.ProductDev.application.dto.BacklogitemDto;
+import com.JiCode.ProductDev.application.dto.BacklogitemIdsDto;
 import com.JiCode.ProductDev.application.dto.SelectAllBacklogitemDto;
 import com.JiCode.ProductDev.util.ComResponse;
 import org.springframework.beans.BeanUtils;
@@ -60,5 +61,17 @@ public class BacklogitemController {
     public ComResponse<List<BacklogitemDto>> getJoined(@RequestParam("accountId") String accountId){
         List<BacklogitemDto> backlogitemDtos = backlogitemApplication.getJoined(accountId);
         return ComResponse.success(backlogitemDtos);
+    }
+
+    @DeleteMapping("/associate")
+    public ComResponse<Integer> cancelAssociate(@RequestParam("backlogItemId1") String backlogItemId1,@RequestParam("backlogItemId2") String backlogItemId2){
+        int ans = backlogitemApplication.cancelAssociate(backlogItemId1,backlogItemId2);
+        return ComResponse.success(ans);
+    }
+
+    @PostMapping("/backlogitems/names")
+    public ComResponse<List<String>> getNames(@RequestBody BacklogitemIdsDto backlogitemIdDtos){
+        List<String> names = backlogitemApplication.getBacklogitemNames(backlogitemIdDtos.backlogitemIds);
+        return ComResponse.success(names);
     }
 }

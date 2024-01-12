@@ -14,6 +14,7 @@ import com.JiCode.ProductDev.domain.repository.Impl.ProjectRepositoryImpl;
 import com.JiCode.ProductDev.domain.repository.Impl.ScheduleRepositoryImpl;
 import com.JiCode.ProductDev.domain.repository.ProjectRepository;
 import com.JiCode.ProductDev.domain.repository.ScheduleRepository;
+import com.JiCode.ProductDev.exceptions.sprint.InsertFailureException;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -127,7 +128,7 @@ public class BacklogitemTests{
     }
 
     @Test
-    public void testAssociateWithBacklogItem(){
+    public void testAssociateWithBacklogItem() throws InsertFailureException {
         String backlogItemId1 = "1";
         String backlogItemId2 = "2";
         System.out.println(backlogItemRepository.associateWithBacklogItem(backlogItemId1, backlogItemId2));

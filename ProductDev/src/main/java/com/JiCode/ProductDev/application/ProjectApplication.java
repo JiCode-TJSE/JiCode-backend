@@ -15,6 +15,7 @@ import com.JiCode.ProductDev.domain.repository.BacklogItemRepository;
 import com.JiCode.ProductDev.domain.repository.ProjectRepository;
 import com.JiCode.ProductDev.domain.service.correlation.RelateService;
 import com.JiCode.ProductDev.exceptions.WorkHour.SelectFailureException;
+import com.JiCode.ProductDev.exceptions.sprint.InsertFailureException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -158,7 +159,7 @@ public class ProjectApplication {
         projectRepository.updateById(ori_projectAggregation);
     }
 
-    public void relate(RelateBo item1,RelateBo item2){
+    public void relate(RelateBo item1,RelateBo item2) throws InsertFailureException {
         System.out.println("relate");
         relateService.relate(item1, item2);
     }

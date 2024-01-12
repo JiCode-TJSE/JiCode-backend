@@ -79,6 +79,9 @@ public class SprintRepositoryImpl implements SprintRepository {
                 sprintMember.setAccountId(memberId);
                 sprintMemberMapper.insert(sprintMember);
             }
+
+            // 添加发布阶段
+
             return result;
         }catch (Exception e){
             System.out.println(e);

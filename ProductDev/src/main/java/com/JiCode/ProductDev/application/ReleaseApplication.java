@@ -1,5 +1,6 @@
 package com.JiCode.ProductDev.application;
 
+import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Release;
 import com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels.Stage;
 import com.JiCode.ProductDev.application.dto.ReleaseDto;
 import com.JiCode.ProductDev.common.ReleaseStageEnum;
@@ -115,5 +116,26 @@ public class ReleaseApplication {
         }
 
         return releaseDto;
+    }
+
+    public int update(ReleaseDto releaseDto){
+        System.out.println(releaseDto.getId());
+        ReleaseAggregation origin = releaseRepository.selectById(releaseDto.getId());
+
+        ReleaseAggregation releaseAggregation = new ReleaseAggregation();
+        releaseAggregation.setId(releaseDto.getId()==null?origin.getId():releaseDto.getId());
+        releaseAggregation.setStartTime(releaseDto.getStartTime()==null?origin.getStartTime():releaseDto.getStartTime());
+        releaseAggregation.setEndTime(releaseDto.getEndTime()==null?origin.getEndTime():releaseDto.getEndTime());
+        releaseAggregation.setType(releaseDto.getType()==null?origin.getType():releaseDto.getType());
+        releaseAggregation.setProjectId(releaseDto.getProjectId()==null?origin.getProjectId():releaseDto.getProjectId());
+        releaseAggregation.setManagerId(releaseDto.getManagerId()== null?origin.getManagerId():releaseDto.getManagerId());
+        releaseAggregation.setMemberIds(releaseDto.getMemberIds()==null?origin.getMemberIds():releaseDto.getMemberIds());
+        releaseAggregation.setTopic(releaseDto.getTopic()==null?origin.getTopic():releaseDto.getTopic());
+        releaseAggregation.setStageId(releaseDto.getStageId()==null?origin.getStageId():releaseDto.getStageId());
+        releaseAggregation.setBacklogItemIds(releaseDto.getBacklogItemIds()==null?origin.getBacklogItemIds():releaseDto.getBacklogItemIds());
+        releaseAggregation.setOrganizationId(releaseDto.getOrganizationId()==null?origin.getOrganizationId():releaseDto.getOrganizationId());
+        releaseAggregation.setStages(releaseDto.getStages()==null?origin.getStages():releaseDto.getStages());
+
+        return releaseRepository.update(releaseAggregation);
     }
 }

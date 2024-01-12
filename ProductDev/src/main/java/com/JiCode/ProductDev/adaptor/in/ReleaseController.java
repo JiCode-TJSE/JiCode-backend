@@ -34,4 +34,9 @@ public class ReleaseController {
     public ComResponse<?> selectById(@RequestParam("releaseId")String releaseId){
         return ComResponse.success(releaseApplication.selectById(releaseId));
     }
+
+    @PutMapping("/release")
+    public ComResponse<?> update(@RequestBody ReleaseDto releaseDto){
+        return ComResponse.success(releaseApplication.update(releaseDto));
+    }
 }

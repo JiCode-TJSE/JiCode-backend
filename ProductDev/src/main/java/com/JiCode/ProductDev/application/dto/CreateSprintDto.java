@@ -36,8 +36,4 @@ public class CreateSprintDto {
 
     public List<String> backlogItemIds;
 
-
-
-
-
 }

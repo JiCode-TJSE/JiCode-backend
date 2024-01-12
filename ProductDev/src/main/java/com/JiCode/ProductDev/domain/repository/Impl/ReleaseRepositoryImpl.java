@@ -180,6 +180,7 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
 
 
     public int update(ReleaseAggregation releaseAggregation){
+
         int result = saveAggregate(releaseAggregation);
         associateWithBacklogItem(releaseAggregation.getId(), releaseAggregation.getBacklogItemIds());
         return result;
@@ -200,17 +201,20 @@ public class ReleaseRepositoryImpl implements ReleaseRepository{
 
     public int associateWithBacklogItem(String releaseId, List<String> backlogItemIds){
         try{
-            // 首先删除联系集中project对应的所有记录
+            // 首先删除联系集中release对应的所有记录
             BacklogitemReleaseExample example = new BacklogitemReleaseExample();
-            example.createCriteria().andBacklogitemIdEqualTo(releaseId);
+            System.out.println(releaseId);
+            example.createCriteria().andReleaseIdEqualTo(releaseId);
             int rows = backlogitemReleaseMapper.deleteByExample(example);
             System.out.println("Deleted release rows: " + rows);
 
             // 再添加当前所有的成员到联系集当中
             for(String backlogItemId:backlogItemIds){
+                System.out.println("backlogitemId:"+backlogItemId);
                 BacklogitemReleaseKey backlogitemRelease = new BacklogitemReleaseKey();
                 backlogitemRelease.setBacklogitemId(backlogItemId);
                 backlogitemRelease.setReleaseId(releaseId);
+                System.out.println(backlogitemRelease.toString());
                 backlogitemReleaseMapper.insert(backlogitemRelease);
             }
             return 1;

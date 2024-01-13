@@ -60,6 +60,9 @@ public class BacklogitemApplication {
         var ans=new ArrayList<BacklogitemDto>();
         for(BacklogItemAggregation backlogItemAggregation:backlogitemAggregations){
             System.out.println(backlogItemAggregation.getManagerId());
+            if(backlogItemAggregation.getManagerId()==null){
+                continue;
+            }
             if(backlogItemAggregation.getManagerId().equals(accountId)){
                 BacklogitemDto backlogitemDto=new BacklogitemDto();
                 backlogitemDto.setId(backlogItemAggregation.getId());

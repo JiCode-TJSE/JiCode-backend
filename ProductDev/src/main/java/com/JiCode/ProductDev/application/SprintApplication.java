@@ -87,6 +87,4 @@ public class SprintApplication {
 
         return sprintRepository.updateById(sprintAggregation);
     }
-
-
 }

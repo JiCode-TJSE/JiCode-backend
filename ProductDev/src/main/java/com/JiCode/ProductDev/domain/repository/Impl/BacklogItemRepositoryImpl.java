@@ -353,8 +353,9 @@ public class BacklogItemRepositoryImpl implements BacklogItemRepository {
         try{
             BacklogitemBacklogitemExample example = new BacklogitemBacklogitemExample();
             example.createCriteria().andBacklogitemid1EqualTo(backlogItemId1).andBacklogitemid2EqualTo(backlogItemId2);
-            int rows = backlogitemBacklogitemMapper.deleteByExample(example);
-            System.out.println("Deleted associate rows: " + rows);
+            backlogitemBacklogitemMapper.deleteByExample(example);
+            example.createCriteria().andBacklogitemid1EqualTo(backlogItemId2).andBacklogitemid2EqualTo(backlogItemId1);
+            backlogitemBacklogitemMapper.deleteByExample(example);
             return 0;
         }catch (Exception e){
             System.out.println(e);

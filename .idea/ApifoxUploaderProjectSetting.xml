@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ApifoxUploaderProjectSetting">
+    <option name="apifoxAccessToken" value="APS-p3OyZ0eL4WaO9HvTdnSccQabFuVAc6X8" />
+    <option name="apifoxApiOverwriteMode" value="保留两者" />
+    <option name="apifoxProjectIds">
+      <array>
+        <option value="# ModuleName:ProjectID" />
+        <option value="Module:3754258" />
+        <option value="ProductDev:3754258" />
+      </array>
+    </option>
+    <option name="appSchemaOverwriteMode" value="保留两者" />
+    <option name="yapiTokens" value="" />
+  </component>
+</project>

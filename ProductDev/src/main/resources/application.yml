@@ -1,0 +1,35 @@
+server:
+  port: 8080
+pagehelper:
+  helperDialect: mysql
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
+app:
+  datasource:
+    master: # 唯一主库
+      jdbcUrl: jdbc:mysql://121.41.227.227:3306/jicode?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&allowPublicKeyRetrieval=TRUE&sslMode=REQUIRED
+      username: jicode_user
+      password: JiCode2024!
+
+    slave: # 多个从库
+      slave1:
+        jdbcUrl: jdbc:mysql://121.41.227.227:3307/jicode?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&allowPublicKeyRetrieval=TRUE&sslMode=REQUIRED
+        username: jicode_user
+        password: JiCode2024!
+      
+      slave2:
+        jdbcUrl: jdbc:mysql://121.41.227.227:3308/jicode?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&allowPublicKeyRetrieval=TRUE&sslMode=REQUIRED
+        username: jicode_user
+        password: JiCode2024!
+  mybatis:
+    basePackage: com.JiCode.ProductDev.adaptor.output.dataaccess.mappers
+    typeAliasesPackage: com.JiCode.ProductDev.adaptor.output.dataaccess.DBModels
+    mapperLocations: classpath*:com/JiCode/ProductDev/**/*.xml
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://121.41.227.227:3306/jicode?useUnicode=true&characterEncoding=UTF-8&allowMultiQueries=true&allowPublicKeyRetrieval=TRUE&sslMode=REQUIRED
+    username: jicode_user
+    password: JiCode2024!

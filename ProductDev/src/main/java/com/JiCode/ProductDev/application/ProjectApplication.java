@@ -15,6 +15,7 @@ import com.JiCode.ProductDev.domain.repository.BacklogItemRepository;
 import com.JiCode.ProductDev.domain.repository.ProjectRepository;
 import com.JiCode.ProductDev.domain.service.correlation.RelateService;
 import com.JiCode.ProductDev.exceptions.WorkHour.SelectFailureException;
+import com.JiCode.ProductDev.exceptions.project.InsertProjectFailureException;
 import com.JiCode.ProductDev.exceptions.sprint.InsertFailureException;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,8 +54,7 @@ public class ProjectApplication {
 
 
     @Transactional(readOnly = false)
-    public void createProject(CreateProjectDto createProjectDto)
-    {
+    public void createProject(CreateProjectDto createProjectDto) throws InsertProjectFailureException {
         var projectAggregate=projectFactory.createProject(null,"未开始",null,null,null,null,null,createProjectDto.topic,createProjectDto.organizationId,createProjectDto.description);
         projectRepository.insert(projectAggregate);
     }

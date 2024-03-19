@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+import com.JiCode.ProductDev.exceptions.project.*;
+
 
 /**
  * @author Laurent Wu
@@ -124,7 +126,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             return null;
         }
     }
-    public int insert(ProjectAggregation projectAggregation){
+    public int insert(ProjectAggregation projectAggregation) throws InsertProjectFailureException{
         try {
             Project project = new Project();
             BeanUtils.copyProperties(projectAggregation, project);
@@ -133,7 +135,7 @@ public class ProjectRepositoryImpl implements ProjectRepository {
             return projectMapper.insert(project);
         }catch (Exception e){
             System.out.println(e);
-            return 0;
+            throw new InsertProjectFailureException("Insert project failed");
         }
     }
 

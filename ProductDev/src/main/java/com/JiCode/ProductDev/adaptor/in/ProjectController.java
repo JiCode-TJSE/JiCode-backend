@@ -8,6 +8,7 @@ import com.JiCode.ProductDev.application.dto.UpdateProjectDto;
 import com.JiCode.ProductDev.domain.bo.RelateBo;
 import com.JiCode.ProductDev.domain.model.ProjectAggregation;
 import com.JiCode.ProductDev.exceptions.WorkHour.SelectFailureException;
+import com.JiCode.ProductDev.exceptions.project.InsertProjectFailureException;
 import com.JiCode.ProductDev.exceptions.sprint.InsertFailureException;
 import com.JiCode.ProductDev.util.ComResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class ProjectController {
     }
 
     @PostMapping("/project")
-    public ComResponse<?> add(@RequestBody CreateProjectDto createProjectDto) {
+    public ComResponse<?> add(@RequestBody CreateProjectDto createProjectDto) throws InsertProjectFailureException {
         projectApplication.createProject(createProjectDto);
         return ComResponse.success();
     }

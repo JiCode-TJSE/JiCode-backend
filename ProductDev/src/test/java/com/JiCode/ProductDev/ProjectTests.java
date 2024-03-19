@@ -12,6 +12,7 @@ import com.JiCode.ProductDev.domain.repository.Impl.ProjectRepositoryImpl;
 import com.JiCode.ProductDev.domain.repository.Impl.ScheduleRepositoryImpl;
 import com.JiCode.ProductDev.domain.repository.ProjectRepository;
 import com.JiCode.ProductDev.domain.repository.ScheduleRepository;
+import com.JiCode.ProductDev.exceptions.project.InsertProjectFailureException;
 import com.github.pagehelper.PageInfo;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -56,7 +57,7 @@ public class ProjectTests {
     }
 
     @Test
-    public void testInsert(){
+    public void testInsert() throws InsertProjectFailureException {
         String status ="pending";
         Float progress = 0.5F;
         Calendar calendar = Calendar.getInstance();
@@ -76,7 +77,7 @@ public class ProjectTests {
 
     @Test
     public void testUpdateProjectById(){
-        String id = "1";
+        String id = "0a585c2d-f27c-4c70-8170-fc03fb9553ba";
         String status ="done";
         Float progress = 0.5F;
         Calendar calendar = Calendar.getInstance();
@@ -86,7 +87,7 @@ public class ProjectTests {
         Date startTime = calendar.getTime();
         Date endTime = calendar.getTime();
         String managerId = "1";
-        List<String> members =  Arrays.asList("1", "2", "3");
+        List<String> members =  Arrays.asList("1");
         String topic =  "wh";
         String organizationId = "1";
         String description = "test";
